@@ -20,6 +20,4 @@ The **SimSim Online Store** revolutionizes how your Sims shop. It integrates sea
 
 ## Download & Installation
 
-{% include mod-download.html mod_id="simsim" %}
-
-[Download on CurseForge](https://www.curseforge.com/) | [Source Code](https://github.com/andirz/simsim)
+{% include download.html mod_id="online_store" %}
