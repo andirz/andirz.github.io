@@ -8,13 +8,13 @@
   patch: "1.211.123"
   requirements: ["Base Game", "EP02"]
   dependencies: ["smart_core", "xml_injector"]
-  curseforge: "https://www.curseforge.com/..."
-  patreon: "https://www.patreon.com/..."
+  curseforge: "https://www.curseforge.com/"
+  patreon: "https://www.patreon.com/"
 
 - id: smartcore
   name: "Smart Core Script"
   version: "0.9.8"
-  updated: "29.01.2026"
-  status: "updating"
+  updated: "2026-01-29"
+  status: "updated"
   requirements: ["Base Game"]
-  github: "https://github.com/Andirz/..."
+  github: "https://github.com/Andirz/"
