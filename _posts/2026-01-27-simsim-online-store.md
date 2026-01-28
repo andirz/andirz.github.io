@@ -15,6 +15,3 @@ The **SimSim Online Store** revolutionizes how your Sims shop. It integrates sea
 - Custom categories
 
 [Download on CurseForge](https://www.curseforge.com/) | [Source Code](https://github.com/andirz/simsim)
-
-> **Pro Tip:** Combine the SimSim Store with my 'Better Live Shopping' mod for the ultimate retail experience!
-{: .prompt-tip }
