@@ -1,14 +1,14 @@
 # _data/mods.yml
 
-- id: online_store
+  - id: online_store
   name: "SimSim Online Store"
   version: "1.2.5"
-  updated: "29.01.2026"
-  status: "compatible"
-  requirements: ["Base Game"]
-  dependencies: ["smart_core"]
-  github: "https://github.com/Andirz/..."
-  curseforge: "https://www.curseforge.com/sims4/..."
+  status: "updated"
+  updated: "2026-01-29"
+  patch: "1.211.123"
+  requirements: ["Base Game", "EP02"]
+  dependencies: ["smart_core", "xml_injector"]
+  curseforge: "https://www.curseforge.com/..."
   patreon: "https://www.patreon.com/..."
 
 - id: smartcore
