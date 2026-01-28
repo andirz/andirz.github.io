@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Mod Status & Updates
+title: Mod Status
 icon: fas fa-check-circle
 order: 2
 ---
@@ -9,7 +9,7 @@ Letztes Update der Liste: **28. Januar 2026**
 Status für Spielversion: **v1.110 (January Patch)**
 
 | Mod Name | Status | Version | Info |
-|:--- |:---:|:---:|:--- |
+|:---|:---:|:---:|:---|
 | **SimSim Online Store** | ✅ Compatible | 1.2.0 | No issues |
 | **Smart Core Script** | ⚠️ Update Needed | 0.9.8 | Use with caution |
 | **Obscura Network** | 🔄 Updating... | - | ETA: Tomorrow |
