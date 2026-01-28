@@ -4,7 +4,9 @@ author: andirz
 date: 2026-01-27 10:00:00 +0100
 categories: [Gameplay Mods, Shopping]
 tags: [script mod, live shopping]
+pin: true
 image: 
+  alt: SimSim Online Store
 ---
 
 The **SimSim Online Store** revolutionizes how your Sims shop. It integrates seamlessly with the *Better Live Shopping* system.
