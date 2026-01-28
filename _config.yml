@@ -15,6 +15,7 @@ timezone: Europe/Berlin
 # ↓ --------------------------
 
 title: Sims 4 Mods by Andirz
+
 tagline: Advanced Gameplay & Script Mods for The Sims 4
 
 description: >- # used by seo meta and the atom feed
@@ -23,7 +24,7 @@ description: >- # used by seo meta and the atom feed
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "andirz-mods.com"
+url: 'https://andirz-mods.com'
 
 github:
   username: Andirz
