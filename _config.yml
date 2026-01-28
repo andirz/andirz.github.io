@@ -9,24 +9,24 @@ theme: jekyll-theme-chirpy
 lang: en
 
 # Change to your timezone › https://zones.arilyn.cc
-timezone:
+timezone: Europe/Berlin
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
-
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+title: Sims 4 Mods by Andirz
+tagline: Advanced Gameplay & Script Mods for The Sims 4
 
 description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+  Official website of Andirz. Home of Smart Core Script, Smart Sim Cheats and Randomizer, 
+  SimSim Online Store, Obscura Network and more enhancements for The Sims 4.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: ""
+url: "andirz-mods.com"
 
 github:
-  username: github_username # change to your GitHub username
+  username: Andirz
 
 twitter:
   username: twitter_username # change to your Twitter username
@@ -35,7 +35,7 @@ social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: your_full_name
-  email: example@domain.com # change to your email address
+  email: sims4andirz@gmail.com 
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/username # change to your Twitter homepage
