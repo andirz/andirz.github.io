@@ -15,55 +15,54 @@
     {% else %}#343a40{% endif %};
 ">
   
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-    <h3 style="margin: 0; font-size: 1.4rem;">{{ mod.name }}</h3>
-    <code style="font-size: 0.9rem; padding: 2px 8px; border-radius: 6px; background: rgba(0,0,0,0.05);">v{{ mod.version }}</code>
+  <div style="margin-bottom: 12px; display: flex; align-items: baseline; gap: 10px;">
+    <h3 style="margin: 0; font-size: 1.5rem;">{{ mod.name }}</h3>
+    <span style="font-family: 'Courier New', monospace; font-size: 1rem; color: #888; font-weight: bold;">v{{ mod.version }}</span>
   </div>
 
-  <div class="status-indicator" style="margin-bottom: 18px; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+  <div class="status-indicator" style="margin-bottom: 15px; font-size: 0.95rem; font-weight: 700;">
     {% if mod.status == 'updated' %}
-      <span style="color: #007bff;"><i class="fas fa-magic"></i> Frisch aktualisiert</span>
+      <span style="color: #007bff;"><i class="fas fa-magic"></i> Recently Updated</span>
     {% elsif mod.status == 'compatible' %}
-      <span style="color: #28a745;"><i class="fas fa-check-circle"></i> Kompatibel</span>
+      <span style="color: #28a745;"><i class="fas fa-check-circle"></i> Compatible</span>
     {% elsif mod.status == 'broken' %}
-      <span style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> Defekt (Patch benötigt)</span>
+      <span style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> Broken (Patch required)</span>
     {% elsif mod.status == 'unknown' %}
-      <span style="color: #6c757d;"><i class="fas fa-question-circle"></i> Ungeprüft</span>
+      <span style="color: #6c757d;"><i class="fas fa-question-circle"></i> Unknown / Untested</span>
     {% elsif mod.status == 'obsolete' %}
-      <span style="color: #343a40; text-decoration: line-through;"><i class="fas fa-archive"></i> Veraltet / Integriert</span>
+      <span style="color: #343a40; text-decoration: line-through;"><i class="fas fa-archive"></i> Obsolete</span>
     {% endif %}
-    
-    <span style="color: var(--text-muted); font-weight: normal; font-size: 0.85rem;">
-      (Stand: {{ mod.updated }})
-    </span>
+  </div>
+
+  <div style="font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.05);">
+    Tested for Patch: <strong>{{ mod.patch }}</strong><br>
+    Updated at: <strong>{{ mod.updated }}</strong>
   </div>
 
   {% if mod.dependencies %}
-  <div style="margin: 15px 0; padding: 12px; border: 1px dashed #007bff60; border-radius: 10px; background: rgba(0, 123, 255, 0.03);">
-    <span style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: #007bff; display: block; margin-bottom: 8px;">Benötigte Libraries:</span>
-    <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+  <div style="margin-bottom: 20px;">
+    <span style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 8px;">Required Dependencies:</span>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
       {% for dep_id in mod.dependencies %}
         {% assign dep = site.data.dependencies[dep_id] %}
-        <a href="{{ dep.link }}" target="_blank" style="text-decoration: none; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 5px;">
-          <i class="fas fa-external-link-alt" style="font-size: 0.7rem; color: #007bff;"></i> 
-          <span>{{ dep.name }} <small style="color: #888; font-weight: normal;">by {{ dep.author }}</small></span>
+        <a href="{{ dep.link }}" target="_blank" style="text-decoration: none; font-size: 0.85rem; color: #007bff; font-weight: 600; background: rgba(0,123,255,0.05); padding: 4px 10px; border-radius: 6px;">
+          <i class="fas fa-link"></i> {{ dep.name }} <span style="color: #999; font-weight: normal;">({{ dep.author }})</span>
         </a>
       {% endfor %}
     </div>
   </div>
   {% endif %}
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 20px;">
+  <div style="display: flex; gap: 12px; flex-wrap: wrap;">
     {% if mod.curseforge %}
-      <a href="{{ mod.curseforge }}" target="_blank" style="background: #f16436; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; font-size: 0.9rem;">
+      <a href="{{ mod.curseforge }}" target="_blank" style="background: #f16436; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
         <i class="fas fa-fire"></i> CurseForge
       </a>
     {% endif %}
     {% if mod.patreon %}
-      <a href="{{ mod.patreon }}" target="_blank" style="background: #f96854; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center; font-size: 0.9rem;">
+      <a href="{{ mod.patreon }}" target="_blank" style="background: #f96854; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
         <i class="fab fa-patreon"></i> Patreon
       </a>
     {% endif %}
   </div>
-
 </div>
