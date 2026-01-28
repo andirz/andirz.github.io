@@ -1,10 +1,11 @@
 ---
 title: SimSim Online Store
-author: 
+permalink: /mods/simsim-store/
 date: 2026-01-27 10:00:00 +0100
 categories: [Gameplay Mods, Shopping]
-tags: [script mod, live shopping]
+tags: [shopping]
 pin: true
+toc: true
 image: 
 ---
 
