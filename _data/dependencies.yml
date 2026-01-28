@@ -1,0 +1,18 @@
+# _data/dependencies.yml
+
+# Deine eigenen Core-Skripte
+smart_core:
+  name: "Smart Core Script"
+  author: "Andirz"
+  link: "/posts/smart-core-script/"
+
+# Externe Frameworks
+xml_injector:
+  name: "XML Injector"
+  author: "Scumbumbo"
+  link: "https://scumbumbomods.com/xml-injector"
+
+lot51_core:
+  name: "Lot51 Core Library"
+  author: "Lot51"
+  link: "https://lot51.cc/core"
