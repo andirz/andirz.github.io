@@ -1,0 +1,25 @@
+---
+layout: page
+title: Mod Status & Updates
+icon: fas fa-check-circle
+order: 2
+---
+
+Letztes Update der Liste: **28. Januar 2026**
+Status für Spielversion: **v1.110 (January Patch)**
+
+| Mod Name | Status | Version | Info |
+|:--- |:---:|:---:|:--- |
+| **SimSim Online Store** | ✅ Compatible | 1.2.0 | No issues |
+| **Smart Core Script** | ⚠️ Update Needed | 0.9.8 | Use with caution |
+| **Obscura Network** | 🔄 Updating... | - | ETA: Tomorrow |
+| **Better Live Shopping**| ✅ Compatible | 1.0.2 | Works fine |
+| **Visible Weather** | ❌ Broken | - | Patch broke UI |
+
+---
+
+### Legende
+* ✅ **Compatible**: Mod funktioniert mit dem neuesten Patch.
+* ⚠️ **Update Needed**: Mod funktioniert, hat aber kleine Fehler.
+* 🔄 **Updating**: Ich arbeite gerade am Update.
+* ❌ **Broken**: Bitte nicht benutzen! Spiel stürzt ab.
