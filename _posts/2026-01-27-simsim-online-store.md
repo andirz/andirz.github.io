@@ -11,6 +11,8 @@ image:
 
 The **SimSim Online Store** revolutionizes how your Sims shop. It integrates seamlessly with the *Better Live Shopping* system.
 
+{% include download.html name="SimSim Store" version="1.2.0" link="https://github.com/Andirz/..." %}
+
 ### Key Features
 - Realistic online browsing
 - Instant delivery options
