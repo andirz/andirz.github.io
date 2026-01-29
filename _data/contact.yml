@@ -3,15 +3,17 @@
 - type: github
   icon: "fab fa-github"
 
-- type: twitter
-  icon: "fa-brands fa-x-twitter"
-
 - type: patreon
   icon: "fab fa-patreon"
   url: https://www.patreon.com/andirz
 
+- type: curseforge
+  icon: "fas fa-fire"
+  url: https://sims4andirz.my.curseforge.com/
+
 - type: discord
   icon: "fab fa-discord"
+  url: https://discord.gg/f7EM7SNXtz
 
 - type: email
   icon: "fas fa-envelope"
