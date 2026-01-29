@@ -1,0 +1,153 @@
+# Expansion Packs (EP)
+EP01:
+  en: "Get to Work"
+  de: "An die Arbeit!"
+  es: "¡A Trabajar!"
+EP02:
+  en: "Get Together"
+  de: "Zeit für Freunde"
+  es: "¿Quedamos?"
+EP03:
+  en: "City Living"
+  de: "Großstadtleben"
+  es: "Urbanitas"
+EP04:
+  en: "Cats & Dogs"
+  de: "Hunde & Katzen"
+  es: "Perros y Gatos"
+EP05:
+  en: "Seasons"
+  de: "Jahreszeiten"
+  es: "Y Las Cuatro Estaciones"
+EP06:
+  en: "Get Famous"
+  de: "Werde berühmt"
+  es: "Rumbo a la Fama"
+EP07:
+  en: "Island Living"
+  de: "Inselleben"
+  es: "Vida Isleña"
+EP08:
+  en: "Discover University"
+  de: "An die Uni!"
+  es: "Días de Universidad"
+EP09:
+  en: "Eco Lifestyle"
+  de: "Nachhaltig leben"
+  es: "Vida Ecológica"
+EP10:
+  en: "Snowy Escape"
+  de: "Ab ins Schneevergnügen"
+  es: "Escapada en la Nieve"
+EP11:
+  en: "Cottage Living"
+  de: "Landhaus-Leben"
+  es: "Vida en el Pueblo"
+EP12:
+  en: "High School Years"
+  de: "Highschool-Jahre"
+  es: "Años de Instituto"
+EP13:
+  en: "Growing Together"
+  de: "Zusammen wachsen"
+  es: "Creciendo en Familia"
+EP14:
+  en: "Horse Ranch"
+  de: "Pferderanch"
+  es: "Rancho de Caballos"
+EP15:
+  en: "For Rent"
+  de: "Zu vermieten"
+  es: "Se Alquila"
+EP16:
+  en: "Lovestruck"
+  de: "Verliebt"
+  es: "¡Si, Quiero!"
+EP17:
+  en: "Life & Death"
+  de: "Leben & Tod"
+  es: "Vida y Muerte"
+EP18:
+  en: "From Hobby to Business"
+  de: "Vom Hobby zum Business"
+  es: "Del Hobby al Negocio"
+EP19:
+  en: "Magic of Nature"
+  de: "Zauber der Natur"
+  es: "Magia de la Naturaleza"
+EP20:
+  en: "Into the Adventure"
+  de: "Auf ins Abenteuer"
+  es: "Hacia la Aventura"
+
+# Gameplay Packs (GP)
+GP01:
+  en: "Outdoor Retreat"
+  de: "Outdoor-Leben"
+  es: "De Acampada"
+GP02:
+  en: "Spa Day"
+  de: "Wellness-Tag"
+  es: "Día de Spa"
+GP03:
+  en: "Dine Out"
+  de: "Gaumenfreuden"
+  es: "Escapada Gourmet"
+GP04:
+  en: "Vampires"
+  de: "Vampire"
+  es: "Vampiros"
+GP05:
+  en: "Parenthood"
+  de: "Elternfreuden"
+  es: "Papás y Mamás"
+GP06:
+  en: "Jungle Adventure"
+  de: "Dschungel-Abenteuer"
+  es: "Aventura en la Selva"
+GP07:
+  en: "StrangerVille"
+  de: "StrangerVille"
+  es: "StrangerVille"
+GP08:
+  en: "Realm of Magic"
+  de: "Reich der Magie"
+  es: "Y el Reino de la Magia"
+GP09:
+  en: "Star Wars: Journey to Batuu"
+  de: "Star Wars: Reise nach Batuu"
+  es: "Star Wars: Viaje a Batuu"
+GP10:
+  en: "Dream Home Decorator"
+  de: "Traumhaftes Innendesign"
+  es: "Interiorismo en Casa"
+GP11:
+  en: "My Wedding Stories"
+  de: "Meine Hochzeitsgeschichten"
+  es: "¡Sí, Quiero!"
+GP12:
+  en: "Werewolves"
+  de: "Werwölfe"
+  es: "Hombres Lobo"
+
+# Stuff Packs & Kits (SP)
+SP01:
+  en: "Luxury Party"
+  de: "Luxus-Party"
+  es: "Fiesta de Glampour"
+SP20:
+  en: "Retro Fit & Chic Set"
+  de: "Retro Fit & Chic Set"
+  es: "Zafarrancho de Limpieza"
+SP46:
+  en: "Home Chef Hustle"
+  de: "Lukrative Hobbyküche"
+  es: "Cocina de Autor"
+SP49:
+  en: "Crystal Creations"
+  de: "Kristallkreationen"
+  es: "Creaciones Cristalinas"
+SP68:
+  en: "SpongeBob's House Set"
+  de: "SpongeBobs Haus-Set"
+  es: "Set de la Casa de Bob Esponja"
