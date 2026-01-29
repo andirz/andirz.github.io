@@ -3,7 +3,6 @@ layout: page
 title: Mod Status
 permalink: /status/
 icon: fas fa-check-circle
-layout: full-width
 order: 2
 ---
 
