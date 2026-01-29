@@ -1,7 +1,7 @@
 ---
 layout: page
-title: How to Submit Support Requests
-permalink: /support/how-to-submit-support-requests/
+title: "How to Submit Mod Support Requests"
+image: /assets/images/TS4-ICON-BG (30).png
 ---
 
 If you are experiencing issues with any of my mods, I am here to help! To provide you with the fastest and most accurate assistance, please follow these guidelines when submitting a support request.
