@@ -68,7 +68,7 @@
   updated: "2026-01-28"
 
 - id: purchase_medicine
-  name: "Purchase Medicine (Online Pharmacy)"
+  name: "Purchase Medicine"
   icon: "fas fa-pills"
   version: "4.1.2"
   status: "updated"
