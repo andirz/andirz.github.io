@@ -25,6 +25,7 @@ panel: false
     border: 1px solid var(--border-color);
     border-radius: 12px;
     background: white;
+    margin-top: 20px;
   }
 </style>
 
@@ -54,12 +55,15 @@ panel: false
             <i class="{{ mod.icon | default: 'fas fa-box' }}"></i>
           </div>
         </td>
+        
         <td style="padding: 15px;">
           <a href="{{ mod.curseforge | default: mod.github | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">
             {{ mod.name }}
           </a>
         </td>
+        
         <td style="padding: 15px; font-family: monospace;">{{ mod.version }}</td>
+        
         <td style="padding: 15px;">
           {% if mod.status == 'updated' %}
             <span style="color: #007bff; font-weight: bold;">Updated</span>
@@ -67,29 +71,43 @@ panel: false
             <span style="color: #28a745; font-weight: bold;">Compatible</span>
           {% elsif mod.status == 'broken' %}
             <span style="color: #dc3545; font-weight: bold;">Broken</span>
-          {% elsif mod.status == 'unknown' %}
-            <span style="color: #6c757d; font-weight: bold;">Unknown</span>
           {% elsif mod.status == 'obsolete' %}
             <span style="color: #343a40; font-weight: bold; text-decoration: line-through;">Obsolete</span>
+          {% else %}
+            <span style="color: #6c757d; font-weight: bold;">Unknown</span>
           {% endif %}
         </td>
+        
         <td style="padding: 15px;">
+          {% if mod.requirements %}
+            <div style="margin-bottom: 8px;">
+              <small style="display: block; color: #888; text-transform: uppercase; font-size: 0.65rem; font-weight: 700;">Packs:</small>
+              {% for req_id in mod.requirements %}
+                {% assign pack = site.data.packs[req_id] %}
+                <span title="{{ pack.en | default: req_id }}" style="font-size: 0.75rem; background: rgba(0,0,0,0.05); color: #555; padding: 2px 6px; border-radius: 4px; margin-right: 4px; border: 1px solid #ddd;">
+                  {{ req_id }}
+                </span>
+              {% endfor %}
+            </div>
+          {% endif %}
+
           {% if mod.dependencies %}
-            {% for dep_id in mod.dependencies %}
-              {% assign pack = site.data.packs[dep_id] %}
-              {% assign dep_mod = site.data.dependencies[dep_id] %}
-              {% if pack %}
-                <span title="EN: {{ pack.en }} | DE: {{ pack.de }} | ES: {{ pack.es }}" style="font-size: 0.75rem; background: rgba(0,0,0,0.05); color: #555; padding: 3px 8px; border-radius: 4px; cursor: help; margin-right: 4px; border-bottom: 1px dotted #ccc;">{{ dep_id }}</span>
-              {% elsif dep_mod %}
-                <span style="font-size: 0.75rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 3px 8px; border-radius: 4px; font-weight: 600; margin-right: 4px;">{{ dep_mod.name }}</span>
-              {% else %}
-                <span style="font-size: 0.75rem; background: #eee; padding: 3px 8px; border-radius: 4px; margin-right: 4px;">{{ dep_id }}</span>
-              {% endif %}
-            {% endfor %}
-          {% else %}
+            <div>
+              <small style="display: block; color: #007bff; text-transform: uppercase; font-size: 0.65rem; font-weight: 700;">Required Mods:</small>
+              {% for dep_id in mod.dependencies %}
+                {% assign dep_mod = site.data.mods | where: "id", dep_id | first %}
+                <span style="font-size: 0.75rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; margin-right: 4px; border: 1px solid rgba(0,123,255,0.2);">
+                  {{ dep_mod.name | default: dep_id }}
+                </span>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if mod.requirements == nil and mod.dependencies == nil %}
             <span style="color: #ccc;">—</span>
           {% endif %}
         </td>
+
         <td style="padding: 15px; white-space: nowrap; color: #666;">{{ mod.updated }}</td>
       </tr>
       {% endfor %}
