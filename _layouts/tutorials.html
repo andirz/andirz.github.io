@@ -1,0 +1,29 @@
+<div class="tutorial-gallery-wrapper" style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 20px;">
+  <h3 class="text-center">Discover More Tutorials</h3>
+  <div class="tutorial-roulette" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+    
+    {% assign related_posts = site.tutorials | where_exp: "item", "item.url != page.url" %}
+    {% for tutorial in related_posts limit:3 %}
+    <a href="{{ tutorial.url | relative_url }}" class="tutorial-card" style="text-decoration: none; color: inherit; width: 280px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; transition: transform 0.2s;">
+      {% if tutorial.image %}
+        <img src="{{ tutorial.image.path | relative_url }}" alt="{{ tutorial.title }}" style="width: 100%; height: 150px; object-fit: cover;">
+      {% else %}
+        <div style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999;">Tutorial</div>
+      {% endif %}
+      <div style="padding: 15px;">
+        <h5 style="margin: 0; font-size: 1.1rem;">{{ tutorial.title }}</h5>
+        <p style="font-size: 0.85rem; color: #666; margin-top: 8px;">{{ tutorial.description | truncate: 80 }}</p>
+      </div>
+    </a>
+    {% endfor %}
+    
+  </div>
+</div>
+
+<style>
+  .tutorial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--main-color);
+  }
+</style>
