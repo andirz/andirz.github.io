@@ -1,22 +1,4 @@
-/* Dein individuelles Farbschema */
+/* Überschreibt die Chirpy-Standardfarben */
 :root {
-  /* Die Hauptfarbe (statt Chirpy-Blau) */
-  --main-color: #2ab24b;       /* Ein schönes Plumbob-Grün */
-  --main-color-dark: #1e8537;
-  --main-color-light: #d4edda;
-
-  /* Hintergrund & Text */
-  --body-bg: #f5f7f9;          /* Ein leichtes Grau statt hartem Weiß */
-  --text-color: #2c3e50;
-  
-  /* Sidebar-Farbe anpassen */
-  --sidebar-bg: #1a1a1a;       /* Sehr dunkles Grau/Schwarz */
-  --sidebar-active-color: var(--main-color);
-}
-
-/* Dark Mode Anpassungen */
-[data-mode='dark'] {
-  --main-color: #3fe063;
-  --body-bg: #0d1117;
-  --sidebar-bg: #161b22;
+  --main-color: #0079d2; /* Dein neues Blau passend zum Logo */
 }
