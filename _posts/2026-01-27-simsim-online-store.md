@@ -19,3 +19,5 @@ The **SimSim Online Store** revolutionizes how your Sims shop. It integrates sea
 ## Download & Installation
 
 {% include download.html mod_id="online_store" %}
+{% include installation.html script=true %}
+{% include policy.html %}
