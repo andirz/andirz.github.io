@@ -1,7 +1,7 @@
 ---
 layout: page
-title: How to find broken mods with The 50/50 Method
-permalink: /support/50-50-method/
+title: "How to find broken mods with the 50-50 method?"
+image: /assets/images/TS4-ICON-BG (30).png
 ---
 
 *If your game is glitching, crashing, or showing "Last Exception" errors, the 50/50 method is the fastest way to pinpoint exactly which mod is causing the problem without checking every single file one by one.*
