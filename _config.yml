@@ -202,8 +202,10 @@ defaults:
       type: tutorials  
     values:
       layout: page     
-      permalink: /tutorials/:title/
-      toc: false
+      permalink: /tutorials/support/:title/
+      panel:
+        lastmod: false     
+        trending: false
 
 sass:
   style: compressed
