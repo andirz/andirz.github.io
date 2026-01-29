@@ -1,4 +1,14 @@
-/* Überschreibt die Chirpy-Standardfarben */
+/* In _sass/addon/variables.scss */
 :root {
-  --main-color: #0079d2; /* Dein neues Blau passend zum Logo */
+  /* Andirz Blue (Sims-Style) */
+  --main-color: #0079d2; 
+  --main-color-dark: #005fa6;
+  
+  /* Sidebar komplett anders gestalten */
+  --sidebar-bg: #1e1e1e;
+  --sidebar-active-color: #70c14a; /* Plumbob Green für aktive Links */
+  
+  /* Karten & Schatten (weniger "Standard-Bootstrap-Look") */
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
