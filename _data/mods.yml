@@ -3,10 +3,9 @@
 - id: smartcore
   name: "Smart Core Script"
   icon: "fas fa-microchip"
-  version: "2.7.2"
+  version: "2.1.2"
   status: "updated"
   updated: "2026-01-29"
-  requirements: ["Base Game"]
   github: "https://github.com/Andirz/"
   patreon: "https://www.patreon.com/"
 
@@ -16,7 +15,7 @@
   version: "1.2.5"
   status: "updated"
   updated: "2026-01-29"
-  requirements: ["Base Game", "EP02"]
+  requirements: ["BG", "EP02"]
   dependencies: ["smart_core", "xml_injector"]
   curseforge: "https://www.curseforge.com/"
   patreon: "https://www.patreon.com/"
@@ -34,6 +33,46 @@
   version: "2.0.1"
   status: "updated"
   updated: "2026-01-29"
+
+- id: better_pie_menu
+  name: "Better Pie Menu"
+  icon: "fas fa-list-ul"
+  version: "1.1.0"
+  status: "updated"
+  updated: "2026-01-27"
+  requirements: ["BG"]
+  github: "https://github.com/Andirz/TS4-Better-Pie-Menu"
+  patreon: "https://www.patreon.com/andirz"
+
+- id: custom_electives
+  name: "Custom University Electives"
+  icon: "fas fa-graduation-cap"
+  version: "1.0.5"
+  status: "stable"
+  updated: "2025-12-15"
+  requirements: ["EP08"]
+  github: "https://github.com/Andirz/TS4-University-Electives"
+  patreon: "https://www.patreon.com/andirz"
+
+- id: holiday_drama
+  name: "No Holidays Failure Drama"
+  icon: "fas fa-calendar-times"
+  version: "1.0.2"
+  status: "stable"
+  updated: "2025-11-10"
+  requirements: ["Seasons"]
+  github: "https://github.com/Andirz/TS4-No-Holidays-Failure-Drama"
+  patreon: "https://www.patreon.com/andirz"
+
+- id: birthday_drama
+  name: "No Forgotten Birthday Drama"
+  icon: "fas fa-birthday-cake"
+  version: "1.0.0"
+  status: "stable"
+  updated: "2025-07-10"
+  requirements: ["Base Game"]
+  github: "https://github.com/Andirz/TS4-No-Forgotten-Birthday-Drama"
+  patreon: "https://www.patreon.com/andirz"
 
 - id: weather_preferences
   name: "Visible Weather Preferences"
