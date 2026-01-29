@@ -1,0 +1,20 @@
+/* 1. Die Schrift dem Browser bekannt machen */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/montserrat-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/montserrat-bold.woff2') format('woff2');
+}
+
+/* 2. Die Variablen für das Theme überschreiben */
+:root {
+  --font-family-base: 'Montserrat', sans-serif;
+  --font-family-heading: 'Montserrat', sans-serif;
+}
