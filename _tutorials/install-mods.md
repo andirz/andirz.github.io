@@ -1,7 +1,7 @@
 ---
 layout: page
 title: How to Install Mods
-permalink: /tutorials/how-to-install-mods/
+permalink: /support/how-to-install-mods/
 ---
 
 This guide will walk you through the process of installing mods for The Sims 4. Please read the instructions carefully to ensure a smooth modding experience.
