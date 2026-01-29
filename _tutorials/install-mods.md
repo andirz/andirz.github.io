@@ -1,6 +1,8 @@
 ---
 layout: page
 title: "How to Install Mods in Sims 4?"
+icon: fas fa-download
+order: 1
 image: /assets/images/TS4-ICON-BG (30).png
 ---
 
