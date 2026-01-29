@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Mod Status
-permalink: /mod-status/
+permalink: /status/
 icon: fas fa-check-circle
 order: 2
 panel: false
