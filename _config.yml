@@ -21,15 +21,10 @@ description: >- # used by seo meta and the atom feed
   Official website of Andirz. Home of Smart Core Script, Smart Sim Cheats and Randomizer, 
   SimSim Online Store, Obscura Network and more enhancements for The Sims 4.
 
-# Fill in the protocol & hostname for your site.
-# E.g. 'https://username.github.io', note that it does not end with a '/'.
 url: 'https://andirz-mods.com'
 
 github:
   username: andirz
-
-twitter:
-  username: 
 
 social:
   # Change to your full name.
