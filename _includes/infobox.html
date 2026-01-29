@@ -15,22 +15,22 @@
     {% else %}#343a40{% endif %};
 ">
   <div style="margin-bottom: 12px; display: flex; align-items: baseline; gap: 10px;">
-    <h3 style="margin: 0; font-size: 1.4rem; color: var(--heading-color);">{{ mod.name }}</h3>
-    <span style="font-family: 'Courier New', monospace; font-size: 0.95rem; color: #888; font-weight: bold;">v{{ mod.version }}</span>
+    <h3 style="margin: 0; font-size: 1.4rem;">{{ mod.name }}</h3>
+    <span style="font-family: monospace; font-size: 0.95rem; color: #888; font-weight: bold;">{{ mod.version }}</span>
   </div>
 
   <div style="margin-bottom: 5px;">
     <div style="font-size: 1.05rem; font-weight: 700;">
       {% if mod.status == 'updated' %}
-        <span style="color: #007bff;"><i class="fas fa-magic"></i> Updated for Patch {{ mod.patch }}</span>
+        <span style="color: #007bff;">Updated {% if mod.patch %}for Patch {{ mod.patch }}{% endif %}</span>
       {% elsif mod.status == 'compatible' %}
-        <span style="color: #28a745;"><i class="fas fa-check-circle"></i> Compatible with Patch {{ mod.patch }}</span>
+        <span style="color: #28a745;">Compatible {% if mod.patch %}with Patch {{ mod.patch }}{% endif %}</span>
       {% elsif mod.status == 'broken' %}
-        <span style="color: #dc3545;"><i class="fas fa-times-circle"></i> Broken since Patch {{ mod.patch }}</span>
+        <span style="color: #dc3545;">Broken {% if mod.patch %}since Patch {{ mod.patch }}{% endif %}</span>
       {% elsif mod.status == 'unknown' %}
-        <span style="color: #6c757d;"><i class="fas fa-question-circle"></i> Unknown for Patch {{ mod.patch }}</span>
+        <span style="color: #6c757d;">Unknown {% if mod.patch %}for Patch {{ mod.patch }}{% endif %}</span>
       {% elsif mod.status == 'obsolete' %}
-        <span style="color: #343a40;"><i class="fas fa-archive"></i> Obsolete since Patch {{ mod.patch }}</span>
+        <span style="color: #343a40;">Obsolete {% if mod.patch %}since Patch {{ mod.patch }}{% endif %}</span>
       {% endif %}
     </div>
     <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
