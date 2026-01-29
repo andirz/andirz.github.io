@@ -45,9 +45,7 @@ Many mods require other files to work, such as:
 * **Specific DLCs:** Some mods only work if you own a certain Expansion or Gameplay Pack.
 
 **Always read the requirements section** on the mod download page before installing!
-
 ---
-
 ## Need More Help?
 If you've followed these steps and are still experiencing issues with one of my mods:
 1.  Check the [Mod Status Dashboard](/status/) to see if the mod is currently marked as "Broken".
