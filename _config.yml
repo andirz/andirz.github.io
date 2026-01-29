@@ -196,15 +196,14 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+      panel: false
   - scope:
       path: ""         
       type: tutorials  
     values:
       layout: page     
       permalink: /tutorials/support/:title/
-      panel:
-        lastmod: false     
-        trending: false
+      panel: false
 
 sass:
   style: compressed
