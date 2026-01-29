@@ -17,8 +17,6 @@ timezone: Europe/Berlin
 title: Andirz Mods
 tagline: Mods for The Sims 4
 
-favicon: /assets/images/icons/pack_ep05.png
-
 description: >- # used by seo meta and the atom feed
   Official website of Andirz. Home of Smart Core Script, Smart Sim Cheats and Randomizer, 
   SimSim Online Store, Obscura Network and more enhancements for The Sims 4.
@@ -100,14 +98,14 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: /assets/images/icons/pack_ep05.png
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
 social_preview_image: # string, local or CORS resources
 
 # boolean type, the global switch for  in posts.
-toc: true
+toc: false
 
 comments:
   # Global switch for the post-comment system. Keeping it empty means disabled.
