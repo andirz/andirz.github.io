@@ -198,6 +198,7 @@ defaults:
     values:
       layout: page     
       permalink: /tutorials/support/:title/
+      image: /assets/images/TS4-ICON-BG (470).png
       panel: false
 
 sass:
