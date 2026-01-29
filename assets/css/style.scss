@@ -1,0 +1,16 @@
+/* 1. Versteckt das rechte Panel komplett auf allen Seiten */
+#panel-wrapper {
+  display: none !important;
+}
+
+/* 2. Zwingt den Hauptinhalt auf die volle Breite (100%) */
+#main-wrapper {
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+  border-right: none !important; /* Entfernt die Trennlinie falls vorhanden */
+}
+
+/* 3. Optional: Zentrierung des Inhalts optimieren */
+.container {
+  max-width: 1200px !important; /* Oder 'none' für absolute volle Breite */
+}
