@@ -41,7 +41,7 @@
   version: "1.1.2"
   status: "compatible"
 
-  # --- SHOPPING MODS (P.S.O.) ---
+# --- SHOPPING MODS (P.S.O.) ---
 
 - id: pso_common_package
   name: "P.S.O. Common Package"
@@ -147,6 +147,12 @@
   patreon: "https://www.patreon.com/andirz"
 
 # --- CHEATING & DEBUGGING ---
+
+- id: create_new_sim
+  name: "Create New Sim"
+  icon: "fas fa-user-plus"
+  version: "1.3.0"
+  status: "compatible"
 
 - id: smart_sim_randomizer
   name: "Smart Sim Randomizer"
@@ -315,6 +321,18 @@
   version: "1.1.0"
   status: "stable"
 
+- id: beach_yoga
+  name: "Beach Yoga"
+  icon: "fas fa-spa"
+  version: "1.1.1"
+  status: "compatible"
+
+- id: take_it_off
+  name: "Take It Off: No Shoes! No Accessories!"
+  icon: "fas fa-socks"
+  version: "4.2.3"
+  status: "compatible"
+
 - id: extended_private_journal
   name: "Extended Private Journal"
   icon: "fas fa-journal-whills"
@@ -325,4 +343,34 @@
   name: "Write Skill Book"
   icon: "fas fa-pen-nib"
   version: "1.2.0"
+  status: "compatible"
+
+- id: body_hair_replacement_luumia
+  name: "Body Hair Replacement: Luumia Edition"
+  icon: "fas fa-user-tag"
+  version: "1.0.1"
+  status: "compatible"
+
+- id: no_war_fashion
+  name: "#NoWar Fashion (CAS)"
+  icon: "fas fa-vest"
+  version: "1.0.0"
+  status: "compatible"
+
+- id: medical_decorations_kit
+  name: "Medical Decorations Kit"
+  icon: "fas fa-briefcase-medical"
+  version: "1.1.0"
+  status: "compatible"
+
+- id: pharmacy_kiosk_object
+  name: "Pharmacy Kiosk Object"
+  icon: "fas fa-prescription-bottle-alt"
+  version: "1.4.2"
+  status: "compatible"
+
+- id: xmas_poster_painting_collection
+  name: "X-Mas Poster & Painting Collection"
+  icon: "fas fa-holly-berry"
+  version: "2.1.0"
   status: "compatible"
