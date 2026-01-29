@@ -16,22 +16,22 @@
 ">
   
   <div style="margin-bottom: 12px; display: flex; align-items: baseline; gap: 10px;">
-    <h3 style="margin: 0; font-size: 1.5rem;">{{ mod.name }}</h3>
+    <h3 style="margin: 0; font-size: 1.5rem; color: var(--heading-color);">{{ mod.name }}</h3>
     <span style="font-family: 'Courier New', monospace; font-size: 1rem; color: #888; font-weight: bold;">v{{ mod.version }}</span>
   </div>
 
   <div style="margin-bottom: 20px;">
-    <div style="font-size: 1rem; font-weight: 700; margin-bottom: 5px;">
+    <div style="font-size: 1.05rem; font-weight: 700; margin-bottom: 4px;">
       {% if mod.status == 'updated' %}
-        <span style="color: #007bff;">Updated for Patch {{ mod.patch }}</span>
+        <span style="color: #007bff;"><i class="fas fa-magic"></i> Updated for Patch {{ mod.patch }}</span>
       {% elsif mod.status == 'compatible' %}
-        <span style="color: #28a745;">Compatible with Patch {{ mod.patch }}</span>
+        <span style="color: #28a745;"><i class="fas fa-check-circle"></i> Compatible with Patch {{ mod.patch }}</span>
       {% elsif mod.status == 'broken' %}
-        <span style="color: #dc3545;">Broken after Patch {{ mod.patch }}</span>
+        <span style="color: #dc3545;"><i class="fas fa-times-circle"></i> Broken since Patch {{ mod.patch }}</span>
       {% elsif mod.status == 'unknown' %}
-        <span style="color: #6c757d;">Unknown for Patch {{ mod.patch }}</span>
+        <span style="color: #6c757d;"><i class="fas fa-question-circle"></i> Unknown for Patch {{ mod.patch }}</span>
       {% elsif mod.status == 'obsolete' %}
-        <span style="color: #343a40; text-decoration: line-through;">Obsolete (Patch {{ mod.patch }})</span>
+        <span style="color: #343a40;"><i class="fas fa-archive"></i> Obsolete since Patch {{ mod.patch }}</span>
       {% endif %}
     </div>
     <div style="font-size: 0.85rem; color: var(--text-muted);">
@@ -40,12 +40,12 @@
   </div>
 
   {% if mod.dependencies %}
-  <div style="margin-bottom: 20px; padding: 10px; background: rgba(0,0,0,0.02); border-radius: 8px;">
-    <span style="font-size: 0.7rem; font-weight: bold; text-transform: uppercase; color: #888; display: block; margin-bottom: 5px;">Required:</span>
-    <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+  <div style="margin-bottom: 25px; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03);">
+    <span style="font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #999; display: block; margin-bottom: 8px; letter-spacing: 0.5px;">Required Libraries</span>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
       {% for dep_id in mod.dependencies %}
         {% assign dep = site.data.dependencies[dep_id] %}
-        <a href="{{ dep.link }}" target="_blank" style="text-decoration: none; font-size: 0.85rem; color: var(--link-color); font-weight: 600;">
+        <a href="{{ dep.link }}" target="_blank" style="text-decoration: none; font-size: 0.85rem; color: #007bff; font-weight: 600; display: flex; align-items: center; gap: 5px;">
           <i class="fas fa-link" style="font-size: 0.7rem;"></i> {{ dep.name }}
         </a>
       {% endfor %}
@@ -55,17 +55,17 @@
 
   <div style="display: flex; gap: 10px; flex-wrap: wrap;">
     {% if mod.curseforge %}
-      <a href="{{ mod.curseforge }}" target="_blank" style="background: #444; color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; border: 1px solid #333;">
+      <a href="{{ mod.curseforge }}" target="_blank" style="background: #2d2d2d; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.85rem; border: 1px solid #1a1a1a;">
         CurseForge
       </a>
     {% endif %}
     {% if mod.patreon %}
-      <a href="{{ mod.patreon }}" target="_blank" style="background: #444; color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; border: 1px solid #333;">
+      <a href="{{ mod.patreon }}" target="_blank" style="background: #2d2d2d; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.85rem; border: 1px solid #1a1a1a;">
         Patreon
       </a>
     {% endif %}
     {% if mod.github %}
-      <a href="{{ mod.github }}" target="_blank" style="background: #444; color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; border: 1px solid #333;">
+      <a href="{{ mod.github }}" target="_blank" style="background: #2d2d2d; color: #fff; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.85rem; border: 1px solid #1a1a1a;">
         GitHub
       </a>
     {% endif %}
