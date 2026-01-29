@@ -2,10 +2,10 @@
 
 - id: online_store
   name: "SimSim Online Store"
+  icon: "fas fa-shopping-cart"
   version: "1.2.5"
   status: "updated"
   updated: "2026-01-29"
-  patch: "1.211.123"
   requirements: ["Base Game", "EP02"]
   dependencies: ["smart_core", "xml_injector"]
   curseforge: "https://www.curseforge.com/"
@@ -13,10 +13,10 @@
 
 - id: smartcore
   name: "Smart Core Script"
-  version: "0.9.8"
+  icon: "fas fa-microchip"
+  version: "2.7.2"
   status: "updated"
   updated: "2026-01-29"
-  patch: "1.211.123"
   requirements: ["Base Game"]
   github: "https://github.com/Andirz/"
   patreon: "https://www.patreon.com/"
