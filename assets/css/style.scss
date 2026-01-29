@@ -24,3 +24,16 @@
   transform: translateY(-5px);
   border-color: var(--main-color) !important;
 }
+
+/* Styling für die Status-Seite */
+.page-status table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.page-status tr {
+  background: var(--card-bg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border-radius: 8px;
+}
