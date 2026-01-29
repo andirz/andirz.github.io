@@ -1,6 +1,6 @@
 ---
 layout: page
-title: The 50/50 Method: How to Find Broken Mods
+title: How to find broken mods with The 50/50 Method
 permalink: /support/50-50-method/
 ---
 
