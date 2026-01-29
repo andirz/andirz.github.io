@@ -1,33 +1,11 @@
 ---
 layout: page
 title: Mod Status
-permalink: /status/
+permalink: /mod-status/
 icon: fas fa-check-circle
 order: 2
 panel: false
 ---
-
-<style>
-  #modTable {
-    font-family: 'Montserrat', sans-serif;
-  }
-  #modTable thead th {
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-    color: var(--main-color);
-  }
-  #modTable tbody tr:hover {
-    background: rgba(0, 123, 255, 0.03) !important;
-  }
-  .status-table-container {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    background: white;
-    margin-top: 20px;
-  }
-</style>
 
 {% assign latest_patch = site.data.mods | map: "patch" | compact | first %}
 <div style="background: rgba(0,123,255,0.05); padding: 18px; border-radius: 12px; border-left: 5px solid #007bff; margin-bottom: 30px;">
