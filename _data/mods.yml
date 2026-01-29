@@ -128,6 +128,8 @@
   github: "https://github.com/Andirz/TS4-Visible-Handedness"
   patreon: "https://www.patreon.com/andirz"
 
+# --- CAREERS & INDEPENDENT ---
+
 - id: auto_service
   name: "Auto Service Career"
   icon: "fas fa-car-side"
@@ -136,3 +138,9 @@
   updated: "2025-05-12"
   github: "https://github.com/Andirz/TS4-Auto-Service-Career"
   patreon: "https://www.patreon.com/andirz"
+
+- id: billmaster
+  name: "The Bill Master"
+  icon: "fas fa-file-invoice-dollar"
+  version: "1.1.0"
+  status: "stable"
