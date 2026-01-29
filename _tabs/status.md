@@ -6,49 +6,103 @@ icon: fas fa-check-circle
 order: 2
 ---
 
-<p>Current status of all mods for <strong>The Sims 4</strong>. This list is updated after every game patch.</p>
+{% assign latest_patch = site.data.mods | map: "patch" | compact | first %}
+<div style="background: rgba(0,123,255,0.05); padding: 18px; border-radius: 12px; border-left: 5px solid #007bff; margin-bottom: 30px;">
+  <i class="fas fa-info-circle" style="color: #007bff;"></i> 
+  {% if latest_patch %}
+    All mods are currently being verified for <strong>The Sims 4 Patch {{ latest_patch }}</strong>.
+  {% else %}
+    All mods are currently being verified for the latest game patch.
+  {% endif %}
+</div>
 
 <div class="status-table-container" style="overflow-x: auto;">
-  <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem;">
+  <table id="modTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
     <thead>
-      <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
-        <th style="padding: 12px;">Mod Name</th>
-        <th style="padding: 12px;">Version</th>
-        <th style="padding: 12px;">Status</th>
-        <th style="padding: 12px;">Last Tested Patch</th>
-        <th style="padding: 12px;">Last Update</th>
+      <tr style="border-bottom: 2px solid var(--border-color); text-align: left; cursor: pointer; background: rgba(0,0,0,0.02);">
+        <th style="padding: 15px; width: 45px;">Icon</th>
+        <th onclick="sortTable(1)" style="padding: 15px;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.5;"></i></th>
+        <th onclick="sortTable(2)" style="padding: 15px;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.5;"></i></th>
+        <th onclick="sortTable(3)" style="padding: 15px;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.5;"></i></th>
+        <th style="padding: 15px;">Required Script</th>
+        <th onclick="sortTable(5)" style="padding: 15px;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.5;"></i></th>
       </tr>
     </thead>
     <tbody>
       {% for mod in site.data.mods %}
-      <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.02)'" onmouseout="this.style.background='transparent'">
-        <td style="padding: 12px;">
-          <a href="{{ mod.curseforge | default: mod.github | default: '#' }}" style="font-weight: bold; text-decoration: none; color: var(--link-color);">
+      <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;">
+        <td style="padding: 15px; text-align: center;">
+          <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.04); border-radius: 8px; color: #555;">
+            <i class="{{ mod.icon | default: 'fas fa-box' }}"></i>
+          </div>
+        </td>
+        <td style="padding: 15px;">
+          <a href="{{ mod.curseforge | default: mod.github | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">
             {{ mod.name }}
           </a>
         </td>
-        <td style="padding: 12px;"><code style="font-size: 0.85rem;">v{{ mod.version }}</code></td>
-        <td style="padding: 12px;">
+        <td style="padding: 15px; font-family: monospace;">{{ mod.version }}</td>
+        <td style="padding: 15px;">
           {% if mod.status == 'updated' %}
-            <span style="color: #007bff; font-weight: bold;">● Updated</span>
+            <span style="color: #007bff; font-weight: bold;">Updated</span>
           {% elsif mod.status == 'compatible' %}
-            <span style="color: #28a745; font-weight: bold;">● Compatible</span>
+            <span style="color: #28a745; font-weight: bold;">Compatible</span>
           {% elsif mod.status == 'broken' %}
-            <span style="color: #dc3545; font-weight: bold;">● Broken</span>
+            <span style="color: #dc3545; font-weight: bold;">Broken</span>
           {% elsif mod.status == 'unknown' %}
-            <span style="color: #6c757d; font-weight: bold;">● Unknown</span>
+            <span style="color: #6c757d; font-weight: bold;">Unknown</span>
           {% elsif mod.status == 'obsolete' %}
-            <span style="color: #343a40; font-weight: bold; text-decoration: line-through;">● Obsolete</span>
+            <span style="color: #343a40; font-weight: bold; text-decoration: line-through;">Obsolete</span>
           {% endif %}
         </td>
-        <td style="padding: 12px; font-family: monospace;">{{ mod.patch }}</td>
-        <td style="padding: 12px; white-space: nowrap;">{{ mod.updated }}</td>
+        <td style="padding: 15px;">
+          {% if mod.dependencies %}
+            {% for dep_id in mod.dependencies %}
+              {% assign dep = site.data.dependencies[dep_id] %}
+              <span style="font-size: 0.75rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 3px 8px; border-radius: 4px; font-weight: 600;">{{ dep.name }}</span>
+            {% endfor %}
+          {% else %}
+            <span style="color: #ccc;">—</span>
+          {% endif %}
+        </td>
+        <td style="padding: 15px; white-space: nowrap; color: #666;">{{ mod.updated }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
 
-<div style="margin-top: 30px; padding: 15px; background: rgba(0,0,0,0.02); border-radius: 8px; font-size: 0.85rem;">
-  <strong>Note:</strong> If a mod is marked as <em>Broken</em>, please remove it from your Mods folder immediately and wait for an update.
-</div>
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("modTable");
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      var xValue = x.innerText.toLowerCase();
+      var yValue = y.innerText.toLowerCase();
+      if (dir == "asc") {
+        if (xValue > yValue) { shouldSwitch = true; break; }
+      } else if (dir == "desc") {
+        if (xValue < yValue) { shouldSwitch = true; break; }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
+    } else {
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
