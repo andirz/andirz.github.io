@@ -1,0 +1,17 @@
+<div class="installation-guide" style="margin: 2rem 0; padding: 24px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+  <h3 style="margin-top: 0;"><i class="fas fa-tools"></i> Installation Guide</h3>
+
+  <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+    <li><strong>Backup:</strong> Back up your current save files just in case!</li>
+    <li><strong>Clean Install:</strong> Please <strong>delete all files</strong> of the previous version of the mod!</li>
+    <li><strong>Download & Extract:</strong> Download the ZIP archive and extract all files to your Mods folder.</li>
+    
+    {% if include.script == true %}
+    <li style="color: #dc3545; font-weight: 600;">
+      <strong>Script Mod:</strong> Do not place .ts4script files deeper than one subfolder.
+    </li>
+    {% endif %}
+
+    <li><strong>Clear Cache:</strong> Delete the game cache files (<code style="font-size: 0.8rem;">localthumbcache.package</code>).</li>
+  </ul>
+</div>
