@@ -15,6 +15,6 @@
   icon: "fab fa-discord"
   url: https://discord.gg/f7EM7SNXtz
 
-- type: email
-  icon: "fas fa-envelope"
-  noblank: true # open link in current tab
+#- type: email
+#  icon: "fas fa-envelope"
+#  noblank: true # open link in current tab
