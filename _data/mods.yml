@@ -9,6 +9,8 @@
   github: "https://github.com/Andirz/"
   patreon: "https://www.patreon.com/"
 
+  # --- SHOPPING MODS (P.S.O.) ---
+
 - id: online_store
   name: "SimSim Online Store"
   icon: "fas fa-shopping-cart"
@@ -44,6 +46,24 @@
   github: "https://github.com/Andirz/TS4-Better-Pie-Menu"
   patreon: "https://www.patreon.com/andirz"
 
+# --- CHEATING & DEBUGGING ---
+
+- id: smartcheats
+  name: "Smart Sim Cheats"
+  icon: "fas fa-terminal"
+  version: "1.0.0"
+  status: "stable"
+  category: "Cheating"
+
+- id: pansexual
+  name: "Make Sims Pansexual Again"
+  icon: "fas fa-heart"
+  version: "Ultimate"
+  status: "stable"
+  category: "Cheating"
+
+# --- UNIVERSITY ---
+
 - id: custom_electives
   name: "Custom University Electives"
   icon: "fas fa-graduation-cap"
@@ -53,6 +73,14 @@
   requirements: ["EP08"]
   github: "https://github.com/Andirz/TS4-University-Electives"
   patreon: "https://www.patreon.com/andirz"
+
+# --- SELVADORADIAN & DEATH ---
+
+- id: death_roulette
+  name: "Death Roulette Challenge"
+  icon: "fas fa-skull-crossbones"
+  version: "1.0.0"
+  status: "stable"
 
 - id: holiday_drama
   name: "No Holidays Failure Drama"
@@ -80,3 +108,31 @@
   version: "1.0.4"
   status: "compatible"
   updated: "2026-01-27"
+
+- id: favorite_movie
+  name: "Favorite Movie Genre"
+  icon: "fas fa-film"
+  version: "1.0.1"
+  status: "stable"
+  updated: "2025-10-20"
+  requirements: ["Movie Hangout"]
+  github: "https://github.com/Andirz/TS4-Favorite-Movie-Genre"
+  patreon: "https://www.patreon.com/andirz"
+
+- id: visible_handedness
+  name: "Visible Handedness"
+  icon: "fas fa-hand-paper"
+  version: "1.0.1"
+  status: "stable"
+  updated: "2025-06-05"
+  github: "https://github.com/Andirz/TS4-Visible-Handedness"
+  patreon: "https://www.patreon.com/andirz"
+
+- id: auto_service
+  name: "Auto Service Career"
+  icon: "fas fa-car-side"
+  version: "1.0.0"
+  status: "stable"
+  updated: "2025-05-12"
+  github: "https://github.com/Andirz/TS4-Auto-Service-Career"
+  patreon: "https://www.patreon.com/andirz"
