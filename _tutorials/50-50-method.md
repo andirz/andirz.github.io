@@ -2,6 +2,7 @@
 layout: page
 title: "How to find broken mods with the 50-50 method?"
 title_category: "Tutorials"
+order: 5
 image: /assets/images/TS4-ICON-BG (30).png
 ---
 
