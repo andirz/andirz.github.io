@@ -41,17 +41,17 @@ All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}<
           {{ mod.version }}
         </td>
         
-        <td style="padding: 12px;">
+        <td style="padding: 12px; text-align: center;">
           {% if mod.status == 'updated' %}
-            <span style="color: #007bff; font-weight: bold;">Updated</span>
+            <i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.1rem;"></i>
           {% elsif mod.status == 'compatible' %}
-            <span style="color: #28a745; font-weight: bold;">Compatible</span>
+            <i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.1rem;"></i>
           {% elsif mod.status == 'broken' %}
-            <span style="color: #dc3545; font-weight: bold;">Broken</span>
+            <i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.1rem;"></i>
           {% elsif mod.status == 'obsolete' %}
-            <span style="color: #343a40; font-weight: bold; text-decoration: line-through;">Obsolete</span>
+            <i class="fas fa-minus-circle" title="Obsolete" style="color: #6c757d; font-size: 1.1rem; opacity: 0.5;"></i>
           {% else %}
-            <span style="color: #6c757d; font-weight: bold;">Unknown</span>
+            <i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.1rem;"></i>
           {% endif %}
         </td>
         
