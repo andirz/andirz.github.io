@@ -165,10 +165,14 @@ collections:
   tabs:
     output: true
     sort_by: order
+  support:
+    output: true
+    sort_by: order
+    permalink: /support/:name/
   tutorials:
     output: true
     sort_by: order
-    permalink: /tutorials/:title/
+    permalink: /tutorials/:name/
 
 defaults:
   - scope:
