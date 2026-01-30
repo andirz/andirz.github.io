@@ -2,26 +2,26 @@
   /* Container for the whole box */
   .andirz-mod-hero {
     display: flex;
-    flex-wrap: wrap; /* Responsive: stacks on mobile */
-    background: #ffffff;
+    flex-wrap: wrap; 
+    background: var(--bg-secondary, #ffffff);
     border-radius: 12px;
-    border: 1px solid #e1e1e1;
+    border: 1px solid var(--border-color, #e1e1e1);
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
     overflow: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
   /* Left Side: Big Icon Box */
   .hero-icon-section {
-    background: #f8f9fa;
+    background: rgba(0,0,0,0.02);
     min-width: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 70px; /* Big Icon */
-    color: #333;
-    border-right: 1px solid #e1e1e1;
+    font-size: 70px; 
+    color: var(--accent-color, #333);
+    border-right: 1px solid var(--border-color, #e1e1e1);
   }
 
   /* Right Side: Content Area */
@@ -34,28 +34,33 @@
   .hero-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
+    gap: 15px;
   }
 
   .hero-title {
     margin: 0;
     font-size: 28px;
     font-weight: 800;
-    color: #1a1a1a;
+    line-height: 1.2;
+    color: var(--text-color, #1a1a1a);
   }
 
   /* Badge styling */
   .hero-status-badge {
-    padding: 4px 12px;
+    padding: 6px 14px;
     border-radius: 50px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
   }
-  .status-compatible { background: #dcfce7; color: #166534; }
-  .status-updated { background: #dbeafe; color: #1e40af; }
-  .status-outdated { background: #fee2e2; color: #991b1b; }
+  .status-compatible { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+  .status-updated { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+  .status-broken { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+  .status-obsolete { background: #f4f4f5; color: #52525b; border: 1px solid #e4e4e7; }
 
   /* Data Grid */
   .hero-data-grid {
@@ -65,11 +70,7 @@
     margin-bottom: 25px;
   }
 
-  .data-field {
-    display: flex;
-    flex-direction: column;
-  }
-
+  .data-field { display: flex; flex-direction: column; }
   .data-label {
     font-size: 11px;
     text-transform: uppercase;
@@ -78,44 +79,34 @@
     margin-bottom: 4px;
     font-weight: 700;
   }
+  .data-value { font-size: 15px; color: var(--text-color, #27272a); font-weight: 600; }
 
-  .data-value {
-    font-size: 15px;
-    color: #27272a;
-    font-weight: 600;
-  }
-
-  /* Download Button Styling */
-  .hero-actions {
-    display: flex;
-    gap: 12px;
-  }
-
+  /* Action Button */
+  .hero-actions { display: flex; gap: 12px; }
   .btn-download {
     background: #2563eb;
     color: #ffffff !important;
-    padding: 10px 24px;
+    padding: 12px 28px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: background 0.2s;
+    gap: 10px;
+    transition: transform 0.1s, background 0.2s;
   }
-
-  .btn-download:hover {
-    background: #1d4ed8;
-  }
+  .btn-download:hover { background: #1d4ed8; transform: translateY(-1px); }
+  .btn-download:active { transform: translateY(0); }
 
   /* Mobile Adjustments */
   @media (max-width: 600px) {
     .hero-icon-section {
       width: 100%;
-      padding: 30px;
+      padding: 40px;
       border-right: none;
-      border-bottom: 1px solid #e1e1e1;
+      border-bottom: 1px solid var(--border-color, #e1e1e1);
     }
+    .hero-header { flex-direction: column; align-items: flex-start; }
   }
 </style>
 
@@ -123,13 +114,11 @@
 
 {% if mod %}
 <div class="andirz-mod-hero">
-  
   <div class="hero-icon-section">
-    <i class="{{ mod.icon }}"></i>
+    <i class="{{ mod.icon | default: 'fas fa-box' }}"></i>
   </div>
 
   <div class="hero-content-section">
-    
     <div class="hero-header">
       <h1 class="hero-title">{{ mod.name }}</h1>
       <span class="hero-status-badge status-{{ mod.status | downcase }}">
@@ -148,18 +137,26 @@
       </div>
       <div class="data-field">
         <span class="data-label">Requirements</span>
-        <span class="data-value">{{ mod.requirements | join: ", " }}</span>
+        <span class="data-value">
+          {% assign reqs = mod.requirements | complement: "BG" %}
+          {% if reqs.size > 0 %}
+            {{ reqs | join: ", " }}
+          {% else %}
+            Base Game
+          {% endif %}
+        </span>
       </div>
     </div>
 
     <div class="hero-actions">
-      <a href="{{ mod.download_url }}" class="btn-download">
+      <a href="{{ mod.download_url }}" target="_blank" class="btn-download">
         <i class="fas fa-download"></i> Download Mod
       </a>
     </div>
-
   </div>
 </div>
 {% else %}
-  <p style="color: red;">Mod data not found! Please check mod_id in frontmatter.</p>
+  <div style="padding: 20px; border: 2px dashed #ef4444; border-radius: 8px; color: #ef4444; font-weight: bold; text-align: center;">
+    <i class="fas fa-exclamation-triangle"></i> Error: Mod data for "{{ page.mod_id }}" not found in _data/mods.yml
+  </div>
 {% endif %}
