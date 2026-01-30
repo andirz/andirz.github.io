@@ -2,7 +2,7 @@
 layout: page
 title: Support
 icon: fas fa-graduation-cap
-order: 4
+order: 7
 ---
 
 ## <i class="fas fa-info-circle"></i> Welcome to the Guides
