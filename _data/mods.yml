@@ -55,8 +55,7 @@
   version: "1.2.5"
   status: "updated"
   updated: "2026-01-29"
-  requirements: ["BG", "EP02"]
-  dependencies: ["smart_core", "xml_injector"]
+  dependencies: ["smart_core"]
   curseforge: "https://www.curseforge.com/"
   patreon: "https://www.patreon.com/"
 
@@ -148,7 +147,6 @@
   version: "1.1.0"
   status: "updated"
   updated: "2026-01-27"
-  requirements: ["BG"]
   github: "https://github.com/Andirz/TS4-Better-Pie-Menu"
   patreon: "https://www.patreon.com/andirz"
 
@@ -265,7 +263,6 @@
   version: "1.0.0"
   status: "stable"
   updated: "2025-07-10"
-  requirements: ["Base Game"]
   github: "https://github.com/Andirz/TS4-No-Forgotten-Birthday-Drama"
   patreon: "https://www.patreon.com/andirz"
 
