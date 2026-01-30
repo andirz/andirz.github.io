@@ -110,53 +110,23 @@
   }
 </style>
 
+{% comment %} Suche in der Liste nach der Mod-Daten {% endcomment %}
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 
 {% if mod %}
 <div class="andirz-mod-hero">
-  <div class="hero-icon-section">
-    <i class="{{ mod.icon | default: 'fas fa-box' }}"></i>
-  </div>
-
-  <div class="hero-content-section">
-    <div class="hero-header">
-      <h1 class="hero-title">{{ mod.name }}</h1>
-      <span class="hero-status-badge status-{{ mod.status | downcase }}">
-        {{ mod.status }}
-      </span>
-    </div>
-
-    <div class="hero-data-grid">
-      <div class="data-field">
-        <span class="data-label">Version</span>
-        <span class="data-value">{{ mod.version }}</span>
-      </div>
-      <div class="data-field">
-        <span class="data-label">Last Updated</span>
-        <span class="data-value">{{ mod.updated }}</span>
-      </div>
-      <div class="data-field">
-        <span class="data-label">Requirements</span>
-        <span class="data-value">
-          {% assign reqs = mod.requirements | complement: "BG" %}
-          {% if reqs.size > 0 %}
-            {{ reqs | join: ", " }}
-          {% else %}
-            Base Game
-          {% endif %}
+  <div class="hero-actions">
+      {% if mod.download_url and mod.download_url != "" %}
+        <a href="{{ mod.download_url }}" target="_blank" class="btn-download">
+          <i class="fas fa-download"></i> Download Mod
+        </a>
+      {% else %}
+        <span class="btn-download" style="background: #9ca3af; cursor: not-allowed;">
+          <i class="fas fa-clock"></i> Coming Soon
         </span>
-      </div>
+      {% endif %}
     </div>
 
-    <div class="hero-actions">
-      <a href="{{ mod.download_url }}" target="_blank" class="btn-download">
-        <i class="fas fa-download"></i> Download Mod
-      </a>
-    </div>
   </div>
 </div>
-{% else %}
-  <div style="padding: 20px; border: 2px dashed #ef4444; border-radius: 8px; color: #ef4444; font-weight: bold; text-align: center;">
-    <i class="fas fa-exclamation-triangle"></i> Error: Mod data for "{{ page.mod_id }}" not found in _data/mods.yml
-  </div>
 {% endif %}
