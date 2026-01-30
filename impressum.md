@@ -1,34 +1,32 @@
 ---
 layout: page
-title: Legal Notice
+title: Impressum
 permalink: /impressum/
 nav_exclude: true
 noindex: true
 sitemap: false
 ---
 
-## Impressum
+## Angaben gemäß § 5 TMG
 
-### Angaben gemäß § 5 TMG
-
-**Betreiber der Webseite:** 
+### Betreiber der Webseite
 [Dein Vorname] [Dein Nachname]  
 [Deine Straße und Hausnummer]  
 [PLZ] [Ort]  
 Deutschland
 
-**Kontakt:** 
+### Kontakt
 E-Mail: [Deine E-Mail-Adresse]  
 Discord: [Dein Discord-Username]
 
-**Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:** 
+### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV 
 [Dein Vorname] [Dein Nachname]  
 [Deine Straße und Hausnummer]  
 [PLZ] [Ort]
 
 ---
 
-### Haftungsausschluss (Disclaimer)
+## Haftungsausschluss (Disclaimer)
 
 **Haftung für Inhalte** Als Diensteanbieter bin ich gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
 
