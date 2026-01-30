@@ -18,7 +18,7 @@ All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}<
         <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer; width: 45%;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         <th onclick="sortTable(2)" title="Version" style="padding: 12px; cursor: pointer; width: 80px;">V. <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         <th onclick="sortTable(3)" title="Mod Compatibility Status" style="padding: 12px; cursor: pointer; width: 60px; text-align: center;">St. <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th title="Required DLCs & Packs" style="padding: 12px; width: 20%;">Req.</th>
+        <th style="padding: 12px; width: 20%;">Requirements</th>
         <th onclick="sortTable(5)" title="Last Update Date" style="padding: 12px; cursor: pointer; width: 100px;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
       </tr>
     </thead>
