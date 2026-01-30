@@ -7,8 +7,8 @@ order: 2
 panel: false
 ---
 
-{% assign latest_patch = site.data.mods.latest_patch %}
-{% assign last_checked = site.data.mods.last_checked %}
+{% assign latest_patch = site.data.globals.latest_patch %}
+{% assign last_checked = site.data.globals.last_checked %}
 
 <div class="status-info-box">
   <i class="fas fa-info-circle"></i> 
