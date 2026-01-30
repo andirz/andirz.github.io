@@ -6,16 +6,16 @@ order: 4
 toc: true
 ---
 
-## <i class="fas fa-info-circle"></i> Support Overview & Guidelines
+## <i class="fas fa-info-circle"></i> Support Guidelines
 
 Welcome to the central support hub for my Sims 4 mods. To ensure the best experience for everyone, **please read the available documentation thoroughly before reaching out for individual help.** As a modder, I invest a significant amount of my personal time into creating, updating, and documenting these tools for the community. By checking the guides first, you help me spend less time answering repetitive questions and more time developing new features and maintaining existing mods.
 
-### <i class="fas fa-map-signs"></i> Getting Started
+## <i class="fas fa-map-signs"></i> Getting Started
 If you are new to my mods, I highly recommend starting with the **General Installation Guide**. Most issues can be resolved by ensuring you have the latest version of the **Smart Core Script** installed, as it is the backbone of my modding system.
 
 ---
 
-### <i class="fas fa-graduation-cap"></i> Mod Guides & Documentation
+## <i class="fas fa-graduation-cap"></i> Mod Guides
 
 <div class="support-container" style="margin-top: 1.5rem;">
   <div class="list-group">
@@ -38,7 +38,7 @@ If you are new to my mods, I highly recommend starting with the **General Instal
 
 ---
 
-### <i class="fas fa-comments"></i> Need More Help?
+## <i class="fas fa-comments"></i> Need More Help?
 
 Can't find the answer you're looking for? If you've read the guides and still encounter issues, please join our community:
 
