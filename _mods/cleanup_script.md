@@ -7,37 +7,44 @@ title: Cleanup Script for Windows
 {% include mod-infobox.html %}
 
 ## What does this tool do?
-The **Cleanup Script for Windows** is a specialized tool for The Sims 4 that automates the cleaning of temporary cache and log files. Over time, these files can accumulate and cause performance issues, visual glitches, or mod conflicts.
+The **Cleanup Script for Windows** is a utility designed to keep your *The Sims 4* user folder healthy. It automates the task of deleting temporary cache files and error logs that can cause game lag, visual glitches, or mod conflicts.
 
-Starting with **Version 1.3.0**, the script includes an automatic administrator rights check. If the script lacks the necessary permissions to delete certain files, it will automatically request to restart with elevated privileges.
+> **Important:** Files are **not deleted automatically** by your system. To clean them, you need to manually double-click the script. This gives you the chance to keep logs if you need to send them to mod authors for troubleshooting before wiping them.
 
-### Files and Folders Cleared:
-The script targets specific files that are safe to delete and are known to cause issues when outdated:
-* **Cache Folders:** `onlinethumbnailcache` (all files) and `cachestr`.
-* **Standard Packages:** `localthumbcache.package`, `avatarcache.package`, and `localsimtexturecache.package`.
-* **Lock & Status Files:** `UserData.lock`, `notify.glob`, and `ConnectionStatus.txt`.
-* **Log Files:** Cleans out various logs including `lastException.txt`, `lastUIException.txt`, `lastCrash.txt`, and even mod-specific logs like `WickedWhimsInfoLog.log` or `WonderfulWhimsInfoLog.log`.
-* **Empty Folders:** Safely removes `Screenshots`, `Recorded Videos`, and `ConfigOverride` only if they are completely empty.
+### This script deletes the following data:
+* **onlinethumbnailcache** (folder and all files)
+* **cachestr** (folder and all files)
+* **ConfigOverride** & **Screenshots** (folders - *deleted only if empty*)
+* **localthumbcache.package** (file)
+* **localsimtexturecache.package** (file)
+* **avatarcache.package** (file)
+* **UserData.lock** (file)
+* **notify.glob** (file)
+* **ConnectionStatus.txt** (file)
+* **GPU Benchmark/Score Results** (txt files)
+* **lastCrash**, **lastException** & **lastUIException** (all matching .txt files)
+* **BE-ExceptionReport** & **BE-UIExceptionReport** (all matching .html files)
+* **WickedWhims** & **WhimsInfo** (all matching .log and .txt files)
+* **Andirz_*.log** (all logs from my own mods)
 
-> **Note on Safety:** Since v1.3.0, the `houseDescription-client.package` is **excluded** from deletion to prevent the loss of household descriptions, following community troubleshooting reports.
+**No other files will be deleted**—not from your Mods folder, not from your Saves folder, or any other location. All your personal data is safe! For a detailed explanation of what these files do, see [Crinrict's User Files Explained](https://sims4.crinrict.com/eng/2014/09/user-files-explained/).
 
-## How to use
-This is a **self-executable batch (.bat) script**. It is not a mod in the traditional sense and does not belong in your Mods folder.
+## Why you should delete cache files
+Over time, cache files can become corrupted, especially after game updates. Deleting them forces the game to regenerate fresh data. Read more in [Crinrict's Guide: How to delete cache files](https://sims4.crinrict.com/eng/2014/09/delete-cache-files/).
 
-1. **Placement:** Move the `*.bat` file directly into your **The Sims 4** main folder (where the `Mods`, `Saves`, and `Tray` folders are located).
-2. **Run:** Double-click the script to start the cleanup.
-3. **Confirm:** If Windows asks for administrator permissions, grant them to allow the script to delete protected temporary files.
+## Improved Permissions (New in v.1.3+)
+I have added a check to the script to ensure it runs with **Administrator rights**. If it lacks permissions, it will automatically restart and ask for permission. 
+* *Note: This was implemented to fix reports where the script "did nothing" for some users. If you still encounter issues, please let me know!*
 
-## Why do I need this?
-Deleting cache files is a standard troubleshooting step for The Sims 4. It is often required after:
-* Updating the game.
-* Adding or removing mods.
-* Experiencing "Last Exception" errors or UI glitches.
+## How to use this script
+This is a self-executable [Batch file](https://en.wikipedia.org/wiki/Batch_file). 
 
-By using this script, you ensure that no old data interferes with your current game session, leading to a smoother and more stable experience.
+1. **Placement:** Do **not** copy this file into your Mods folder. Place it directly into your **The Sims 4** main folder (where you see "Mods", "Saves", and "Tray"). 
+2. **Execution:** Double-click the script to run it. 
+3. **Verification:** You can right-click the file and select **"Edit"** to see the code and verify every command yourself.
 
-## What is a .bat file?
-A `.bat` (Batch) file is a simple script used by Windows to execute a sequence of commands. 
-* **Safe & Transparent:** You can right-click the script and select **"Edit"** to see the exact code. It only uses standard Windows delete commands.
-* **No Settings Lost:** Log files do not contain mod settings. Your preferences for mods like WickedWhims are stored safely in your `Saves` folder and will not be touched.
-* **SmartScreen:** If Windows shows a "protected your PC" warning, click **"More info"** and then **"Run anyway"**. This is a standard warning for scripts downloaded from the internet.
+---
+
+### What is a .bat file?
+* **Transparency:** It is 100% transparent—open it in any text editor (like Notepad) to see the full list of deletion commands.
+* **SmartScreen:** Windows might show a "Windows protected your PC" warning. Click **"More info"** and then **"Run anyway"**.
