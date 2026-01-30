@@ -39,8 +39,7 @@ All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}<
             {% assign target_link = "#" %}
           {% endif %}
           <a href="{{ target_link }}" 
-             style="text-decoration: none; color: var(--link-color); font-weight: bold; display: flex; align-items: center; gap: 10px; {% if target_link == '#' %} cursor: default; opacity: 0.8; {% endif %}">
-            <i class="{{ mod.icon }}" style="width: 20px; text-align: center;"></i>
+             style="text-decoration: none; color: var(--link-color); font-weight: bold; display: block; {% if target_link == '#' %} cursor: default; opacity: 0.8; {% endif %}">
             <span>{{ mod.name }}</span>
           </a>
         </td>
