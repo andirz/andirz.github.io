@@ -7,7 +7,7 @@ order: 4
 
 ## <i class="fas fa-info-circle"></i> Support Overview & Guidelines
 
-Welcome to the central support hub for my Sims 4 mods. To ensure the best experience for everyone, **please read the available documentation thoroughly before reaching out for individual help.** As a modder, I invest a significant amount of my personal time into creating, updating, and documenting these tools for the community. By checking the guides first, you help me spend less time answering repetitive questions and more time developing new features and maintaining existing mods like the *Smart Core Script* or *SimSim Online Store*. **I truly appreciate you respecting my time and efforts.**
+Welcome to the central support hub for my Sims 4 mods. To ensure the best experience for everyone, **please read the available documentation thoroughly before reaching out for individual help.** As a modder, I invest a significant amount of my personal time into creating, updating, and documenting these tools for the community. By checking the guides first, you help me spend less time answering repetitive questions and more time developing new features and maintaining existing mods.
 
 ### <i class="fas fa-map-signs"></i> Getting Started
 If you are new to my mods, I highly recommend starting with the **General Installation Guide**. Most issues can be resolved by ensuring you have the latest version of the **Smart Core Script** installed, as it is the backbone of my modding system.
@@ -38,14 +38,15 @@ If you are new to my mods, I highly recommend starting with the **General Instal
 ---
 
 ### <i class="fas fa-comments"></i> Need More Help?
+
 Can't find the answer you're looking for? If you've read the guides and still encounter issues, please join our community:
 
-* **[Discord Community]({{ site.data.globals.links.discord }})** – **This is the only place for support.** It is the most efficient way for me to help you, as we can use threads and share screenshots.
+* **[Discord Community]({{ site.data.globals.links.discord }})** – **This is the only place for support.** It is the most efficient way to get help, share screenshots, and use dedicated threads.
 
-> ### <i class="fas fa-exclamation-triangle"></i> Important Note on Support
-> To respect my time and ensure you get an answer, please **do not** send support requests or bug reports via **Patreon** or **CurseForge** comments. 
->
-> These platforms are extremely difficult to manage for technical support. Any messages there will likely be redirected to Discord or may be overlooked entirely. For the fastest help, always use the Discord server.
+**Important Note on Support:**
+To respect my time and ensure you get an answer, please **do not** send support requests or bug reports via **Patreon** or **CurseForge** comments. These platforms are not suitable for technical troubleshooting. Any messages there may be overlooked or redirected to Discord.
 
-* **[CurseForge]({{ site.data.globals.links.curseforge }})** – Download my mods and stay updated on new releases.
-* **[Patreon]({{ site.data.globals.links.patreon }})** – Support my work, get early access, and see what I'm currently developing.
+---
+
+* **[CurseForge]({{ site.data.globals.links.curseforge }})** – Here you can find the public versions of my mods that are compliant with their platform rules.
+* **[Patreon]({{ site.data.globals.links.patreon }})** – The primary hub for all my work. It hosts **all** my mods, including those not available on CurseForge due to platform restrictions, as well as early access and updates.
