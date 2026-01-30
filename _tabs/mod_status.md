@@ -45,13 +45,13 @@ order: 2
         <td style="padding: 15px; font-family: monospace;">{{ mod.version }}</td>
         
         <td style="padding: 15px;">
-          {% if mod.status == 'updated' %}
+          {% if mod. == 'updated' %}
             <span style="color: #007bff; font-weight: bold;">Updated</span>
-          {% elsif mod.status == 'compatible' %}
+          {% elsif mod. == 'compatible' %}
             <span style="color: #28a745; font-weight: bold;">Compatible</span>
-          {% elsif mod.status == 'broken' %}
+          {% elsif mod. == 'broken' %}
             <span style="color: #dc3545; font-weight: bold;">Broken</span>
-          {% elsif mod.status == 'obsolete' %}
+          {% elsif mod. == 'obsolete' %}
             <span style="color: #343a40; font-weight: bold; text-decoration: line-through;">Obsolete</span>
           {% else %}
             <span style="color: #6c757d; font-weight: bold;">Unknown</span>
