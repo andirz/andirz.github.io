@@ -4,7 +4,7 @@ mod_id: smart_core
 title: Smart Core Script
 ---
 
-{% include mod-infobox.html %}
+{% include mod_infobox.html %}
 
 ## What is this?
 The **Smart Core Script** is a technical library and **NOT a standalone mod**. It serves as the "engine" for many of my other projects. 
