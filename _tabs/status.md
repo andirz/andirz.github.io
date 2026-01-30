@@ -8,22 +8,17 @@ order: 2
 {% assign latest_patch = site.data.globals.latest_patch %}
 {% assign last_checked = site.data.globals.last_checked %}
 
-<div class="status-info-box" style="background: rgba(0, 123, 255, 0.05); padding: 15px; border-radius: 8px; border-left: 4px solid #007bff; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-  <i class="fas fa-info-circle" style="color: #007bff;"></i> 
-  <span>
-    All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}</strong> as of <strong>{{ last_checked }}</strong>.
-  </span>
-</div>
+All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}</strong> as of <strong>{{ last_checked }}</strong>.
 
 <div class="status-table-container" style="overflow-x: auto;">
-  <table id="modTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem; table-layout: fixed;">
+  <table id="modTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
     <thead>
       <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: rgba(0,0,0,0.02);">
-        <th style="padding: 12px; width: 50px; text-align: center;">Icon</th>
-        <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer; width: 25%;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer; width: 12%;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th style="padding: 12px; width: 45px; text-align: center;">Icon</th>
+        <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer; width: 40%;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer; width: 10%;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer; width: 15%;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th style="padding: 12px; width: 33%;">Requirements</th>
+        <th style="padding: 12px; width: 20%;">Requirements</th>
         <th onclick="sortTable(5)" style="padding: 12px; cursor: pointer; width: 15%;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
       </tr>
     </thead>
@@ -37,12 +32,12 @@ order: 2
         </td>
         
         <td style="padding: 12px;">
-          <a href="{{ mod.curseforge | default: mod.github | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">
+          <a href="{{ mod.curseforge | default: mod.github | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold; display: block;">
             {{ mod.name }}
           </a>
         </td>
         
-        <td style="padding: 12px; font-family: monospace; font-size: 0.8rem; color: #666;">
+        <td style="padding: 12px; font-family: monospace; font-size: 0.8rem; color: #777;">
           {{ mod.version }}
         </td>
         
@@ -64,15 +59,13 @@ order: 2
           <div style="display: flex; flex-wrap: wrap; gap: 4px;">
             {% if mod.requirements and mod.requirements.size > 0 %}
               {% for req_id in mod.requirements %}
-                {% assign pack = site.data.packs[req_id] %}
-                <span title="{{ pack.en | default: req_id }}" style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 1px 5px; border-radius: 3px; border: 1px solid #eee; font-weight: 600;">
-                  {{ req_id }}
-                </span>
+                {% if req_id != "BG" %}
+                  {% assign pack = site.data.packs[req_id] %}
+                  <span title="{{ pack.en | default: req_id }}" style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 1px 5px; border-radius: 3px; border: 1px solid #eee; font-weight: 600;">
+                    {{ req_id }}
+                  </span>
+                {% endif %}
               {% endfor %}
-            {% else %}
-              <span title="Base Game Required" style="font-size: 0.7rem; background: #e9ecef; color: #495057; padding: 1px 5px; border-radius: 3px; border: 1px solid #ced4da; font-weight: bold;">
-                BG
-              </span>
             {% endif %}
 
             {% if mod.dependencies %}
@@ -82,6 +75,11 @@ order: 2
                   {{ dep_mod.name | default: dep_id }}
                 </span>
               {% endfor %}
+            {% endif %}
+
+            {% comment %} Wenn nach dem Filtern von BG und Mods nichts übrig ist, zeige einen Strich {% endcomment %}
+            {% if mod.requirements == nil and mod.dependencies == nil %}
+              <span style="color: #ccc;">—</span>
             {% endif %}
           </div>
         </td>
