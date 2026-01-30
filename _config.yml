@@ -188,6 +188,11 @@ defaults:
     values:
       comments: false
   - scope:
+      path: _support
+    values:
+      layout: support
+      comments: true
+  - scope:
       path: ""
       type: tabs # see `site.collections`
     values:
