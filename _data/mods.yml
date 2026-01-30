@@ -31,13 +31,13 @@
 
 - id: autofill_personality_traits
   name: "AutoFill Personality Traits"
-  icon: "fas fa-user-plus"
+  icon: "fas fa-user-tag"
   version: "1.0.0"
   status: "compatible"
 
 - id: object_tuning_replacement
   name: "Object Tuning Replacement"
-  icon: "fas fa-lamp"
+  icon: "fas fa-lightbulb"
   version: "1.1.2"
   status: "compatible"
 
@@ -205,7 +205,7 @@
 
 - id: skill_class_reloaded
   name: "Skill Class Reloaded"
-  icon: "fas fa-school"
+  icon: "fas fa-pen-nib"
   version: "3.0.0"
   requirements: ["EP08"]
   status: "compatible"
@@ -276,7 +276,7 @@
 
 - id: favorite_movie
   name: "Favorite Movie Genre"
-  icon: "fas fa-film"
+  icon: "fas fa-video"
   version: "1.0.1"
   status: "stable"
   updated: "2025-10-20"
@@ -311,7 +311,7 @@
 
 - id: laundry_lot_trait
   name: "Laundry Lot Trait"
-  icon: "fas fa-home"
+  icon: "fas fa-sync-alt"
   version: "1.0.3"
   requirements: ["SP13"]
   status: "compatible"
@@ -329,7 +329,7 @@
 
 - id: billmaster
   name: "The Bill Master"
-  icon: "fas fa-file-invoice-dollar"
+  icon: "fas fa-money-bill-wave"
   version: "1.1.0"
   status: "stable"
 
@@ -348,7 +348,7 @@
 
 - id: extended_private_journal
   name: "Extended Private Journal"
-  icon: "fas fa-journal-whills"
+  icon: "fas fa-book-open"
   version: "3.3.0"
   requirements: ["GP05"]
   status: "compatible"
@@ -361,7 +361,7 @@
 
 - id: body_hair_replacement_luumia
   name: "Body Hair Replacement: Luumia Edition"
-  icon: "fas fa-razor"
+  icon: "fas fa-cut"
   version: "1.0.1"
   status: "compatible"
 
@@ -379,12 +379,12 @@
 
 - id: pharmacy_kiosk_object
   name: "Pharmacy Kiosk Object"
-  icon: "fas fa-prescription-bottle-alt"
+  icon: "fas fa-staff-snake"
   version: "1.4.2"
   status: "compatible"
 
 - id: xmas_poster_painting_collection
   name: "X-Mas Poster & Painting Collection"
-  icon: "fas fa-holly-berry"
+  icon: "fas fa-image"
   version: "2.1.0"
   status: "compatible"
