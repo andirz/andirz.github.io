@@ -10,7 +10,7 @@ This list provides an overview of all official abbreviations and codes for **The
 
 Click on the table headers to sort the columns or use `Ctrl + F` to find a specific pack.
 
-## <i class="fas fa-expand-arrows-alt"></i> Expansion Packs
+## Expansion Packs
 <div class="table-wrapper">
   <table id="tableEP">
     <thead>
@@ -34,7 +34,7 @@ Click on the table headers to sort the columns or use `Ctrl + F` to find a speci
   </table>
 </div>
 
-## <i class="fas fa-gamepad"></i> Game Packs
+## Game Packs
 <div class="table-wrapper">
   <table id="tableGP">
     <thead>
@@ -58,7 +58,7 @@ Click on the table headers to sort the columns or use `Ctrl + F` to find a speci
   </table>
 </div>
 
-## <i class="fas fa-tshirt"></i> Stuff Packs
+## Stuff Packs
 <div class="table-wrapper">
   <table id="tableSP">
     <thead>
@@ -82,7 +82,7 @@ Click on the table headers to sort the columns or use `Ctrl + F` to find a speci
   </table>
 </div>
 
-## <i class="fas fa-puzzle-piece"></i> Kits
+## Kits
 <div class="table-wrapper">
   <table id="tableKits">
     <thead>
