@@ -167,6 +167,10 @@ collections:
     output: true
     sort_by: order
     permalink: /support/:name/
+  mods:
+    output: true
+    sort_by: order
+    permalink: /mods/:name/
   tutorials:
     output: true
     sort_by: order
@@ -178,7 +182,6 @@ defaults:
       type: posts
     values:
       layout: post
-      permalink: /mods/:title/
       comments: true 
       toc: true 
   - scope:
@@ -189,6 +192,12 @@ defaults:
       path: _support
     values:
       layout: support
+      toc: true
+      comments: true
+  - scope:
+      path: _mods
+    values:
+      layout: page
       toc: true
       comments: true
   - scope:
