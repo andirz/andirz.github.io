@@ -10,34 +10,32 @@ This list provides an overview of all official abbreviations and codes for **The
 
 **Tip:** Click on the table headers to sort the columns or use `Ctrl + F` to find a specific pack.
 
-## Expansion Packs
+## <i class="fas fa-expand-arrows-alt"></i> Expansion Packs
 
-| Code | English | Deutsch | Español |
+| Code | en | de | es |
 | :--- | :--- | :--- | :--- |
 {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "EP" %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endif %}{% endfor %}
 
-## Game Packs
+## <i class="fas fa-gamepad"></i> Game Packs
 
-| Code | English | Deutsch | Español |
+| Code | en | de | es |
 | :--- | :--- | :--- | :--- |
 {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "GP" %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endif %}{% endfor %}
 
-## Stuff Packs
+## <i class="fas fa-tshirt"></i> Stuff Packs
 
-| Code | English | Deutsch | Español |
-| :--- | :--- | :--- | :--- |
-{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% if sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
-| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
+| Code | en | de | es |
+| :---: | :--- | :--- | :--- |
+{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% if sp_num <= 18 or sp_num == 46 or sp_num == 49 %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endif %}{% endif %}{% endfor %}
 
-## Kits
+## <i class="fas fa-puzzle-piece"></i> Kits
 
-| Code | English | Deutsch | Español |
-| :--- | :--- | :--- | :--- |
-{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% unless sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
-| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
+| Code | en | de | es |
+| :---: | :--- | :--- | :--- |
+{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% unless sp_num <= 18 or sp_num == 46 or sp_num == 49 %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endunless %}{% endif %}{% endfor %}
 
 <script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js"></script>
@@ -57,14 +55,16 @@ This list provides an overview of all official abbreviations and codes for **The
 
   /* --- Markierung der aktuellen Zeile --- */
   .sortable tbody tr:hover {
-    background-color: rgba(100, 149, 237, 0.15) !important; /* Ein sanftes Blau */
+    background-color: var(--bs-table-hover-bg); /* Nutzt die Chirpy Theme Farbe */
     transition: background-color 0.2s ease;
   }
 </style>
 
 <script>
-  // Fügt die Sortier-Klasse zu allen Tabellen hinzu
-  document.querySelectorAll("table").forEach(table => {
-    table.classList.add("sortable");
+  // WICHTIG: Wartet, bis die Seite komplett geladen ist
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("table").forEach(function(table) {
+      table.classList.add("sortable");
+    });
   });
 </script>
