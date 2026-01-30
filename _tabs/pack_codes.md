@@ -113,7 +113,7 @@ This list provides an overview of all official abbreviations for **The Sims 4** 
 
   /* --- Spalte 1: Minimale Breite --- */
   th:nth-child(1), td:nth-child(1) { 
-    width: 1%;          
+    width: 5%;          
     white-space: nowrap; 
     text-align: center;
     padding-right: 20px; 
