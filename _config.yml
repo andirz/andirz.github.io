@@ -29,7 +29,7 @@ github:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: Andirz Mods
+  name: Andirz
   email: sims4andirz@gmail.com 
   links:
     # The first element serves as the copyright owner's link
@@ -79,10 +79,8 @@ pageviews:
 # on the bottom left of the sidebar.
 #
 # Available options:
-#
 #     light — Use the light color scheme
 #     dark — Use the dark color scheme
-#
 theme_mode: # [light | dark]
 
 # The CDN endpoint for media resources.
@@ -100,7 +98,7 @@ avatar: /assets/images/icons/pack_ep05.png
 social_preview_image: # string, local or CORS resources
 
 # boolean type, the global switch for  in posts.
-toc: false
+toc: true
 
 comments:
   # Global switch for the post-comment system. Keeping it empty means disabled.
@@ -145,7 +143,7 @@ pwa:
 paginate: 10
 
 # The base URL of your site
-baseurl: ""
+baseurl: "http://andirz-mods.com"
 
 # ------------ The following options are not recommended to be modified ------------------
 
