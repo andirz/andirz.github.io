@@ -1,9 +1,10 @@
 # _data/globals.yml
 
 # LINKS
-discord: 'https://discord.gg/f7EM7SNXtz'
-patreon: 'https://www.patreon.com/andirz'
-curseforge: 'https://sims4andirz.my.curseforge.com'
+links:
+  discord: "https://discord.gg/f7EM7SNXtz"
+  patreon: "https://www.patreon.com/andirz"
+  curseforge: "https://sims4andirz.my.curseforge.com"
 
 # PATCH STATUS
 latest_patch: "1.111.102"
