@@ -3,6 +3,7 @@ layout: page
 title: Support
 icon: fas fa-question-circle
 order: 4
+toc: true
 ---
 
 ## <i class="fas fa-info-circle"></i> Support Overview & Guidelines
