@@ -193,11 +193,12 @@ defaults:
       comments: true
   - scope:
       path: ""
-      type: tabs # see `site.collections`
+      type: tabs
     values:
       layout: page
       permalink: /:title/
       toc: true
+      comments: true
 
 sass:
   style: compressed
