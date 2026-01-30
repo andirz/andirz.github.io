@@ -132,24 +132,84 @@ GP12:
   de: "Werwölfe"
   es: "Hombres Lobo"
 
-# Stuff Packs & Kits (SP)
+# Stuff Packs
 SP01:
   en: "Luxury Party"
   de: "Luxus-Party"
-  es: "Fiesta de Glampour"
-SP20:
-  en: "Retro Fit & Chic Set"
-  de: "Retro Fit & Chic Set"
-  es: "Zafarrancho de Limpieza"
+  es: "Fiesta Glamurosa"
+SP02:
+  en: "Perfect Patio"
+  de: "Sonnenterrassen"
+  es: "Patio de Ensueño"
+SP03:
+  en: "Cool Kitchen"
+  de: "Coole Küche"
+  es: "Cocina Divina"
+SP04:
+  en: "Spooky"
+  de: "Grusel"
+  es: "Escalofriante"
+SP05:
+  en: "Movie Hangout"
+  de: "Heimkino"
+  es: "Noche de Cine"
+SP06:
+  en: "Romantic Garden"
+  de: "Romantischer Garten"
+  es: "Jardín Romántico"
+SP07:
+  en: "Kids Room"
+  de: "Kinderzimmer"
+  es: "Cuarto de Niños"
+SP08:
+  en: "Backyard"
+  de: "Gartenspaß"
+  es: "Diversión en el Patio"
+SP09:
+  en: "Vintage Glamour"
+  de: "Vintage Glamour"
+  es: "Glamour Vintage"
+SP10:
+  en: "Bowling Night"
+  de: "Bowling-Abend"
+  es: "Noche de Bolos"
+SP11:
+  en: "Fitness"
+  de: "Fitness"
+  es: "Fitness"
+SP12:
+  en: "Toddler"
+  de: "Kleinkind"
+  es: "Infantes"
+SP13:
+  en: "Laundry Day"
+  de: "Waschtag"
+  es: "Día de Colada"
+SP14:
+  en: "My First Pet"
+  de: "Mein erstes Haustier"
+  es: "Mi Primera Mascota"
+SP15:
+  en: "Moschino"
+  de: "Moschino"
+  es: "Moschino"
+SP16:
+  en: "Tiny Living"
+  de: "Tiny Houses"
+  es: "Minicasas"
+SP17:
+  en: "Nifty Knitting"
+  de: "Schick mit Strick"
+  es: "Portentos del Punto"
+SP18:
+  en: "Paranormal"
+  de: "Paranormale Phänomene"
+  es: "Fenómenos Paranormales"
 SP46:
   en: "Home Chef Hustle"
   de: "Lukrative Hobbyküche"
-  es: "Cocina de Autor"
+  es: "Chef de Casa"
 SP49:
   en: "Crystal Creations"
   de: "Kristallkreationen"
   es: "Creaciones Cristalinas"
-SP68:
-  en: "SpongeBob's House Set"
-  de: "SpongeBobs Haus-Set"
-  es: "Set de la Casa de Bob Esponja"
