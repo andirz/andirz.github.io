@@ -98,7 +98,6 @@
   .btn-download:hover { background: #1d4ed8; transform: translateY(-1px); }
   .btn-download:active { transform: translateY(0); }
 
-  /* Mobile Adjustments */
   @media (max-width: 600px) {
     .hero-icon-section {
       width: 100%;
@@ -110,12 +109,49 @@
   }
 </style>
 
-{% comment %} Suche in der Liste nach der Mod-Daten {% endcomment %}
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 
 {% if mod %}
 <div class="andirz-mod-hero">
-  <div class="hero-actions">
+  <div class="hero-icon-section">
+    <i class="{{ mod.icon | default: 'fas fa-box' }}"></i>
+  </div>
+
+  <div class="hero-content-section">
+    <div class="hero-header">
+      <h1 class="hero-title">{{ mod.name }}</h1>
+      <span class="hero-status-badge status-{{ mod.status | downcase }}">
+        {{ mod.status }}
+      </span>
+    </div>
+
+    <div class="hero-data-grid">
+      <div class="data-field">
+        <span class="data-label">Version</span>
+        <span class="data-value">{{ mod.version }}</span>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Last Updated</span>
+        <span class="data-value">{{ mod.updated }}</span>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Requirements</span>
+        <span class="data-value">
+          {% assign has_req = false %}
+          {% if mod.requirements.size > 0 %}
+            {% for req in mod.requirements %}
+              {% if req != "BG" %}
+                {{ req }}{% unless forloop.last %}, {% endunless %}
+                {% assign has_req = true %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% if has_req == false %}—{% endif %}
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-actions">
       {% if mod.download_url and mod.download_url != "" %}
         <a href="{{ mod.download_url }}" target="_blank" class="btn-download">
           <i class="fas fa-download"></i> Download Mod
@@ -126,7 +162,8 @@
         </span>
       {% endif %}
     </div>
-
+  </div> </div> {% else %}
+  <div style="padding: 20px; border: 2px dashed #dc3545; color: #dc3545; border-radius: 8px; text-align: center;">
+    <strong>Error:</strong> Mod ID "{{ page.mod_id }}" not found in mods.yml.
   </div>
-</div>
 {% endif %}
