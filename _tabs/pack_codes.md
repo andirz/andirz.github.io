@@ -10,30 +10,30 @@ This list provides an overview of all official abbreviations and codes for **The
 
 **Tip:** Click on the table headers to sort the columns or use `Ctrl + F` to find a specific pack.
 
-## <i class="fas fa-expand-arrows-alt"></i> Expansion Packs
+## Expansion Packs
 
-| Code | en | de | es |
+| Code <i onclick="smartSort(this, 0)" class="fas fa-sort"></i> | en <i onclick="smartSort(this, 1)" class="fas fa-sort"></i> | de <i onclick="smartSort(this, 2)" class="fas fa-sort"></i> | es <i onclick="smartSort(this, 3)" class="fas fa-sort"></i> |
 | :--- | :--- | :--- | :--- |
 {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "EP" %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endif %}{% endfor %}
 
-## <i class="fas fa-gamepad"></i> Game Packs
+## Game Packs
 
-| Code | en | de | es |
+| Code <i onclick="smartSort(this, 0)" class="fas fa-sort"></i> | en <i onclick="smartSort(this, 1)" class="fas fa-sort"></i> | de <i onclick="smartSort(this, 2)" class="fas fa-sort"></i> | es <i onclick="smartSort(this, 3)" class="fas fa-sort"></i> |
 | :--- | :--- | :--- | :--- |
 {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "GP" %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endif %}{% endfor %}
 
-## <i class="fas fa-tshirt"></i> Stuff Packs
+## Stuff Packs
 
-| Code | en | de | es |
+| Code <i onclick="smartSort(this, 0)" class="fas fa-sort"></i> | en <i onclick="smartSort(this, 1)" class="fas fa-sort"></i> | de <i onclick="smartSort(this, 2)" class="fas fa-sort"></i> | es <i onclick="smartSort(this, 3)" class="fas fa-sort"></i> |
 | :---: | :--- | :--- | :--- |
 {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% if sp_num <= 18 or sp_num == 46 or sp_num == 49 %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endif %}{% endif %}{% endfor %}
 
-## <i class="fas fa-puzzle-piece"></i> Kits
+## Kits
 
-| Code | en | de | es |
+| Code <i onclick="smartSort(this, 0)" class="fas fa-sort"></i> | en <i onclick="smartSort(this, 1)" class="fas fa-sort"></i> | de <i onclick="smartSort(this, 2)" class="fas fa-sort"></i> | es <i onclick="smartSort(this, 3)" class="fas fa-sort"></i> |
 | :---: | :--- | :--- | :--- |
 {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% unless sp_num <= 18 or sp_num == 46 or sp_num == 49 %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
 {% endunless %}{% endif %}{% endfor %}
@@ -97,30 +97,42 @@ This list provides an overview of all official abbreviations and codes for **The
   }
 </style>
 
-<script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js"></script>
-<link href="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.css" rel="stylesheet">
-
 <script>
-  function initSortable() {
-    // Finde alle Tabellen
-    const tables = document.querySelectorAll("table");
-    
-    if (tables.length > 0) {
-      tables.forEach(table => {
-        // Füge die Klasse hinzu, die das Plugin benötigt
-        table.classList.add("sortable");
-      });
-      console.log("Sortable initialized for " + tables.length + " tables.");
+function smartSort(element, n) {
+  // Findet die Tabelle, in der das geklickte Icon liegt
+  var table = element.closest('table');
+  var rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  switching = true;
+  dir = "asc";
+  
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    // Wir starten bei 1, um den Header zu überspringen
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      
+      var xValue = x.innerText.toLowerCase();
+      var yValue = y.innerText.toLowerCase();
+      
+      if (dir == "asc") {
+        if (xValue > yValue) { shouldSwitch = true; break; }
+      } else if (dir == "desc") {
+        if (xValue < yValue) { shouldSwitch = true; break; }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
     } else {
-      // Falls die Tabellen noch nicht da sind (Timing-Problem), kurz warten
-      setTimeout(initSortable, 100);
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
     }
   }
-
-  // Starte die Initialisierung sofort und nach dem Laden
-  if (document.readyState === "complete") {
-    initSortable();
-  } else {
-    window.addEventListener("load", initSortable);
-  }
+}
 </script>
