@@ -32,8 +32,16 @@ All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}<
         </td>
         
         <td style="padding: 12px;">
-          <a href="{{ mod.curseforge | default: mod.github | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold; display: block;">
-            {{ mod.name }}
+          {% assign mod_page = site.mods | where: "mod_id", mod.id | first %}        
+          {% if mod_page %}
+            {% assign target_link = mod_page.url | relative_url %}
+          {% else %}
+            {% assign target_link = "#" %}
+          {% endif %}
+          <a href="{{ target_link }}" 
+             style="text-decoration: none; color: var(--link-color); font-weight: bold; display: flex; align-items: center; gap: 10px; {% if target_link == '#' %} cursor: default; opacity: 0.8; {% endif %}">
+            <i class="{{ mod.icon }}" style="width: 20px; text-align: center;"></i>
+            <span>{{ mod.name }}</span>
           </a>
         </td>
         
