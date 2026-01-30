@@ -26,32 +26,18 @@ Click on the headers to sort the columns.
 ## Stuff Packs
 
 | Code | English | Deutsch | Español |
-| :---: | :--- | :--- | :--- |
-{% for pack in site.data.packs %}
-  {% assign code = pack[0] %}
-  {% assign info = pack[1] %}
-  {% if code contains "SP" %}
-    {% assign sp_number = code | remove: "SP" | plus: 0 %}
-    {% if sp_number <= 18 or sp_number == 46 or sp_number == 49 %}
+| :--- | :--- | :--- | :--- |
+{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% if sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
 | **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
-    {% endif %}
-  {% endif %}
-{% endfor %}
+{% endif %}{% endif %}{% endfor %}
 
 ## Kits
 
 | Code | English | Deutsch | Español |
-| :---: | :--- | :--- | :--- |
-{% for pack in site.data.packs %}
-  {% assign code = pack[0] %}
-  {% assign info = pack[1] %}
-  {% if code contains "SP" %}
-    {% assign sp_number = code | remove: "SP" | plus: 0 %}
-    {% unless sp_number <= 18 or sp_number == 46 or sp_number == 49 %}
+| :--- | :--- | :--- | :--- |
+{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% unless sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
 | **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
-    {% endunless %}
-  {% endif %}
-{% endfor %}
+{% endunless %}{% endif %}{% endfor %}
 
 <script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js"></script>
 <link href="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.css" rel="stylesheet">
