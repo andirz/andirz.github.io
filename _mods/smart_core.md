@@ -35,3 +35,5 @@ The Smart Core Script is localized for a global community. If your game is set t
 
 ### For Modders & Users
 If you are using one of my mods and notice that custom menus (like the SimSim Store or special pie menus) are missing, please ensure that you have the **latest version** of this Core Script installed in your Mods folder.
+
+{% include script_notice.html %}
