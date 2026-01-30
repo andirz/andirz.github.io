@@ -1,7 +1,7 @@
 <footer class="d-flex w-100 justify-content-start">
   <div class="footer-left">
     <p class="mb-0 text-muted" style="font-size: 0.8rem; opacity: 0.8;">
-      © {{ 'now' | date: "%Y" }} {{ site.title }} | 
+      © 2026{% assign current_year = 'now' | date: "%Y" %}{% if current_year != "2026" %}–{{ current_year }}{% endif %} {{ site.title }} | 
       <a href="{{ '/impressum/' | relative_url }}" class="text-muted">Impressum</a>
     </p>
   </div>
