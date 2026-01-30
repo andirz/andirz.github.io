@@ -194,14 +194,6 @@ defaults:
       layout: page
       permalink: /:title/
       panel: false
-  - scope:
-      path: ""         
-      type: tutorials  
-    values:
-      layout: page     
-      permalink: /tutorials/support/:title/
-      image: /assets/images/TS4-ICON-BG (470).png
-      panel: false
 
 sass:
   style: compressed
