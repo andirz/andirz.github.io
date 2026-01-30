@@ -1,16 +1,22 @@
-/* 1. Versteckt das rechte Panel komplett auf allen Seiten */
-#panel-wrapper {
-  display: none !important;
+
+/* Custom Status Info Box */
+
+.status-info-box {
+  background: rgba(0, 123, 255, 0.05);
+  padding: 18px;
+  border-radius: 12px;
+  border-left: 5px solid #007bff;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* 2. Zwingt den Hauptinhalt auf die volle Breite (100%) */
-#main-wrapper {
-  max-width: 100% !important;
-  flex: 0 0 100% !important;
-  border-right: none !important; /* Entfernt die Trennlinie falls vorhanden */
+.status-info-box i {
+  color: #007bff;
+  font-size: 1.1em;
 }
 
-/* 3. Optional: Zentrierung des Inhalts optimieren */
-.container {
-  max-width: 1200px !important; /* Oder 'none' für absolute volle Breite */
+.status-info-box strong {
+  font-weight: 600;
 }
