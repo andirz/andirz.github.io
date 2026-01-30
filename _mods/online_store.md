@@ -7,7 +7,7 @@ toc: true
 
 The **SimSim Online Store** revolutionizes how your Sims shop. It integrates seamlessly with the *Better Live Shopping* system.
 
-{% include infobox.html mod_id="online_store" %}
+{% include mod_infobox.html mod_id="online_store" %}
 
 ## Overview
 Describe your mod here. Add some cool screenshots!
