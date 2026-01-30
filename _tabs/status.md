@@ -72,7 +72,7 @@ order: 2
         <td style="padding: 12px;">
           <div style="display: flex; flex-wrap: wrap; gap: 4px;">
             {% assign has_content = false %}
-
+        
             {% if mod.requirements.size > 0 %}
               {% for req_id in mod.requirements %}
                 {% if req_id != "BG" %}
@@ -84,7 +84,7 @@ order: 2
                 {% endif %}
               {% endfor %}
             {% endif %}
-
+        
             {% if mod.dependencies.size > 0 %}
               {% for dep_id in mod.dependencies %}
                 {% assign dep_mod = site.data.mods | where: "id", dep_id | first %}
@@ -94,9 +94,9 @@ order: 2
                 {% assign has_content = true %}
               {% endfor %}
             {% endif %}
-
+        
             {% if has_content == false %}
-              <span style="color: #ccc; font-style: italic; font-size: 0.8rem;">None</span>
+              <span style="color: #ccc; font-weight: bold;">—</span>
             {% endif %}
           </div>
         </td>
