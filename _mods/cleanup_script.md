@@ -32,9 +32,8 @@ The **Cleanup Script for Windows** is a utility designed to keep your *The Sims 
 ## Why you should delete cache files
 Over time, cache files can become corrupted, especially after game updates. Deleting them forces the game to regenerate fresh data. Read more in [Crinrict's Guide: How to delete cache files](https://sims4.crinrict.com/eng/2014/09/delete-cache-files/).
 
-## Improved Permissions (New in v.1.3+)
-I have added a check to the script to ensure it runs with **Administrator rights**. If it lacks permissions, it will automatically restart and ask for permission. 
-* *Note: This was implemented to fix reports where the script "did nothing" for some users. If you still encounter issues, please let me know!*
+## Improved Permissions
+I have added a check to the script to ensure it runs with **Administrator rights**. If it lacks permissions, it will automatically restart and ask for permission. This was implemented to fix reports where the script "did nothing" for some users. If you still encounter issues, please let me know!
 
 ## How to use this script
 This is a self-executable [Batch file](https://en.wikipedia.org/wiki/Batch_file). 
