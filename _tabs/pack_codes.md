@@ -14,9 +14,9 @@ This list provides an overview of all official abbreviations for **The Sims 4** 
     <thead>
       <tr>
         <th onclick="sortTable('tableEP', 0)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableEP', 1)">EN <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableEP', 2)">DE <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableEP', 3)">ES <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableEP', 1)">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableEP', 2)">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableEP', 3)">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -38,9 +38,9 @@ This list provides an overview of all official abbreviations for **The Sims 4** 
     <thead>
       <tr>
         <th onclick="sortTable('tableGP', 0)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableGP', 1)">EN <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableGP', 2)">DE <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableGP', 3)">ES <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableGP', 1)">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableGP', 2)">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableGP', 3)">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -62,9 +62,9 @@ This list provides an overview of all official abbreviations for **The Sims 4** 
     <thead>
       <tr>
         <th onclick="sortTable('tableSP', 0)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableSP', 1)">EN <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableSP', 2)">DE <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableSP', 3)">ES <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableSP', 1)">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableSP', 2)">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableSP', 3)">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -86,9 +86,9 @@ This list provides an overview of all official abbreviations for **The Sims 4** 
     <thead>
       <tr>
         <th onclick="sortTable('tableKits', 0)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableKits', 1)">EN <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableKits', 2)">DE <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableKits', 3)">ES <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableKits', 1)">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableKits', 2)">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable('tableKits', 3)">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -105,12 +105,43 @@ This list provides an overview of all official abbreviations for **The Sims 4** 
 </div>
 
 <style>
-  table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; table-layout: fixed; }
-  th { background: rgba(0,0,0,0.03); padding: 12px; border-bottom: 2px solid var(--border-color); cursor: pointer; text-align: left; }
-  th:hover { background: rgba(0,123,255,0.1); }
-  th i { font-size: 0.7rem; opacity: 0.4; margin-left: 5px; }
-  td { padding: 10px; border-bottom: 1px solid var(--border-color); }
-  tr:hover { background: rgba(0,123,255,0.05); }
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-bottom: 2rem; 
+  }
+
+  /* --- Spalte 1: Minimale Breite --- */
+  th:nth-child(1), td:nth-child(1) { 
+    width: 1%;          
+    white-space: nowrap; 
+    text-align: center;
+    padding-right: 20px; 
+    font-family: monospace;
+  }
+
+  /* --- Sprachen: Gleichmäßige Verteilung des Rests --- */
+  th:nth-child(2), th:nth-child(3), th:nth-child(4) { 
+    width: auto; 
+  }
+
+  /* --- Design & Hover --- */
+  th { 
+    background: rgba(0,0,0,0.03); 
+    padding: 12px 8px; 
+    border-bottom: 2px solid var(--border-color); 
+    cursor: pointer; 
+    text-align: left;
+  }
+
+  th:hover { background: rgba(0,123,255,0.1) !important; }
+
+  /* Zeilen-Hover für die ganze Zeile */
+  tbody tr { transition: background-color 0.15s ease; }
+  tbody tr:hover { background-color: rgba(0, 123, 255, 0.08) !important; }
+  td { padding: 10px 8px; border-bottom: 1px solid var(--border-color); }
+  th i { font-size: 0.7rem; opacity: 0.4; float: right; margin-top: 4px; }
+  
   .table-wrapper { overflow-x: auto; }
 </style>
 
