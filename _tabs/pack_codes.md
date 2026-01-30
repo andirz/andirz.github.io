@@ -115,7 +115,7 @@ Click on the table headers to sort the columns or use `Ctrl + F` to find a speci
 
   /* --- Spalte 1: Minimale Breite --- */
   th:nth-child(1), td:nth-child(1) { 
-    width: 8%;          
+    width: 12%;          
     white-space: nowrap; 
     text-align: center;
     padding-right: 20px; 
