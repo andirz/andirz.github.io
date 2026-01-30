@@ -5,8 +5,9 @@
 - id: cleanup_script
   name: "Cleanup Script for Windows"
   icon: "fas fa-broom"
-  version: "1.3.0"
+  version: "1.4.0"
   status: "compatible"
+  updated: "2026-01-04"
 
 - id: smartcore
   name: "Smart Core Script"
