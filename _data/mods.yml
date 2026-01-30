@@ -9,26 +9,26 @@
   status: "compatible"
   updated: "2026-01-04"
 
-- id: smartcore
+- id: smart_core
   name: "Smart Core Script"
   icon: "fas fa-microchip"
-  version: "2.1.2"
+  version: "2.7.2"
   status: "updated"
-  updated: "2026-01-29"
-  github: "https://github.com/Andirz/"
-  patreon: "https://www.patreon.com/"
+  updated: "2026-01-12"
 
 - id: trait_tracker_injector
   name: "Trait Tracker Injector"
   icon: "fas fa-syringe"
   version: "2.0.1"
   status: "compatible"
+  updated: "2025-07-02"
 
 - id: injection_tools
   name: "Injection Tools"
   icon: "fas fa-tools"
   version: "2.0.1"
   status: "compatible"
+  updated: "2025-07-02"
 
 - id: autofill_personality_traits
   name: "AutoFill Personality Traits"
