@@ -37,7 +37,7 @@
 
 - id: object_tuning_replacement
   name: "Object Tuning Replacement"
-  icon: "fas fa-cog"
+  icon: "fas fa-lamp"
   version: "1.1.2"
   status: "compatible"
 
@@ -88,7 +88,7 @@
 
 - id: purchase_occult_books
   name: "Purchase Occult Books"
-  icon: "fas fa-quill-pen"
+  icon: "fas fa-book-dead"
   version: "2.0.0"
   status: "compatible"
 
@@ -136,7 +136,7 @@
 
 - id: better_vending_machines
   name: "Better Vending Machines"
-  icon: "fas fa-cookie-bite"
+  icon: "fas fa-cash-register"
   version: "1.0.0"
   status: "compatible"
 
@@ -207,7 +207,7 @@
 
 - id: skill_class_reloaded
   name: "Skill Class Reloaded"
-  icon: "fas fa-book-reader"
+  icon: "fas fa-school"
   version: "3.0.0"
   requirements: ["EP08"]
   status: "compatible"
@@ -222,13 +222,13 @@
 
 - id: urn_stone_overhaul
   name: "Urn/Stone Overhaul"
-  icon: "fas fa-tombstone"
+  icon: "fas fa-cross"
   version: "2.3.1"
   status: "broken"
 
 - id: deadly_poisons
   name: "Deadly Poisons"
-  icon: "fas fa-skull-crossbones"
+  icon: "fas fa-flask"
   version: "1.2.2"
   requirements: ["EP01", "GP06"]
   status: "compatible"
@@ -364,13 +364,13 @@
 
 - id: body_hair_replacement_luumia
   name: "Body Hair Replacement: Luumia Edition"
-  icon: "fas fa-user-tag"
+  icon: "fas fa-razor"
   version: "1.0.1"
   status: "compatible"
 
 - id: no_war_fashion
   name: "#NoWar Fashion (CAS)"
-  icon: "fas fa-vest"
+  icon: "fas fa-peace"
   version: "1.0.0"
   status: "compatible"
 
