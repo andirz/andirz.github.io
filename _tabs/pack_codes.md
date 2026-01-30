@@ -6,7 +6,7 @@ order: 3
 toc: true
 ---
 
-This list provides an overview of all official abbreviations for **The Sims 4** Packs. Click on the headers to sort the columns.
+This list provides an overview of all official abbreviations and codes for **The Sims 4** Packs. It is a helpful resource for modders and players to identify packs across different languages. Click on the table headers to sort the columns or use `Ctrl + F` to find a specific pack.
 
 ## <i class="fas fa-expand-arrows-alt"></i> Expansion Packs
 <div class="table-wrapper">
