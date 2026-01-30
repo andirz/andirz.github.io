@@ -213,3 +213,217 @@ SP49:
   en: "Crystal Creations"
   de: "Kristallkreationen"
   es: "Creaciones Cristalinas"
+
+# Kits
+SP20:
+  en: "Throwback Fit"
+  de: "Retro Fit & Chic"
+  es: "Moda Retro"
+SP21:
+  en: "Country Kitchen"
+  de: "Landhaus-Küche"
+  es: "Cocina Campestre"
+SP22:
+  en: "Bust The Dust"
+  de: "Hausputz"
+  es: "Zafarrancho de Limpieza"
+SP23:
+  en: "Courtyard Oasis"
+  de: "Innenhof-Oase"
+  es: "Oasis en el Patio"
+SP24:
+  en: "Fashion Street"
+  de: "Fashion Street"
+  es: "Fashion Street"
+SP25:
+  en: "Industrial Loft"
+  de: "Industrie-Loft"
+  es: "Loft Industrial"
+SP26:
+  en: "Incheon Arrivals"
+  de: "Incheon Style"
+  es: "Moda de Aeropuerto"
+SP28:
+  en: "Modern Menswear"
+  de: "Moderne Männermode"
+  es: "Moda Masculina Moderna"
+SP29:
+  en: "Blooming Rooms"
+  de: "Blühende Räume"
+  es: "Decoración Vegetal"
+SP30:
+  en: "Carnaval Streetwear"
+  de: "Karnevals-Streetwear"
+  es: "Colores de Carnaval"
+SP31:
+  en: "Decor to the Max"
+  de: "Maximalistischer Wohnstil"
+  es: "Decoración Maximalista"
+SP32:
+  en: "Moonlight Chic"
+  de: "Mode zum Verlieben"
+  es: "Noches Chic"
+SP33:
+  en: "Little Campers"
+  de: "Kleine Camper"
+  es: "Minicampistas"
+SP34:
+  en: "First Fits"
+  de: "Erste Outfits"
+  es: "Moda Mini"
+SP35:
+  en: "Desert Luxe"
+  de: "Wüstenoase"
+  es: "Oasis de Lujo"
+SP36:
+  en: "Pastel Pop"
+  de: "Pastell-Pop"
+  es: "Pastel Pop"
+SP37:
+  en: "Everyday Clutter"
+  de: "Krimskrams"
+  es: "Desorden Decorativo"
+SP38:
+  en: "Simtimates Collection"
+  de: "Unterwäsche"
+  es: "Moda Íntima"
+SP39:
+  en: "Bathroom Clutter"
+  de: "Badutensilien"
+  es: "Objetos para el Baño"
+SP40:
+  en: "Greenhouse Haven"
+  de: "Gewächshaus"
+  es: "Invernadero Idílico"
+SP41:
+  en: "Basement Treasures"
+  de: "Dachbodenschätze"
+  es: "Tesoros del Sótano"
+SP42:
+  en: "Grunge Revival"
+  de: "Grunge-Revival"
+  es: "Vuelta al Grunge"
+SP43:
+  en: "Book Nook"
+  de: "Leseecke"
+  es: "Rincón de Lectura"
+SP44:
+  en: "Poolside Splash"
+  de: "Pool-Style"
+  es: "¡Al Agua, Patos!"
+SP45:
+  en: "Modern Luxe"
+  de: "Moderner Luxus"
+  es: "Lujo Moderno"
+SP47:
+  en: "Castle Estate"
+  de: "Burgen und Schlösser"
+  es: "Castillo con Clase"
+SP48:
+  en: "Goth Galore"
+  de: "Gothic-Style"
+  es: "Gusto Gótico"
+SP50:
+  en: "Urban Homage"
+  de: "Urbane Mode"
+  es: "Homenaje Urbano"
+SP51:
+  en: "Party Essentials"
+  de: "Partyzubehör"
+  es: "Decoración Festiva"
+SP52:
+  en: "Riviera Retreat"
+  de: "Riviera-Idyll"
+  es: "Retiro en la Riviera"
+SP53:
+  en: "Cozy Bistro"
+  de: "Gemütliches Bistro"
+  es: "Bistró Acogedor"
+SP54:
+  en: "Artist Studio"
+  de: "Atelier"
+  es: "Estudio de Arte"
+SP55:
+  en: "Storybook Nursery"
+  de: "Wundersames Kinderzimmer"
+  es: "Cuarto de Cuentos"
+SP56:
+  en: "Sweet Slumber Party"
+  de: "Süße Pyjamaparty"
+  es: "Fiesta de Pijamas"
+SP57:
+  en: "Cozy Kitsch"
+  de: "Gemütlicher Kitsch"
+  es: "Caprichos Kitsch"
+SP58:
+  en: "Comfy Gamer"
+  de: "Gemütliches Gaming"
+  es: "Rincón Gamer"
+SP59:
+  en: "Secret Sanctuary"
+  de: "Geheimer Rückzugsort"
+  es: "Santuario Secreto"
+SP60:
+  en: "Casanova Cave"
+  de: "Casanova-Höhle"
+  es: "Cuarto de Casanova"
+SP61:
+  en: "Refined Living Room"
+  de: "Elegantes Wohnzimmer"
+  es: "Salón Sofisticado"
+SP62:
+  en: "Business Chic"
+  de: "Business-Outfit"
+  es: "Elegancia Ejecutiva"
+SP63:
+  en: "Sleek Bathroom"
+  de: "Elegantes Badezimmer"
+  es: "Baño Elegante"
+SP64:
+  en: "Sweet Allure"
+  de: "Entzückender Style"
+  es: "Estilo Encantador"
+SP65:
+  en: "Restoration Workshop"
+  de: "Restauration-Werkstatt"
+  es: "Taller de Restauración"
+SP66:
+  en: "Golden Years"
+  de: "Zweiter Frühling"
+  es: "Años Dorados"
+SP67:
+  en: "Kitchen Clutter"
+  de: "Küchen-Allerlei"
+  es: "Menaje de Cocina"
+SP68:
+  en: "SpongeBob’s House"
+  de: "SpongeBobs Haus"
+  es: "Casa de Bob Esponja"
+SP69:
+  en: "Autumn Apparel"
+  de: "Herbst-Mode"
+  es: "Moda de Otoño"
+SP70:
+  en: "SpongeBob Kid’s Room"
+  de: "SpongeBobs Kinderzimmer"
+  es: "Cuarto infantil de Bob Esponja"
+SP71:
+  en: "Grange Mudroom"
+  de: "Ländlicher Eingangsbereich"
+  es: "Recibidor Rural"
+SP72:
+  en: "Essential Glam"
+  de: "Essenzieller Glamour"
+  es: "Maquillaje con Glamour"
+SP73:
+  en: "Modern Retreat"
+  de: "Moderne Entspannung"
+  es: "Retiro Moderno"
+SP74:
+  en: "Garden to Table"
+  de: "Vom Garten auf den Tisch"
+  es: "Del Jardín a la Mesa"
+SP81:
+  en: "Prairie Dreams"
+  de: "Prärie-Träume"
+  es: "Sueños de la Pradera"
