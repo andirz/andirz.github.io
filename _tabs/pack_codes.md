@@ -113,7 +113,7 @@ This list provides an overview of all official abbreviations and codes for **The
 
   /* --- Spalte 1: Minimale Breite --- */
   th:nth-child(1), td:nth-child(1) { 
-    width: 5%;          
+    width: 8%;          
     white-space: nowrap; 
     text-align: center;
     padding-right: 20px; 
