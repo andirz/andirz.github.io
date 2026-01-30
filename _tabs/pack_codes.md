@@ -10,23 +10,20 @@ In this overview, you will find the official abbreviations for **The Sims 4** Pa
 Click on the headers to sort the columns.
 
 ## Expansion Packs
-Expansion Packs are the largest type of DLC for The Sims 4. They focus on major new features, large worlds, and significant gameplay overhauls.
 
 | Code | English | Deutsch | Español |
-| :---: | :--- | :--- | :--- |
-{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "EP" %}
-| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |{% endif %}{% endfor %}
+| :--- | :--- | :--- | :--- |
+{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "EP" %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
+{% endif %}{% endfor %}
 
 ## Game Packs
-Game Packs are mid-sized DLCs that fall between Expansion Packs and Stuff Packs. They usually introduce a new world and unique, themed gameplay systems or careers.
 
 | Code | English | Deutsch | Español |
-| :---: | :--- | :--- | :--- |
-{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "GP" %}
-| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |{% endif %}{% endfor %}
+| :--- | :--- | :--- | :--- |
+{% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "GP" %}| **{{ code }}** | {{ info.en }} | {{ info.de }} | {{ info.es }} |
+{% endif %}{% endfor %}
 
 ## Stuff Packs
-Stuff Packs are smaller DLCs that typically focus on a specific theme, providing a collection of themed furniture, clothing, and one or two functional gameplay objects.
 
 | Code | English | Deutsch | Español |
 | :---: | :--- | :--- | :--- |
@@ -42,7 +39,6 @@ Stuff Packs are smaller DLCs that typically focus on a specific theme, providing
 {% endfor %}
 
 ## Kits
-Kits are mini-collections of content designed to add a very specific style or a single gameplay feature. Even though they often use "SP" codes internally, they are categorized as Kits.
 
 | Code | English | Deutsch | Español |
 | :---: | :--- | :--- | :--- |
