@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "How to Submit Mod Support Requests"
+order: 7
 image: /assets/images/TS4-ICON-BG (30).png
 ---
 
