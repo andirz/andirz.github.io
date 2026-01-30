@@ -1,10 +1,8 @@
 ---
 layout: page
 title: Mod Status
-permalink: /status/
 icon: fas fa-tools
 order: 2
-panel: false
 ---
 
 {% assign latest_patch = site.data.globals.latest_patch %}
