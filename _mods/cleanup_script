@@ -1,0 +1,37 @@
+---
+layout: default
+mod_id: cleanup_script
+title: Cleanup Script for Windows
+---
+
+{% include mod-infobox.html %}
+
+## What does this tool do?
+The **Cleanup Script** is a powerful utility for The Sims 4 players on Windows. It automates the tedious process of clearing temporary cache files and logs that can slow down your game or cause errors.
+
+### Features
+This script safely deletes the following data to keep your game folder "lean and clean":
+* **Folders:** `onlinethumbnailcache`, `cachestr`
+* **Optional Folders (deleted only if empty):** `Screenshots`, `Recorded Videos`, `ConfigOverride`
+* **Package Files:** `localthumbcache.package`, `avatarcache.package`, `localsimtexturecache.package`
+* **Log & Lock Files:** `UserData.lock`, `lastException.txt`, `lastUIException.txt`, `WickedWhimsInfoLog.log`, and many more.
+
+> **Safety First:** Starting from version 1.3.0, the `houseDescription-client.package` file is **excluded** from deletion to ensure your household descriptions remain safe. No files from your `Mods` or `Saves` folders will ever be touched!
+
+## How to use
+This is not a traditional mod, but a self-executable **.bat** script.
+
+1. **Placement:** Do NOT put this file in your Mods folder. Place it directly into your **The Sims 4** main folder (where you also see the "Mods", "Saves", and "Tray" folders).
+2. **Execution:** Double-click the script. 
+3. **Permissions:** The script automatically checks for admin rights. If needed, it will ask to restart with elevated permissions to ensure all files can be deleted.
+
+## Why use it?
+Over time, The Sims 4 accumulates a lot of "junk" files. Deleting these is a standard troubleshooting step recommended by modders and EA to:
+* Fix visual glitches (thumbnail cache).
+* Resolve mod conflicts after updating.
+* Reduce loading times in some cases.
+
+---
+
+### Security Note
+If you are hesitant to run a batch script, you can always right-click the file and select **"Edit"**. This allows you to see the exact commands and verify that it only deletes the files listed above.
