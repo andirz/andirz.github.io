@@ -1,8 +1,7 @@
 ---
 layout: page
-title: "How to Keep Your Sims 4 Mods Functional"
+title: "How to Keep Your Sims 4 Mods Functional?"
 order: 3
-image: /assets/images/TS4-ICON-BG (30).png
 ---
 
 *Maintaining your mods is just as important as installing them. Outdated or conflicting mods can lead to game crashes, visual glitches, and corrupted save files. Follow this guide to ensure your modded game stays stable.*
