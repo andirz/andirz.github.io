@@ -14,12 +14,12 @@ All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}<
   <table id="modTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
     <thead>
       <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: rgba(0,0,0,0.02);">
-        <th style="padding: 12px; width: 45px; text-align: center;">Icon</th>
-        <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer; width: 40%;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer; width: 10%;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer; width: 15%;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th style="padding: 12px; width: 20%;">Requirements</th>
-        <th onclick="sortTable(5)" style="padding: 12px; cursor: pointer; width: 15%;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th style="padding: 12px; width: 45px; text-align: center;">#</th>
+        <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer; width: 45%;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(2)" title="Version" style="padding: 12px; cursor: pointer; width: 80px;">V. <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(3)" title="Mod Compatibility Status" style="padding: 12px; cursor: pointer; width: 60px; text-align: center;">St. <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th title="Required DLCs & Packs" style="padding: 12px; width: 20%;">Req.</th>
+        <th onclick="sortTable(5)" title="Last Update Date" style="padding: 12px; cursor: pointer; width: 100px;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -41,17 +41,21 @@ All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}<
           {{ mod.version }}
         </td>
         
-        <td style="padding: 12px; text-align: center;">
+        <td style="padding: 12px; text-align: center; width: 60px;">
           {% if mod.status == 'updated' %}
-            <i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.1rem;"></i>
-          {% elsif mod.status == 'compatible' %}
-            <i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.1rem;"></i>
+            <i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.1rem; cursor: help;"></i>
+            <span style="display:none;">Updated</span> {% elsif mod.status == 'compatible' %}
+            <i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.1rem; cursor: help;"></i>
+            <span style="display:none;">Compatible</span>
           {% elsif mod.status == 'broken' %}
-            <i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.1rem;"></i>
+            <i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.1rem; cursor: help;"></i>
+            <span style="display:none;">Broken</span>
           {% elsif mod.status == 'obsolete' %}
-            <i class="fas fa-minus-circle" title="Obsolete" style="color: #6c757d; font-size: 1.1rem; opacity: 0.5;"></i>
+            <i class="fas fa-minus-circle" title="Obsolete" style="color: #6c757d; font-size: 1.1rem; opacity: 0.5; cursor: help;"></i>
+            <span style="display:none;">Obsolete</span>
           {% else %}
-            <i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.1rem;"></i>
+            <i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.1rem; cursor: help;"></i>
+            <span style="display:none;">Unknown</span>
           {% endif %}
         </td>
         
