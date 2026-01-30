@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "How to Keep Your Sims 4 Mods Functional"
+order: 3
 image: /assets/images/TS4-ICON-BG (30).png
 ---
 
