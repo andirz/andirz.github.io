@@ -45,8 +45,3 @@ Can't find the answer you're looking for? If you've read the guides and still en
 
 **Important Note on Support:**
 To respect my time and ensure you get an answer, please **do not** send support requests or bug reports via **Patreon** or **CurseForge** comments. These platforms are not suitable for technical troubleshooting. Any messages there may be overlooked or redirected to Discord.
-
----
-
-* **[CurseForge]({{ site.data.globals.links.curseforge }})** – Here you can find the public versions of my mods that are compliant with their platform rules.
-* **[Patreon]({{ site.data.globals.links.patreon }})** – The primary hub for all my work. It hosts **all** my mods, including those not available on CurseForge due to platform restrictions, as well as early access and updates.
