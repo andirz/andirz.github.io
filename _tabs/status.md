@@ -7,10 +7,14 @@ order: 2
 panel: false
 ---
 
-{% assign latest_patch = site.data.mods | map: "patch" | compact | first %}
-<div style="background: rgba(0,123,255,0.05); padding: 18px; border-radius: 12px; border-left: 5px solid #007bff; margin-bottom: 30px;">
-  <i class="fas fa-info-circle" style="color: #007bff;"></i> 
-  All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}</strong>.
+{% assign latest_patch = site.data.mods.latest_patch %}
+{% assign last_checked = site.data.mods.last_checked %}
+
+<div class="status-info-box">
+  <i class="fas fa-info-circle"></i> 
+  <span>
+    All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}</strong> as of <strong>{{ last_checked }}</strong>.
+  </span>
 </div>
 
 <div class="status-table-container" style="overflow-x: auto;">
