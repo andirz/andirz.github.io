@@ -6,37 +6,34 @@ order: 4
 ---
 
 ## Support & Documentation
-Welcome to the support hub. Here you will find all the necessary guides and documentation for my mods. If you need further assistance, please consider joining my community on Discord or reaching out via Patreon.
+
+Welcome to the central support hub for my Sims 4 mods. Whether you are looking for step-by-step installation instructions, detailed feature overviews, or troubleshooting tips, you've come to the right place.
+
+### <i class="fas fa-tools"></i> Getting Started
+If you are new to my mods, I highly recommend starting with the **General Installation Guide** and ensuring you have the latest version of the **Smart Core Script** installed, as it is required for most of my content to function correctly.
+
+### <i class="fas fa-comments"></i> Need More Help?
+Can't find the answer you're looking for? Join our community to get direct support:
+* **[Discord Community](https://discord.gg/yourlink)** – Get quick help from me and other players.
+* **[Patreon](https://www.patreon.com/Andirz)** – For detailed bug reports and priority support.
 
 ---
 
-{% comment %} 
-Filtering pages by 'sub_group: support' and sorting them alphabetically by title.
-{% endcomment %}
-
-{% assign support_pages = site.pages | where: "sub_group", "support" | sort: "title" %}
-
+{% comment %} Your Collection Loop starts here {% endcomment %}
 <div class="support-container" style="margin-top: 1.5rem;">
   <div class="list-group">
-  {% for page in support_pages %}
-    <a href="{{ page.url | relative_url }}" class="list-group-item list-group-item-action d-flex align-items-center" style="padding: 1rem;">
+  {% for guide in site.support %}
+    <a href="{{ guide.url | relative_url }}" class="list-group-item list-group-item-action d-flex align-items-center" style="padding: 1rem;">
       <div class="icon-wrapper" style="margin-right: 1.5rem;">
         <i class="fas fa-book text-primary fa-lg"></i>
       </div>
       <div>
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1" style="font-weight: 600; color: var(--link-color);">{{ page.title }}</h5>
-        </div>
-        {% if page.description %}
-          <p class="mb-1 text-muted" style="font-size: 0.9rem;">{{ page.description }}</p>
+        <h5 class="mb-1" style="font-weight: 600; color: var(--link-color);">{{ guide.title }}</h5>
+        {% if guide.description %}
+          <p class="mb-1 text-muted" style="font-size: 0.9rem;">{{ guide.description }}</p>
         {% endif %}
       </div>
     </a>
   {% endfor %}
   </div>
-</div>
-
-<div class="status-info-box mt-4">
-  <i class="fas fa-exclamation-triangle"></i> 
-  <span>Before reporting a bug, please ensure you have the latest **Smart Core Script** installed and your game is updated to the current patch.</span>
 </div>
