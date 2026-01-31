@@ -3,6 +3,7 @@ mod_id: trait-tracker-injector
 title: Trait Tracker Injector
 icon: "fas fa-syringe"
 files: ["ts4script"]
+categories: [Scripts, Injectors]
 ---
 
 ## What is this?
