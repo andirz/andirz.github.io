@@ -1,67 +1,70 @@
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
+{% assign has_reqs = mod.requirements and mod.requirements.size > 0 %}
+{% assign has_packs = mod.packs and mod.packs.size > 0 %}
 
-<div class="sticky-sidebar-wrapper" style="position: sticky; top: 30px;">
+<div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
   
-  <div class="sidebar-box" style="padding: 25px; background: #fffaf0; border: 1px solid #ffeebc; border-radius: 12px; margin-bottom: 20px;">
-    <h3 style="margin: 0 0 15px 0; font-size: 1.1rem; color: #856404; display: flex; align-items: center;">
-      <i class="fas fa-list-check" style="margin-right: 10px;"></i> Requirements
-    </h3>
+  <div class="sidebar-info-box" style="background: var(--bg-secondary, #ffffff); border: 1px solid var(--border-color, #e1e1e1); border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
     
-    <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.95rem; color: #856404;">
-      {% if mod.requirements and mod.requirements.size > 0 %}
+    <div style="padding: 12px; background: #f8fafc; border-bottom: 1px solid #eee; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">
+       Mod Details
+    </div>
+    
+    <div style="padding: 20px; text-align: center;">
+      <div style="font-size: 60px; color: #2563eb; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;">
+         <i class="{{ page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <h3 style="font-size: 1.1rem; margin: 0; color: var(--text-color); line-height: 1.3;">{{ mod.name | default: page.title }}</h3>
+        <span style="font-size: 0.85rem; color: #64748b; font-weight: 600;">v. {{ mod.version }}</span>
+      </div>
+
+      <div style="height: 1px; background: #eee; width: 50px; margin: 15px auto;"></div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; color: #cbd5e1; font-size: 1rem;">
+        {% if page.files contains 'ts4script' %}<i class="fas fa-file-code" title="Script Mod"></i>{% endif %}
+        {% if page.files == nil or page.files contains 'package' %}<i class="fas fa-file-archive" title="Package File"></i>{% endif %}
+      </div>
+    </div>
+    
+    {% if mod.download_url %}
+    <a href="{{ mod.download_url }}" target="_blank" style="display: block; background: #2563eb; color: white; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; font-size: 0.85rem; transition: background 0.2s;">
+      <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i> Download
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="requirements-box" style="padding: 20px; background: #fffaf0; border: 1px solid #ffeebc; border-radius: 12px;">
+    <h4 style="margin: 0 0 12px 0; font-size: 0.9rem; color: #856404; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px;">
+      <i class="fas fa-list-check" style="margin-right: 8px;"></i> Requirements
+    </h4>
+    <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.85rem; color: #856404;">
+      {% if has_reqs %}
         {% for req_id in mod.requirements %}
           {% assign dep = site.data.dependencies[req_id] %}
-          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-            <i class="fas fa-puzzle-piece" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
-            {% if dep %}
-              <a href="{{ dep.url }}" style="color: #856404; font-weight: bold; text-decoration: underline;">{{ dep.name }}</a>
-            {% else %}
-              <strong style="text-transform: capitalize;">{{ req_id | replace: '_', ' ' }}</strong>
-            {% endif %}
+          <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
+            <i class="fas fa-puzzle-piece" style="margin-top: 3px; margin-right: 8px; opacity: 0.5; font-size: 0.75rem;"></i>
+            <a href="{{ dep.url | default: '#' }}" style="color: #856404; font-weight: bold; text-decoration: underline;">{{ dep.name | default: req_id }}</a>
           </li>
         {% endfor %}
       {% endif %}
-
-      {% if mod.packs and mod.packs.size > 0 %}
-        {% for pack in mod.packs %}
-          {% if pack != "BG" %}
-            <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
-              <i class="fas fa-box-open" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
-              <span>
-                Requires 
-                {% if site.data.packs[pack] %}
-                  <strong>{{ site.data.packs[pack].en }}</strong>
-                {% else %}
-                  <strong>{{ pack }}</strong>
-                {% endif %}
-              </span>
+      
+      {% if has_packs %}
+        {% for pack_id in mod.packs %}
+          {% if pack_id != "BG" %}
+            <li style="margin-bottom: 6px; display: flex; align-items: flex-start;">
+              <i class="fas fa-box-open" style="margin-top: 3px; margin-right: 8px; opacity: 0.5; font-size: 0.75rem;"></i>
+              <span>{{ site.data.packs[pack_id].en | default: pack_id }}</span>
             </li>
           {% endif %}
         {% endfor %}
       {% endif %}
 
-      {% unless mod.requirements.size > 0 or mod.packs contains "EP" or mod.packs contains "GP" %}
-        {% if mod.packs contains "BG" or mod.packs == nil %}
-          <li style="display: flex; align-items: center; color: #28a745;">
-            <i class="fas fa-circle-check" style="margin-right: 10px;"></i>
-            <strong>Base Game Compatible</strong>
-          </li>
-        {% endif %}
+      {% unless has_packs or has_reqs %}
+        <li style="color: #28a745; font-weight: 600;"><i class="fas fa-circle-check" style="margin-right: 5px;"></i> Base Game</li>
       {% endunless %}
     </ul>
   </div>
 
-  {% if mod.download_url %}
-    <a href="{{ mod.download_url }}" target="_blank" class="btn-hero" style="width: 100%; justify-content: center; box-sizing: border-box; text-align: center;">
-      <i class="fas fa-external-link-alt"></i> Download on Patreon
-    </a>
-  {% else %}
-    <a href="#download-zone" class="btn-hero" style="width: 100%; justify-content: center; box-sizing: border-box; text-align: center;">
-      <i class="fas fa-download"></i> Go to Download
-    </a>
-  {% endif %}
-
-  <div style="margin-top: 20px; text-align: center; font-size: 0.85rem; color: #94a3b8;">
-    <p>Last verified for Patch v{{ site.data.conf.game_version | default: "latest" }}</p>
-  </div>
 </div>
