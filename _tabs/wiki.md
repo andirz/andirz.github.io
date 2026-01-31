@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Sims Wiki
+title: Sims 4 Wiki
 icon: "fas fa-book"
 order: 450
 ---
 
-## <i class="fas fa-atlas"></i> Mod Documentation & Wiki
+## <i class="fas fa-atlas"></i> Documentation & Wiki
 
 Explore the detailed documentation for all my mods. Each page contains information about features, settings, and requirements.
 
