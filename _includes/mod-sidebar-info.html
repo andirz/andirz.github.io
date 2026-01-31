@@ -4,7 +4,7 @@
 {% assign final_reqs = page.requirements | default: mod.requirements %}
 {% assign final_packs = page.packs | default: mod.packs %}
 
-{% comment %} Download-Quellen aus Mods.yml {% endcomment %}
+{% comment %} Download-Quellen {% endcomment %}
 {% assign patreon_link = mod.download_url %} 
 {% assign cf_slug = page.mod_id | replace: '_', '-' %}
 {% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: cf_slug %}
@@ -14,12 +14,20 @@
 <div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
   
   <div class="sidebar-info-box" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-    <div style="padding: 15px 20px; text-align: center;">
-      
-      <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
-        {% include mod-file-icons.html files=page.files icon_color="#cbd5e1" %}
-      </div>
+    
+    <div style="padding: 10px; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-align: center; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">
+      {% if page.files contains 'ts4script' and page.files contains 'package' %}
+        Script & Package Mod
+      {% elsif page.files contains 'ts4script' %}
+        Python Script Mod
+      {% elsif page.files contains 'bat' %}
+        Batch Script
+      {% else %}
+        Package Mod
+      {% endif %}
+    </div>
 
+    <div style="padding: 20px; text-align: center;">
       <div style="font-size: 40px; color: #2563eb; margin-bottom: 10px;">
          <i class="{{ page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
       </div>
@@ -39,10 +47,9 @@
 
   {% if final_reqs.size > 0 or final_packs.size > 0 %}
   <div class="requirements-box" style="padding: 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; margin-bottom: 20px;">
-    <h4 style="margin: 0 0 12px 0; font-size: 0.65rem; color: #94a3b8; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">
-       Requirements
-    </h4>
+    <h4 style="margin: 0 0 12px 0; font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">Requirements</h4>
     <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.85rem; color: #334155;">
+      
       {% for req_id in final_reqs %}
         {% assign dep = site.data.dependencies[req_id] %}
         <li style="margin-bottom: 8px; display: flex; align-items: center;">
@@ -50,12 +57,15 @@
           <a href="{{ dep.url | default: '#' }}" style="color: #2563eb; font-weight: 600; text-decoration: none;">{{ dep.name | default: req_id }}</a>
         </li>
       {% endfor %}
-      
+
       {% for pack_id in final_packs %}
         {% if pack_id != "BG" %}
           <li style="margin-bottom: 6px; display: flex; align-items: center;">
             <i class="fas fa-layer-group" style="margin-right: 10px; color: #cbd5e1; font-size: 0.75rem;"></i>
-            <span style="font-weight: 500;">{{ site.data.packs[pack_id].en | default: pack_id }}</span>
+            <span style="font-weight: 500;">
+              {{ site.data.packs[pack_id].en | default: pack_id }} 
+              <span style="color: #94a3b8; font-size: 0.75rem; font-weight: 400;">({{ pack_id }})</span>
+            </span>
           </li>
         {% endif %}
       {% endfor %}
@@ -63,31 +73,34 @@
   </div>
   {% endif %}
 
-  <div class="download-card" style="margin-bottom: 20px;">
+  <div class="download-section" style="margin-bottom: 20px; background: white; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+    <div style="padding: 10px; background: #f8fafc; border-bottom: 1px solid #f1f5f9; text-align: center; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">
+      Downloads
+    </div>
     
-    {% if page.curseforge_ban %}
-      <div style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 10px;">
-        <span style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Not on CurseForge</span>
-      </div>
-    {% else %}
-      <a href="{{ cf_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #1e293b; color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 10px; font-size: 0.9rem;">
-        <i class="fab fa-firefox-browser" style="color: #f16436;"></i> CurseForge
+    <div style="padding: 15px;">
+      {% if page.curseforge_ban %}
+        <div title="This mod is not available on CurseForge as it violates their platform guidelines for script or content restrictions." 
+             style="cursor: help; background: #fff1f2; border: 1px solid #fecdd3; color: #e11d48; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 10px; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i class="fas fa-info-circle"></i> Not on CurseForge
+        </div>
+      {% else %}
+        <a href="{{ cf_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #1e293b; color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 10px; font-size: 0.9rem;">
+          <i class="fab fa-firefox-browser" style="color: #f16436;"></i> CurseForge
+        </a>
+      {% endif %}
+
+      {% if patreon_link %}
+      <a href="{{ patreon_link }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: white; color: #f96854; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 2px solid #f96854;">
+        <i class="fab fa-patreon"></i> Download (Patreon)
       </a>
-    {% endif %}
-
-    {% if patreon_link %}
-    <a href="{{ patreon_link }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: white; color: #f96854; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 2px solid #f96854;">
-      <i class="fab fa-patreon"></i> Download (Patreon)
-    </a>
-    {% endif %}
-
+      {% endif %}
+    </div>
   </div>
 
   {% if page.toc %}
   <div class="toc-box" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px;">
-    <h4 style="margin: 0 0 10px 0; font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">
-       Contents
-    </h4>
+    <h4 style="margin: 0 0 10px 0; font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">Contents</h4>
     <div class="toc-inline" style="font-size: 0.85rem; line-height: 1.6; color: #475569;">
       {% include toc.html html=content %}
     </div>
