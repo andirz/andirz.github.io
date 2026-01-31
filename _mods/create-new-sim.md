@@ -1,7 +1,7 @@
 ---
 mod_id: create-new-sim
 title: "Create New Sim"
-icon: "fas fa-plus-circle"
+icon: "fas fa-user-plus"
 requirements: ["lot51_core"]
 categories: [Cheats & Debugging, Sim Personalization]
 ---
