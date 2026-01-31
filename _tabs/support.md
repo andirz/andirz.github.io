@@ -1,9 +1,8 @@
 ---
 layout: page
-title: Support
+title: Mod Support
 icon: fas fa-question-circle
 order: 500
-toc: true
 ---
 
 ## <i class="fas fa-info-circle"></i> Support Guidelines
