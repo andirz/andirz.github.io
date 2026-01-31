@@ -163,10 +163,7 @@
   patreon: "https://www.patreon.com/andirz"
 
 - id: drama_degree_is_acting
-  name: "Drama Degree is Acting"
-  icon: "fas fa-theater-masks"
   version: "1.0.2"
-  packs: ["EP06", "EP08"]
   status: "compatible"
 
 - id: skill_class_reloaded
