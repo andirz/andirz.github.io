@@ -148,7 +148,6 @@
 - id: pansexual
   name: "Make Sims Pansexual Again"
   icon: "fas fa-heart"
-  version: "Ultimate"
 
 # --- UNIVERSITY ---
 
@@ -165,6 +164,7 @@
 - id: drama_degree_is_acting
   version: "1.0.2"
   status: "compatible"
+  updated: "2025-07-05"
 
 - id: skill_class_reloaded
   name: "Skill Class Reloaded"
