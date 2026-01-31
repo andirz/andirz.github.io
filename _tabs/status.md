@@ -24,10 +24,10 @@ order: 2
     </thead>
     <tbody>
       {% for mod_entry in site.data.mods %}
-        {% comment %} Suche die Mod-Seite basierend auf der ID {% endcomment %}
+        {% comment %} 1. Mod-Seite suchen {% endcomment %}
         {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
         
-        {% comment %} Daten-Priorität: Mod-Seite > Data File {% endcomment %}
+        {% comment %} 2. Daten-Priorisierung (Seite > Daten-Datei) {% endcomment %}
         {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
         {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
         {% assign current_version = mod_page.version | default: mod_entry.version %}
@@ -46,7 +46,7 @@ order: 2
           <td style="padding: 12px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               {% if mod_page %}
-                <a href="{{ mod_page.url | relative_url }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">{{ display_name }}</a>
+                <a href="{{ mod_page.url | relative_url | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">{{ display_name }}</a>
               {% else %}
                 <span style="font-weight: bold; opacity: 0.7;">{{ display_name }}</span>
               {% endif %}
@@ -74,6 +74,7 @@ order: 2
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
               {% assign has_req = false %}
 
+              {% comment %} Packs {% endcomment %}
               {% if final_packs.size > 0 %}
                 {% for pack_id in final_packs %}
                   {% if pack_id != "BG" %}
@@ -84,18 +85,23 @@ order: 2
                 {% endfor %}
               {% endif %}
 
+              {% comment %} Mod Dependencies {% endcomment %}
               {% if final_reqs.size > 0 %}
                 {% for req_id in final_reqs %}
                   {% assign dep_info = site.data.dependencies[req_id] %}
                   {% if dep_info %}
                     {% assign req_label = dep_info.short_name | default: req_id %}
                     {% assign req_full_name = dep_info.name %}
-                    {% assign req_url = dep_info.url %}
+                    {% assign req_url = dep_info.url | default: "#" %}
                   {% else %}
                     {% assign req_page = site.mods | where: "mod_id", req_id | first %}
                     {% assign req_label = req_id %}
                     {% assign req_full_name = req_page.title | default: req_id %}
-                    {% assign req_url = req_page.url | relative_url | default: "#" %}
+                    {% if req_page %}
+                      {% assign req_url = req_page.url | relative_url | default: "#" %}
+                    {% else %}
+                      {% assign req_url = "#" %}
+                    {% endif %}
                   {% endif %}
                   <a href="{{ req_url }}" title="{{ req_full_name }}" style="text-decoration: none; font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">
                     {{ req_label }}
@@ -131,11 +137,8 @@ function sortTable(n) {
       shouldSwitch = false;
       x = rows[i].getElementsByTagName("TD")[n];
       y = rows[i + 1].getElementsByTagName("TD")[n];
-      
-      // Nutze innerText für Text-Sortierung, aber achte auf das versteckte Datums-Span in Spalte 5
       var xValue = x.innerText.toLowerCase();
       var yValue = y.innerText.toLowerCase();
-      
       if (dir == "asc") { if (xValue > yValue) { shouldSwitch = true; break; } } 
       else if (dir == "desc") { if (xValue < yValue) { shouldSwitch = true; break; } }
     }
