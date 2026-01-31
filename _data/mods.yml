@@ -166,7 +166,7 @@
   status: "compatible"
   updated: "2025-07-05"
 
-- id: skill_class_reloaded
+- id: skill-class-reloaded
   version: "3.0.0"
   status: "compatible"
   updated: "2025-07-16"
