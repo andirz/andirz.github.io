@@ -1,27 +1,41 @@
+/* --- GLOBAL SIMS 4 OVERRIDE --- */
 :root {
     --white: #ffffff;
     --blue: #0076ff;
     --dark-blue: #002d62;
     --green: #2ecc71;
     --gray-light: #f8f9fa;
-    --gray-text: #636e72;
-    --border: #edf2f7;
+    --text-main: #2d3436;
 }
 
-body { 
-    background-color: var(--white) !important; /* Erzwingt Weiß überall */
-    color: var(--dark-blue);
+/* Hintergrund überall weiß erzwingen */
+body, #main-wrapper, #sidebar, .container, main {
+    background-color: var(--white) !important;
+    color: var(--text-main) !important;
+}
+
+/* Sidebar Styling - passend zum neuen Look */
+#sidebar {
+    border-right: 1px solid #edf2f7;
+}
+
+#sidebar a {
+    color: var(--dark-blue) !important;
+    font-weight: 700;
+}
+
+#sidebar a:hover {
+    color: var(--blue) !important;
+}
+
+/* Überschriften im Sims-Style */
+h1, h2, h3, h4 {
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 900 !important;
+    color: var(--dark-blue) !important;
+}
+
+/* Font global setzen */
+* {
     font-family: 'Nunito', sans-serif;
-    margin: 0;
-}
-
-/* Macht Links global im Sims-Stil */
-a { color: var(--blue); text-decoration: none; font-weight: 700; }
-a:hover { color: var(--dark-blue); }
-
-/* Standard-Container für alle Seiten */
-.page-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 20px;
 }
