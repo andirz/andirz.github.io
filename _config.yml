@@ -194,10 +194,11 @@ defaults:
       layout: support
       toc: true
       comments: true
-  - scope:
-      path: _mods
+   - scope:
+        path: "_mods" 
     values:
-      layout: page
+      layout: "mod_info" 
+      permalink: "/mods/:basename/"   
       toc: true
       comments: true
   - scope:
