@@ -1,10 +1,7 @@
 ---
-layout: default
 mod_id: trait_tracker_injector
 title: Trait Tracker Injector
 ---
-
-{% include mod_infobox.html %}
 
 ## What is this?
 The **Trait Tracker Injector** (originally created by **MAL22**) is a specialized tool that enables the inheritance of custom traits across Sim generations. It allows traits to be passed from parents to offspring, making it possible to create unique family lines with inherited abilities, such as dormant occult traits or special skills.
