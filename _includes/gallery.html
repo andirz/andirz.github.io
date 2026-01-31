@@ -1,0 +1,8 @@
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 2rem 0;">
+  {% for img in page.screenshots %}
+  <a href="{{ img.url | relative_url }}" target="_blank">
+    <img src="{{ img.url | relative_url }}" alt="{{ img.caption }}" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+    {% if img.caption %}<p style="font-size: 0.8rem; text-align: center; margin-top: 5px; opacity: 0.7;">{{ img.caption }}</p>{% endif %}
+  </a>
+  {% endfor %}
+</div>
