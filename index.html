@@ -3,159 +3,171 @@ layout: default
 title: Home
 ---
 
-{% assign latest_patch = site.data.globals.latest_patch %}
-{% assign last_checked = site.data.globals.last_checked %}
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<div class="os-container">
-    
-    <section class="hero-terminal">
-        <div class="terminal-header">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-            <span class="terminal-title">andirz_kernel_v{{ site.data.globals.version | default: "2026" }}.sh</span>
+<div class="sims-container">
+
+    <header class="hero-simple">
+        <div class="plumbob-icon">
+            <i class="fas fa-gem"></i>
         </div>
-        <div class="terminal-body">
-            <h1 class="glitch" data-text="SYSTEM STATUS: ONLINE">SYSTEM STATUS: ONLINE</h1>
-            <p class="typewriter">> Patch {{ latest_patch }} verified. {{ site.data.mods.size }} modules identified.</p>
+        <h1>Enhance your Simulation</h1>
+        <p>Premium Mods & Logic Tweaks by <strong>Andirz</strong></p>
+    </header>
+
+    <section class="featured-section">
+        <h2 class="label">Essential Systems</h2>
+        <div class="grid-main">
+            {% assign essentials = "smart-core-script,online-store,better-pie-menu,smart-sim-randomizer" | split: "," %}
+            {% for id in essentials %}
+                {% assign mod = site.data.mods | where: "id", id | first %}
+                {% assign mod_page = site.mods | where: "mod_id", id | first %}
+                <div class="card premium">
+                    <div class="card-icon"><i class="{{ mod_page.icon | default: mod.icon | default: 'fas fa-cog' }}"></i></div>
+                    <div class="card-content">
+                        <h3>{{ mod_page.title | default: mod.name | default: mod.id | replace: "-", " " | capitalize }}</h3>
+                        <p>{{ mod_page.description | default: "Core system enhancement for advanced gameplay." | truncate: 70 }}</p>
+                        <a href="{{ mod_page.url | default: '#' }}" class="sims-btn">View Module</a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </section>
 
-    <h2 class="section-label">// FEATURED_RELEASES</h2>
-    <div class="grid-container">
-        {% for mod_entry in site.data.mods %}
-            {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
-            {% if mod_page %}
-                <div class="mod-card shadow-glow">
-                    <div class="card-header">
-                        <i class="{{ mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' }}"></i>
-                        <span class="version">v{{ mod_page.version | default: mod_entry.version }}</span>
-                    </div>
-                    <h3>{{ mod_page.title }}</h3>
-                    <p>{{ mod_page.description | truncate: 80 }}</p>
-                    <div class="card-footer">
-                        <span class="status-indicator {{ mod_entry.status | downcase }}"></span>
-                        <a href="{{ mod_page.url | relative_url }}" class="btn-sm">Initialize</a>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+    <section class="discovery-section">
+        <h2 class="label">Discover More</h2>
+        <div class="grid-sub">
+            {% assign all_mods = site.data.mods | sample: 10 %}
+            {% assign count = 0 %}
+            {% for mod in all_mods %}
+                {% unless essentials contains mod.id %}
+                    {% if count < 3 %}
+                        <div class="card mini">
+                            <i class="{{ mod.icon | default: 'fas fa-box' }}"></i>
+                            <span>{{ mod.name | default: mod.id | replace: "-", " " | capitalize }}</span>
+                            <a href="/mods/{{ mod.id }}" class="mini-arrow">→</a>
+                        </div>
+                        {% assign count = count | plus: 1 %}
+                    {% endif %}
+                {% endunless %}
+            {% endfor %}
+        </div>
+    </section>
 
-    <h2 class="section-label" style="margin-top: 60px;">// ALL_MODULES_MANIFEST</h2>
-    <div class="status-table-container">
-        <table id="modTable">
-            <thead>
-                <tr>
-                    <th style="width: 50px;">Icon</th>
-                    <th onclick="sortTable(1)">Module Name <i class="fas fa-sort"></i></th>
-                    <th onclick="sortTable(2)">Version <i class="fas fa-sort"></i></th>
-                    <th onclick="sortTable(3)" style="text-align: center;">Status</th>
-                    <th onclick="sortTable(4)">Updated <i class="fas fa-sort"></i></th>
-                    <th>Category</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for mod_entry in site.data.mods %}
-                    {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
-                    {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
-                    {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
-                    {% assign update_date = mod_page.last_update | default: mod_entry.updated %}
-                    
-                    <tr class="status-{{ mod_entry.status | downcase }}">
-                        <td style="text-align: center;"><i class="{{ display_icon }}"></i></td>
-                        <td>
-                            {% if mod_page %}
-                                <a href="{{ mod_page.url | relative_url }}" class="mod-link active">{{ display_name }}</a>
-                            {% else %}
-                                <span class="mod-link inactive">{{ display_name }} <small>(Docs pending)</small></span>
-                            {% endif %}
-                        </td>
-                        <td class="mono">{{ mod_page.version | default: mod_entry.version }}</td>
-                        <td style="text-align: center;">
-                            {% assign status = mod_entry.status | downcase %}
-                            {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" style="color: #00d4ff;"></i>
-                            {% elsif status == 'compatible' %}<i class="fas fa-check-circle" style="color: #00ff9d;"></i>
-                            {% elsif status == 'broken' %}<i class="fas fa-times-circle" style="color: #ff4b2b;"></i>
-                            {% else %}<i class="fas fa-question-circle" style="color: #ffbd2e;"></i>{% endif %}
-                        </td>
-                        <td class="mono">{{ update_date | date: "%b %d, %Y" }}</td>
-                        <td>{{ mod_page.categories | first | default: "General" }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
 </div>
 
 <style>
-/* Base Theme */
 :root {
-    --bg-dark: #0a0a0c;
-    --accent: #00f2ff;
-    --card-bg: #121215;
-    --border: #222;
-    --text: #d0d0d0;
+    --sims-blue: #007bff;
+    --sims-green: #2ecc71;
+    --bg-dark: #151921;
+    --card-bg: #1f2632;
+    --text-white: #ffffff;
+    --text-muted: #94a3b8;
 }
 
-body { background: var(--bg-dark); color: var(--text); font-family: 'Inter', sans-serif; }
-.os-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0;
+}
 
-/* Hero & Terminal */
-.hero-terminal { background: #000; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 40px; }
-.terminal-header { background: #1a1a1a; padding: 10px; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--border); }
-.dot { width: 10px; height: 10px; border-radius: 50%; }
-.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-.terminal-title { font-family: 'Fira Code', monospace; font-size: 12px; color: #666; margin-left: 10px; }
-.terminal-body { padding: 60px 20px; text-align: center; }
-.glitch { font-size: 2.5rem; font-weight: 800; color: #fff; text-shadow: 2px 2px var(--accent); }
-.typewriter { font-family: 'Fira Code', monospace; color: var(--accent); margin-top: 10px; }
+.sims-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
 
-/* Grid Cards */
-.grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-.mod-card { background: var(--card-bg); border: 1px solid var(--border); padding: 25px; border-radius: 8px; position: relative; }
-.mod-card h3 { margin: 15px 0 10px 0; color: #fff; }
-.version { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: #666; }
-.card-header i { font-size: 1.5rem; color: var(--accent); }
-.btn-sm { background: var(--accent); color: #000; text-decoration: none; padding: 5px 15px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+/* Header */
+.hero-simple { text-align: center; margin-bottom: 60px; }
+.plumbob-icon { 
+    color: var(--sims-green); 
+    font-size: 3rem; 
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.4));
+}
+.hero-simple h1 { font-size: 2.5rem; font-weight: 800; margin: 0; }
+.hero-simple p { color: var(--text-muted); font-size: 1.1rem; }
 
-/* Status Indicators */
-.status-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 10px; }
-.updated { background: #00d4ff; box-shadow: 0 0 8px #00d4ff; }
-.compatible { background: #00ff9d; }
+/* Grid Main */
+.grid-main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
 
-/* Table Style */
-.status-table-container { background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-th { text-align: left; padding: 15px; background: #1a1a1e; color: #888; font-weight: 500; cursor: pointer; }
-td { padding: 15px; border-bottom: 1px solid var(--border); }
-tr:hover { background: rgba(0, 242, 255, 0.03); }
-.mono { font-family: 'Fira Code', monospace; font-size: 0.8rem; color: #888; }
-.mod-link { text-decoration: none; font-weight: 600; }
-.mod-link.active { color: var(--accent); }
-.mod-link.inactive { color: #555; cursor: default; }
-.section-label { font-family: 'Fira Code', monospace; color: #444; margin-bottom: 20px; font-size: 1rem; }
+.card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    gap: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border-color: var(--sims-blue);
+}
+
+.card-icon {
+    background: var(--sims-blue);
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.card-content h3 { margin: 0 0 10px 0; font-size: 1.25rem; }
+.card-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.4; margin-bottom: 20px; }
+
+.sims-btn {
+    background: #ffffff;
+    color: #000;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.sims-btn:hover { background: var(--sims-blue); color: #fff; }
+
+/* Discovery Section */
+.label { 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    color: var(--sims-blue); 
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.grid-sub {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.card.mini {
+    padding: 15px 20px;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.mini-arrow { margin-left: auto; color: var(--sims-blue); text-decoration: none; font-weight: bold; }
+
+@media (max-width: 768px) {
+    .grid-main, .grid-sub { grid-template-columns: 1fr; }
+}
 </style>
-
-<script>
-// Deine Sortier-Logik
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("modTable");
-  switching = true; dir = "asc";
-  while (switching) {
-    switching = false; rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      if (dir == "asc") { if (x.innerText.toLowerCase() > y.innerText.toLowerCase()) { shouldSwitch = true; break; } }
-      else if (dir == "desc") { if (x.innerText.toLowerCase() < y.innerText.toLowerCase()) { shouldSwitch = true; break; } }
-    }
-    if (shouldSwitch) { rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); switching = true; switchcount ++; }
-    else { if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } }
-  }
-}
-</script>
