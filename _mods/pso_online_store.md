@@ -2,10 +2,9 @@
 mod_id: online-store
 title: SimSim Online Store
 icon: "fas fa-shopping-cart"
-version: "5.4.1"
-updated: 2026-01-14
+permalink: "/mods/online-store/"
 requirements: ["smart_core", "pso_common"]
-categories: [Gameplay Mods, Purchasing System]
+categories: [Purchasing System, Gameplay Mods]
 ---
 
 The **SimSim Online Store** is the ultimate shopping experience for your Sims! This mod allows instant access to the online store on all computers, laptops, tablets, smart hubs, and mobile phones. Even without internet access or when living off-the-grid, your Sims can shop via the **SimSim Hotline** or even through paper mail.
