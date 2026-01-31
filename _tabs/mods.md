@@ -54,6 +54,7 @@ order: 2
               <span style="font-size: 0.7rem; color: #bbb; display: flex; gap: 4px; align-items: center;">
                 {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod"></i>{% endif %}
                 {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File"></i>{% endif %}
+                {% if mod_page.files contains 'bat' %}<i class="fas fa-terminal" title="Batch Tool"></i>{% endif %}
               </span>
             </div>
           </td>
@@ -77,7 +78,6 @@ order: 2
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
               {% assign has_req = false %}
 
-              {% comment %} Packs mit Tooltips aus packs.yml {% endcomment %}
               {% if final_packs.size > 0 %}
                 {% for pack_id in final_packs %}
                   {% if pack_id != "BG" %}
@@ -88,7 +88,6 @@ order: 2
                 {% endfor %}
               {% endif %}
 
-              {% comment %} Dependencies mit Tooltips aus dependencies.yml {% endcomment %}
               {% if final_reqs.size > 0 %}
                 {% for req_id in final_reqs %}
                   {% assign dep_info = site.data.dependencies[req_id] %}
