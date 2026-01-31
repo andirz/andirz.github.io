@@ -178,7 +178,7 @@ collections:
 
 defaults:
   - scope:
-      path: "" # An empty string here means all files in the project
+      path: ""
       type: posts
     values:
       layout: post
@@ -194,11 +194,11 @@ defaults:
       layout: support
       toc: true
       comments: true
-   - scope:
-        path: "_mods" 
+  - scope:
+      path: "_mods"
     values:
-      layout: "mod_info" 
-      permalink: "/mods/:basename/"   
+      layout: "mod_info"
+      permalink: "/mods/:basename/"
       toc: true
       comments: true
   - scope:
