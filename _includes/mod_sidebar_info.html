@@ -1,0 +1,44 @@
+{% assign mod = site.data.mods | where: "id", page.mod_id | first %}
+{% assign has_reqs = mod.requirements and mod.requirements.size > 0 %}
+{% assign has_packs = mod.packs and mod.packs.size > 0 %}
+
+<div class="sticky-sidebar-wrapper" style="position: sticky; top: 30px;">
+  
+  <div class="sidebar-box" style="padding: 25px; background: #fffaf0; border: 1px solid #ffeebc; border-radius: 12px; margin-bottom: 20px;">
+    <h3 style="margin: 0 0 15px 0; font-size: 1.1rem; color: #856404; display: flex; align-items: center;">
+      <i class="fas fa-list-check" style="margin-right: 10px;"></i> Requirements
+    </h3>
+    <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.95rem; color: #856404;">
+      {% if has_reqs %}
+        {% for req_id in mod.requirements %}
+          {% assign dep = site.data.dependencies[req_id] %}
+          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
+            <i class="fas fa-puzzle-piece" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
+            <a href="{{ dep.url | default: '#' }}" style="color: #856404; font-weight: bold;">{{ dep.name | default: req_id }}</a>
+          </li>
+        {% endfor %}
+      {% endif %}
+      {% if has_packs %}
+        {% for pack_id in mod.packs %}
+          {% if pack_id != "BG" %}
+            <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+              <i class="fas fa-box-open" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
+              <span>Requires {{ site.data.packs[pack_id].en | default: pack_id }}</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% unless has_reqs or has_packs %}
+        <li style="color: #28a745;"><i class="fas fa-circle-check"></i> Base Game Compatible</li>
+      {% endunless %}
+    </ul>
+  </div>
+
+  <a href="#download-zone" class="btn-hero" style="width: 100%; justify-content: center; box-sizing: border-box;">
+    <i class="fas fa-download"></i> Go to Download
+  </a>
+
+  <div style="margin-top: 20px; text-align: center; font-size: 0.85rem; color: #999;">
+    <p>Support on <a href="https://patreon.com/andirz" target="_blank">Patreon</a></p>
+  </div>
+</div>
