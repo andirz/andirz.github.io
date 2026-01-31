@@ -1,9 +1,7 @@
 ---
 mod_id: better-pie-menu
 title: "Better Pie Menu"
-icon: "fas fa-sitemap"
-packs: ["BG"]
-require_any_pack: false
+icon: "fas fa-list-ul"
 requirements: ["lot51_core"]
 categories: [UI Tweaks, Optimization, Tuning Overrides]
 ---
