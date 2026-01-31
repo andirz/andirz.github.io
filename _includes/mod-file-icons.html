@@ -1,0 +1,22 @@
+{% comment %}
+  Zentrales Include für Mod-Dateiformat-Icons.
+  Parameter: 
+    - files: Das Array der Dateitypen (page.files)
+    - icon_color: (Optional) Eine spezifische Farbe, z.B. "#2563eb"
+{% endcomment %}
+
+{% assign current_color = include.icon_color | default: "#94a3b8" %}
+
+<div style="display: flex; gap: 12px; align-items: center; color: {{ current_color }};">
+  {% if include.files contains 'ts4script' %}
+    <i class="fas fa-scroll" title="Script Mod (.ts4script)" style="cursor: help;"></i>
+  {% endif %}
+  
+  {% if include.files contains 'package' or include.files == nil %}
+    <i class="fas fa-file-archive" title="Package File (.package)" style="cursor: help;"></i>
+  {% endif %}
+
+  {% if include.files contains 'bat' %}
+    <i class="fas fa-terminal" title="Batch File (.bat)" style="cursor: help;"></i>
+  {% endif %}
+</div>
