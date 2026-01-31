@@ -9,7 +9,7 @@
   status: "compatible"
   updated: "2026-01-04"
 
-- id: smart_core
+- id: smart_core_script
   name: "Smart Core Script"
   icon: "fas fa-microchip"
   version: "2.7.2"
