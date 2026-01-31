@@ -1,7 +1,7 @@
 ---
 mod_id: smart-gender-cheats
 title: "Smart Gender Cheats"
-icon: "fas fa-venn-diagram"
+icon: "fas fa-venus-mars"
 requirements: ["smart_core"]
 categories: [Cheats & Debugging, Sim Personalization]
 ---
