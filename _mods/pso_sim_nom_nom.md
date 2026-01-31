@@ -1,8 +1,8 @@
 ---
-layout: mod_info
-mod_id: sim_nom_nom
-title: Sim-Nom-Nom Food Delivery
+mod_id: sim-nom-nom
+title: "Sim-Nom-Nom Food Delivery"
 icon: fas fa-utensils
+requirements: ["smart_core", "pso_common"]
 files: [package]
 categories: [Food, Purchasing System]
 ---
