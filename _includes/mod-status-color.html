@@ -1,0 +1,18 @@
+{% assign status_lower = mod.status | downcase %}
+
+{% if status_lower == 'compatible' %}
+  {% assign status_color = '#10b981' %} {% comment %} Grün {% endcomment %}
+{% elsif status_lower == 'updated' %}
+  {% assign status_color = '#3b82f6' %} {% comment %} Blau {% endcomment %}
+{% elsif status_lower == 'new' %}
+  {% assign status_color = '#8b5cf6' %} {% comment %} Violett - damit 'New' heraussticht {% endcomment %}
+{% elsif status_lower == 'broken' %}
+  {% assign status_color = '#ef4444' %} {% comment %} Rot {% endcomment %}
+{% elsif status_lower == 'obsolete' %}
+  {% assign status_color = '#6b7280' %} {% comment %} Grau {% endcomment %}
+{% elsif status_lower == 'unknown' %}
+  {% assign status_color = '#f59e0b' %} {% comment %} Orange {% endcomment %}
+{% else %}
+  {% comment %} Aggressives Pink/Magenta für fehlerhafte Eingaben {% endcomment %}
+  {% assign status_color = '#ff00ff' %} 
+{% endif %}
