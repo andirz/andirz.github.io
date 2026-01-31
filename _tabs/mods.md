@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Mod Overview
-icon: "fas fa-terminal"
+icon: "fas fa-layer-group"
 order: 2
 ---
 
