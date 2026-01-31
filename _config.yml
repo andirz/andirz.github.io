@@ -170,7 +170,7 @@ collections:
   mods:
     output: true
     sort_by: order
-    permalink: /mods/:name/
+    permalink: /mods/:path/ 
   tutorials:
     output: true
     sort_by: order
@@ -188,19 +188,6 @@ defaults:
       path: _drafts
     values:
       comments: false
-  - scope:
-      path: _support
-    values:
-      layout: support
-      toc: true
-      comments: true
-  - scope:
-      path: "_mods"
-    values:
-      layout: "mod_info"
-      permalink: "/mods/:basename/"
-      toc: true
-      comments: true
   - scope:
       path: ""
       type: tabs
