@@ -25,6 +25,7 @@
 - id: autofill-personality-traits
   version: "1.0.0"
   status: "compatible"
+  updated: "2024-08-06"
 
 - id: object-tuning-replacement
   version: "1.1.2"
