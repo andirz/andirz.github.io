@@ -41,7 +41,7 @@ order: 2
   <div style="display: flex; align-items: center; gap: 12px; background: rgba(40, 167, 69, 0.05); border: 1px solid rgba(40, 167, 69, 0.15); padding: 14px 20px; border-radius: 10px; margin-bottom: 25px;">
     <i class="fas fa-check-shield" style="color: #28a745; font-size: 1.1rem;"></i>
     <span style="font-size: 1rem; color: var(--text-color); line-height: 1.5;">
-      The following overview refers to <strong>Patch {{ latest_patch }}</strong> from <strong>{{ last_checked | date: "%B %d, %Y" }}</strong>. 
+      The following overview refers to Patch <strong>{{ latest_patch }}</strong> from {{ last_checked | date: "%B %d, %Y" }}.<br /> 
       All mods are verified for this version; specific statuses can be found in the table below.
     </span>
   </div>
