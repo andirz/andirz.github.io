@@ -1,31 +1,103 @@
 ---
 layout: default
-toc: true
 ---
 
 {% comment %} 
-  Wir suchen die Daten in der mods.yml basierend auf der mod_id im Frontmatter der Seite 
+  Daten-Initialisierung: Wir laden die Mod-Daten und prüfen die Requirements.
 {% endcomment %}
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
+{% assign has_reqs = mod.requirements and mod.requirements.size > 0 %}
+{% assign has_packs = mod.packs and mod.packs.size > 0 %}
 
-<article class="px-1 mod-page">
+<div class="mod-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
   
-  {% if mod %}
-    {% include mod_infobox.html %}
-  {% endif %}
+  <header class="mod-header" style="margin-bottom: 40px; border-bottom: 1px solid var(--border-color, #eee); padding-bottom: 25px;">
+    <h1 style="font-size: 2.8rem; margin: 0 0 15px 0; color: var(--text-color);">{{ mod.name | default: page.title }}</h1>
+    
+    <div class="mod-meta-tags" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+      {% if mod.status %}
+        <span style="background: {% if mod.status == 'compatible' %}#10b981{% else %}#ef4444{% endif %}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase;">
+          {{ mod.status }}
+        </span>
+      {% endif %}
+      
+      {% for cat in page.categories %}
+        <span style="border: 1px solid #2563eb; color: #2563eb; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">{{ cat }}</span>
+      {% endfor %}
+      
+      <span style="color: #666; font-size: 0.9rem; margin-left: 10px;">
+        <i class="fas fa-code-branch"></i> v{{ mod.version }}
+      </span>
+    </div>
+  </header>
 
-  <h1 class="dynamic-title">{{ page.title }}</h1>
+  <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 50px;">
+    
+    <main style="flex: 2; min-width: 320px;">
+      <article class="mod-description" style="line-height: 1.8; font-size: 1.1rem;">
+        {{ content }}
+      </article>
 
-  <div class="content">
-    {{ content }}
+      <section id="download-zone" style="margin-top: 60px; padding: 35px; background: var(--bg-secondary, #f8f9fa); border-radius: 16px; border: 1px solid var(--border-color, #e1e1e1);">
+        <h2 style="margin-top: 0; display: flex; align-items: center;">
+          <i class="fas fa-download" style="margin-right: 15px; color: #2563eb;"></i> Download & Installation
+        </h2>
+        {% include installation.html %}
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ddd;">
+        {% include policy.html %}
+      </section>
+    </main>
+
+    <aside style="flex: 1; min-width: 300px;">
+      <div style="position: sticky; top: 30px;">
+        
+        {% include mod_infobox.html %}
+
+        <div class="requirements-sidebar" style="margin-top: 25px; padding: 25px; background: #fffaf0; border: 1px solid #ffeebc; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <h3 style="margin: 0 0 15px 0; font-size: 1.1rem; color: #856404; display: flex; align-items: center;">
+            <i class="fas fa-list-check" style="margin-right: 10px;"></i> Requirements
+          </h3>
+          
+          <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.95rem; color: #856404;">
+            
+            {% comment %} Mod-Abhängigkeiten (z.B. Smart Core) {% endcomment %}
+            {% if has_reqs %}
+              {% for req in mod.requirements %}
+                <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                  <i class="fas fa-puzzle-piece" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
+                  <span><strong>{{ req }}</strong></span>
+                </li>
+              {% endfor %}
+            {% endif %}
+
+            {% comment %} Pack-Abhängigkeiten oder Base Game {% endcomment %}
+            {% if has_packs %}
+              {% for pack_id in mod.packs %}
+                {% assign pack_data = site.data.packs | where: "id", pack_id | first %}
+                <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
+                  <i class="fas fa-box-open" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
+                  <span title="{{ pack_data.name | default: pack_id }}">
+                    Requires {{ pack_data.name | default: pack_id }}
+                  </span>
+                </li>
+              {% endfor %}
+            {% else %}
+              {% comment %} Fallback auf Base Game aus packs.yml {% endcomment %}
+              {% assign bg_data = site.data.packs | where: "id", "BG" | first %}
+              <li style="display: flex; align-items: center; color: #28a745;">
+                <i class="fas fa-circle-check" style="margin-right: 10px;"></i>
+                <strong>{{ bg_data.name | default: "Base Game Compatible" }}</strong>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center; font-size: 0.85rem; color: #999;">
+          <p>Need help? Join the community or check the <a href="/faq">FAQ</a>.</p>
+        </div>
+
+      </div>
+    </aside>
+
   </div>
-
-  <hr style="margin: 3rem 0; opacity: 0.2;">
-
-  <section id="download-installation">
-    <h2>Download & Installation</h2>
-    {% include installation.html %}
-    {% include policy.html %}
-  </section>
-
-</article>
+</div>
