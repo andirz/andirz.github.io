@@ -1,5 +1,5 @@
 ---
-mod_id: online-store
+mod_id: simsim-online-store
 title: SimSim Online Store
 icon: "fas fa-shopping-cart"
 permalink: "/mods/online-store/"
