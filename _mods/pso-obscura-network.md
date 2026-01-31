@@ -1,10 +1,10 @@
 ---
 layout: mod_info
-mod_id: obscura_network
+mod_id: obscura-network
 title: Obscura Network
-icon: fas fa-user-secret
-files: [package]
-categories: [Dark Web, Skill, Purchasing System]
+icon: "fas fa-user-secret"
+requirements: ["smart_core", "pso_common"]
+categories: [Game Play Mods, Skill Mods, Purchasing System]
 ---
 
 ## What does this mod do?
