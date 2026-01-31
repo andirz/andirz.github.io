@@ -1,10 +1,7 @@
 ---
-layout: default
 mod_id: injection_tools
 title: Injection Tools
 ---
-
-{% include mod_infobox.html %}
 
 ## What is that?
 After patch 1.110, several popular mods stopped working. To help the community stay afloat after numerous calls for help, I have updated the **Injection Tools** (originally created by *BrainBlasted*). 
