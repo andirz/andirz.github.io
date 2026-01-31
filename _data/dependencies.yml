@@ -1,18 +1,25 @@
 # _data/dependencies.yml
 
-# Deine eigenen Core-Skripte
 smart_core:
   name: "Smart Core Script"
+  short_name: "SCS"
   author: "Andirz"
-  link: "https://andirz.itch.io/smart-core-script"
+  url: "/mods/smart-core-script/"
 
-# Externe Frameworks
+pso_common:
+  name: "P.S.O. Common Package"
+  short_name: "PSO Common"
+  author: "Andirz"
+  url: "/mods/pso_common_package/"
+
 xml_injector:
   name: "XML Injector"
+  short_name: "XML Injector"
   author: "Scumbumbo"
   link: "https://scumbumbomods.com/xml-injector"
 
 lot51_core:
   name: "Lot51 Core Library"
+  short_name: "Lot51"
   author: "Lot51"
   link: "https://lot51.cc/core"
