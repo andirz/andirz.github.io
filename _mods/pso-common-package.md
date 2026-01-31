@@ -3,7 +3,7 @@ mod_id: pso-common-package
 title: "P.S.O. Common Package"
 icon: fas fa-cubes
 requirements: ["smart_core"]
-categories: [Data Library, Purchasing System]
+categories: [Purchasing System, Data Library]
 ---
 
 This library contains **common resources** (icons, images, tests, and shared settings) used across the *Purchasing System Overhaul* (PSO) series.
