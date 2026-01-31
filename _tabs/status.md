@@ -24,9 +24,16 @@ order: 2
     </thead>
     <tbody>
       {% for mod_entry in site.data.mods %}
+        {% comment %} Suche die Mod-Seite basierend auf der ID {% endcomment %}
         {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
+        
+        {% comment %} Daten-Priorität: Mod-Seite > Data File {% endcomment %}
         {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
         {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
+        {% assign current_version = mod_page.version | default: mod_entry.version %}
+        {% assign final_reqs = mod_page.requirements | default: mod_entry.requirements %}
+        {% assign final_packs = mod_page.packs | default: mod_entry.packs %}
+        {% assign update_date = mod_page.last_update | default: mod_entry.updated %}
 
         <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,123,255,0.05)'" onmouseout="this.style.backgroundColor='transparent'">
           
@@ -46,13 +53,13 @@ order: 2
 
               <span style="font-size: 0.7rem; color: #bbb; display: flex; gap: 4px; align-items: center;">
                 {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod"></i>{% endif %}
-                {% if mod_page.files == nil or mod_page.files contains 'package' %}<i class="fas fa-box" title="Package File"></i>{% endif %}
+                {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File"></i>{% endif %}
                 {% if mod_page.files contains 'bat' %}<i class="fas fa-terminal" title="Batch Tool"></i>{% endif %}
               </span>
             </div>
           </td>
           
-          <td style="padding: 12px; font-family: monospace; font-size: 0.85rem; color: #666;">{{ mod_entry.version }}</td>
+          <td style="padding: 12px; font-family: monospace; font-size: 0.85rem; color: #666;">{{ current_version }}</td>
           
           <td style="padding: 12px; text-align: center;">
             {% assign status = mod_entry.status | downcase %}
@@ -67,8 +74,8 @@ order: 2
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
               {% assign has_req = false %}
 
-              {% if mod_entry.packs.size > 0 %}
-                {% for pack_id in mod_entry.packs %}
+              {% if final_packs.size > 0 %}
+                {% for pack_id in final_packs %}
                   {% if pack_id != "BG" %}
                     {% assign pack_info = site.data.packs[pack_id] %}
                     <span title="{{ pack_info.en | default: pack_id }}" style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">{{ pack_id }}</span>
@@ -77,10 +84,9 @@ order: 2
                 {% endfor %}
               {% endif %}
 
-              {% if mod_entry.requirements.size > 0 %}
-                {% for req_id in mod_entry.requirements %}
+              {% if final_reqs.size > 0 %}
+                {% for req_id in final_reqs %}
                   {% assign dep_info = site.data.dependencies[req_id] %}
-                  
                   {% if dep_info %}
                     {% assign req_label = dep_info.short_name | default: req_id %}
                     {% assign req_full_name = dep_info.name %}
@@ -91,8 +97,7 @@ order: 2
                     {% assign req_full_name = req_page.title | default: req_id %}
                     {% assign req_url = req_page.url | relative_url | default: "#" %}
                   {% endif %}
-
-                  <a href="{{ req_url }}" title="{{ req_full_name }}" style="text-decoration: none; font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15); transition: all 0.1s;">
+                  <a href="{{ req_url }}" title="{{ req_full_name }}" style="text-decoration: none; font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">
                     {{ req_label }}
                   </a>
                   {% assign has_req = true %}
@@ -103,7 +108,10 @@ order: 2
             </div>
           </td>
 
-          <td style="padding: 12px; white-space: nowrap; color: #888; font-size: 0.85rem;">{{ mod_entry.updated }}</td>
+          <td style="padding: 12px; white-space: nowrap; color: #888; font-size: 0.85rem;">
+            <span style="display:none;">{{ update_date | date: "%Y%m%d" }}</span>
+            {{ update_date | date: "%b %d, %Y" }}
+          </td>
         </tr>
       {% endfor %}
     </tbody>
@@ -123,13 +131,21 @@ function sortTable(n) {
       shouldSwitch = false;
       x = rows[i].getElementsByTagName("TD")[n];
       y = rows[i + 1].getElementsByTagName("TD")[n];
+      
+      // Nutze innerText für Text-Sortierung, aber achte auf das versteckte Datums-Span in Spalte 5
       var xValue = x.innerText.toLowerCase();
       var yValue = y.innerText.toLowerCase();
+      
       if (dir == "asc") { if (xValue > yValue) { shouldSwitch = true; break; } } 
       else if (dir == "desc") { if (xValue < yValue) { shouldSwitch = true; break; } }
     }
-    if (shouldSwitch) { rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); switching = true; switchcount ++; } 
-    else { if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } }
+    if (shouldSwitch) { 
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); 
+      switching = true; 
+      switchcount ++; 
+    } else { 
+      if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } 
+    }
   }
 }
 </script>
