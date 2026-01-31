@@ -1,6 +1,5 @@
 ---
 layout: default
-mod_id: smart_core
 title: Smart Core Script
 categories: [Scripts, Libraries]
 tags: [scripts]
