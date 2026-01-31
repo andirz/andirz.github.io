@@ -41,7 +41,7 @@
   status: "compatible"
   updated: "2025-10-09"
 
-- id: online-store
+- id: simsim-online-store
   version: "5.4.1"
   status: "updated"
   updated: "2026-01-14"
