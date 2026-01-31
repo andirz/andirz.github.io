@@ -21,16 +21,12 @@ translations:
 ## What is this?
 The **Smart Core Script** is a technical library and **NOT a standalone mod**. It serves as the "engine" for many of my other projects. **Important:** You only need to install this library if a mod's requirements specifically state that it is required!
 
+{% include script_notice.html %}
+
 ## Compatibility
 This is a standalone script library. It does not override any game files (tuning or internal code), so there are **no known compatibility issues** with other mods or game updates. The included package file contains only the translations for menus and system messages.
 
 ## Translations
 {% include translations.html %}
 
----
-
-### For Modders & Users
-If you are using one of my mods and notice that custom menus (like the SimSim Store or special pie menus) are missing, please ensure that you have the **latest version** of this Core Script installed in your Mods folder.
-
-{% include script_notice.html %}
 {% include policy.html %}
