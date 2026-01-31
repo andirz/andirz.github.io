@@ -40,7 +40,19 @@ title: Home
         
         {% assign random_mods = site.data.mods | sample: 5 %}
         {% for mod in random_mods %}
-            <a href="/mods/{{ mod.id }}" style="padding: 10px 20px; background: white; border: 1px solid var(--border-color); border-radius: 30px; text-decoration: none; color: var(--text-color); font-size: 0.9rem; transition: background 0.2s;" onmouseover="this.style.background='#2563eb'; this.style.color='white';" onmouseout="this.style.background='white'; this.style.color='var(--text-color)';" >
+            {% comment %} Suche die Seite, die diese mod_id im Frontmatter hat {% endcomment %}
+            {% assign mod_page = site.pages | where: "mod_id", mod.id | first %}
+            
+            {% comment %} 
+               Wenn mod_page existiert, nimm die URL, ansonsten nur das Raute-Zeichen 
+            {% endcomment %}
+            {% if mod_page %}
+                {% assign target_link = mod_page.url | relative_url %}
+            {% else %}
+                {% assign target_link = "#" %}
+            {% endif %}
+        
+            <a href="{{ target_link }}" class="mod-link" style="...">
                 {{ mod.name }}
             </a>
         {% endfor %}
