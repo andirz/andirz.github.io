@@ -4,13 +4,13 @@ smart_core:
   name: "Smart Core Script"
   short_name: "SCS"
   author: "Andirz"
-  url: "/mods/smart_core_script/"
+  url: "/mods/smart-core-script/"
 
 pso_common:
   name: "P.S.O. Common Package"
   short_name: "PSO Common"
   author: "Andirz"
-  url: "/mods/pso_common_package/"
+  url: "/mods/pso-common-package/"
 
 xml_injector:
   name: "XML Injector"
