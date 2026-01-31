@@ -4,6 +4,7 @@ title: "Drama Degree is Acting"
 icon: "fas fa-theater-masks"
 categories: ["University", "Skill Mods"]
 packs: ["EP08", "EP06"] 
+overrides: true
 ---
 
 Tired of your Sims dreaming of stardom, enrolling in university for a Drama degree, and learning absolutely nothing about **Acting**? In the original game, the curriculum focuses heavily on Charisma and Comedy, forcing actors to take elective courses just to get basic experience.
@@ -13,7 +14,7 @@ This mod overrides four core courses from *Discover University's* Drama Degree a
 ### Course Changes
 In the original game, your Sims learn 5x Charisma, 5x Comedy, and 2x Fitness. My version balances this to **4x Charisma, 3x Comedy, 4x Acting, and 1x Fitness**.
 
-| Course | Original Skill | New Skill (Mod) |
+| Course | Original Skill | New Skill |
 |:-------|:---------------|:----------------|
 | **Course A** | Charisma | **Acting** |
 | **Course H** | Comedy | **Acting** |
@@ -30,7 +31,7 @@ There are two versions of this mod. **Please install only one!**
 * **Variant A:** Requires the **Sims 4 Get Famous** Expansion Pack (uses EA Acting Skill).
 * **Variant B:** Requires Sacrificial's **Road To Fame** mod (uses RTF Acting Skill).
 
-> **Bonus for Variant B:** I also replaced the EA Acting Skill in the *Acting Elective Course* with the Road To Fame Acting Skill. This allows you to take Acting as an elective even if you don't own the Get Famous EP!
+Bonus for Variant B: I also replaced the EA Acting Skill in the *Acting Elective Course* with the Road To Fame Acting Skill. This allows you to take Acting as an elective even if you don't own the Get Famous EP!
 
 ---
 
