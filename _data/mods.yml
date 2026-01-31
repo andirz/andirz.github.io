@@ -6,11 +6,13 @@
   version: "1.4.0"
   status: "compatible"
   updated: "2026-01-04"
+  patreon: "https://www.patreon.com/posts/download-sims-4-112451234"
 
 - id: smart-core-script
   version: "2.7.2"
   status: "updated"
   updated: "2026-01-12"
+  patreon: "https://www.patreon.com/posts/smart-core-v-2-3-130504687"
 
 - id: trait-tracker-injector
   version: "2.0.1"
