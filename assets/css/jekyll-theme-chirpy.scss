@@ -1,15 +1,16 @@
 ---
 ---
 
-@import "main";
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
 
-/* NUR rechte Sidebar (TOC/Panel) ausblenden */
+/* append your custom style below */
+
+/* Rechte Sidebar (TOC/Panel rechts) ausblenden */
 #panel-wrapper {
-  display: none !important;
-}
-
-/* optional: TOC separat (falls vorhanden) */
-#toc-wrapper,
-#toc {
   display: none !important;
 }
