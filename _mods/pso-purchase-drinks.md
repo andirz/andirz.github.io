@@ -2,7 +2,8 @@
 mod_id: purchase-drinks
 title: "Purchase Drinks"
 icon: "fas fa-wine-bottle"
-packs: ["EP09"]
+packs: ["EP09", "EP14"]
+require_any_pack: true
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay Mods, Food]
 ---
