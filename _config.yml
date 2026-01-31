@@ -171,6 +171,10 @@ collections:
     output: true
     sort_by: order
     permalink: /mods/:name/
+  wiki:
+    output: true
+    sort_by: order
+    permalink: /wiki/:name/
   tutorials:
     output: true
     sort_by: order
@@ -196,6 +200,11 @@ defaults:
       path: "_mods"
     values:
       layout: mod_info
+      toc: true
+  - scope:
+      path: "_wiki"
+    values:
+      layout: page
       toc: true
   - scope:
       path: "_tutorials"
