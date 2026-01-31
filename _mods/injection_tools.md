@@ -4,9 +4,7 @@ mod_id: injection_tools
 title: Injection Tools
 ---
 
-{% include mod-infobox.html %}
-
-{% include script_notice.html %}
+{% include mod_infobox.html %}
 
 ## What is that?
 After patch 1.110, several popular mods stopped working. To help the community stay afloat after numerous calls for help, I have updated the **Injection Tools** (originally created by *BrainBlasted*). 
@@ -28,7 +26,7 @@ However, some older mods still use the original injection tools — and this fix
 You only need to copy this one script file into your mod folder. 
 
 **Placement:** Place it directly into the Mods folder, not inside any subfolders. Do not copy any files from the original post, as they are not required and may cause compatibility issues or unexpected behavior in your game.
-
+{% include script_notice.html %}
 ## For Modders
 The usage and syntax of this updated version of the script remain entirely unchanged. You can continue using it in new mods exactly as described in the original post, without any need to modify your code or adjust how it’s integrated.
 
