@@ -3,7 +3,8 @@ mod_id: cleanup-script
 title: "Cleanup Script for Windows"
 icon: "fas fa-broom"
 files: ["bat"]
-categories: [Scripts, Tools]
+categories: [Tools]
+curseforge_ban = true
 ---
 
 ## What does this tool do?
