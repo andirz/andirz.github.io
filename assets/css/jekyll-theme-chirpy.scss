@@ -1,0 +1,22 @@
+---
+---
+
+@import "main";
+
+/* Rechtes Panel (TOC/Trending/Updates) komplett ausblenden */
+#panel-wrapper {
+  display: none !important;
+}
+
+/* TOC sicherheitshalber auch direkt ausblenden (falls separat gerendert) */
+#toc-wrapper,
+#toc {
+  display: none !important;
+}
+
+/* Optional, aber meist nötig: Content-Spalte nimmt den freigewordenen Platz ein */
+#main-wrapper .col-xl-9,
+#main-wrapper .col-lg-8 {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+}
