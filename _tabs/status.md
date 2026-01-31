@@ -73,23 +73,23 @@ order: 2
           <div style="display: flex; flex-wrap: wrap; gap: 4px;">
             {% assign has_content = false %}
         
-            {% if mod.requirements.size > 0 %}
-              {% for req_id in mod.requirements %}
-                {% if req_id != "BG" %}
-                  {% assign pack = site.data.packs[req_id] %}
-                  <span title="{{ pack.en | default: req_id }}" style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">
-                    {{ req_id }}
+            {% if mod.packs.size > 0 %}
+              {% for pack_id in mod.packs %}
+                {% if pack_id != "BG" %}
+                  {% assign pack = site.data.packs[pack_id] %}
+                  <span title="{{ pack.en | default: pack_id }}" style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">
+                    {{ pack_id }}
                   </span>
                   {% assign has_content = true %}
                 {% endif %}
               {% endfor %}
             {% endif %}
         
-            {% if mod.dependencies.size > 0 %}
-              {% for dep_id in mod.dependencies %}
-                {% assign dep_mod = site.data.mods | where: "id", dep_id | first %}
+            {% if mod.requirements.size > 0 %}
+              {% for req_id in mod.requirements %}
+                {% assign req_mod = site.data.mods | where: "id", req_id | first %}
                 <span title="Required Mod" style="font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">
-                  {{ dep_mod.name | default: dep_id }}
+                  {{ req_mod.name | default: req_id }}
                 </span>
                 {% assign has_content = true %}
               {% endfor %}
