@@ -4,7 +4,7 @@ smart_core:
   name: "Smart Core Script"
   short_name: "SCS"
   author: "Andirz"
-  url: "/mods/smart-core-script/"
+  url: "/mods/smart_core_script/"
 
 pso_common:
   name: "P.S.O. Common Package"
