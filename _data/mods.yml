@@ -62,9 +62,6 @@
   updated: "2025-11-06"
 
 - id: purchase-drinks
-  name: "Purchase Bottled Drinks"
-  icon: "fas fa-wine-bottle"
-  version: "1.8.0"
   status: "compatible"
 
 - id: purchase-occult-books
