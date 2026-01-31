@@ -1,5 +1,4 @@
 ---
-layout: mod_info
 mod_id: smart_core_script
 title: Smart Core Script
 version: "2.7.2"
