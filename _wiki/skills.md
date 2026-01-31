@@ -2,78 +2,46 @@
 layout: page
 title: Skills
 icon: "fas fa-graduation-cap"
-order: 1
-description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs and Max Levels for Base Game and DLCs."
+order: 2
+description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs, Pack Codes, and Max Levels."
 ---
 
 # The Sims 4 Skills List
 
-| Skill | Pack | Skill ID | Skill Icon | Max Level |
-| :--- | :--- | :--- | :--- | :--- |
-| **Fishing** | Base Game | `Major_Fishing` | Standard_Fishing | 10 |
-| **Charisma** | Base Game | `Major_Charisma` | Standard_Charisma | 10 |
-| **Comedy** | Base Game | `Major_Comedy` | Standard_Comedy | 10 |
-| **Gourmet Cooking** | Base Game | `Major_GourmetCooking` | Standard_GourmetCooking | 10 |
-| **Fitness** | Base Game | `Skill_Fitness` | Standard_Fitness | 10 |
-| **Gardening** | Base Game | `Major_Gardening` | Standard_Gardening | 10 |
-| **Violin** | Base Game | `Major_Violin` | Standard_Violin | 10 |
-| **Handiness** | Base Game | `Major_Handiness` | Standard_Handiness | 10 |
-| **Guitar** | Base Game | `Major_Guitar` | Standard_Guitar | 10 |
-| **Piano** | Base Game | `Major_Piano` | Standard_Piano | 10 |
-| **Cooking** | Base Game | `Major_HomestyleCooking` | Standard_Cooking | 10 |
-| **Logic** | Base Game | `Major_Logic` | Standard_Logic | 10 |
-| **Painting** | Base Game | `Major_Painting` | Standard_Painting | 10 |
-| **Mixology** | Base Game | `Major_Bartending` | Standard_Mixology | 10 |
-| **Programming** | Base Game | `Major_Programming` | Standard_Programming | 10 |
-| **Rocket Science** | Base Game | `Major_RocketScience` | Standard_RocketScience | 10 |
-| **Mischief** | Base Game | `Major_Mischief` | Standard_Mischief | 10 |
-| **Writing** | Base Game | `Major_Writing` | Standard_Writing | 10 |
-| **Video Gaming** | Base Game | `Major_VideoGaming` | Standard_VideoGaming | 10 |
-| **Baking** | Get to Work | `Major_Baking` | EP01_Baking | 10 |
-| **Photography** | Base Game / Get to Work | `Major_Photography` | EP01_Photography | 5 |
-| **DJ Mixing** | Get Together | `Major_DJ` | EP02_DJ | 10 |
-| **Dancing** | Get Together | `Minor_Dancing` | EP02_Dancing | 5 |
-| **Singing** | City Living | `Major_Singing` | EP03_Singing | 10 |
-| **Veterinarian** | Cats & Dogs | `Major_Vet` | EP04_Vet | 10 |
-| **Pet Training** | Cats & Dogs | `Skill_Dog` | EP04_PetTraining | 5 |
-| **Flower Arranging** | Seasons | `Major_FlowerArranging` | EP05_FlowerArranging | 10 |
-| **Acting** | Get Famous | `Major_Acting` | EP06_Acting | 10 |
-| **Media Production** | Get Famous | `Minor_Media` | EP06_MediaProduction | 5 |
-| **Research & Debate** | Discover University | `Major_ResearchDebate` | EP08_Research | 10 |
-| **Robotics** | Discover University | `Major_Robotics` | EP08_Robotics | 10 |
-| **Rock Climbing** | Snowy Escape | `Major_RockClimbing` | EP10_RockClimbing | 10 |
-| **Skiing** | Snowy Escape | `Major_Skiing` | EP10_Skiing | 10 |
-| **Snowboarding** | Snowy Escape | `Major_Snowboarding` | EP10_Snowboarding | 10 |
-| **Cross-stitch** | Cottage Living | `Major_CrossStitch` | EP11_CrossStitch | 10 |
-| **Entrepreneur** | High School Years | `Major_Entrepreneur` | EP12_Entrepreneur | 5 |
-| **Equestrian Skill** | Horse Ranch | `AdultMajor_EquestrianSkill` | EP14_Equestrian | 10 |
-| **Nectar Making** | Horse Ranch | `AdultMinor_RanchNectar` | EP14_NectarMaking | 5 |
-| **Romance** | Lovestruck | `Major_Romance` | EP16_Romance | 10 |
-| **Tattooing** | Life & Death | `Major_Tattooing` | EP18_Tattooing | 10 |
-| **Pottery** | Life & Death | `Major_Pottery` | EP18_Pottery | 10 |
-| **Herbalism** | Outdoor Retreat | `Major_Herbalism` | GP01_Herbalism | 10 |
-| **Wellness** | Spa Day | `Major_Wellness` | GP02_Wellness | 10 |
-| **Vampire Lore** | Vampires | `Major_VampireLore` | GP04_VampireLore | 15 |
-| **Pipe Organ** | Vampires | `Major_PipeOrgan` | GP04_PipeOrgan | 10 |
-| **Archaeology** | Jungle Adventure | `Major_Archaeology` | GP06_Archaeology | 10 |
-| **Selvadoradian Culture** | Jungle Adventure | `Minor_LocalCulture` | GP06_Culture | 5 |
-| **Knitting** | Nifty Knitting | `Major_Knitting` | SP17_Knitting | 10 |
-| **Medium** | Paranormal | `Minor_Medium` | SP18_Medium | 5 |
-| **Gemology** | Crystal Creations | `Major_Gemology` | SP49_Gemology | 10 |
+Below is a complete list of all skills available in The Sims 4. You can use these IDs with the cheat `stats.set_skill_level [Skill_ID] [Level]`.
 
-## Child Skills
-| Skill | Skill ID | Max Level |
-| :--- | :--- | :--- |
-| **Creativity** | `Skill_Child_Creativity` | 10 |
-| **Mental** | `Skill_Child_Mental` | 10 |
-| **Motor** | `Skill_Child_Motor` | 10 |
-| **Social** | `Skill_Child_Social` | 10 |
+<div class="status-table-container" style="overflow-x: auto; margin-top: 25px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+  <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
+    <thead>
+      <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
+        <th style="padding: 15px;">Skill Name</th>
+        <th style="padding: 15px;">Age</th>
+        <th style="padding: 15px;">Pack</th>
+        <th style="padding: 15px;">Skill ID</th>
+        <th style="padding: 15px; text-align: center;">Max Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% comment %} Hier ist das Array für die Skills {% endcomment %}
+      {% assign skills = "Acting|Adult|EP06|Major_Acting|10,Archaeology|Adult|GP06|Major_Archaeology|10,Baking|Adult|EP01|Major_Baking|10,Bowling|Adult|SP10|Skill_Bowling|5,Charisma|Adult|BG|Major_Charisma|10,Comedy|Adult|BG|Major_Comedy|10,Cooking|Adult|BG|Major_HomestyleCooking|10,Cross-stitch|Adult|EP11|Skill_CrossStitch|10,Dancing|Adult|EP02|Minor_Dancing|5,DJ Mixing|Adult|EP02|Major_DJ|10,Entrepreneur|Adult|EP12|Major_Entrepreneur|5,Equestrian Skill|Adult|EP14|AdultMajor_EquestrianSkill|10,Fabrication|Adult|EP09|AdultMajor_Fabrication|10,Fishing|Adult|BG|Major_Fishing|10,Fitness|Adult|BG|Skill_Fitness|10,Flower Arranging|Adult|EP05|AdultMajor_FlowerArranging|10,Gardening|Adult|BG|Major_Gardening|10,Gemology|Adult|SP49|Major_Gemology|10,Gourmet Cooking|Adult|BG|Major_GourmetCooking|10,Guitar|Adult|BG|Major_Guitar|10,Handiness|Adult|BG|Major_Handiness|10,Herbalism|Adult|GP01|Major_Herbalism|10,Juice Fizzing|Adult|EP09|AdultMinor_JuiceFizzing|5,Knitting|Adult|SP17|Major_Knitting|10,Logic|Adult|BG|Major_Logic|10,Media Production|Adult|EP06|Minor_Mediaproduction|5,Medium|Adult|SP18|Minor_Medium|5,Mischief|Adult|BG|Major_Mischief|10,Mixology|Adult|BG|Major_Bartending|10,Nectar Making|Adult|EP14|AdultMinor_RanchNectar|5,Painting|Adult|BG|Major_Painting|10,Parenting|Adult|GP05|Major_Parenting|10,Pet Training|Adult|EP04|Skill_Dog|5,Photography|Adult|BG|Major_Photography|5,Piano|Adult|BG|Major_Piano|10,Pipe Organ|Adult|GP04|Major_PipeOrgan|10,Pottery|Adult|EP18|Major_Pottery|10,Programming|Adult|BG|Major_Programming|10,Research & Debate|Adult|EP08|Major_Research|10,Robotics|Adult|EP08|Major_Robotic|10,Rock Climbing|Adult|EP10|Major_Rockclimbing|10,Rocket Science|Adult|BG|Major_RocketScience|10,Romance|Adult|EP16|Major_Romance|10,Selvadoradian Culture|Adult|GP06|Minor_LocalCulture|5,Singing|Adult|EP03|Major_Singing|10,Skiing|Adult|EP10|Major_Skiing|10,Snowboarding|Adult|EP10|Major_Snowboarding|10,Tattooing|Adult|EP18|Major_Tattooing|10,Vampire Lore|Adult|GP04|VampireLore|15,Veterinarian|Adult|EP04|Major_Vet|10,Video Gaming|Adult|BG|Major_VideoGaming|10,Violin|Adult|BG|Major_Violin|10,Wellness|Adult|GP02|Major_Wellness|10,Writing|Adult|BG|Major_Writing|10,Creativity|Child|BG|Skill_Child_Creativity|10,Mental|Child|BG|Skill_Child_Mental|10,Motor|Child|BG|Skill_Child_Motor|10,Social|Child|BG|Skill_Child_Social|10,Communication|Toddler|BG|Toddler_Communication|5,Imagination|Toddler|BG|Toddler_Imagination|5,Movement|Toddler|BG|Toddler_Movement|5,Potty|Toddler|BG|Toddler_Potty|3,Thinking|Toddler|BG|Toddler_Thinking|5" | split: "," %}
 
-## Toddler Skills
-| Skill | Skill ID | Max Level |
-| :--- | :--- | :--- |
-| **Movement** | `Skill_Toddler_Movement` | 5 |
-| **Thinking** | `Skill_Toddler_Thinking` | 5 |
-| **Imagination** | `Skill_Toddler_Imagination` | 5 |
-| **Communication** | `Skill_Toddler_Communication` | 5 |
-| **Potty** | `Skill_Toddler_Potty` | 3 |
+      {% for skill_row in skills %}
+        {% assign details = skill_row | split: "|" %}
+        <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='var(--bg-secondary)'" onmouseout="this.style.backgroundColor='transparent'">
+          <td style="padding: 15px; font-weight: 600;">{{ details[0] }}</td>
+          <td style="padding: 15px;"><span style="background: var(--bg-secondary); padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">{{ details[1] }}</span></td>
+          <td style="padding: 15px;">
+            {% if details[2] == "BG" %}
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Base Game</span>
+            {% else %}
+              {% assign pack_info = site.data.packs[details[2]] %}
+              <span title="{{ pack_info.en | default: details[2] }}" style="cursor: help; font-size: 0.65rem; background: var(--accent-color-transparent); color: var(--accent-color); padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid var(--accent-color-transparent);">{{ details[2] }}</span>
+            {% endif %}
+          </td>
+          <td style="padding: 15px;"><code style="font-size: 0.85rem;">{{ details[3] }}</code></td>
+          <td style="padding: 15px; text-align: center; font-weight: 700;">{{ details[4] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
