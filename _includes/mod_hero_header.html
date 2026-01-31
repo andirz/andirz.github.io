@@ -1,27 +1,40 @@
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
+{% include mod-status-color.html %}
 
 <header class="mod-header" style="margin-bottom: 40px; border-bottom: 1px solid var(--border-color, #eee); padding-bottom: 25px;">
   <h1 style="font-size: 2.8rem; margin: 0 0 15px 0; color: var(--text-color);">{{ mod.name | default: page.title }}</h1>
   
   <div class="mod-meta-tags" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
     {% if mod.status %}
-      {% assign status_lower = mod.status | downcase %}
-      {% if status_lower == 'compatible' %}{% assign status_color = '#10b981' %}
-      {% elsif status_lower == 'updated' %}{% assign status_color = '#3b82f6' %}
-      {% else %}{% assign status_color = '#ef4444' %}{% endif %}
-      
-      <span style="background: {{ status_color }}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase;">
+      <span style="background: {{ status_color }}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         {{ mod.status }}
       </span>
     {% endif %}
     
     {% for cat in page.categories %}
-      <span style="border: 1px solid #2563eb; color: #2563eb; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">{{ cat }}</span>
+      <span style="border: 1px solid #2563eb; color: #2563eb; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 500;">{{ cat }}</span>
     {% endfor %}
     
     <div style="display: flex; align-items: center; gap: 15px; margin-left: 10px; color: #666; font-size: 0.95rem;">
-      <span><i class="fas fa-code-branch"></i> v{{ mod.version }}</span>
-      <span style="padding-left: 15px; border-left: 1px solid #ddd;"><i class="fas fa-calendar-alt"></i> {{ mod.updated | date: "%b %d, %Y" }}</span>
+      
+      <span>
+        <i class="fas fa-code-branch" style="color: #64748b; margin-right: 5px;"></i> 
+        v. {{ mod.version }}
+      </span>
+      
+      <span style="padding-left: 15px; border-left: 1px solid #ddd;">
+        <i class="fas fa-calendar-alt" style="color: #64748b; margin-right: 5px;"></i> 
+        {{ mod.updated | date: "%b %d, %Y" }}
+      </span>
+
+      <div style="display: flex; gap: 10px; align-items: center; padding-left: 15px; border-left: 1px solid #ddd; color: #94a3b8;">
+        {% if page.files contains 'ts4script' %}
+          <i class="fas fa-file-code" title="Contains Script Mod (.ts4script)" style="cursor: help;"></i>
+        {% endif %}
+        {% if page.files == nil or page.files contains 'package' %}
+          <i class="fas fa-file-archive" title="Contains Package File (.package)" style="cursor: help;"></i>
+        {% endif %}
+      </div>
     </div>
   </div>
 </header>
