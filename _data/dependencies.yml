@@ -16,10 +16,10 @@ xml_injector:
   name: "XML Injector"
   short_name: "XML Injector"
   author: "Scumbumbo"
-  link: "https://scumbumbomods.com/xml-injector"
+  url: "https://scumbumbomods.com/xml-injector"
 
 lot51_core:
   name: "Lot51 Core Library"
   short_name: "Lot51"
   author: "Lot51"
-  link: "https://lot51.cc/core"
+  url: "https://lot51.cc/core"
