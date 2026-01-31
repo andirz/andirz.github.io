@@ -22,3 +22,7 @@ This script does not contain any gameplay content on its own. It is a **library*
 
 ## Developer Note
 If you are a modder interested in using the Smart Core functions for your own projects, stay tuned for documentation or contact me via Discord.
+
+## Developer Note
+
+**Coming Soon:** I am working on a public documentation for the Smart Core functions. If you are a modder and want to use this core for your own projects, please stay tuned or contact me via Discord in the meantime.
