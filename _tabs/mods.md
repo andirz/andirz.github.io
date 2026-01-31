@@ -8,6 +8,24 @@ order: 2
 {% assign latest_patch = site.data.globals.latest_patch %}
 {% assign last_checked = site.data.globals.last_checked %}
 
+<style>
+  /* Zebra-Look für bessere Lesbarkeit */
+  #modTable tbody tr:nth-child(odd) {
+    background-color: rgba(128, 128, 128, 0.03);
+  }
+
+  /* Markierung der aktuellen Zeile beim Drüberfahren */
+  #modTable tbody tr:hover {
+    background-color: var(--accent-color-transparent) !important;
+    transition: background-color 0.15s ease-in-out;
+  }
+
+  /* Kleiner Fix für die Pack-Buttons im Hover-Zustand */
+  #modTable tbody tr:hover span {
+    border-color: var(--accent-color);
+  }
+</style>
+
 <div class="content-wrapper">
   <p>All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}</strong> as of <strong>{{ last_checked }}</strong>.</p>
 
@@ -27,7 +45,6 @@ order: 2
       <tbody>
         {% for mod_entry in site.data.mods %}
           {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
-          
           {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
           {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
           {% assign current_version = mod_page.version | default: mod_entry.version %}
@@ -36,11 +53,10 @@ order: 2
           {% assign update_date = mod_page.last_update | default: mod_entry.updated %}
           {% assign primary_category = mod_page.categories | first | default: "General" %}
 
-          <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='var(--bg-secondary)'" onmouseout="this.style.backgroundColor='transparent'">
-            
+          <tr style="border-bottom: 1px solid var(--border-color); cursor: default;">
             <td style="padding: 8px; text-align: center;">
-              <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; color: var(--accent-color); border: 1px solid var(--border-color); margin: 0 auto;">
-                <i class="{{ display_icon }}" style="font-size: 1.3rem;"></i>
+              <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; color: var(--accent-color); border: 1px solid var(--border-color); margin: 0 auto;">
+                <i class="{{ display_icon }}" style="font-size: 1.2rem;"></i>
               </div>
             </td>
             
@@ -93,14 +109,8 @@ order: 2
                 {% if final_reqs.size > 0 %}
                   {% for req_id in final_reqs %}
                     {% assign dep_info = site.data.dependencies[req_id] %}
-                    {% if dep_info %}
-                      {% assign req_url = dep_info.url | default: "#" %}
-                      {% assign req_label = dep_info.short_name | default: req_id %}
-                    {% else %}
-                      {% assign req_page = site.mods | where: "mod_id", req_id | first %}
-                      {% assign req_label = req_id %}
-                      {% assign req_url = req_page.url | relative_url | default: "#" %}
-                    {% endif %}
+                    {% assign req_label = dep_info.short_name | default: req_id %}
+                    {% assign req_url = dep_info.url | default: "#" %}
                     <a href="{{ req_url }}" style="text-decoration: none; font-size: 0.65rem; background: rgba(0,123,255,0.06); color: #007bff; padding: 1px 5px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.12);">{{ req_label }}</a>
                     {% assign has_mod_req = true %}
                   {% endfor %}
