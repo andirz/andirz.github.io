@@ -2,7 +2,7 @@
 layout: page
 title: Pack Memory
 icon: "fas fa-th"
-order: 5
+order: 750
 ---
 
 <div class="memory-game-container" style="max-width: 600px; margin: 0 auto; text-align: center;">
