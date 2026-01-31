@@ -1,8 +1,9 @@
 ---
 layout: page
-title: Sims Wiki
-icon: "fas fa-book"
-order: 3
+title: Skills
+icon: "fas fa-graduation-cap"
+order: 1
+description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs and Max Levels for Base Game and DLCs."
 ---
 
 # The Sims 4 Skills List
