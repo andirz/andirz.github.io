@@ -9,16 +9,19 @@ order: 2
 {% assign last_checked = site.data.globals.last_checked %}
 
 <style>
+  /* Zebra-Look: Jede zweite Zeile ganz leicht abgesetzt */
   #modTable tbody tr:nth-child(even) {
     background-color: rgba(128, 128, 128, 0.03);
   }
 
+  /* Aggressiver Hover im Stil der Webseite (Neutral) */
   #modTable tbody tr:hover {
     background-color: rgba(128, 128, 128, 0.08) !important;
     outline: 1.5px solid var(--text-muted);
     outline-offset: -1.5px;
   }
 
+  /* Pack-Buttons Design (Graue Rechtecke) */
   .pack-badge {
     font-size: 0.65rem;
     background: rgba(128, 128, 128, 0.1);
@@ -35,13 +38,11 @@ order: 2
 </style>
 
 <div class="content-wrapper">
-  
-  <div style="display: flex; align-items: center; gap: 12px; background: rgba(40, 167, 69, 0.08); border: 1px solid rgba(40, 167, 69, 0.2); padding: 12px 18px; border-radius: 10px; margin-bottom: 25px;">
-    <i class="fas fa-check-shield" style="color: #28a745; font-size: 1.2rem;"></i>
-    <span style="font-size: 0.95rem; color: var(--text-color);">
-      All mods are <strong>verified</strong> for 
-      <span style="background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; border: 1px solid var(--border-color);">Patch {{ latest_patch }}</span> 
-      as of <strong>{{ last_checked | date: "%b %d, %Y" }}</strong>.
+  <div style="display: flex; align-items: center; gap: 12px; background: rgba(40, 167, 69, 0.05); border: 1px solid rgba(40, 167, 69, 0.15); padding: 14px 20px; border-radius: 10px; margin-bottom: 25px;">
+    <i class="fas fa-check-shield" style="color: #28a745; font-size: 1.1rem;"></i>
+    <span style="font-size: 1rem; color: var(--text-color); line-height: 1.5;">
+      The following overview refers to <strong>Patch {{ latest_patch }}</strong> from <strong>{{ last_checked | date: "%B %d, %Y" }}</strong>. 
+      All mods are verified for this version; specific statuses can be found in the table below.
     </span>
   </div>
 
@@ -51,8 +52,8 @@ order: 2
         <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
           <th style="padding: 12px; width: 60px; text-align: center;">#</th>
           <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer; width: 1%; white-space: nowrap;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th onclick="sortTable(2)" title="Version" style="padding: 12px; cursor: pointer; width: 90px;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th onclick="sortTable(3)" title="Status" style="padding: 12px; cursor: pointer; width: 60px; text-align: center;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(2)" title="Version" style="padding: 12px; cursor: pointer; width: 70px;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(3)" title="Status" style="padding: 12px; cursor: pointer; width: 50px; text-align: center;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
           <th onclick="sortTable(4)" title="Last Update" style="padding: 12px; cursor: pointer; width: 110px;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
           <th style="padding: 12px; width: 130px;">Requirements</th>
           <th onclick="sortTable(6)" style="padding: 12px; cursor: pointer; width: 120px;">Category <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
@@ -109,12 +110,12 @@ order: 2
             </td>
             
             <td style="padding: 12px; text-align: center;">
-              {% assign status = mod_entry.status | downcase %}
+              {% assign status = mod_entry.status | capitalize %}
               <div style="cursor: help;">
-                {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Status: Updated" style="color: #007bff; font-size: 1.3rem;"></i>
-                {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Status: Compatible" style="color: #28a745; font-size: 1.3rem;"></i>
-                {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Status: Broken" style="color: #dc3545; font-size: 1.3rem;"></i>
-                {% else %}<i class="fas fa-question-circle" title="Status: Unknown" style="color: #ffc107; font-size: 1.3rem;"></i>{% endif %}
+                {% if status == 'Updated' %}<i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.3rem;"></i>
+                {% elsif status == 'Compatible' %}<i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.3rem;"></i>
+                {% elsif status == 'Broken' %}<i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.3rem;"></i>
+                {% else %}<i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.3rem;"></i>{% endif %}
               </div>
             </td>
 
@@ -128,8 +129,10 @@ order: 2
                 {% if final_reqs.size > 0 %}
                   {% for req_id in final_reqs %}
                     {% assign dep_info = site.data.dependencies[req_id] %}
-                    <a href="{{ dep_info.url | default: '#' }}" 
+                    {% assign target_url = dep_info.url | default: "#" %}
+                    <a href="{{ target_url }}" 
                        title="{{ dep_info.name | default: req_id }}"
+                       {% if target_url contains 'http' %}target="_blank" rel="noopener"{% endif %}
                        style="text-decoration: none; font-size: 0.65rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid rgba(0,123,255,0.15); line-height: 1.4;">
                        {{ dep_info.short_name | default: req_id }}
                     </a>
