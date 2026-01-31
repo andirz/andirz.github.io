@@ -56,7 +56,7 @@
   version: "1.2.5"
   status: "updated"
   updated: "2026-01-29"
-  dependencies: ["smart_core"]
+  requirements: ["Smart Core"]
   curseforge: "https://www.curseforge.com/"
   patreon: "https://www.patreon.com/"
 
@@ -96,42 +96,42 @@
   name: "Better Curio Shop"
   icon: "fas fa-eye"
   version: "1.0.0"
-  requirements: ["GP07"]
+  packs: ["GP07"]
   status: "compatible"
 
 - id: better_highschool_festivals
   name: "Better HighSchool Festivals"
   icon: "fas fa-school"
   version: "1.0.0"
-  requirements: ["EP12"]
+  packs: ["EP12"]
   status: "compatible"
 
 - id: better_ranger_station
   name: "Better Ranger Station"
   icon: "fas fa-tree"
   version: "1.0.0"
-  requirements: ["GP01"]
+  packs: ["GP01"]
   status: "compatible"
 
 - id: better_san_myshuno_festivals
   name: "Better San Myshuno Festivals"
   icon: "fas fa-city"
   version: "1.0.1"
-  requirements: ["EP03"]
+  packs: ["EP03"]
   status: "compatible"
 
 - id: better_sulani_kiosk
   name: "Better Sulani Kiosk"
   icon: "fas fa-umbrella-beach"
   version: "1.0.1"
-  requirements: ["EP07"]
+  packs: ["EP07"]
   status: "compatible"
 
 - id: better_university_kiosk
   name: "Better University Kiosk"
   icon: "fas fa-university"
   version: "1.0.1"
-  requirements: ["EP08"]
+  packs: ["EP08"]
   status: "compatible"
 
 - id: better_vending_machines
@@ -193,7 +193,7 @@
   version: "1.0.5"
   status: "stable"
   updated: "2025-12-15"
-  requirements: ["EP08"]
+  packs: ["EP08"]
   github: "https://github.com/Andirz/TS4-University-Electives"
   patreon: "https://www.patreon.com/andirz"
 
@@ -201,14 +201,14 @@
   name: "Drama Degree is Acting"
   icon: "fas fa-theater-masks"
   version: "1.0.2"
-  requirements: ["EP06", "EP08"]
+  packs: ["EP06", "EP08"]
   status: "compatible"
 
 - id: skill_class_reloaded
   name: "Skill Class Reloaded"
   icon: "fas fa-pen-nib"
   version: "3.0.0"
-  requirements: ["EP08"]
+  packs: ["EP08"]
   status: "compatible"
 
 # --- SELVADORADIAN & DEATH ---
@@ -229,21 +229,21 @@
   name: "Deadly Poisons"
   icon: "fas fa-flask"
   version: "1.2.2"
-  requirements: ["EP01", "GP06"]
+  packs: ["EP01", "GP06"]
   status: "compatible"
 
 - id: poisoning_overhaul
   name: "Poisoning Overhaul"
   icon: "fas fa-biohazard"
   version: "1.1.0"
-  requirements: ["GP06"]
+  packs: ["GP06"]
   status: "compatible"
 
 - id: selvadoradian_herbalism
   name: "Selvadoradian Herbalism"
   icon: "fas fa-leaf"
   version: "1.3.2"
-  requirements: ["GP01", "GP06"]
+  packs: ["GP01", "GP06"]
   status: "compatible"
 
 # --- REACTION & BEHAVIOR TWEAKS ---
@@ -252,7 +252,7 @@
   name: "No Holidays Failure Drama"
   icon: "fas fa-calendar-times"
   version: "1.0.2"
-  requirements: ["EP05"]
+  packs: ["EP05"]
   status: "stable"
   updated: "2025-11-10"
   github: "https://github.com/Andirz/TS4-No-Holidays-Failure-Drama"
@@ -271,7 +271,7 @@
   name: "Visible Weather Preferences"
   icon: "fas fa-cloud-sun"
   version: "1.0.4"
-  requirements: ["EP05"]
+  packs: ["EP05"]
   status: "compatible"
   updated: "2026-01-27"
 
@@ -281,7 +281,7 @@
   version: "1.0.1"
   status: "stable"
   updated: "2025-10-20"
-  requirements: ["SP05"]
+  packs: ["SP05"]
   github: "https://github.com/Andirz/TS4-Favorite-Movie-Genre"
   patreon: "https://www.patreon.com/andirz"
 
@@ -300,21 +300,21 @@
   name: "Laundry Service"
   icon: "fas fa-tshirt"
   version: "2.2.1"
-  requirements: ["SP13"]
+  packs: ["SP13"]
   status: "compatible"
 
 - id: laundry_interactions
   name: "Laundry Interactions"
   icon: "fas fa-soap"
   version: "1.2.1"
-  requirements: ["SP13"]
+  packs: ["SP13"]
   status: "compatible"
 
 - id: laundry_lot_trait
   name: "Laundry Lot Trait"
   icon: "fas fa-sync-alt"
   version: "1.0.3"
-  requirements: ["SP13"]
+  packs: ["SP13"]
   status: "compatible"
 
 # --- CAREERS & INDEPENDENT ---
@@ -338,7 +338,7 @@
   name: "Beach Yoga"
   icon: "fas fa-spa"
   version: "1.1.1"
-  requirements: ["EP07", "GP02"]
+  packs: ["EP07", "GP02"]
   status: "compatible"
 
 - id: take_it_off
@@ -351,7 +351,7 @@
   name: "Extended Private Journal"
   icon: "fas fa-book-open"
   version: "3.3.0"
-  requirements: ["GP05"]
+  packs: ["GP05"]
   status: "compatible"
 
 - id: write_skill_book
