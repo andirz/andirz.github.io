@@ -1,16 +1,9 @@
 {% comment %} 1. Daten laden {% endcomment %}
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 
-{% comment %} 2. Variablen mit Fallback definieren {% endcomment %}
+{% comment %} 2. Variablen mit Fallback (MD vor YML) {% endcomment %}
 {% assign current_version = page.version | default: mod.version %}
 {% assign last_updated = page.updated | default: mod.updated %}
-
-{% comment %} Anforderungen & Packs von Page (MD) oder Mod (YML) {% endcomment %}
-{% assign final_reqs = page.requirements | default: mod.requirements %}
-{% assign final_packs = page.packs | default: mod.packs %}
-
-{% assign has_reqs = final_reqs and final_reqs.size > 0 %}
-{% assign has_packs = final_packs and final_packs.size > 0 %}
 
 {% comment %} 3. Status-Farbe berechnen {% endcomment %}
 {% include mod-status-color.html %}
@@ -18,84 +11,50 @@
 <header class="mod-header" style="margin-bottom: 40px; border-bottom: 1px solid var(--border-color, #eee); padding-bottom: 30px;">
   
   <h1 style="
-    font-size: 3rem; 
+    font-size: 2.8rem; 
     font-weight: 800; 
-    letter-spacing: -1px; 
-    margin: 0 0 12px 0; 
+    letter-spacing: -0.5px; 
+    margin: 0 0 15px 0; 
     color: #1e293b;
-    line-height: 1.1;
-    background: linear-gradient(to right, #1e293b, #475569);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.02);
+    line-height: 1.2;
   ">
     {{ mod.name | default: page.title }}
   </h1>
   
-  <div class="mod-tags-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 22px;">
+  <div class="mod-tags-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 25px;">
     {% if mod.status %}
-      <span style="background: {{ status_color }}; color: white; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <span style="background: {{ status_color }}; color: white; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         {{ mod.status }}
       </span>
     {% endif %}
 
     {% assign categories = page.categories | default: mod.categories %}
     {% for cat in categories %}
-      <span style="border: 1px solid #e2e8f0; color: #475569; padding: 5px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; background: #f8fafc; transition: all 0.2s;">
+      <span style="border: 1px solid #e2e8f0; color: #64748b; padding: 5px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; background: #f8fafc;">
         {{ cat }}
       </span>
     {% endfor %}
   </div>
 
-  {% if has_reqs or has_packs %}
-  <div class="mod-requirements-row" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 25px; padding: 14px 20px; background: #fffcf0; border-radius: 12px; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b;">
-    <span style="font-size: 0.7rem; text-transform: uppercase; color: #92400e; font-weight: 800; letter-spacing: 0.8px;">Requires:</span>
-    <div style="display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.85rem; color: #92400e;">
-      
-      {% if has_reqs %}
-        {% for req_id in final_reqs %}
-          {% assign dep = site.data.dependencies[req_id] %}
-          <span style="font-weight: 700; display: flex; align-items: center; gap: 5px;">
-            <i class="fas fa-puzzle-piece" style="font-size: 0.75rem; opacity: 0.7;"></i> 
-            {{ dep.name | default: req_id }}
-          </span>
-        {% endfor %}
-      {% endif %}
-
-      {% if has_packs %}
-        {% for pack_id in final_packs %}
-          {% if pack_id != "BG" %}
-            <span style="font-weight: 700; display: flex; align-items: center; gap: 5px;">
-              <i class="fas fa-box-open" style="font-size: 0.75rem; opacity: 0.7;"></i> 
-              {{ site.data.packs[pack_id].en | default: pack_id }}
-            </span>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-      
-    </div>
-  </div>
-  {% endif %}
+  <div style="display: flex; align-items: center; gap: 30px; color: #64748b; font-size: 0.9rem; flex-wrap: wrap;">
     
-  <div style="display: flex; align-items: center; gap: 30px; color: #64748b; font-size: 0.9rem; flex-wrap: wrap; padding-top: 5px;">
-    
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <i class="fas fa-code-branch" style="color: #cbd5e1; font-size: 1.1rem;"></i>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <i class="fas fa-code-branch" style="color: #cbd5e1; font-size: 1rem;"></i>
       <div style="display: flex; flex-direction: column; line-height: 1.2;">
         <span style="font-size: 0.65rem; text-transform: uppercase; color: #94a3b8; font-weight: 800; letter-spacing: 0.5px;">Version</span>
-        <span style="font-weight: 700; color: #334155;">{{ current_version }}</span>
+        <span style="font-weight: 700; color: #475569;">v. {{ current_version }}</span>
       </div>
     </div>
     
-    <div style="display: flex; align-items: center; gap: 12px; padding-left: 25px; border-left: 1px solid #f1f5f9;">
-      <i class="fas fa-calendar-alt" style="color: #cbd5e1; font-size: 1.1rem;"></i>
+    <div style="display: flex; align-items: center; gap: 10px; padding-left: 25px; border-left: 1px solid #f1f5f9;">
+      <i class="fas fa-calendar-alt" style="color: #cbd5e1; font-size: 1rem;"></i>
       <div style="display: flex; flex-direction: column; line-height: 1.2;">
         <span style="font-size: 0.65rem; text-transform: uppercase; color: #94a3b8; font-weight: 800; letter-spacing: 0.5px;">Updated</span>
-        <span style="font-weight: 700; color: #334155;">{{ last_updated | date: "%b %d, %Y" }}</span>
+        <span style="font-weight: 700; color: #475569;">{{ last_updated | date: "%b %d, %Y" }}</span>
       </div>
     </div>
 
-    <div style="padding-left: 25px; border-left: 1px solid #f1f5f9; font-size: 1.1rem;">
+    <div style="padding-left: 25px; border-left: 1px solid #f1f5f9;">
       {% include mod-file-icons.html files=page.files icon_color="#cbd5e1" %}
     </div>
 
