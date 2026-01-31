@@ -1,5 +1,4 @@
 ---
-layout: mod_info
 mod_id: autofill-personality-traits
 title: Auto-Fill Personality Traits
 icon: "fas fa-user-tag"
