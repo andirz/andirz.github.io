@@ -3,25 +3,29 @@ layout: default
 title: Home
 ---
 
-<div class="sims-content">
+<div class="sims-home">
 
-    <header class="hero-minimal text-center mb-5">
-        <div class="plumbob-glow mb-3" style="color: #2ecc71; font-size: 3rem;">
+    <header class="hero-minimal">
+        <div class="plumbob-glow">
             <i class="fas fa-gem"></i>
         </div>
-        <h1 style="font-size: 3.5rem;">Sul Sul!</h1>
-        <p class="lead">Advanced Mods & Logic Tweaks by <strong>Andirz</strong></p>
+        <h1>Sul Sul!</h1>
+        <p>Advanced Systems & Logic Enhancements for The Sims 4 by <strong>Andirz</strong></p>
     </header>
 
     <section class="gallery-section mb-5">
-        <div class="d-flex align-items-center mb-4">
-            <h2 class="m-0">Essential Systems</h2>
-            <span class="ms-3 badge rounded-pill bg-light text-primary border">Must-Have</span>
+        <div class="gallery-header">
+            <span class="badge-sims">Must-Have</span>
+            <h2>Essential Systems</h2>
         </div>
-        
+
         <div class="mod-gallery-wrapper">
             <div class="mod-gallery">
+                {% comment %} 
+                    Liste deiner wichtigsten Mods für die Galerie 
+                {% endcomment %}
                 {% assign essentials = "smart-core-script,online-store,better-pie-menu,smart-sim-randomizer,trait-tracker-injector,purchase-medicine,custom_electives,sim-nom-nom-delivery" | split: "," %}
+                
                 {% for id in essentials %}
                     {% assign mod_entry = site.data.mods | where: "id", id | first %}
                     {% assign mod_page = site.mods | where: "mod_id", id | first %}
@@ -29,14 +33,30 @@ title: Home
                     <div class="gallery-card">
                         <div class="card-inner">
                             <div class="card-icon-circle">
-                                <i class="{{ mod_page.icon | default: mod_entry.icon | default: 'fas fa-plus' }}"></i>
+                                {% if id == 'sim-nom-nom-delivery' %}
+                                    <i class="fas fa-pizza-slice"></i>
+                                {% elsif id == 'online-store' %}
+                                    <i class="fas fa-shopping-cart"></i>
+                                {% elsif id == 'custom_electives' %}
+                                    <i class="fas fa-university"></i>
+                                {% elsif id == 'smart-core-script' %}
+                                    <i class="fas fa-microchip"></i>
+                                {% else %}
+                                    <i class="{{ mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' }}"></i>
+                                {% endif %}
                             </div>
                             <h3>{{ mod_page.title | default: mod_entry.name | default: mod_entry.id | replace: "-", " " | capitalize }}</h3>
-                            <div class="mt-auto">
+                            <p class="text-muted small">
+                                {{ mod_page.description | default: "Premium logic enhancement and system integration for your Sims." | truncate: 85 }}
+                            </p>
+                            
+                            <div class="mt-auto pt-3">
                                 {% if mod_page %}
-                                    <a href="{{ mod_page.url | relative_url }}" class="sims-btn">Open Docs</a>
+                                    <a href="{{ mod_page.url | relative_url }}" class="sims-btn w-100">Open Module</a>
+                                {% elsif mod_entry.patreon %}
+                                    <a href="{{ mod_entry.patreon }}" class="sims-btn patreon-btn w-100">Get on Patreon</a>
                                 {% else %}
-                                    <span class="text-muted small italic">Coming Soon</span>
+                                    <span class="text-muted italic small">Docs coming soon</span>
                                 {% endif %}
                             </div>
                         </div>
@@ -46,66 +66,88 @@ title: Home
         </div>
     </section>
 
-    <section class="memory-game-area py-5 border-top">
-        <div class="text-center mb-4">
-            <h2>Mini-Game: Mod Memory</h2>
-            <p>Can you find all pairs?</p>
+    <section class="memory-section text-center">
+        <div class="mb-4">
+            <span class="badge-sims">Mini-Game</span>
+            <h2>Mod Memory</h2>
+            <p class="text-muted">Find all matching mod icons!</p>
         </div>
-        <div id="memory-game-root"></div> </section>
+        
+        <div class="memory-grid" id="memoryGrid">
+            </div>
+
+        <div id="winMessage" style="display:none;" class="mt-4">
+            <h3 class="text-success">Perfect! All pairs found.</h3>
+            <button onclick="location.reload()" class="sims-btn mt-2">Play Again</button>
+        </div>
+    </section>
 
 </div>
 
-<style>
-/* Galerie Scroll Styles */
-.mod-gallery-wrapper { position: relative; width: 100%; overflow: hidden; }
-.mod-gallery {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 20px;
-    padding: 20px 0;
-    scrollbar-width: none;
-}
-.mod-gallery::-webkit-scrollbar { display: none; }
+<script>
+/**
+ * Memory Game Logic
+ * Nutzt die Klassen aus deinem CSS: .memory-card, .memory-card-inner, .card-face
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const iconPool = [
+        'fa-gem', 'fa-shopping-cart', 'fa-pizza-slice', 
+        'fa-university', 'fa-microchip', 'fa-heart', 
+        'fa-flask', 'fa-code'
+    ];
+    
+    // Verdoppeln und mischen
+    const gameIcons = [...iconPool, ...iconPool].sort(() => 0.5 - Math.random());
+    const grid = document.getElementById('memoryGrid');
+    let flippedCards = [];
+    let matchedCount = 0;
 
-.gallery-card {
-    flex: 0 0 31%; /* 3 Karten sichtbar */
-    min-width: 280px;
-    scroll-snap-align: start;
-}
+    gameIcons.forEach((icon) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        
+        card.innerHTML = `
+            <div class="memory-card-inner">
+                <div class="card-face front">
+                    <i class="fas fa-question"></i>
+                </div>
+                <div class="card-face back">
+                    <i class="fas ${icon}"></i>
+                </div>
+            </div>
+        `;
 
-.card-inner {
-    background: white;
-    border: 2px solid #f0f2f5;
-    border-radius: 25px;
-    padding: 30px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.2s;
-}
+        card.addEventListener('click', () => {
+            if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                flippedCards.push({ card, icon });
 
-.card-inner:hover {
-    border-color: #0076ff;
-    transform: translateY(-5px);
-}
+                if (flippedCards.length === 2) {
+                    checkMatch();
+                }
+            }
+        });
 
-.card-icon-circle {
-    width: 60px; height: 60px;
-    background: #f8f9fa;
-    color: #0076ff;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; margin-bottom: 20px;
-}
+        grid.appendChild(card);
+    });
 
-.sims-btn {
-    display: inline-block;
-    padding: 8px 20px;
-    background: #002d62;
-    color: white !important;
-    border-radius: 20px;
-    font-weight: bold;
-    text-decoration: none;
-}
-</style>
+    function checkMatch() {
+        const [c1, c2] = flippedCards;
+
+        if (c1.icon === c2.icon) {
+            matchedCount++;
+            flippedCards = [];
+            if (matchedCount === iconPool.length) {
+                document.getElementById('winMessage').style.display = 'block';
+            }
+        } else {
+            // Wenn kein Match, Karten nach 1 Sekunde zurückdrehen
+            setTimeout(() => {
+                c1.card.classList.remove('flipped');
+                c2.card.classList.remove('flipped');
+                flippedCards = [];
+            }, 1000);
+        }
+    }
+});
+</script>
