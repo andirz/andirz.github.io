@@ -1,7 +1,8 @@
 ---
 mod_id: smart_core_script
 title: Smart Core Script
-version: "2.7.2"
+icon: "fas fa-microchip"
+files: ["ts4script", "package"]
 categories: [Scripts, Libraries]
 tags: [scripts]
 ---
