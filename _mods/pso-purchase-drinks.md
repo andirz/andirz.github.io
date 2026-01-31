@@ -1,10 +1,10 @@
 ---
-title: "Purchase Drinks"
 mod_id: purchase-drinks
-version: "1.7.0"
-updated: 2025-06-02
+title: "Purchase Drinks"
+icon: "fas fa-wine-bottle"
+version: "1.8.0"
+updated: 2025-10-07
 categories: [Gameplay Mods, Food, Purchasing System]
-icon: fas fa-wine-bottle
 ---
 
 More realistic gameplay instead of decorative objects! Various decorative objects from the base game and several packs finally function as bottle collectors from which you can actually buy drinks. This mod is now **Base Game Compatible**, but requires specific packs for the actual drinks.
