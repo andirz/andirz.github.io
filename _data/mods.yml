@@ -2,12 +2,12 @@
 
 # --- SCRIPTS & TOOLS ---
 
-- id: cleanup_script
+- id: cleanup-script
   version: "1.4.0"
   status: "compatible"
   updated: "2026-01-04"
 
-- id: smart_core_script
+- id: smart-core-script
   version: "2.7.2"
   status: "updated"
   updated: "2026-01-12"
