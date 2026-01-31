@@ -5,23 +5,12 @@ icon: "fas fa-microchip"
 version: "2.7.2"
 categories: [Scripts, Libraries]
 tags: [scripts]
-translations:
-  - language: "English, German, Spanish, Russian"
-    author: "Andirz"
-  - language: "Brazilian Portuguese"
-    author: "Nymphieta"
-  - language: "Chinese (Simp. & Trad.)"
-    author: "Orchard Team"
-  - language: "Italian"
-    author: "vale93_games"
 ---
 
 {% include mod_infobox.html %}
 
 ## The Engine Behind the Magic
-The **Smart Core Script** is a specialized technical library designed for *The Sims 4*. It is **NOT a standalone mod** that adds visible gameplay on its own. Instead, it serves as the essential "engine" or framework that powers many of my other projects.
-
-By centralizing complex functions into this core library, I can ensure that my mods are more stable, easier to update, and highly compatible with one another.
+The **Smart Core Script** is a specialized technical library designed for *The Sims 4*. It is **NOT a standalone mod** that adds visible gameplay on its own. Instead, it serves as the essential "engine" or framework that powers many of my other projects. By centralizing complex functions into this core library, I can ensure that my mods are more stable, easier to update, and highly compatible with one another.
 
 ### Why is this required?
 If you are here, it is likely because you want to use one of my gameplay mods (like *SimSim Online Store* or *Better Live Shopping*). These mods "borrow" code from this library to perform advanced tasks that the standard game engine doesn't support out of the box. **Important:** You only need to install this library if a mod’s requirements specifically state that it is required! If you don't use any of my core-dependent mods, you don't need this file in your folder.
@@ -37,6 +26,13 @@ If you are here, it is likely because you want to use one of my gameplay mods (l
 This is a standalone script library. It does not override any game files (tuning or internal code), so there are **no known compatibility issues** with other mods or game updates. The included package file contains only the translations for menus and system messages.
 
 ## Translations
-{% include translations.html %}
+The following translations are available:
+
+* English, German, Spanish and Russian from myself.
+* Brazilian Portuguese by **Nymphieta**.
+* Chinese and Simplified Chinese by **Orchard Team**.
+* Italian translation thanks to **vale93_games**.
+  
+---
 
 {% include policy.html %}
