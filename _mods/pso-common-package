@@ -1,6 +1,6 @@
 ---
 layout: mod_info
-mod_id: pso_common_package
+mod_id: pso-common-package
 title: "P.S.O. Common Package"
 icon: fas fa-cubes
 files: [package]
