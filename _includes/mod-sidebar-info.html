@@ -9,10 +9,6 @@
 {% comment %} Download Logik {% endcomment %}
 {% assign cf_slug = page.mod_id | replace: '_', '-' %}
 {% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: cf_slug %}
-{% assign has_any_link = false %}
-{% if cf_url or mod.patreon_url or mod.download_url %}
-  {% assign has_any_link = true %}
-{% endif %}
 
 {% include mod-status-color.html %}
 
@@ -75,25 +71,36 @@
     </ul>
   </div>
 
-  <div class="download-card" style="background: #2563eb; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15); color: white;">
-    <div style="padding: 10px; background: rgba(0,0,0,0.1); text-align: center; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+  <div class="download-card" style="background: {% if page.curseforge_ban %}#1e293b{% else %}#2563eb{% endif %}; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); color: white;">
+    <div style="padding: 10px; background: rgba(0,0,0,0.15); text-align: center; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
        Download
     </div>
     <div style="padding: 15px;">
-      {% if has_any_link %}
-        <a href="{{ cf_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: white; color: #f16436; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 800; margin-bottom: 8px; font-size: 0.9rem;">
+      
+      {% if page.curseforge_ban %}
+        <div style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 8px; text-align: center; border: 1px dashed rgba(255,255,255,0.3); margin-bottom: 12px;">
+          <i class="fas fa-ban" style="color: #ff4d4d; margin-bottom: 8px; display: block; font-size: 1.2rem;"></i>
+          <span style="font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; color: #ff4d4d;">Banned on CurseForge</span>
+          <p style="font-size: 0.65rem; margin: 5px 0 0 0; line-height: 1.3; opacity: 0.8;">This mod contains content that violates CurseForge guidelines.</p>
+        </div>
+      {% else %}
+        <a href="{{ cf_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: white; color: #f16436; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 800; margin-bottom: 10px; font-size: 0.9rem;">
           <i class="fab fa-firefox-browser"></i> CurseForge
         </a>
-        {% if mod.patreon_url %}
-        <a href="{{ mod.patreon_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(255,255,255,0.15); color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); font-size: 0.9rem;">
-          <i class="fab fa-patreon"></i> Patreon
-        </a>
-        {% endif %}
-      {% else %}
+      {% endif %}
+
+      {% if mod.patreon_url %}
+      <a href="{{ mod.patreon_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #f96854; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <i class="fab fa-patreon"></i> Get on Patreon
+      </a>
+      {% endif %}
+
+      {% unless page.curseforge_ban or mod.patreon_url or cf_url %}
         <div style="text-align: center; padding: 5px; opacity: 0.9;">
           <span style="font-weight: 800; text-transform: uppercase; font-size: 0.75rem;">Coming Soon</span>
         </div>
-      {% endif %}
+      {% endunless %}
+
     </div>
   </div>
 
