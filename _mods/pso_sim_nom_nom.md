@@ -3,7 +3,6 @@ mod_id: sim-nom-nom
 title: "Sim-Nom-Nom Food Delivery"
 icon: fas fa-utensils
 requirements: ["smart_core", "pso_common"]
-files: [package]
 categories: [Food, Purchasing System]
 ---
 
@@ -20,8 +19,6 @@ Sim-Nom-Nom Food Delivery is available on all devices: **computers, tablets, cel
 Work on the mod is still continuing. Sim-Nom-Nom Food Delivery does not yet contain a buff, discount, promotion, and gift system (as already exists in SimSim Store). Both mods will be revised in the next updates so that everything works well together. I already have some very interesting ideas here!
 
 ---
-
-{% include script_notice.html %}
 
 ## Compatibility
 This mod does not overwrite any game files, so no compatibility issues are to be expected. It is fully compatible with other food mods and custom recipes.
