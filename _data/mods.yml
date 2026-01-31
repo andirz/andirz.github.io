@@ -3,8 +3,6 @@
 # --- SCRIPTS & TOOLS ---
 
 - id: cleanup_script
-  name: "Cleanup Script for Windows"
-  icon: "fas fa-broom"
   version: "1.4.0"
   status: "compatible"
   updated: "2026-01-04"
@@ -13,6 +11,7 @@
   name: "Smart Core Script"
   icon: "fas fa-microchip"
   version: "2.7.2"
+  files: ["ts4script", "package"]
   status: "updated"
   updated: "2026-01-12"
 
@@ -20,6 +19,7 @@
   name: "Trait Tracker Injector"
   icon: "fas fa-syringe"
   version: "2.0.1"
+  files: ["ts4script"]
   status: "compatible"
   updated: "2025-07-02"
 
@@ -27,6 +27,7 @@
   name: "Injection Tools"
   icon: "fas fa-tools"
   version: "2.0.1"
+  files: ["ts4script"]
   status: "compatible"
   updated: "2025-07-02"
 
@@ -34,12 +35,14 @@
   name: "AutoFill Personality Traits"
   icon: "fas fa-user-tag"
   version: "1.0.0"
+  files: ["ts4script"]
   status: "compatible"
 
 - id: object_tuning_replacement
   name: "Object Tuning Replacement"
   icon: "fas fa-lightbulb"
   version: "1.1.2"
+  files: ["ts4script"]
   status: "compatible"
 
 # --- SHOPPING MODS (P.S.O.) ---
