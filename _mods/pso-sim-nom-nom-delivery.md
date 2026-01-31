@@ -1,5 +1,5 @@
 ---
-mod_id: sim-nom-nom
+mod_id: sim-nom-nom-delivery
 title: "Sim-Nom-Nom Food Delivery"
 icon: fas fa-utensils
 permalink: "/mods/sim-nom-nom-delivery/"
