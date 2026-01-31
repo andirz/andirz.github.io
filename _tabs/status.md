@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Mod Status
-icon: "fas fa-tools"
+title: Mod Overview
+icon: "fas fa-terminal"
 order: 2
 ---
 
