@@ -1,6 +1,6 @@
 ---
 layout: mod_info
-mod_id: object_tuning_replacement
+mod_id: object-tuning-replacement
 title: Object Tuning Replacement
 icon: fas fa-couch
 files: ["ts4script"]
