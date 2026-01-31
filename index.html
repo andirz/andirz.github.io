@@ -6,43 +6,44 @@ title: Home
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 
-<div class="sims-ui-wrapper">
+<div class="sims-clean-wrapper">
 
-    <header class="sims-hero">
-        <div class="plumbob-container">
-            <i class="fas fa-gem plumbob-spin"></i>
+    <header class="hero-minimal">
+        <div class="plumbob-glow">
+            <i class="fas fa-gem"></i>
         </div>
-        <h1>Welcome back, Simmer!</h1>
-        <p>Discover advanced systems and intuitive gameplay enhancements for The Sims 4.</p>
+        <h1>Enhance your Simulation</h1>
+        <p>Advanced systems for The Sims 4 by <strong>Andirz</strong></p>
     </header>
 
-    <section class="sims-section">
-        <div class="section-header">
-            <i class="fas fa-star"></i>
+    <section class="gallery-section">
+        <div class="gallery-header">
+            <span class="badge">Must-Have</span>
             <h2>Essential Systems</h2>
+            <div class="scroll-hint">Scroll to explore <i class="fas fa-arrow-right"></i></div>
         </div>
         
-        <div class="sims-grid">
-            {% assign essentials = "smart-core-script,online-store,better-pie-menu,smart-sim-randomizer" | split: "," %}
+        <div class="mod-gallery">
+            {% assign essentials = "smart-core-script,online-store,better-pie-menu,smart-sim-randomizer,trait-tracker-injector,purchase-medicine,custom_electives,sim-nom-nom-delivery" | split: "," %}
             {% for id in essentials %}
                 {% assign mod_entry = site.data.mods | where: "id", id | first %}
                 {% assign mod_page = site.mods | where: "mod_id", id | first %}
                 
-                <div class="sims-card premium">
-                    <div class="card-icon-box">
-                        <i class="{{ mod_page.icon | default: mod_entry.icon | default: 'fas fa-cog' }}"></i>
-                    </div>
-                    <div class="card-body">
+                <div class="gallery-card">
+                    <div class="card-inner">
+                        <div class="card-icon-circle">
+                            <i class="{{ mod_page.icon | default: mod_entry.icon | default: 'fas fa-plus' }}"></i>
+                        </div>
                         <h3>{{ mod_page.title | default: mod_entry.name | default: mod_entry.id | replace: "-", " " | capitalize }}</h3>
-                        <p>{{ mod_page.description | default: "Enhances your gameplay with new logic and seamless integration." | truncate: 80 }}</p>
+                        <p>{{ mod_page.description | default: "Seamless integration for a better gameplay experience." | truncate: 75 }}</p>
                         
-                        <div class="card-actions">
+                        <div class="card-footer">
                             {% if mod_page %}
-                                <a href="{{ mod_page.url | relative_url }}" class="sims-button primary">Learn More</a>
+                                <a href="{{ mod_page.url | relative_url }}" class="main-btn">View Details</a>
                             {% elsif mod_entry.patreon %}
-                                <a href="{{ mod_entry.patreon }}" class="sims-button patreon">Patreon Access</a>
+                                <a href="{{ mod_entry.patreon }}" class="main-btn patreon-btn">Patreon</a>
                             {% else %}
-                                <span class="coming-soon">Work in Progress</span>
+                                <span class="status-label">Upcoming</span>
                             {% endif %}
                         </div>
                     </div>
@@ -51,23 +52,20 @@ title: Home
         </div>
     </section>
 
-    <section class="sims-section">
-        <div class="section-header">
-            <i class="fas fa-search"></i>
-            <h2>Discover Something New</h2>
-        </div>
-        <div class="discovery-flex">
+    <section class="discovery-section">
+        <h3>Explore More</h3>
+        <div class="discovery-grid">
             {% assign all_mods = site.data.mods | sample: 15 %}
             {% assign count = 0 %}
             {% for mod in all_mods %}
                 {% unless essentials contains mod.id %}
                     {% if count < 3 %}
                         {% assign sub_page = site.mods | where: "mod_id", mod.id | first %}
-                        <div class="mini-bubble">
-                            <i class="{{ sub_page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
-                            <span>{{ mod.name | default: mod.id | replace: "-", " " | capitalize }}</span>
+                        <div class="discovery-item">
+                            <i class="{{ sub_page.icon | default: mod.icon | default: 'fas fa-cube' }}"></i>
+                            <span class="name">{{ mod.name | default: mod.id | replace: "-", " " | capitalize }}</span>
                             {% if sub_page %}
-                                <a href="{{ sub_page.url | relative_url }}" class="bubble-link"><i class="fas fa-chevron-right"></i></a>
+                                <a href="{{ sub_page.url | relative_url }}" class="link-btn"><i class="fas fa-chevron-right"></i></a>
                             {% endif %}
                         </div>
                         {% assign count = count | plus: 1 %}
@@ -81,83 +79,105 @@ title: Home
 
 <style>
 :root {
-    --sims-bg: #f0f2f5;
-    --sims-white: #ffffff;
-    --sims-blue-dark: #1a5fb4;
-    --sims-blue-light: #00adff;
-    --sims-green: #51cf66;
-    --text-main: #2d3436;
-    --text-light: #636e72;
-    --shadow: 0 4px 15px rgba(0,0,0,0.08);
+    --white: #ffffff;
+    --blue: #0076ff;
+    --dark-blue: #002d62;
+    --green: #2ecc71;
+    --gray-light: #f8f9fa;
+    --gray-text: #636e72;
+    --border: #edf2f7;
 }
 
 body { 
-    background-color: var(--sims-bg); 
-    color: var(--text-main);
+    background-color: var(--white); 
+    color: var(--dark-blue);
     font-family: 'Nunito', sans-serif;
     margin: 0;
 }
 
-.sims-ui-wrapper { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+.sims-clean-wrapper { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
 
-/* Header & Plumbob */
-.sims-hero { text-align: center; margin-bottom: 60px; }
-.plumbob-container { font-size: 3.5rem; color: var(--sims-green); margin-bottom: 20px; }
-.plumbob-spin { animation: spin 8s linear infinite; display: inline-block; filter: drop-shadow(0 0 10px rgba(81, 207, 102, 0.4)); }
-@keyframes spin { 100% { transform: rotateY(360deg); } }
+/* Hero */
+.hero-minimal { text-align: center; margin-bottom: 80px; }
+.plumbob-glow { color: var(--green); font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(46, 204, 113, 0.3)); }
+.hero-minimal h1 { font-size: 3rem; font-weight: 900; margin: 0; color: var(--dark-blue); }
+.hero-minimal p { color: var(--gray-text); font-size: 1.2rem; }
 
-.sims-hero h1 { font-weight: 900; font-size: 2.8rem; color: var(--sims-blue-dark); margin: 0; }
-.sims-hero p { font-size: 1.2rem; color: var(--text-light); margin-top: 10px; }
+/* Gallery Header */
+.gallery-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; position: relative; }
+.gallery-header h2 { font-size: 1.8rem; font-weight: 800; margin: 0; }
+.badge { background: #eef2ff; color: var(--blue); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+.scroll-hint { margin-left: auto; font-size: 0.85rem; color: var(--gray-text); font-weight: 600; opacity: 0.6; }
 
-/* Section Styling */
-.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; color: var(--sims-blue-dark); }
-.section-header i { font-size: 1.2rem; }
-.section-header h2 { font-size: 1.4rem; font-weight: 800; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-
-/* Grid & Cards */
-.sims-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; }
-
-.sims-card { 
-    background: var(--sims-white); 
-    border-radius: 20px; 
-    padding: 30px; 
-    display: flex; 
-    gap: 25px; 
-    box-shadow: var(--shadow);
-    transition: transform 0.2s ease;
+/* Mod Gallery (The Horizontal Scroll) */
+.mod-gallery {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 25px;
+    padding: 10px 10px 30px 10px;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
 }
-.sims-card:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+.mod-gallery::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
 
-.card-icon-box { 
-    width: 80px; height: 80px; 
-    background: linear-gradient(135deg, var(--sims-blue-light), var(--sims-blue-dark));
-    border-radius: 18px; color: white;
+.gallery-card {
+    flex: 0 0 calc(33.333% - 17px); /* Shows 3 cards */
+    scroll-snap-align: start;
+    min-width: 300px;
+}
+
+.card-inner {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 24px;
+    padding: 35px;
+    height: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-inner:hover {
+    border-color: var(--blue);
+    box-shadow: 0 15px 35px rgba(0, 118, 255, 0.08);
+    transform: translateY(-5px);
+}
+
+.card-icon-circle {
+    width: 70px; height: 70px;
+    background: var(--gray-light);
+    color: var(--blue);
+    border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 2rem; flex-shrink: 0;
+    font-size: 1.8rem; margin-bottom: 25px;
 }
 
-.card-body h3 { margin: 0 0 10px 0; font-size: 1.5rem; color: var(--sims-blue-dark); }
-.card-body p { margin: 0 0 20px 0; color: var(--text-light); line-height: 1.5; font-size: 1rem; }
+.card-inner h3 { font-size: 1.4rem; font-weight: 800; margin: 0 0 12px 0; color: var(--dark-blue); }
+.card-inner p { color: var(--gray-text); line-height: 1.5; margin-bottom: 25px; flex-grow: 1; }
 
-/* Buttons */
-.sims-button { 
-    display: inline-block; padding: 10px 24px; border-radius: 25px; 
-    font-weight: 800; text-decoration: none; font-size: 0.9rem; transition: background 0.2s;
+.main-btn {
+    display: inline-block; padding: 12px 25px; border-radius: 30px;
+    background: var(--dark-blue); color: white;
+    text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: background 0.2s;
 }
-.sims-button.primary { background: var(--sims-blue-dark); color: white; }
-.sims-button.primary:hover { background: var(--sims-blue-light); }
-.sims-button.patreon { background: #f96854; color: white; }
-.coming-soon { color: #b2bec3; font-style: italic; font-size: 0.9rem; }
+.main-btn:hover { background: var(--blue); }
+.patreon-btn { background: #f96854; }
+.status-label { font-size: 0.9rem; color: #cbd5e0; font-weight: 600; font-style: italic; }
 
-/* Discovery Flex (Bubbles) */
-.discovery-flex { display: flex; flex-wrap: wrap; gap: 15px; }
-.mini-bubble { 
-    background: var(--sims-white); padding: 12px 20px; border-radius: 30px; 
-    display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow);
-    font-weight: 700; color: var(--text-light);
+/* Discovery Section */
+.discovery-section { margin-top: 60px; padding-top: 40px; border-top: 2px solid var(--border); }
+.discovery-section h3 { font-size: 1.2rem; margin-bottom: 20px; opacity: 0.5; }
+.discovery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.discovery-item {
+    background: var(--gray-light);
+    padding: 15px 20px;
+    border-radius: 15px;
+    display: flex; align-items: center; gap: 15px;
 }
-.mini-bubble i { color: var(--sims-blue-light); }
-.bubble-link { color: var(--sims-blue-dark); text-decoration: none; margin-left: 5px; }
+.discovery-item i { color: var(--blue); }
+.discovery-item .name { font-weight: 700; font-size: 0.9rem; }
+.link-btn { margin-left: auto; color: var(--dark-blue); text-decoration: none; }
 
-@media (max-width: 600px) { .sims-grid { grid-template-columns: 1fr; } .sims-card { flex-direction: column; } }
+@media (max-width: 900px) { .gallery-card { flex: 0 0 70%; } .discovery-grid { grid-template-columns: 1fr; } }
 </style>
