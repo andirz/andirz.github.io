@@ -48,5 +48,5 @@ Many mods require other files to work, such as:
 ---
 ## Need More Help?
 If you've followed these steps and are still experiencing issues with one of my mods:
-1.  Check the [Mod Status Dashboard](/status/) to see if the mod is currently marked as "Broken".
+1.  Check the Mod Status Dashboard to see if the mod is currently marked as "Broken".
 2.  Join our community on Discord for real-time support.
