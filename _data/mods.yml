@@ -12,21 +12,21 @@
   status: "updated"
   updated: "2026-01-12"
 
-- id: trait_tracker_injector
+- id: trait-tracker-injector
   version: "2.0.1"
   status: "compatible"
   updated: "2025-07-02"
 
-- id: injection_tools
+- id: injection-tools
   version: "2.0.1"
   status: "compatible"
   updated: "2025-07-02"
 
-- id: autofill_personality_traits
+- id: autofill-personality-traits
   version: "1.0.0"
   status: "compatible"
 
-- id: object_tuning_replacement
+- id: object-tuning-replacement
   version: "1.1.2"
   status: "compatible"
 
@@ -34,86 +34,82 @@
 
 - id: pso-common-package
   version: "2.1.0"
-  requirements: ["smart_core"]
-  icon: "fas fa-box-open"
   status: "compatible"
   updated: "2025-10-09"
 
-- id: online_store
+- id: online-store
   version: "5.4.1"
-  requirements: ["smart_core", "pso_common"]
   status: "updated"
   updated: "2026-01-14"
   curseforge: "https://www.curseforge.com/"
   patreon: "https://www.patreon.com/"
 
-- id: sim_nom_nom
+- id: sim-nom-nom
   version: "1.5.3"
-  requirements: ["smart_core", "pso_common"]
   status: "compatible"
   updated: "2026-01-20"
 
-- id: purchase_medicine
+- id: purchase-medicine
   version: "4.1.2"
   requirements: ["smart_core", "pso_common"]
   status: "updated"
   updated: "2025-12-04"
 
-- id: obscura_network
+- id: obscura-network
   name: "Obscura Network"
   icon: "fas fa-rss"
   version: "1.2.1"
   status: "updated"
   updated: "2025-11-06"
 
-- id: purchase_bottled_drinks
+- id: purchase-drinks
   name: "Purchase Bottled Drinks"
   icon: "fas fa-wine-bottle"
   version: "1.8.0"
   status: "compatible"
 
-- id: purchase_occult_books
+- id: purchase-occult-books
   name: "Purchase Occult Books"
   icon: "fas fa-book-dead"
   version: "2.0.0"
   status: "compatible"
 
-- id: better_curio_shop
+- id: better-curio-shop
   name: "Better Curio Shop"
   icon: "fas fa-eye"
   version: "1.0.0"
   packs: ["GP07"]
   status: "compatible"
 
-- id: better_highschool_festivals
+- id: better-highschool-festivals
   name: "Better HighSchool Festivals"
   icon: "fas fa-school"
   version: "1.0.0"
   packs: ["EP12"]
   status: "compatible"
 
-- id: better_ranger_station
+- id: better-ranger-station
   name: "Better Ranger Station"
   icon: "fas fa-tree"
   version: "1.0.0"
   packs: ["GP01"]
   status: "compatible"
 
-- id: better_san_myshuno_festivals
+- id: better-san_myshuno-festivals
   name: "Better San Myshuno Festivals"
   icon: "fas fa-city"
   version: "1.0.1"
   packs: ["EP03"]
   status: "compatible"
 
-- id: better_sulani_kiosk
+- id: better-sulani-kiosk
   name: "Better Sulani Kiosk"
   icon: "fas fa-umbrella-beach"
   version: "1.0.1"
   packs: ["EP07"]
   status: "compatible"
 
-- id: better_university_kiosk
+- id: better-university-kiosk
   name: "Better University Kiosk"
   icon: "fas fa-university"
   version: "1.0.1"
