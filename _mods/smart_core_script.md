@@ -18,7 +18,6 @@ The **Smart Core Script** is the backbone of my modding ecosystem. It provides t
 * <i class="fas fa-clipboard-list" style="color: #2563eb; margin-right: 8px;"></i> **Centralized Logging:** Provides a unified error reporting system, making it easier to diagnose and fix conflicts.
 
 ## Technical Details
-## Technical Details
 This script does not contain any gameplay content on its own. It is a **library** used by other mods.
 {% include script_notice.html %}
 
