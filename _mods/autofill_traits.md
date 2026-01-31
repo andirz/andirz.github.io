@@ -1,6 +1,6 @@
 ---
 layout: mod_info
-mod_id: auto_fill_personality_traits
+mod_id: autofill_traits
 title: Auto-Fill Personality Traits
 icon: "fas fa-user-tag"
 files: ["ts4script"]
