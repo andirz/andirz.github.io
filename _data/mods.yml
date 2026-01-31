@@ -167,11 +167,9 @@
   updated: "2025-07-05"
 
 - id: skill_class_reloaded
-  name: "Skill Class Reloaded"
-  icon: "fas fa-pen-nib"
   version: "3.0.0"
-  packs: ["EP08"]
   status: "compatible"
+  updated: "2025-07-16"
 
 # --- SELVADORADIAN & DEATH ---
 
