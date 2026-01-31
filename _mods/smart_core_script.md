@@ -3,7 +3,7 @@ mod_id: smart_core_script
 title: Smart Core Script
 icon: "fas fa-microchip"
 files: ["ts4script", "package"]
-categories: [Scripts, Libraries]
+categories: [Libraries]
 tags: [scripts]
 ---
 
@@ -30,7 +30,3 @@ The following translations are available:
 * Brazilian Portuguese by **Nymphieta**.
 * Chinese and Simplified Chinese by **Orchard Team**.
 * Italian translation thanks to **vale93_games**.
-  
----
-
-{% include policy.html %}
