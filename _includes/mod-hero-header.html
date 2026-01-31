@@ -1,7 +1,10 @@
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 {% include mod-status-color.html %}
+{% assign has_reqs = mod.requirements and mod.requirements.size > 0 %}
+{% assign has_packs = mod.packs and mod.packs.size > 0 %}
 
-<header class="mod-header" style="margin-bottom: 40px; border-bottom: 1px solid var(--border-color, #eee); padding-bottom: 25px;">
+<header class="mod-header" style="margin-bottom: 40px; border-bottom: 1px solid var(--border-color, #eee); padding-bottom: 30px;">
+  
   <h1 style="font-size: 2.8rem; margin: 0 0 10px 0; color: var(--text-color);">{{ mod.name | default: page.title }}</h1>
   
   <div class="mod-tags-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
@@ -18,10 +21,31 @@
       </span>
     {% endfor %}
   </div>
+
+  {% if has_reqs or has_packs %}
+  <div class="mod-requirements-row" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 25px; padding: 12px 18px; background: #fffaf0; border-radius: 12px; border: 1px solid #ffeebc;">
+    <span style="font-size: 0.7rem; text-transform: uppercase; color: #856404; font-weight: 800; letter-spacing: 0.5px;">Requires:</span>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.85rem; color: #856404;">
+      {% if has_reqs %}
+        {% for req_id in mod.requirements %}
+          {% assign dep = site.data.dependencies[req_id] %}
+          <span style="font-weight: 600;"><i class="fas fa-puzzle-piece" style="font-size: 0.75rem; opacity: 0.6; margin-right: 4px;"></i> {{ dep.name | default: req_id }}</span>
+        {% endfor %}
+      {% endif %}
+      {% if has_packs %}
+        {% for pack_id in mod.packs %}
+          {% if pack_id != "BG" %}
+            <span style="font-weight: 600;"><i class="fas fa-box-open" style="font-size: 0.75rem; opacity: 0.6; margin-right: 4px;"></i> {{ site.data.packs[pack_id].en | default: pack_id }}</span>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
     
   <div style="display: flex; align-items: center; gap: 25px; color: #475569; font-size: 0.95rem; flex-wrap: wrap;">
     
-    <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
       <i class="fas fa-code-branch" style="color: #94a3b8; font-size: 1.1rem;"></i>
       <div style="display: flex; flex-direction: column; line-height: 1.2;">
         <span style="font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.5px;">Current Version</span>
@@ -29,7 +53,7 @@
       </div>
     </div>
     
-    <div style="display: flex; align-items: center; gap: 10px; padding-left: 20px; border-left: 1px solid #e5e7eb;">
+    <div style="display: flex; align-items: center; gap: 12px; padding-left: 20px; border-left: 1px solid #e5e7eb;">
       <i class="fas fa-calendar-alt" style="color: #94a3b8; font-size: 1.1rem;"></i>
       <div style="display: flex; flex-direction: column; line-height: 1.2;">
         <span style="font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.5px;">Last Updated</span>
@@ -37,18 +61,9 @@
       </div>
     </div>
 
-    <div style="display: flex; gap: 15px; align-items: center; padding-left: 20px; border-left: 1px solid #e5e7eb; color: #94a3b8; font-size: 1.1rem;">
-      {% if page.files contains 'ts4script' %}
-        <i class="fas fa-scroll" title="Script Mod (.ts4script)" style="cursor: help;"></i>
-      {% endif %}
-      
-      {% if page.files contains 'package' or page.files == nil %}
-        <i class="fas fa-file-archive" title="Package File (.package)" style="cursor: help;"></i>
-      {% endif %}
-
-      {% if page.files contains 'bat' %}
-        <i class="fas fa-terminal" title="Batch File (.bat)" style="cursor: help;"></i>
-      {% endif %}
+    <div style="padding-left: 20px; border-left: 1px solid #e5e7eb; font-size: 1.1rem;">
+      {% include mod-file-icons.html files=page.files icon_color="#94a3b8" %}
     </div>
+
   </div>
 </header>
