@@ -170,7 +170,7 @@ collections:
   mods:
     output: true
     sort_by: order
-    permalink: /mods/:path/ 
+    permalink: /mods/:name/
   tutorials:
     output: true
     sort_by: order
