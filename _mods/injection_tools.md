@@ -1,6 +1,8 @@
 ---
 mod_id: injection_tools
 title: Injection Tools
+icon: "fas fa-tools"
+files: ["ts4script"]
 ---
 
 ## What is that?
