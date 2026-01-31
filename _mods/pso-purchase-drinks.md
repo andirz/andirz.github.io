@@ -2,7 +2,9 @@
 mod_id: purchase-drinks
 title: "Purchase Drinks"
 icon: "fas fa-wine-bottle"
-categories: [Gameplay Mods, Food, Purchasing System]
+packs: ["EP09"]
+requirements: ["smart_core", "pso_common"]
+categories: [Purchasing System, Gameplay Mods, Food]
 ---
 
 More realistic gameplay instead of decorative objects! Various decorative objects from the base game and several packs finally function as bottle collectors from which you can actually buy drinks. This mod is now **Base Game Compatible**, but requires specific packs for the actual drinks.
