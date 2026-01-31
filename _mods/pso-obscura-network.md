@@ -1,5 +1,4 @@
 ---
-layout: mod_info
 mod_id: obscura-network
 title: Obscura Network
 icon: "fas fa-user-secret"
