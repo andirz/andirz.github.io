@@ -2,8 +2,8 @@
 layout: mod_info
 mod_id: auto_fill_personality_traits
 title: Auto-Fill Personality Traits
-icon: fas fa-user-tag
-files: [ts4script]
+icon: "fas fa-user-tag"
+files: ["ts4script"]
 ---
 
 You played with a lot of custom personality traits and then deleted the corresponding mods, and now all of your 500 NPC Sims are empty? If this has happened to you, then this mod is for you!
