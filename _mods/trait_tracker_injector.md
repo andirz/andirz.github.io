@@ -1,5 +1,5 @@
 ---
-mod_id: trait_tracker_injector
+mod_id: trait-tracker-injector
 title: Trait Tracker Injector
 icon: "fas fa-syringe"
 files: ["ts4script"]
