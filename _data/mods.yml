@@ -45,10 +45,8 @@
   version: "5.4.1"
   status: "updated"
   updated: "2026-01-14"
-  curseforge: "https://www.curseforge.com/"
-  patreon: "https://www.patreon.com/"
 
-- id: sim-nom-nom
+- id: sim-nom-nom-delivery
   version: "1.5.3"
   status: "compatible"
   updated: "2026-01-20"
