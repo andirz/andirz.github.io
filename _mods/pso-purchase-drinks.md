@@ -2,8 +2,6 @@
 mod_id: purchase-drinks
 title: "Purchase Drinks"
 icon: "fas fa-wine-bottle"
-version: "1.8.0"
-updated: 2025-10-07
 categories: [Gameplay Mods, Food, Purchasing System]
 ---
 
