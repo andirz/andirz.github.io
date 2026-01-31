@@ -1,5 +1,4 @@
 ---
-layout: mod_info
 mod_id: smart-core-script
 title: Smart Core Script
 icon: fas fa-microchip
@@ -26,8 +25,6 @@ If you are here, it is likely because you want to use one of my gameplay mods. T
 * <i class="fas fa-clipboard-list" style="color: #2563eb; margin-right: 8px;"></i> **Centralized Logging:** Provides a unified error reporting system, making it easier to diagnose and fix conflicts.
 
 ---
-
-{% include script_notice.html %}
 
 ## Compatibility
 This is a standalone script library. It does not override any game files (tuning or internal code), so there are **no known compatibility issues** with other mods or game updates. The included package file contains only the translations for menus and system messages.
