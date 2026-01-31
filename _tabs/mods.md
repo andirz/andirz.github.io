@@ -77,27 +77,32 @@ order: 2
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
               {% assign has_req = false %}
 
+              {% comment %} Packs mit Tooltips aus packs.yml {% endcomment %}
               {% if final_packs.size > 0 %}
                 {% for pack_id in final_packs %}
                   {% if pack_id != "BG" %}
-                    <span style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">{{ pack_id }}</span>
+                    {% assign pack_info = site.data.packs[pack_id] %}
+                    <span title="{{ pack_info.en | default: pack_id }}" style="cursor: help; font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">{{ pack_id }}</span>
                     {% assign has_req = true %}
                   {% endif %}
                 {% endfor %}
               {% endif %}
 
+              {% comment %} Dependencies mit Tooltips aus dependencies.yml {% endcomment %}
               {% if final_reqs.size > 0 %}
                 {% for req_id in final_reqs %}
                   {% assign dep_info = site.data.dependencies[req_id] %}
                   {% if dep_info %}
                     {% assign req_url = dep_info.url | default: "#" %}
                     {% assign req_label = dep_info.short_name | default: req_id %}
+                    {% assign req_full_name = dep_info.name | default: req_id %}
                   {% else %}
                     {% assign req_page = site.mods | where: "mod_id", req_id | first %}
                     {% assign req_label = req_id %}
+                    {% assign req_full_name = req_page.title | default: req_id %}
                     {% assign req_url = req_page.url | relative_url | default: "#" %}
                   {% endif %}
-                  <a href="{{ req_url }}" style="text-decoration: none; font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">{{ req_label }}</a>
+                  <a href="{{ req_url }}" title="{{ req_full_name }}" style="text-decoration: none; font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">{{ req_label }}</a>
                   {% assign has_req = true %}
                 {% endfor %}
               {% endif %}
@@ -133,8 +138,13 @@ function sortTable(n) {
       if (dir == "asc") { if (xValue > yValue) { shouldSwitch = true; break; } } 
       else if (dir == "desc") { if (xValue < yValue) { shouldSwitch = true; break; } }
     }
-    if (shouldSwitch) { rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); switching = true; switchcount ++; } 
-    else { if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } }
+    if (shouldSwitch) { 
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); 
+      switching = true; 
+      switchcount ++; 
+    } else { 
+      if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } 
+    }
   }
 }
 </script>
