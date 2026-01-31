@@ -110,8 +110,8 @@
       {% endif %}
 
       {% if patreon_link %}
-      <a href="{{ patreon_link }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: white; color: #f96854; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 2px solid #f96854;">
-        <i class="fab fa-patreon"></i> Download (Patreon)
+      <a href="{{ patreon_link }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #ffffff; color: #334155; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 1px solid #e2e8f0; transition: all 0.2s ease;" onmouseover="this.style.background='#f8fafc'; this.style.borderColor='#cbd5e1';" onmouseout="this.style.background='#ffffff'; this.style.borderColor='#e2e8f0';">
+        <i class="fab fa-patreon" style="color: #f96854;"></i> Patreon
       </a>
       {% endif %}
     </div>
