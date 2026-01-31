@@ -6,8 +6,6 @@ categories: [Scripts, Libraries]
 tags: [scripts]
 ---
 
-{% include mod_infobox.html %}
-
 ## The Engine Behind the Magic
 The **Smart Core Script** is a specialized technical library designed for *The Sims 4*. It is **NOT a standalone mod** that adds visible gameplay on its own. Instead, it serves as the essential "engine" or framework that powers many of my other projects. By centralizing complex functions into this core library, I can ensure that my mods are more stable, easier to update, and highly compatible with one another.
 
