@@ -166,7 +166,7 @@ collections:
   support:
     output: true
     sort_by: order
-    permalink: /support/:name/
+    permalink: /support/:path/
   mods:
     output: true
     sort_by: order
@@ -174,7 +174,7 @@ collections:
   tutorials:
     output: true
     sort_by: order
-    permalink: /tutorials/:name/
+    permalink: /tutorials/:path/
 
 defaults:
   - scope:
@@ -188,6 +188,24 @@ defaults:
       path: _drafts
     values:
       comments: false
+  - scope:
+      path: _support
+    values:
+      layout: support
+      toc: true
+      comments: true
+  - scope:
+      path: "_mods"
+    values:
+      layout: mod_info
+      toc: true
+      comments: true
+  - scope:
+      path: "_tutorials"
+    values:
+      layout: page
+      toc: true
+      comments: true
   - scope:
       path: ""
       type: tabs
