@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Injection Tools (Fix)
+mod_id: injection_tools
+title: Injection Tools
 ---
 
 {% include mod-infobox.html %}
