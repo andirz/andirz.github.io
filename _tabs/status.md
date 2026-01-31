@@ -2,6 +2,7 @@
 layout: page
 title: Mod Status
 icon: "fas fa-tools"
+permalink: "/mods/"
 order: 2
 ---
 
