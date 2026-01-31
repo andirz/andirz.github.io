@@ -109,12 +109,7 @@
   }
 </style>
 
-{% comment %} 
-  Wir nehmen den Dateinamen ohne Endung (slug) als ID.
-  Beispiel: "smart_core_script.md" wird zu "smart_core_script"
-{% endcomment %}
-{% assign current_id = page.name | remove: ".md" %}
-{% assign mod = site.data.mods | where: "id", current_id | first %}
+{% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 
 {% if mod %}
 <div class="andirz-mod-hero">
