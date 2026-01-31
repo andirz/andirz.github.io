@@ -1,5 +1,4 @@
 ---
-layout: mod_info
 mod_id: pso-common-package
 title: "P.S.O. Common Package"
 icon: fas fa-cubes
