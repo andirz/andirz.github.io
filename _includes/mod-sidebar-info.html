@@ -20,8 +20,6 @@
         <span style="font-size: 0.85rem; color: #64748b; font-weight: 600;">v. {{ mod.version }}</span>
       </div>
 
-      <div style="height: 1px; background: #eee; width: 50px; margin: 15px auto;"></div>
-
       <div style="display: flex; justify-content: center; gap: 12px; color: #cbd5e1; font-size: 1rem;">
         {% if page.files contains 'ts4script' %}<i class="fas fa-file-code" title="Script Mod"></i>{% endif %}
         {% if page.files == nil or page.files contains 'package' %}<i class="fas fa-file-archive" title="Package File"></i>{% endif %}
@@ -29,14 +27,26 @@
     </div>
     
     {% if mod.download_url %}
-    <a href="{{ mod.download_url }}" target="_blank" style="display: block; background: #2563eb; color: white; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; font-size: 0.85rem; transition: background 0.2s;">
+    <a href="{{ mod.download_url }}" target="_blank" style="display: block; background: #2563eb; color: white; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; font-size: 0.85rem;">
       <i class="fas fa-external-link-alt" style="margin-right: 8px;"></i> Download
     </a>
     {% endif %}
   </div>
 
+  {% if page.toc %}
+  <div class="toc-box" style="background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+    <h4 style="margin: 0 0 12px 0; font-size: 0.75rem; color: #64748b; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800;">
+      <i class="fas fa-list" style="margin-right: 8px;"></i> On this page
+    </h4>
+
+    <div class="toc-inline" style="font-size: 0.85rem; line-height: 1.5; color: #475569;">
+      {% include toc.html html=content %}
+    </div>
+  </div>
+  {% endif %}
+
   <div class="requirements-box" style="padding: 20px; background: #fffaf0; border: 1px solid #ffeebc; border-radius: 12px;">
-    <h4 style="margin: 0 0 12px 0; font-size: 0.9rem; color: #856404; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px;">
+    <h4 style="margin: 0 0 12px 0; font-size: 0.85rem; color: #856404; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800;">
       <i class="fas fa-list-check" style="margin-right: 8px;"></i> Requirements
     </h4>
     <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.85rem; color: #856404;">
