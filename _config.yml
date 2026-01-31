@@ -21,7 +21,7 @@ description: >- # used by seo meta and the atom feed
   Official website of Andirz. Home of Smart Core Script, Smart Sim Cheats and Randomizer, 
   SimSim Online Store, Obscura Network and more enhancements for The Sims 4.
 
-url: 'https://andirz-mods.com'
+url: 
 
 github:
   username: andirz
@@ -84,7 +84,7 @@ pageviews:
 theme_mode: # [light | dark]
 
 # The CDN endpoint for media resources.
-# Notice that once it is assigned, the CDN url
+# Notice that once it is assigned, the CDN 
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
