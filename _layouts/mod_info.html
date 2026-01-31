@@ -2,9 +2,6 @@
 layout: default
 ---
 
-{% comment %} 
-  Daten-Initialisierung: Wir laden die Mod-Daten und prüfen die Requirements.
-{% endcomment %}
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 {% assign has_reqs = mod.requirements and mod.requirements.size > 0 %}
 {% assign has_packs = mod.packs and mod.packs.size > 0 %}
@@ -12,11 +9,20 @@ layout: default
 <div class="mod-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
   
   <header class="mod-header" style="margin-bottom: 40px; border-bottom: 1px solid var(--border-color, #eee); padding-bottom: 25px;">
-    <h1 style="font-size: 2.8rem; margin: 0 0 15px 0; color: var(--text-color);">{{ mod.name | default: page.title }}</h1>
+    <h1 style="font-size: 2.8rem; margin: 0 0 15px 0; color: var(--text-color);">{{ page.title }}</h1>
     
     <div class="mod-meta-tags" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
       {% if mod.status %}
-        <span style="background: {% if mod.status == 'compatible' %}#10b981{% else %}#ef4444{% endif %}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase;">
+        {% assign status_lower = mod.status | downcase %}
+        {% if status_lower == 'compatible' %}
+          {% assign status_color = '#10b981' %} {% comment %} Grün {% endcomment %}
+        {% elsif status_lower == 'updated' %}
+          {% assign status_color = '#3b82f6' %} {% comment %} Blau {% endcomment %}
+        {% else %}
+          {% assign status_color = '#ef4444' %} {% comment %} Rot {% endcomment %}
+        {% endif %}
+        
+        <span style="background: {{ status_color }}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase;">
           {{ mod.status }}
         </span>
       {% endif %}
@@ -25,9 +31,23 @@ layout: default
         <span style="border: 1px solid #2563eb; color: #2563eb; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">{{ cat }}</span>
       {% endfor %}
       
-      <span style="color: #666; font-size: 0.9rem; margin-left: 10px;">
-        <i class="fas fa-code-branch"></i> v{{ mod.version }}
-      </span>
+      <div style="display: flex; align-items: center; gap: 15px; margin-left: 10px; color: #666; font-size: 0.95rem;">
+        <span><i class="fas fa-code-branch"></i> v{{ mod.version }}</span>
+        
+        <div style="display: flex; gap: 10px; align-items: center; padding-left: 15px; border-left: 1px solid #ddd;">
+          {% if page.files contains 'ts4script' %}
+            <i class="fas fa-code" title="Script Mod (.ts4script)" style="color: var(--accent-color);"></i>
+          {% endif %}
+          
+          {% if page.files == nil or page.files contains 'package' %}
+            <i class="fas fa-box" title="Package File (.package)" style="color: var(--accent-color);"></i>
+          {% endif %}
+          
+          {% if page.files contains 'bat' %}
+            <i class="fas fa-terminal" title="Batch Tool (.bat)" style="color: var(--accent-color);"></i>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </header>
 
@@ -59,36 +79,40 @@ layout: default
           </h3>
           
           <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.95rem; color: #856404;">
-            
-            {% comment %} Mod-Abhängigkeiten (z.B. Smart Core) {% endcomment %}
             {% if has_reqs %}
-              {% for req in mod.requirements %}
+              {% for req_id in mod.requirements %}
+                {% assign dep = site.data.dependencies[req_id] %}
                 <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
                   <i class="fas fa-puzzle-piece" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
-                  <span><strong>{{ req }}</strong></span>
+                  {% if dep %}
+                    <a href="{{ dep.url }}" style="color: #856404; font-weight: bold; text-decoration: underline;">{{ dep.name }}</a>
+                  {% else %}
+                    <strong>{{ req_id }}</strong>
+                  {% endif %}
                 </li>
               {% endfor %}
             {% endif %}
 
-            {% comment %} Pack-Abhängigkeiten oder Base Game {% endcomment %}
             {% if has_packs %}
               {% for pack_id in mod.packs %}
-                {% assign pack_data = site.data.packs | where: "id", pack_id | first %}
-                <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
-                  <i class="fas fa-box-open" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
-                  <span title="{{ pack_data.name | default: pack_id }}">
-                    Requires {{ pack_data.name | default: pack_id }}
-                  </span>
-                </li>
+                {% if pack_id != "BG" %}
+                  {% assign pack_data = site.data.packs[pack_id] %}
+                  <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
+                    <i class="fas fa-box-open" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
+                    <span title="{{ pack_data.en | default: pack_id }}">
+                      Requires {{ pack_data.en | default: pack_id }}
+                    </span>
+                  </li>
+                {% endif %}
               {% endfor %}
-            {% else %}
-              {% comment %} Fallback auf Base Game aus packs.yml {% endcomment %}
-              {% assign bg_data = site.data.packs | where: "id", "BG" | first %}
+            {% endif %}
+
+            {% unless has_packs or has_reqs %}
               <li style="display: flex; align-items: center; color: #28a745;">
                 <i class="fas fa-circle-check" style="margin-right: 10px;"></i>
-                <strong>{{ bg_data.name | default: "Base Game Compatible" }}</strong>
+                <strong>Base Game Compatible</strong>
               </li>
-            {% endif %}
+            {% endunless %}
           </ul>
         </div>
 
