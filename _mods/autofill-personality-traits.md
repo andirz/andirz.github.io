@@ -1,6 +1,7 @@
 ---
 mod_id: autofill-personality-traits
 title: "Auto-Fill Personality Traits"
+parent: "Mods"
 icon: "fas fa-user-tag"
 files: ["ts4script"]
 categories: [Scripts, Sim Personalization]
