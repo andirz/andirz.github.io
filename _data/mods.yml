@@ -33,39 +33,38 @@
 # --- SHOPPING MODS (P.S.O.) ---
 
 - id: pso_common_package
-  icon: "fas fa-box-open"
   version: "2.1.0"
+  requirements: ["smart_core"]
+  icon: "fas fa-box-open"
   status: "compatible"
+  updated: "2025-10-09"
 
 - id: online_store
-  name: "SimSim Online Store"
-  icon: "fas fa-shopping-cart"
-  version: "1.2.5"
+  version: "5.4.1"
+  requirements: ["smart_core", "pso_common"]
   status: "updated"
-  updated: "2026-01-29"
-  requirements: ["Smart Core"]
+  updated: "2026-01-14"
   curseforge: "https://www.curseforge.com/"
   patreon: "https://www.patreon.com/"
 
-- id: simnomnom_delivery
-  name: "Sim-Nom-Nom Food Delivery"
-  icon: "fas fa-utensils"
-  version: "1.1.0"
+- id: sim_nom_nom
+  version: "1.5.3"
+  requirements: ["smart_core", "pso_common"]
   status: "compatible"
-  updated: "2026-01-28"
+  updated: "2026-01-20"
 
 - id: purchase_medicine
-  name: "Purchase Medicine"
-  icon: "fas fa-pills"
   version: "4.1.2"
+  requirements: ["smart_core", "pso_common"]
   status: "updated"
+  updated: "2025-12-04"
 
 - id: obscura_network
   name: "Obscura Network"
   icon: "fas fa-rss"
-  version: "2.0.1"
+  version: "1.2.1"
   status: "updated"
-  updated: "2026-01-29"
+  updated: "2025-11-06"
 
 - id: purchase_bottled_drinks
   name: "Purchase Bottled Drinks"
