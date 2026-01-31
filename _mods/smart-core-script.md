@@ -1,6 +1,6 @@
 ---
 layout: mod_info
-mod_id: smart_core_script
+mod_id: smart-core-script
 title: Smart Core Script
 icon: fas fa-microchip
 files: [ts4script]
