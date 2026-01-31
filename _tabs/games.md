@@ -2,6 +2,7 @@
 layout: page
 title: Pack Memory
 icon: "fas fa-th"
+order: 5
 ---
 
 <div class="memory-game-container" style="max-width: 600px; margin: 0 auto; text-align: center;">
@@ -22,8 +23,8 @@ icon: "fas fa-th"
 <style>
     .memory-card {
         aspect-ratio: 1 / 1;
-        background: var(--bg-secondary);
-        border: 2px solid var(--border-color);
+        background: var(--card-bg);
+        border: 2px solid var(--card-border-color);
         border-radius: 12px;
         cursor: pointer;
         position: relative;
@@ -38,11 +39,11 @@ icon: "fas fa-th"
         align-items: center; justify-content: center; border-radius: 10px;
     }
     .card-back { background: var(--accent-color); color: white; font-size: 1.8rem; }
-    .card-front { background: white; transform: rotateY(180deg); padding: 5px; }
-    .card-front img { width: 90%; height: 90%; object-fit: contain; pointer-events: none; }
+    .card-front { background: white; transform: rotateY(180deg); padding: 8px; }
+    .card-front img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
     
     .matched { 
-        opacity: 0.4; 
+        opacity: 0.5; 
         cursor: default; 
         border-color: #28a745 !important;
         pointer-events: none;
@@ -50,8 +51,12 @@ icon: "fas fa-th"
 </style>
 
 <script>
-    // Configuration
-    const basePath = "{{ '/assets/img/logos/' | relative_url }}";
+    /**
+     * Konfiguration der Pfade
+     * Wir nutzen hier den Pfad deiner neuen Domain für maximale Kompatibilität.
+     */
+    const basePath = "https://andirz.github.io/assets/img/logos/";
+
     const packFiles = [
         'pack_ep01.png', 'pack_ep02.png', 'pack_ep03.png', 'pack_ep04.png',
         'pack_ep05.png', 'pack_ep06.png', 'pack_ep07.png', 'pack_ep08.png',
@@ -64,7 +69,6 @@ icon: "fas fa-th"
     let canFlip = true;
 
     function startGame() {
-        // Reset Variables
         moves = 0;
         matches = 0;
         flippedCards = [];
@@ -75,7 +79,7 @@ icon: "fas fa-th"
         const grid = document.getElementById('memory-grid');
         grid.innerHTML = '';
 
-        // Select 8 random packs from the 11 available to create 16 cards
+        // Zufällige Auswahl von 8 Packs aus den verfügbaren 11
         const selected = [...packFiles].sort(() => 0.5 - Math.random()).slice(0, 8);
         const gameSet = [...selected, ...selected].sort(() => 0.5 - Math.random());
 
@@ -86,7 +90,7 @@ icon: "fas fa-th"
             card.innerHTML = `
                 <div class="card-back"><i class="fas fa-question"></i></div>
                 <div class="card-front">
-                    <img src="${basePath}${fileName}" alt="Pack">
+                    <img src="${basePath}${fileName}" alt="Pack Icon">
                 </div>
             `;
             card.addEventListener('click', flipCard);
@@ -118,8 +122,11 @@ icon: "fas fa-th"
             document.getElementById('matches').innerText = matches;
             flippedCards = [];
             canFlip = true;
+            
             if (matches === 8) {
-                setTimeout(() => alert('Wonderful! You found all pairs in ' + moves + ' moves!'), 500);
+                setTimeout(() => {
+                    alert('Sul Sul! You found all pairs in ' + moves + ' moves!');
+                }, 500);
             }
         } else {
             setTimeout(() => {
@@ -131,6 +138,10 @@ icon: "fas fa-th"
         }
     }
 
-    // Initialize on load
-    document.addEventListener('DOMContentLoaded', startGame);
+    // Spielstart wenn die Seite geladen ist
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startGame);
+    } else {
+        startGame();
+    }
 </script>
