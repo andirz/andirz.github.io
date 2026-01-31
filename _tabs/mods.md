@@ -15,13 +15,13 @@ order: 2
     <table id="modTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
       <thead>
         <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
-          <th style="padding: 15px; width: 60px; text-align: center;">#</th>
-          <th onclick="sortTable(1)" style="padding: 15px; cursor: pointer; width: 50%;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th onclick="sortTable(2)" title="Version" style="padding: 15px; cursor: pointer; width: 90px;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th onclick="sortTable(3)" title="Status" style="padding: 15px; cursor: pointer; width: 60px; text-align: center;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th onclick="sortTable(4)" title="Last Update" style="padding: 15px; cursor: pointer; width: 110px;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th style="padding: 15px; width: 120px;">Requirements</th>
-          <th onclick="sortTable(6)" style="padding: 15px; cursor: pointer; width: 120px;">Category <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th style="padding: 10px; width: 55px; text-align: center;">#</th>
+          <th onclick="sortTable(1)" style="padding: 10px; cursor: pointer; width: auto;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(2)" title="Version" style="padding: 10px; cursor: pointer; width: 85px;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(3)" title="Status" style="padding: 10px; cursor: pointer; width: 60px; text-align: center;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(4)" title="Last Update" style="padding: 10px; cursor: pointer; width: 105px;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th style="padding: 10px; width: 110px;">Requirements</th>
+          <th onclick="sortTable(6)" style="padding: 10px; cursor: pointer; width: 110px;">Category <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         </tr>
       </thead>
       <tbody>
@@ -38,34 +38,30 @@ order: 2
 
           <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='var(--bg-secondary)'" onmouseout="this.style.backgroundColor='transparent'">
             
-            <td style="padding: 15px; text-align: center;">
-              <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 12px; color: var(--accent-color); border: 1px solid var(--border-color); margin: 0 auto;">
-                <i class="{{ display_icon }}" style="font-size: 1.4rem;"></i>
+            <td style="padding: 8px; text-align: center;">
+              <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; color: var(--accent-color); border: 1px solid var(--border-color); margin: 0 auto;">
+                <i class="{{ display_icon }}" style="font-size: 1.3rem;"></i>
               </div>
             </td>
             
-            <td style="padding: 15px;">
-              <div style="display: flex; flex-direction: column; gap: 6px;">
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                  {% if mod_page %}
-                    <a href="{{ mod_page.url | relative_url }}" style="text-decoration: none; color: var(--link-color); font-weight: 600; font-size: 1.05rem;">{{ display_name }}</a>
-                  {% else %}
-                    <span style="font-weight: 600; opacity: 0.7; font-size: 1.05rem;">{{ display_name }}</span>
-                  {% endif %}
+            <td style="padding: 10px;">
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;">
+                {% if mod_page %}
+                  <a href="{{ mod_page.url | relative_url }}" style="text-decoration: none; color: var(--link-color); font-weight: 600; font-size: 1rem; white-space: nowrap;">{{ display_name }}</a>
+                {% else %}
+                  <span style="font-weight: 600; opacity: 0.7; font-size: 1rem; white-space: nowrap;">{{ display_name }}</span>
+                {% endif %}
 
-                  {% comment %} Dateityp-Icons {% endcomment %}
-                  <span style="font-size: 0.7rem; color: var(--text-muted); display: flex; gap: 5px; opacity: 0.5;">
-                    {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod"></i>{% endif %}
-                    {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File"></i>{% endif %}
-                  </span>
-                </div>
+                <span style="font-size: 0.7rem; color: var(--text-muted); display: flex; gap: 4px; opacity: 0.4;">
+                  {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code"></i>{% endif %}
+                  {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box"></i>{% endif %}
+                </span>
 
-                {% comment %} Dezent graue Pack-Buttons {% endcomment %}
                 {% if final_packs.size > 0 %}
-                  <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap;">
+                  <div style="display: flex; gap: 3px; align-items: center;">
                     {% for pack_id in final_packs %}
                       {% if pack_id != "BG" %}
-                        <span style="font-size: 0.6rem; background: var(--bg-secondary); color: var(--text-muted); padding: 1px 5px; border-radius: 4px; font-weight: 700; border: 1px solid var(--border-color); text-transform: uppercase; cursor: default;">
+                        <span style="font-size: 0.55rem; background: var(--bg-secondary); color: var(--text-muted); padding: 1px 4px; border-radius: 4px; font-weight: 700; border: 1px solid var(--border-color); text-transform: uppercase; line-height: 1;">
                           {{ pack_id }}
                         </span>
                       {% endif %}
@@ -75,25 +71,24 @@ order: 2
               </div>
             </td>
             
-            <td style="padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted);">{{ current_version }}</td>
+            <td style="padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted);">{{ current_version }}</td>
             
-            <td style="padding: 15px; text-align: center;">
+            <td style="padding: 10px; text-align: center;">
               {% assign status = mod_entry.status | downcase %}
-              <div style="cursor: help; display: inline-block;">
-                {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.3rem;"></i>
-                {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.3rem;"></i>
-                {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.3rem;"></i>
-                {% else %}<i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.3rem;"></i>{% endif %}
+              <div style="cursor: help;">
+                {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.2rem;"></i>
+                {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.2rem;"></i>
+                {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.2rem;"></i>
+                {% else %}<i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
 
-            <td style="padding: 15px; white-space: nowrap; color: var(--text-muted); font-size: 0.85rem;">
-              <span style="display:none;">{{ update_date | date: "%Y%m%d" }}</span>
+            <td style="padding: 10px; white-space: nowrap; color: var(--text-muted); font-size: 0.8rem;">
               {{ update_date | date: "%b %d, %Y" }}
             </td>
             
-            <td style="padding: 15px;">
-              <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+            <td style="padding: 10px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 4px;">
                 {% assign has_mod_req = false %}
                 {% if final_reqs.size > 0 %}
                   {% for req_id in final_reqs %}
@@ -101,23 +96,21 @@ order: 2
                     {% if dep_info %}
                       {% assign req_url = dep_info.url | default: "#" %}
                       {% assign req_label = dep_info.short_name | default: req_id %}
-                      {% assign req_full_name = dep_info.name | default: req_id %}
                     {% else %}
                       {% assign req_page = site.mods | where: "mod_id", req_id | first %}
                       {% assign req_label = req_id %}
-                      {% assign req_full_name = req_page.title | default: req_id %}
                       {% assign req_url = req_page.url | relative_url | default: "#" %}
                     {% endif %}
-                    <a href="{{ req_url }}" title="{{ req_full_name }}" style="text-decoration: none; font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 5px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">{{ req_label }}</a>
+                    <a href="{{ req_url }}" style="text-decoration: none; font-size: 0.65rem; background: rgba(0,123,255,0.06); color: #007bff; padding: 1px 5px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.12);">{{ req_label }}</a>
                     {% assign has_mod_req = true %}
                   {% endfor %}
                 {% endif %}
-                {% if has_mod_req == false %}<span style="color: #ccc; font-size: 0.8rem;">—</span>{% endif %}
+                {% if has_mod_req == false %}<span style="color: #ddd;">—</span>{% endif %}
               </div>
             </td>
 
-            <td style="padding: 15px; color: var(--text-muted); font-size: 0.85rem;">
-              <span style="background: var(--bg-secondary); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border-color);">{{ primary_category }}</span>
+            <td style="padding: 10px; color: var(--text-muted); font-size: 0.8rem;">
+              <span style="background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-color);">{{ primary_category }}</span>
             </td>
           </tr>
         {% endfor %}
