@@ -1,5 +1,4 @@
 ---
-layout: page
 title: SimSim Online Store Data
 icon: fas fa-shopping-cart
 ---
