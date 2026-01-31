@@ -1,6 +1,6 @@
 ---
 mod_id: cleanup-script
-title: Cleanup Script for Windows
+title: "Cleanup Script for Windows"
 icon: "fas fa-broom"
 files: ["bat"]
 categories: [Scripts, Tools]
