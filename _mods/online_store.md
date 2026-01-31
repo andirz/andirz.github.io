@@ -1,7 +1,6 @@
 ---
 mod_id: online_store
 title: SimSim Online Store
-layout: mod_info
 categories: [Gameplay Mods, Shopping]
 tags: [shopping]
 ---
