@@ -196,7 +196,7 @@ defaults:
       path: "_mods"
     values:
       layout: mod_info
-      panel: false
+      toc: true
   - scope:
       path: "_tutorials"
     values:
