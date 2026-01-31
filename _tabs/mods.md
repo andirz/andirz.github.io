@@ -15,7 +15,7 @@ order: 2
     <table id="modTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
       <thead>
         <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
-          <th style="padding: 15px; width: 45px; text-align: center;">#</th>
+          <th style="padding: 15px; width: 60px; text-align: center;">#</th>
           <th onclick="sortTable(1)" style="padding: 15px; cursor: pointer; width: 50%;">Mod Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
           <th onclick="sortTable(2)" title="Version" style="padding: 15px; cursor: pointer; width: 90px;">Version <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
           <th onclick="sortTable(3)" title="Status" style="padding: 15px; cursor: pointer; width: 60px; text-align: center;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
@@ -39,28 +39,30 @@ order: 2
           <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='var(--bg-secondary)'" onmouseout="this.style.backgroundColor='transparent'">
             
             <td style="padding: 15px; text-align: center;">
-              <div style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; color: var(--accent-color);">
-                <i class="{{ display_icon }}"></i>
+              <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 12px; color: var(--accent-color); border: 1px solid var(--border-color); margin: 0 auto;">
+                <i class="{{ display_icon }}" style="font-size: 1.4rem;"></i>
               </div>
             </td>
             
             <td style="padding: 15px;">
-              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                {% if mod_page %}
-                  <a href="{{ mod_page.url | relative_url }}" style="text-decoration: none; color: var(--link-color); font-weight: 600; font-size: 1rem;">{{ display_name }}</a>
-                {% else %}
-                  <span style="font-weight: 600; opacity: 0.7; font-size: 1rem;">{{ display_name }}</span>
-                {% endif %}
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  {% if mod_page %}
+                    <a href="{{ mod_page.url | relative_url }}" style="text-decoration: none; color: var(--link-color); font-weight: 600; font-size: 1.05rem;">{{ display_name }}</a>
+                  {% else %}
+                    <span style="font-weight: 600; opacity: 0.7; font-size: 1.05rem;">{{ display_name }}</span>
+                  {% endif %}
 
-                {% comment %} Dateityp-Icons {% endcomment %}
-                <span style="font-size: 0.7rem; color: var(--text-muted); display: flex; gap: 5px; opacity: 0.5;">
-                  {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod"></i>{% endif %}
-                  {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File"></i>{% endif %}
-                </span>
+                  {% comment %} Dateityp-Icons {% endcomment %}
+                  <span style="font-size: 0.7rem; color: var(--text-muted); display: flex; gap: 5px; opacity: 0.5;">
+                    {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod"></i>{% endif %}
+                    {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File"></i>{% endif %}
+                  </span>
+                </div>
 
                 {% comment %} Dezent graue Pack-Buttons {% endcomment %}
                 {% if final_packs.size > 0 %}
-                  <div style="display: flex; gap: 4px; align-items: center;">
+                  <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap;">
                     {% for pack_id in final_packs %}
                       {% if pack_id != "BG" %}
                         <span style="font-size: 0.6rem; background: var(--bg-secondary); color: var(--text-muted); padding: 1px 5px; border-radius: 4px; font-weight: 700; border: 1px solid var(--border-color); text-transform: uppercase; cursor: default;">
@@ -78,10 +80,10 @@ order: 2
             <td style="padding: 15px; text-align: center;">
               {% assign status = mod_entry.status | downcase %}
               <div style="cursor: help; display: inline-block;">
-                {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.2rem;"></i>
-                {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.2rem;"></i>
-                {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.2rem;"></i>
-                {% else %}<i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.2rem;"></i>{% endif %}
+                {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.3rem;"></i>
+                {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.3rem;"></i>
+                {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.3rem;"></i>
+                {% else %}<i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.3rem;"></i>{% endif %}
               </div>
             </td>
 
