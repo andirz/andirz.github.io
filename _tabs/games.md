@@ -1,110 +1,164 @@
 ---
 layout: page
-title: Games & Quizzes
-icon: "fas fa-gamepad"
-order: 4
+title: Pack Memory
+icon: "fas fa-th"
 ---
 
-<div class="games-container">
-  <p>Willkommen im Fun-Bereich! Teste dein Wissen über Sims 4 Mods oder entspanne dich bei einer Runde Memory.</p>
+<div class="memory-game-container" style="max-width: 600px; margin: 0 auto; text-align: center;">
+    <p>Finde die passenden Paare deiner Lieblings-Mods!</p>
+    
+    <div style="margin-bottom: 20px; font-weight: bold; font-size: 1.2rem;">
+        Versuche: <span id="moves">0</span> | Paare: <span id="matches">0</span>/8
+    </div>
 
-  <div class="tabs-nav" style="display: flex; gap: 10px; border-bottom: 2px solid var(--border-color); margin-bottom: 25px;">
-    <button class="game-tab-btn active" onclick="openGame(event, 'quiz')">Modding Quiz</button>
-    <button class="game-tab-btn" onclick="openGame(event, 'memory')">Mod-Memory</button>
-  </div>
-
-  <div id="quiz" class="game-content" style="display: block;">
-    <div class="quiz-card" style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
-      <h3 id="question-text">Lädt Quiz...</h3>
-      <div id="answer-buttons" style="display: grid; gap: 10px; margin-top: 20px;">
+    <div id="memory-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
         </div>
-      <div id="quiz-results" style="display:none; text-align: center; margin-top: 20px;">
-        <h4>Ergebnis: <span id="score"></span></h4>
-        <button onclick="startQuiz()" style="background: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Nochmal spielen</button>
-      </div>
-    </div>
-  </div>
 
-  <div id="memory" class="game-content" style="display: none;">
-    <div style="text-align: center; padding: 40px; background: var(--bg-secondary); border-radius: 12px; border: 2px dashed var(--border-color);">
-      <i class="fas fa-th" style="font-size: 3rem; opacity: 0.3; margin-bottom: 15px;"></i>
-      <h3>Mod-Memory</h3>
-      <p>Kombiniere die Mod-Icons (SimSim, Obscura, etc.).</p>
-      <button class="btn-primary" style="background: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 8px;">Spiel starten (Coming Soon)</button>
-    </div>
-  </div>
+    <button onclick="resetGame()" style="background: var(--accent-color); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+        Spiel neu starten
+    </button>
 </div>
 
 <style>
-  .game-tab-btn {
-    background: none; border: none; padding: 10px 20px; cursor: pointer;
-    font-weight: 600; color: var(--text-muted); border-bottom: 3px solid transparent; transition: 0.3s;
-  }
-  .game-tab-btn.active { color: var(--accent-color); border-bottom: 3px solid var(--accent-color); }
-  
-  .quiz-btn {
-    background: var(--bg-primary); border: 1px solid var(--border-color);
-    padding: 12px; border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s;
-  }
-  .quiz-btn:hover { background: var(--accent-color-transparent); border-color: var(--accent-color); }
+    .memory-card {
+        aspect-ratio: 1 / 1;
+        background: var(--bg-secondary);
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        cursor: pointer;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s;
+    }
+
+    .memory-card.flipped {
+        transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+    }
+
+    .card-back {
+        background: var(--accent-color);
+        color: white;
+        font-size: 2rem;
+    }
+
+    .card-front {
+        background: white;
+        transform: rotateY(180deg);
+    }
+
+    .card-front img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+    }
+
+    .matched {
+        opacity: 0.6;
+        cursor: default;
+        border-color: #28a745 !important;
+    }
 </style>
 
 <script>
-// Tab-Logik
-function openGame(evt, gameName) {
-  var i, content, links;
-  content = document.getElementsByClassName("game-content");
-  for (i = 0; i < content.length; i++) { content[i].style.display = "none"; }
-  links = document.getElementsByClassName("game-tab-btn");
-  for (i = 0; i < links.length; i++) { links[i].className = links[i].className.replace(" active", ""); }
-  document.getElementById(gameName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
+    // Hier die exakten Dateinamen aus deinem /assets/img/logos/ Ordner eintragen!
+    const logoFiles = [
+        'simsim.png', 
+        'obscura.png', 
+        'sim-nom-nom.png', 
+        'better-shopping.png',
+        'better-pie.png',
+        'weather.png',
+        'smart-core.png',
+        'university.png'
+    ];
 
-// Einfache Quiz-Logik
-const questions = [
-  { q: "Welcher Mod erlaubt Online-Shopping im Spiel?", a: ["SimSim Online Store", "Obscura Network"], correct: 0 },
-  { q: "Was benötigt das 'Smart Core Script'?", a: ["Nichts", "Aktuellsten Patch & Script-Erlaubnis"], correct: 1 },
-  { q: "Welcher Mod verbessert die Essensbestellung?", a: ["Sim-Nom-Nom", "Better Pie Menu"], correct: 0 }
-];
+    let cards = [];
+    let flippedCards = [];
+    let moves = 0;
+    let matches = 0;
+    let canFlip = true;
 
-let currentQuestion = 0;
-let score = 0;
+    function createBoard() {
+        const grid = document.getElementById('memory-grid');
+        grid.innerHTML = '';
+        
+        // Verdoppeln für Paare und mischen
+        const gameIcons = [...logoFiles, ...logoFiles]
+            .sort(() => Math.random() - 0.5);
 
-function startQuiz() {
-  currentQuestion = 0; score = 0;
-  document.getElementById("quiz-results").style.display = "none";
-  document.getElementById("answer-buttons").style.display = "grid";
-  showQuestion();
-}
+        gameIcons.forEach((icon, index) => {
+            const card = document.createElement('div');
+            card.className = 'memory-card';
+            card.dataset.icon = icon;
+            card.innerHTML = `
+                <div class="card-back"><i class="fas fa-question"></i></div>
+                <div class="card-front">
+                    <img src="/assets/img/logos/${icon}" alt="Mod Logo">
+                </div>
+            `;
+            card.addEventListener('click', flipCard);
+            grid.appendChild(card);
+        });
+    }
 
-function showQuestion() {
-  const q = questions[currentQuestion];
-  document.getElementById("question-text").innerText = q.q;
-  const btnContainer = document.getElementById("answer-buttons");
-  btnContainer.innerHTML = "";
-  q.a.forEach((ans, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "quiz-btn";
-    btn.innerText = ans;
-    btn.onclick = () => checkAnswer(idx);
-    btnContainer.appendChild(btn);
-  });
-}
+    function flipCard() {
+        if (!canFlip || this.classList.contains('flipped') || this.classList.contains('matched')) return;
 
-function checkAnswer(idx) {
-  if(idx === questions[currentQuestion].correct) score++;
-  currentQuestion++;
-  if(currentQuestion < questions.length) { showQuestion(); } 
-  else { showResults(); }
-}
+        this.classList.add('flipped');
+        flippedCards.push(this);
 
-function showResults() {
-  document.getElementById("question-text").innerText = "Quiz beendet!";
-  document.getElementById("answer-buttons").style.display = "none";
-  document.getElementById("quiz-results").style.display = "block";
-  document.getElementById("score").innerText = score + " von " + questions.length;
-}
+        if (flippedCards.length === 2) {
+            moves++;
+            document.getElementById('moves').innerText = moves;
+            checkMatch();
+        }
+    }
 
-startQuiz();
+    function checkMatch() {
+        canFlip = false;
+        const [card1, card2] = flippedCards;
+        const isMatch = card1.dataset.icon === card2.dataset.icon;
+
+        if (isMatch) {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            matches++;
+            document.getElementById('matches').innerText = matches;
+            resetTurn();
+            if (matches === 8) setTimeout(() => alert('Glückwunsch! Du hast alle Paare gefunden!'), 500);
+        } else {
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                resetTurn();
+            }, 1000);
+        }
+    }
+
+    function resetTurn() {
+        flippedCards = [];
+        canFlip = true;
+    }
+
+    function resetGame() {
+        moves = 0;
+        matches = 0;
+        document.getElementById('moves').innerText = '0';
+        document.getElementById('matches').innerText = '0';
+        createBoard();
+    }
+
+    // Spiel beim Laden starten
+    createBoard();
 </script>
