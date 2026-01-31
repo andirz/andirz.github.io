@@ -32,7 +32,7 @@
 
 # --- SHOPPING MODS (P.S.O.) ---
 
-- id: pso_common_package
+- id: pso-common-package
   version: "2.1.0"
   requirements: ["smart_core"]
   icon: "fas fa-box-open"
