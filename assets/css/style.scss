@@ -2,6 +2,16 @@
 ---
 @import "main";
 
+/* Right Panel (TOC/Sidebar rechts) ausblenden */
+
+#panel-wrapper {
+  display: none !important;
+}
+
+#panel {
+  display: none !important;
+}
+
 /* Custom Status Info Box */
 .status-info-box {
   background: rgba(0, 123, 255, 0.05);
