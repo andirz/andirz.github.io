@@ -9,19 +9,16 @@ order: 2
 {% assign last_checked = site.data.globals.last_checked %}
 
 <style>
-  /* Zebra-Look: Jede zweite Zeile ganz leicht abgesetzt */
   #modTable tbody tr:nth-child(even) {
     background-color: rgba(128, 128, 128, 0.03);
   }
 
-  /* Aggressiver Hover im Stil der Webseite (Neutral) */
   #modTable tbody tr:hover {
     background-color: rgba(128, 128, 128, 0.08) !important;
     outline: 1.5px solid var(--text-muted);
     outline-offset: -1.5px;
   }
 
-  /* Pack-Buttons Design (Graue Rechtecke) */
   .pack-badge {
     font-size: 0.65rem;
     background: rgba(128, 128, 128, 0.1);
@@ -38,7 +35,15 @@ order: 2
 </style>
 
 <div class="content-wrapper">
-  <p>All mods are currently verified for <strong>The Sims 4 Patch {{ latest_patch }}</strong> as of <strong>{{ last_checked }}</strong>.</p>
+  
+  <div style="display: flex; align-items: center; gap: 12px; background: rgba(40, 167, 69, 0.08); border: 1px solid rgba(40, 167, 69, 0.2); padding: 12px 18px; border-radius: 10px; margin-bottom: 25px;">
+    <i class="fas fa-check-shield" style="color: #28a745; font-size: 1.2rem;"></i>
+    <span style="font-size: 0.95rem; color: var(--text-color);">
+      All mods are <strong>verified</strong> for 
+      <span style="background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; border: 1px solid var(--border-color);">Patch {{ latest_patch }}</span> 
+      as of <strong>{{ last_checked | date: "%b %d, %Y" }}</strong>.
+    </span>
+  </div>
 
   <div class="status-table-container" style="overflow-x: auto; margin-top: 25px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
     <table id="modTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
@@ -89,7 +94,7 @@ order: 2
                   <div style="display: flex; gap: 4px;">
                     {% for pack_id in final_packs %}
                       {% if pack_id != "BG" %}
-                        <span class="pack-badge" title="Requires {{ pack_id }}">
+                        <span class="pack-badge" title="{{ site.data.packs[pack_id].en | default: pack_id }}">
                           {{ pack_id }}
                         </span>
                       {% endif %}
@@ -123,8 +128,11 @@ order: 2
                 {% if final_reqs.size > 0 %}
                   {% for req_id in final_reqs %}
                     {% assign dep_info = site.data.dependencies[req_id] %}
-                    {% assign req_label = dep_info.short_name | default: req_id %}
-                    <a href="{{ dep_info.url | default: '#' }}" style="text-decoration: none; font-size: 0.65rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid rgba(0,123,255,0.15); line-height: 1.4;">{{ req_label }}</a>
+                    <a href="{{ dep_info.url | default: '#' }}" 
+                       title="{{ dep_info.name | default: req_id }}"
+                       style="text-decoration: none; font-size: 0.65rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid rgba(0,123,255,0.15); line-height: 1.4;">
+                       {{ dep_info.short_name | default: req_id }}
+                    </a>
                     {% assign has_mod_req = true %}
                   {% endfor %}
                 {% endif %}
