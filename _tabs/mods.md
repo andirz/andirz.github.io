@@ -17,10 +17,8 @@ order: 2
   /* Aggressiver Hover im Stil der Webseite (Neutral) */
   #modTable tbody tr:hover {
     background-color: rgba(128, 128, 128, 0.08) !important;
-    /* Ein deutlicher Rahmen oben und unten erzeugt den "Rechteck-Look" */
     outline: 1.5px solid var(--text-muted);
     outline-offset: -1.5px;
-    cursor: pointer;
   }
 
   /* Pack-Buttons Design (Graue Rechtecke) */
@@ -59,7 +57,7 @@ order: 2
         {% for mod_entry in site.data.mods %}
           {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
           {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
-          {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-file-archive' %}
+          {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
           {% assign current_version = mod_page.version | default: mod_entry.version %}
           {% assign final_reqs = mod_page.requirements | default: mod_entry.requirements %}
           {% assign final_packs = mod_page.packs | default: mod_entry.packs %}
@@ -81,9 +79,10 @@ order: 2
                   <span style="font-weight: 700; opacity: 0.7; font-size: 1.05rem; white-space: nowrap;">{{ display_name }}</span>
                 {% endif %}
 
-                <span style="font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 5px; opacity: 0.4;">
-                  {% if mod_page.files contains 'ts4script' %}<i class="fas fa-file-code" title="Script Mod"></i>{% endif %}
-                  {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-file-archive" title="Package File"></i>{% endif %}
+                <span style="font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 5px; opacity: 0.4; cursor: help;">
+                  {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod (.ts4script)"></i>{% endif %}
+                  {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File (.package)"></i>{% endif %}
+                  {% if mod_page.files contains 'bat' %}<i class="fas fa-terminal" title="Batch Tool (.bat)"></i>{% endif %}
                 </span>
 
                 {% if final_packs.size > 0 %}
@@ -100,17 +99,17 @@ order: 2
               </div>
             </td>
             
-            <td style="padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--text-color);">
+            <td style="padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 400; color: var(--text-color);">
               {{ current_version }}
             </td>
             
             <td style="padding: 12px; text-align: center;">
               {% assign status = mod_entry.status | downcase %}
               <div style="cursor: help;">
-                {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" style="color: #007bff; font-size: 1.3rem;"></i>
-                {% elsif status == 'compatible' %}<i class="fas fa-check-circle" style="color: #28a745; font-size: 1.3rem;"></i>
-                {% elsif status == 'broken' %}<i class="fas fa-times-circle" style="color: #dc3545; font-size: 1.3rem;"></i>
-                {% else %}<i class="fas fa-question-circle" style="color: #ffc107; font-size: 1.3rem;"></i>{% endif %}
+                {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Status: Updated" style="color: #007bff; font-size: 1.3rem;"></i>
+                {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Status: Compatible" style="color: #28a745; font-size: 1.3rem;"></i>
+                {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Status: Broken" style="color: #dc3545; font-size: 1.3rem;"></i>
+                {% else %}<i class="fas fa-question-circle" title="Status: Unknown" style="color: #ffc107; font-size: 1.3rem;"></i>{% endif %}
               </div>
             </td>
 
