@@ -1,6 +1,4 @@
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
-{% assign has_reqs = mod.requirements and mod.requirements.size > 0 %}
-{% assign has_packs = mod.packs and mod.packs.size > 0 %}
 
 <div class="sticky-sidebar-wrapper" style="position: sticky; top: 30px;">
   
@@ -8,37 +6,62 @@
     <h3 style="margin: 0 0 15px 0; font-size: 1.1rem; color: #856404; display: flex; align-items: center;">
       <i class="fas fa-list-check" style="margin-right: 10px;"></i> Requirements
     </h3>
+    
     <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.95rem; color: #856404;">
-      {% if has_reqs %}
+      {% if mod.requirements and mod.requirements.size > 0 %}
         {% for req_id in mod.requirements %}
           {% assign dep = site.data.dependencies[req_id] %}
           <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
             <i class="fas fa-puzzle-piece" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
-            <a href="{{ dep.url | default: '#' }}" style="color: #856404; font-weight: bold;">{{ dep.name | default: req_id }}</a>
+            {% if dep %}
+              <a href="{{ dep.url }}" style="color: #856404; font-weight: bold; text-decoration: underline;">{{ dep.name }}</a>
+            {% else %}
+              <strong style="text-transform: capitalize;">{{ req_id | replace: '_', ' ' }}</strong>
+            {% endif %}
           </li>
         {% endfor %}
       {% endif %}
-      {% if has_packs %}
-        {% for pack_id in mod.packs %}
-          {% if pack_id != "BG" %}
+
+      {% if mod.packs and mod.packs.size > 0 %}
+        {% for pack in mod.packs %}
+          {% if pack != "BG" %}
             <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
               <i class="fas fa-box-open" style="margin-top: 4px; margin-right: 10px; opacity: 0.6;"></i>
-              <span>Requires {{ site.data.packs[pack_id].en | default: pack_id }}</span>
+              <span>
+                Requires 
+                {% if site.data.packs[pack] %}
+                  <strong>{{ site.data.packs[pack].en }}</strong>
+                {% else %}
+                  <strong>{{ pack }}</strong>
+                {% endif %}
+              </span>
             </li>
           {% endif %}
         {% endfor %}
       {% endif %}
-      {% unless has_reqs or has_packs %}
-        <li style="color: #28a745;"><i class="fas fa-circle-check"></i> Base Game Compatible</li>
+
+      {% unless mod.requirements.size > 0 or mod.packs contains "EP" or mod.packs contains "GP" %}
+        {% if mod.packs contains "BG" or mod.packs == nil %}
+          <li style="display: flex; align-items: center; color: #28a745;">
+            <i class="fas fa-circle-check" style="margin-right: 10px;"></i>
+            <strong>Base Game Compatible</strong>
+          </li>
+        {% endif %}
       {% endunless %}
     </ul>
   </div>
 
-  <a href="#download-zone" class="btn-hero" style="width: 100%; justify-content: center; box-sizing: border-box;">
-    <i class="fas fa-download"></i> Go to Download
-  </a>
+  {% if mod.download_url %}
+    <a href="{{ mod.download_url }}" target="_blank" class="btn-hero" style="width: 100%; justify-content: center; box-sizing: border-box; text-align: center;">
+      <i class="fas fa-external-link-alt"></i> Download on Patreon
+    </a>
+  {% else %}
+    <a href="#download-zone" class="btn-hero" style="width: 100%; justify-content: center; box-sizing: border-box; text-align: center;">
+      <i class="fas fa-download"></i> Go to Download
+    </a>
+  {% endif %}
 
-  <div style="margin-top: 20px; text-align: center; font-size: 0.85rem; color: #999;">
-    <p>Support on <a href="https://patreon.com/andirz" target="_blank">Patreon</a></p>
+  <div style="margin-top: 20px; text-align: center; font-size: 0.85rem; color: #94a3b8;">
+    <p>Last verified for Patch v{{ site.data.conf.game_version | default: "latest" }}</p>
   </div>
 </div>
