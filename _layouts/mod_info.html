@@ -1,0 +1,31 @@
+---
+layout: default
+toc: true
+---
+
+{% comment %} 
+  Wir suchen die Daten in der mods.yml basierend auf der mod_id im Frontmatter der Seite 
+{% endcomment %}
+{% assign mod = site.data.mods | where: "id", page.mod_id | first %}
+
+<article class="px-1 mod-page">
+  
+  {% if mod %}
+    {% include mod_infobox.html %}
+  {% endif %}
+
+  <h1 class="dynamic-title">{{ page.title }}</h1>
+
+  <div class="content">
+    {{ content }}
+  </div>
+
+  <hr style="margin: 3rem 0; opacity: 0.2;">
+
+  <section id="download-installation">
+    <h2>Download & Installation</h2>
+    {% include installation.html %}
+    {% include policy.html %}
+  </section>
+
+</article>
