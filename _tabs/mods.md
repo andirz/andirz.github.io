@@ -44,18 +44,32 @@ order: 2
           </td>
           
           <td style="padding: 12px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              {% if mod_page %}
-                <a href="{{ mod_page.url | relative_url | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">{{ display_name }}</a>
-              {% else %}
-                <span style="font-weight: bold; opacity: 0.7;">{{ display_name }}</span>
-              {% endif %}
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                {% if mod_page %}
+                  <a href="{{ mod_page.url | relative_url | default: '#' }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">{{ display_name }}</a>
+                {% else %}
+                  <span style="font-weight: bold; opacity: 0.7;">{{ display_name }}</span>
+                {% endif %}
 
-              <span style="font-size: 0.7rem; color: #bbb; display: flex; gap: 4px; align-items: center;">
-                {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod"></i>{% endif %}
-                {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File"></i>{% endif %}
-                {% if mod_page.files contains 'bat' %}<i class="fas fa-terminal" title="Batch Tool"></i>{% endif %}
-              </span>
+                <span style="font-size: 0.7rem; color: #bbb; display: flex; gap: 4px; align-items: center;">
+                  {% if mod_page.files contains 'ts4script' %}<i class="fas fa-code" title="Script Mod"></i>{% endif %}
+                  {% if mod_page.files contains 'package' or mod_page.files == nil %}<i class="fas fa-box" title="Package File"></i>{% endif %}
+                  {% if mod_page.files contains 'bat' %}<i class="fas fa-terminal" title="Batch Tool"></i>{% endif %}
+                </span>
+              </div>
+              
+              {% comment %} Packs direkt unter/neben dem Namen {% endcomment %}
+              {% if final_packs.size > 0 %}
+                <div style="display: flex; flex-wrap: wrap; gap: 3px;">
+                  {% for pack_id in final_packs %}
+                    {% if pack_id != "BG" %}
+                      {% assign pack_info = site.data.packs[pack_id] %}
+                      <span title="{{ pack_info.en | default: pack_id }}" style="cursor: help; font-size: 0.65rem; background: rgba(0,0,0,0.04); color: #777; padding: 1px 4px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">{{ pack_id }}</span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
           </td>
           
@@ -63,10 +77,12 @@ order: 2
           
           <td style="padding: 12px; text-align: center;">
             {% assign status = mod_entry.status | downcase %}
-            {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.1rem;"></i>
-            {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.1rem;"></i>
-            {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.1rem;"></i>
-            {% else %}<i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.1rem;"></i>{% endif %}
+            <div style="cursor: help;">
+              {% if status == 'updated' %}<i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.1rem;"></i>
+              {% elsif status == 'compatible' %}<i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.1rem;"></i>
+              {% elsif status == 'broken' %}<i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.1rem;"></i>
+              {% else %}<i class="fas fa-question-circle" title="Unknown / Check Details" style="color: #ffc107; font-size: 1.1rem;"></i>{% endif %}
+            </div>
           </td>
 
           <td style="padding: 12px; white-space: nowrap; color: #888; font-size: 0.85rem;">
@@ -76,18 +92,7 @@ order: 2
           
           <td style="padding: 12px;">
             <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-              {% assign has_req = false %}
-
-              {% if final_packs.size > 0 %}
-                {% for pack_id in final_packs %}
-                  {% if pack_id != "BG" %}
-                    {% assign pack_info = site.data.packs[pack_id] %}
-                    <span title="{{ pack_info.en | default: pack_id }}" style="cursor: help; font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">{{ pack_id }}</span>
-                    {% assign has_req = true %}
-                  {% endif %}
-                {% endfor %}
-              {% endif %}
-
+              {% assign has_mod_req = false %}
               {% if final_reqs.size > 0 %}
                 {% for req_id in final_reqs %}
                   {% assign dep_info = site.data.dependencies[req_id] %}
@@ -102,11 +107,11 @@ order: 2
                     {% assign req_url = req_page.url | relative_url | default: "#" %}
                   {% endif %}
                   <a href="{{ req_url }}" title="{{ req_full_name }}" style="text-decoration: none; font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">{{ req_label }}</a>
-                  {% assign has_req = true %}
+                  {% assign has_mod_req = true %}
                 {% endfor %}
               {% endif %}
 
-              {% if has_req == false %}<span style="color: #ccc;">—</span>{% endif %}
+              {% if has_mod_req == false %}<span style="color: #ccc;">—</span>{% endif %}
             </div>
           </td>
 
