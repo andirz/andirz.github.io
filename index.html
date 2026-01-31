@@ -3,181 +3,109 @@ layout: default
 title: Home
 ---
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<div class="sims-content">
 
-<div class="sims-clean-wrapper">
-
-    <header class="hero-minimal">
-        <div class="plumbob-glow">
+    <header class="hero-minimal text-center mb-5">
+        <div class="plumbob-glow mb-3" style="color: #2ecc71; font-size: 3rem;">
             <i class="fas fa-gem"></i>
         </div>
-        <h1>Enhance your Simulation</h1>
-        <p>Advanced systems for The Sims 4 by <strong>Andirz</strong></p>
+        <h1 style="font-size: 3.5rem;">Sul Sul!</h1>
+        <p class="lead">Advanced Mods & Logic Tweaks by <strong>Andirz</strong></p>
     </header>
 
-    <section class="gallery-section">
-        <div class="gallery-header">
-            <span class="badge">Must-Have</span>
-            <h2>Essential Systems</h2>
-            <div class="scroll-hint">Scroll to explore <i class="fas fa-arrow-right"></i></div>
+    <section class="gallery-section mb-5">
+        <div class="d-flex align-items-center mb-4">
+            <h2 class="m-0">Essential Systems</h2>
+            <span class="ms-3 badge rounded-pill bg-light text-primary border">Must-Have</span>
         </div>
         
-        <div class="mod-gallery">
-            {% assign essentials = "smart-core-script,online-store,better-pie-menu,smart-sim-randomizer,trait-tracker-injector,purchase-medicine,custom_electives,sim-nom-nom-delivery" | split: "," %}
-            {% for id in essentials %}
-                {% assign mod_entry = site.data.mods | where: "id", id | first %}
-                {% assign mod_page = site.mods | where: "mod_id", id | first %}
-                
-                <div class="gallery-card">
-                    <div class="card-inner">
-                        <div class="card-icon-circle">
-                            <i class="{{ mod_page.icon | default: mod_entry.icon | default: 'fas fa-plus' }}"></i>
-                        </div>
-                        <h3>{{ mod_page.title | default: mod_entry.name | default: mod_entry.id | replace: "-", " " | capitalize }}</h3>
-                        <p>{{ mod_page.description | default: "Seamless integration for a better gameplay experience." | truncate: 75 }}</p>
-                        
-                        <div class="card-footer">
-                            {% if mod_page %}
-                                <a href="{{ mod_page.url | relative_url }}" class="main-btn">View Details</a>
-                            {% elsif mod_entry.patreon %}
-                                <a href="{{ mod_entry.patreon }}" class="main-btn patreon-btn">Patreon</a>
-                            {% else %}
-                                <span class="status-label">Upcoming</span>
-                            {% endif %}
+        <div class="mod-gallery-wrapper">
+            <div class="mod-gallery">
+                {% assign essentials = "smart-core-script,online-store,better-pie-menu,smart-sim-randomizer,trait-tracker-injector,purchase-medicine,custom_electives,sim-nom-nom-delivery" | split: "," %}
+                {% for id in essentials %}
+                    {% assign mod_entry = site.data.mods | where: "id", id | first %}
+                    {% assign mod_page = site.mods | where: "mod_id", id | first %}
+                    
+                    <div class="gallery-card">
+                        <div class="card-inner">
+                            <div class="card-icon-circle">
+                                <i class="{{ mod_page.icon | default: mod_entry.icon | default: 'fas fa-plus' }}"></i>
+                            </div>
+                            <h3>{{ mod_page.title | default: mod_entry.name | default: mod_entry.id | replace: "-", " " | capitalize }}</h3>
+                            <div class="mt-auto">
+                                {% if mod_page %}
+                                    <a href="{{ mod_page.url | relative_url }}" class="sims-btn">Open Docs</a>
+                                {% else %}
+                                    <span class="text-muted small italic">Coming Soon</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </section>
 
-    <section class="discovery-section">
-        <h3>Explore More</h3>
-        <div class="discovery-grid">
-            {% assign all_mods = site.data.mods | sample: 15 %}
-            {% assign count = 0 %}
-            {% for mod in all_mods %}
-                {% unless essentials contains mod.id %}
-                    {% if count < 3 %}
-                        {% assign sub_page = site.mods | where: "mod_id", mod.id | first %}
-                        <div class="discovery-item">
-                            <i class="{{ sub_page.icon | default: mod.icon | default: 'fas fa-cube' }}"></i>
-                            <span class="name">{{ mod.name | default: mod.id | replace: "-", " " | capitalize }}</span>
-                            {% if sub_page %}
-                                <a href="{{ sub_page.url | relative_url }}" class="link-btn"><i class="fas fa-chevron-right"></i></a>
-                            {% endif %}
-                        </div>
-                        {% assign count = count | plus: 1 %}
-                    {% endif %}
-                {% endunless %}
-            {% endfor %}
+    <section class="memory-game-area py-5 border-top">
+        <div class="text-center mb-4">
+            <h2>Mini-Game: Mod Memory</h2>
+            <p>Can you find all pairs?</p>
         </div>
-    </section>
+        <div id="memory-game-root"></div> </section>
 
 </div>
 
 <style>
-:root {
-    --white: #ffffff;
-    --blue: #0076ff;
-    --dark-blue: #002d62;
-    --green: #2ecc71;
-    --gray-light: #f8f9fa;
-    --gray-text: #636e72;
-    --border: #edf2f7;
-}
-
-body { 
-    background-color: var(--white); 
-    color: var(--dark-blue);
-    font-family: 'Nunito', sans-serif;
-    margin: 0;
-}
-
-.sims-clean-wrapper { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
-
-/* Hero */
-.hero-minimal { text-align: center; margin-bottom: 80px; }
-.plumbob-glow { color: var(--green); font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(46, 204, 113, 0.3)); }
-.hero-minimal h1 { font-size: 3rem; font-weight: 900; margin: 0; color: var(--dark-blue); }
-.hero-minimal p { color: var(--gray-text); font-size: 1.2rem; }
-
-/* Gallery Header */
-.gallery-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; position: relative; }
-.gallery-header h2 { font-size: 1.8rem; font-weight: 800; margin: 0; }
-.badge { background: #eef2ff; color: var(--blue); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-.scroll-hint { margin-left: auto; font-size: 0.85rem; color: var(--gray-text); font-weight: 600; opacity: 0.6; }
-
-/* Mod Gallery (The Horizontal Scroll) */
+/* Galerie Scroll Styles */
+.mod-gallery-wrapper { position: relative; width: 100%; overflow: hidden; }
 .mod-gallery {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 25px;
-    padding: 10px 10px 30px 10px;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
+    gap: 20px;
+    padding: 20px 0;
+    scrollbar-width: none;
 }
-.mod-gallery::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+.mod-gallery::-webkit-scrollbar { display: none; }
 
 .gallery-card {
-    flex: 0 0 calc(33.333% - 17px); /* Shows 3 cards */
+    flex: 0 0 31%; /* 3 Karten sichtbar */
+    min-width: 280px;
     scroll-snap-align: start;
-    min-width: 300px;
 }
 
 .card-inner {
-    background: var(--white);
-    border: 2px solid var(--border);
-    border-radius: 24px;
-    padding: 35px;
+    background: white;
+    border: 2px solid #f0f2f5;
+    border-radius: 25px;
+    padding: 30px;
     height: 100%;
-    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
+    transition: all 0.2s;
 }
 
 .card-inner:hover {
-    border-color: var(--blue);
-    box-shadow: 0 15px 35px rgba(0, 118, 255, 0.08);
+    border-color: #0076ff;
     transform: translateY(-5px);
 }
 
 .card-icon-circle {
-    width: 70px; height: 70px;
-    background: var(--gray-light);
-    color: var(--blue);
+    width: 60px; height: 60px;
+    background: #f8f9fa;
+    color: #0076ff;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem; margin-bottom: 25px;
+    font-size: 1.5rem; margin-bottom: 20px;
 }
 
-.card-inner h3 { font-size: 1.4rem; font-weight: 800; margin: 0 0 12px 0; color: var(--dark-blue); }
-.card-inner p { color: var(--gray-text); line-height: 1.5; margin-bottom: 25px; flex-grow: 1; }
-
-.main-btn {
-    display: inline-block; padding: 12px 25px; border-radius: 30px;
-    background: var(--dark-blue); color: white;
-    text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: background 0.2s;
+.sims-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background: #002d62;
+    color: white !important;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
 }
-.main-btn:hover { background: var(--blue); }
-.patreon-btn { background: #f96854; }
-.status-label { font-size: 0.9rem; color: #cbd5e0; font-weight: 600; font-style: italic; }
-
-/* Discovery Section */
-.discovery-section { margin-top: 60px; padding-top: 40px; border-top: 2px solid var(--border); }
-.discovery-section h3 { font-size: 1.2rem; margin-bottom: 20px; opacity: 0.5; }
-.discovery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-
-.discovery-item {
-    background: var(--gray-light);
-    padding: 15px 20px;
-    border-radius: 15px;
-    display: flex; align-items: center; gap: 15px;
-}
-.discovery-item i { color: var(--blue); }
-.discovery-item .name { font-weight: 700; font-size: 0.9rem; }
-.link-btn { margin-left: auto; color: var(--dark-blue); text-decoration: none; }
-
-@media (max-width: 900px) { .gallery-card { flex: 0 0 70%; } .discovery-grid { grid-template-columns: 1fr; } }
 </style>
