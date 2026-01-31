@@ -1,5 +1,6 @@
 ---
 layout: default
+mod_id: smart_core_script
 title: Smart Core Script
 icon: "fas fa-microchip"
 version: "2.7.2"
