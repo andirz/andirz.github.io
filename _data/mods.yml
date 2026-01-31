@@ -69,8 +69,6 @@
   status: "compatible"
 
 - id: purchase-occult-books
-  name: "Purchase Occult Books"
-  icon: "fas fa-book-dead"
   version: "2.0.0"
   status: "compatible"
 
