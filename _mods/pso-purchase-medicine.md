@@ -3,6 +3,7 @@ layout: mod_info
 title: Purchase Medicine
 mod_id: purchase_medicine
 icon: "fas fa-pills"
+requirements: ["smart_core", "pso_common"]
 categories: [Game Play Mods, Purchasing System]
 ---
 
