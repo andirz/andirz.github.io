@@ -1,9 +1,9 @@
 ---
 mod_id: cleanup_script
 title: Cleanup Script for Windows
+icon: "fas fa-broom"
+files: ["bat"]
 ---
-
-{% include mod_infobox.html %}
 
 ## What does this tool do?
 The **Cleanup Script for Windows** is a utility designed to keep your *The Sims 4* user folder healthy. It automates the task of deleting temporary cache files and error logs that can cause game lag, visual glitches, or mod conflicts.
