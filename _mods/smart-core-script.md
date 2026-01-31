@@ -4,7 +4,7 @@ mod_id: smart-core-script
 title: Smart Core Script
 icon: fas fa-microchip
 files: ["ts4script", "package"]
-categories: [Core Library, Injector]
+categories: [Scripts, Injectors, Core Library]
 ---
 
 ## The Engine Behind the Magic
