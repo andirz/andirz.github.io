@@ -3,10 +3,9 @@
 {% assign current_version = page.version | default: mod.version %}
 {% assign final_reqs = page.requirements | default: mod.requirements %}
 {% assign final_packs = page.packs | default: mod.packs %}
-{% assign has_reqs = final_reqs and final_reqs.size > 0 %}
-{% assign has_packs = final_packs and final_packs.size > 0 %}
 
-{% comment %} Download Logik {% endcomment %}
+{% comment %} Download-Quellen aus Mods.yml {% endcomment %}
+{% assign patreon_link = mod.download_url %} 
 {% assign cf_slug = page.mod_id | replace: '_', '-' %}
 {% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: cf_slug %}
 
@@ -14,102 +13,82 @@
 
 <div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
   
-  <div class="sidebar-info-box" style="background: white; border: 1px solid #e1e1e1; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-    <div style="padding: 12px; background: #f8fafc; border-bottom: 1px solid #eee; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">
-       Mod Details
-    </div>
-    <div style="padding: 20px; text-align: center;">
-      <div style="font-size: 50px; color: #2563eb; margin-bottom: 15px; display: flex; align-items: center; justify-content: center;">
+  <div class="sidebar-info-box" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+    <div style="padding: 15px 20px; text-align: center;">
+      
+      <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+        {% include mod-file-icons.html files=page.files icon_color="#cbd5e1" %}
+      </div>
+
+      <div style="font-size: 40px; color: #2563eb; margin-bottom: 10px;">
          <i class="{{ page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
       </div>
-      <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b; line-height: 1.3;">{{ mod.name | default: page.title }}</h3>
-      <span style="font-size: 0.85rem; color: #64748b; font-weight: 600;">v. {{ current_version }}</span>
+
+      <h3 style="font-size: 1.1rem; margin: 0; color: #1e293b; line-height: 1.2; font-weight: 800;">{{ mod.name | default: page.title }}</h3>
+      <div style="margin-top: 4px; font-size: 0.8rem; color: #64748b; font-weight: 700;">v. {{ current_version }}</div>
       
       {% if mod.status %}
-      <div style="margin-top: 10px;">
-        <span style="background: {{ status_color }}; color: white; padding: 3px 10px; border-radius: 12px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase;">
+      <div style="margin-top: 12px;">
+        <span style="background: {{ status_color }}; color: white; padding: 3px 12px; border-radius: 20px; font-weight: bold; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px;">
           {{ mod.status }}
         </span>
       </div>
       {% endif %}
-
-      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 15px;">
-        {% include mod-file-icons.html files=page.files icon_color="#cbd5e1" %}
-      </div>
     </div>
   </div>
 
-  <div class="requirements-box" style="padding: 20px; background: #fffaf0; border: 1px solid #ffeebc; border-radius: 12px; margin-bottom: 20px;">
-    <h4 style="margin: 0 0 12px 0; font-size: 0.75rem; color: #856404; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800;">
-      <i class="fas fa-list-check" style="margin-right: 8px;"></i> Requirements
+  {% if final_reqs.size > 0 or final_packs.size > 0 %}
+  <div class="requirements-box" style="padding: 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; margin-bottom: 20px;">
+    <h4 style="margin: 0 0 12px 0; font-size: 0.65rem; color: #94a3b8; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">
+       Requirements
     </h4>
-    <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.85rem; color: #856404;">
-      {% if has_reqs %}
-        {% for req_id in final_reqs %}
-          {% assign dep = site.data.dependencies[req_id] %}
-          <li style="margin-bottom: 8px; display: flex; align-items: flex-start;">
-            <i class="fas fa-puzzle-piece" style="margin-top: 3px; margin-right: 8px; opacity: 0.5; font-size: 0.75rem;"></i>
-            <a href="{{ dep.url | default: '#' }}" style="color: #856404; font-weight: bold; text-decoration: underline;">{{ dep.name | default: req_id }}</a>
-          </li>
-        {% endfor %}
-      {% endif %}
+    <ul style="margin: 0; padding: 0; list-style: none; font-size: 0.85rem; color: #334155;">
+      {% for req_id in final_reqs %}
+        {% assign dep = site.data.dependencies[req_id] %}
+        <li style="margin-bottom: 8px; display: flex; align-items: center;">
+          <i class="fas fa-puzzle-piece" style="margin-right: 10px; color: #cbd5e1; font-size: 0.75rem;"></i>
+          <a href="{{ dep.url | default: '#' }}" style="color: #2563eb; font-weight: 600; text-decoration: none;">{{ dep.name | default: req_id }}</a>
+        </li>
+      {% endfor %}
       
-      {% if has_packs %}
-        {% for pack_id in final_packs %}
-          {% if pack_id != "BG" %}
-            <li style="margin-bottom: 6px; display: flex; align-items: flex-start;">
-              <i class="fas fa-box-open" style="margin-top: 3px; margin-right: 8px; opacity: 0.5; font-size: 0.75rem;"></i>
-              <span>{{ site.data.packs[pack_id].en | default: pack_id }}</span>
-            </li>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-
-      {% unless has_packs or has_reqs %}
-        <li style="color: #28a745; font-weight: 600;"><i class="fas fa-circle-check" style="margin-right: 5px;"></i> Base Game</li>
-      {% endunless %}
+      {% for pack_id in final_packs %}
+        {% if pack_id != "BG" %}
+          <li style="margin-bottom: 6px; display: flex; align-items: center;">
+            <i class="fas fa-layer-group" style="margin-right: 10px; color: #cbd5e1; font-size: 0.75rem;"></i>
+            <span style="font-weight: 500;">{{ site.data.packs[pack_id].en | default: pack_id }}</span>
+          </li>
+        {% endif %}
+      {% endfor %}
     </ul>
   </div>
+  {% endif %}
 
-  <div class="download-card" style="background: {% if page.curseforge_ban %}#1e293b{% else %}#2563eb{% endif %}; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); color: white;">
-    <div style="padding: 10px; background: rgba(0,0,0,0.15); text-align: center; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
-       Download
-    </div>
-    <div style="padding: 15px;">
-      
-      {% if page.curseforge_ban %}
-        <div style="background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 8px; text-align: center; border: 1px dashed rgba(255,255,255,0.3); margin-bottom: 12px;">
-          <i class="fas fa-ban" style="color: #ff4d4d; margin-bottom: 8px; display: block; font-size: 1.2rem;"></i>
-          <span style="font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; color: #ff4d4d;">Banned on CurseForge</span>
-          <p style="font-size: 0.65rem; margin: 5px 0 0 0; line-height: 1.3; opacity: 0.8;">This mod contains content that violates CurseForge guidelines.</p>
-        </div>
-      {% else %}
-        <a href="{{ cf_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: white; color: #f16436; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 800; margin-bottom: 10px; font-size: 0.9rem;">
-          <i class="fab fa-firefox-browser"></i> CurseForge
-        </a>
-      {% endif %}
-
-      {% if mod.patreon_url %}
-      <a href="{{ mod.patreon_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #f96854; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-        <i class="fab fa-patreon"></i> Get on Patreon
+  <div class="download-card" style="margin-bottom: 20px;">
+    
+    {% if page.curseforge_ban %}
+      <div style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 10px;">
+        <span style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Not on CurseForge</span>
+      </div>
+    {% else %}
+      <a href="{{ cf_url }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #1e293b; color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 10px; font-size: 0.9rem;">
+        <i class="fab fa-firefox-browser" style="color: #f16436;"></i> CurseForge
       </a>
-      {% endif %}
+    {% endif %}
 
-      {% unless page.curseforge_ban or mod.patreon_url or cf_url %}
-        <div style="text-align: center; padding: 5px; opacity: 0.9;">
-          <span style="font-weight: 800; text-transform: uppercase; font-size: 0.75rem;">Coming Soon</span>
-        </div>
-      {% endunless %}
+    {% if patreon_link %}
+    <a href="{{ patreon_link }}" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: white; color: #f96854; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 0.9rem; border: 2px solid #f96854;">
+      <i class="fab fa-patreon"></i> Download (Patreon)
+    </a>
+    {% endif %}
 
-    </div>
   </div>
 
   {% if page.toc %}
-  <div class="toc-box" style="background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px;">
-    <h4 style="margin: 0 0 12px 0; font-size: 0.75rem; color: #64748b; display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800;">
-      <i class="fas fa-list" style="margin-right: 8px;"></i> On this page
+  <div class="toc-box" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px;">
+    <h4 style="margin: 0 0 10px 0; font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">
+       Contents
     </h4>
-    <div class="toc-inline" style="font-size: 0.85rem; line-height: 1.5; color: #475569;">
+    <div class="toc-inline" style="font-size: 0.85rem; line-height: 1.6; color: #475569;">
       {% include toc.html html=content %}
     </div>
   </div>
