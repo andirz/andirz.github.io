@@ -58,5 +58,3 @@ Imagine you have 100 mods:
 
 ## Need a Visual?
 Many players find it easier to see the process in action. The logic is like a tree branching out – you always follow the branch where the error occurs.
-
-> **Found the broken mod?** Check my [Mod Status Dashboard](/status/) to see if an update is already available or if you need to report it on Discord!
