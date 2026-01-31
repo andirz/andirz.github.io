@@ -23,88 +23,102 @@ order: 2
       </tr>
     </thead>
     <tbody>
-      {% for mod in site.data.mods %}
-      <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,123,255,0.05)'" onmouseout="this.style.backgroundColor='transparent'">
+      {% for mod_entry in site.data.mods %}
+        {% comment %} 
+          Versuche die zugehörige Mod-Seite aus der Collection zu finden 
+        {% endcomment %}
+        {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
         
-        <td style="padding: 12px; text-align: center;">
-          <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.04); border-radius: 8px; color: var(--accent-color);">
-            <i class="{{ mod.icon | default: 'fas fa-box' }}"></i>
-          </div>
-        </td>
-        
-        <td style="padding: 12px;">
-          {% assign mod_page = site.mods | where: "mod_id", mod.id | first %}        
-          {% if mod_page %}
-            {% assign target_link = mod_page.url | relative_url %}
-          {% else %}
-            {% assign target_link = "#" %}
-          {% endif %}
-          <a href="{{ target_link }}" 
-             style="text-decoration: none; color: var(--link-color); font-weight: bold; display: block; {% if target_link == '#' %} cursor: default; opacity: 0.7; {% endif %}">
-            {{ mod.name }}
-          </a>
-        </td>
-        
-        <td style="padding: 12px; font-family: monospace; font-size: 0.85rem; color: #666;">
-          {{ mod.version }}
-        </td>
-        
-        <td style="padding: 12px; text-align: center;">
-          {% assign status = mod.status | downcase %}
-          {% if status == 'updated' %}
-            <i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.1rem; cursor: help;"></i>
-            <span style="display:none;">Updated</span>
-          {% elsif status == 'compatible' %}
-            <i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.1rem; cursor: help;"></i>
-            <span style="display:none;">Compatible</span>
-          {% elsif status == 'broken' %}
-            <i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.1rem; cursor: help;"></i>
-            <span style="display:none;">Broken</span>
-          {% elsif status == 'obsolete' %}
-            <i class="fas fa-minus-circle" title="Obsolete" style="color: #6c757d; font-size: 1.1rem; opacity: 0.5; cursor: help;"></i>
-            <span style="display:none;">Obsolete</span>
-          {% else %}
-            <i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.1rem; cursor: help;"></i>
-            <span style="display:none;">Unknown</span>
-          {% endif %}
-        </td>
-        
-        <td style="padding: 12px;">
-          <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-            {% assign has_content = false %}
-        
-            {% if mod.packs.size > 0 %}
-              {% for pack_id in mod.packs %}
-                {% if pack_id != "BG" %}
-                  {% assign pack = site.data.packs[pack_id] %}
-                  <span title="{{ pack.en | default: pack_id }}" style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">
-                    {{ pack_id }}
-                  </span>
-                  {% assign has_content = true %}
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-        
-            {% if mod.requirements.size > 0 %}
-              {% for req_id in mod.requirements %}
-                {% assign req_mod = site.data.mods | where: "id", req_id | first %}
-                <span title="Required Mod" style="font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">
-                  {{ req_mod.name | default: req_id }}
-                </span>
-                {% assign has_content = true %}
-              {% endfor %}
-            {% endif %}
-        
-            {% if has_content == false %}
-              <span style="color: #ccc; font-weight: bold;">—</span>
-            {% endif %}
-          </div>
-        </td>
+        {% comment %} Fallback-Kette: Seite > Data > ID {% endcomment %}
+        {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
+        {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
 
-        <td style="padding: 12px; white-space: nowrap; color: #888; font-size: 0.85rem;">
-          {{ mod.updated }}
-        </td>
-      </tr>
+        <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,123,255,0.05)'" onmouseout="this.style.backgroundColor='transparent'">
+          
+          <td style="padding: 12px; text-align: center;">
+            <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.04); border-radius: 8px; color: var(--accent-color);">
+              <i class="{{ display_icon }}"></i>
+            </div>
+          </td>
+          
+          <td style="padding: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              {% if mod_page %}
+                <a href="{{ mod_page.url | relative_url }}" style="text-decoration: none; color: var(--link-color); font-weight: bold;">
+                  {{ display_name }}
+                </a>
+              {% else %}
+                <span style="font-weight: bold; opacity: 0.7;">{{ display_name }}</span>
+              {% endif %}
+
+              <span style="font-size: 0.7rem; color: #bbb; display: flex; gap: 4px; align-items: center;">
+                {% if mod_page.files == nil or mod_page.files contains 'package' %}
+                  <i class="fas fa-box" title="Contains .package file"></i>
+                {% endif %}
+                {% if mod_page.files contains 'ts4script' %}
+                  <i class="fas fa-code" title="Contains .ts4script file"></i>
+                {% endif %}
+                {% if mod_page.files contains 'bat' %}
+                  <i class="fas fa-terminal" title="Contains .bat tool"></i>
+                {% endif %}
+              </span>
+            </div>
+          </td>
+          
+          <td style="padding: 12px; font-family: monospace; font-size: 0.85rem; color: #666;">
+            {{ mod_entry.version }}
+          </td>
+          
+          <td style="padding: 12px; text-align: center;">
+            {% assign status = mod_entry.status | downcase %}
+            {% if status == 'updated' %}
+              <i class="fas fa-arrow-alt-circle-up" title="Updated" style="color: #007bff; font-size: 1.1rem;"></i>
+            {% elsif status == 'compatible' %}
+              <i class="fas fa-check-circle" title="Compatible" style="color: #28a745; font-size: 1.1rem;"></i>
+            {% elsif status == 'broken' %}
+              <i class="fas fa-times-circle" title="Broken" style="color: #dc3545; font-size: 1.1rem;"></i>
+            {% elsif status == 'obsolete' %}
+              <i class="fas fa-minus-circle" title="Obsolete" style="color: #6c757d; font-size: 1.1rem; opacity: 0.5;"></i>
+            {% else %}
+              <i class="fas fa-question-circle" title="Unknown" style="color: #ffc107; font-size: 1.1rem;"></i>
+            {% endif %}
+          </td>
+          
+          <td style="padding: 12px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+              {% assign has_req = false %}
+
+              {% if mod_entry.packs.size > 0 %}
+                {% for pack_id in mod_entry.packs %}
+                  {% if pack_id != "BG" %}
+                    <span title="Required Pack" style="font-size: 0.7rem; background: rgba(0,0,0,0.04); color: #555; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); font-weight: 600;">
+                      {{ pack_id }}
+                    </span>
+                    {% assign has_req = true %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+
+              {% if mod_entry.requirements.size > 0 %}
+                {% for req_id in mod_entry.requirements %}
+                  {% assign req_page = site.mods | where: "mod_id", req_id | first %}
+                  <span title="Required Mod" style="font-size: 0.7rem; background: rgba(0,123,255,0.08); color: #007bff; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(0,123,255,0.15);">
+                    {{ req_page.title | default: req_id }}
+                  </span>
+                  {% assign has_req = true %}
+                {% endfor %}
+              {% endif %}
+
+              {% if has_req == false %}
+                <span style="color: #ccc;">—</span>
+              {% endif %}
+            </div>
+          </td>
+
+          <td style="padding: 12px; white-space: nowrap; color: #888; font-size: 0.85rem;">
+            {{ mod_entry.updated }}
+          </td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>
