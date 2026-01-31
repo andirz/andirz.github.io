@@ -2,8 +2,6 @@
 layout: page
 title: Pack Codes
 icon: fas fa-box-open
-order: 400
-toc: true
 ---
 
 This list provides an overview of all official abbreviations and codes for **The Sims 4** Packs. It is a helpful resource for modders and players to identify packs across different languages. 
