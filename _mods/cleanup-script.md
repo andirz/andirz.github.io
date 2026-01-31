@@ -1,5 +1,5 @@
 ---
-mod_id: cleanup_script
+mod_id: cleanup-script
 title: Cleanup Script for Windows
 icon: "fas fa-broom"
 files: ["bat"]
