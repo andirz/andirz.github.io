@@ -1,0 +1,23 @@
+<div class="translation-section" style="margin: 2rem 0; padding: 20px; background: var(--bg-secondary, #f8f9fa); border-radius: 10px; border: 1px solid var(--border-color, #e1e1e1);">
+  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+    <i class="fas fa-language" style="font-size: 1.4rem; color: var(--accent-color, #2563eb);"></i>
+    <h3 style="margin: 0; font-size: 1.2rem; color: var(--text-color, #1a1a1a);">Available Translations</h3>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+    {% for lang in page.translations %}
+    <div style="display: flex; flex-direction: column; background: rgba(0,0,0,0.02); padding: 10px 15px; border-radius: 6px;">
+      <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #71717a; font-weight: 700;">
+        {{ lang.language }}
+      </span>
+      <span style="font-size: 0.95rem; color: var(--text-color, #27272a); font-weight: 500;">
+        {{ lang.author }}
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <p style="margin-top: 15px; font-size: 0.85rem; color: #71717a; font-style: italic;">
+    Want to contribute a translation? Please contact me or submit a pull request!
+  </p>
+</div>
