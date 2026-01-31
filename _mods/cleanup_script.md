@@ -1,5 +1,4 @@
 ---
-layout: default
 mod_id: cleanup_script
 title: Cleanup Script for Windows
 ---
