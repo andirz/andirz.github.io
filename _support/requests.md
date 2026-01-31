@@ -10,7 +10,7 @@ If you are experiencing issues with any of my mods, I am here to help! To provid
 
 Before reaching out, please ensure you have performed the following basic troubleshooting steps:
 
-1.  **Check the [Mod Status Dashboard](/status/):** Ensure the mod you are using is marked as "Compatible" or "Updated" for the current game patch.
+1.  **Check the Mod Status Dashboard:** Ensure the mod you are using is marked as "Compatible" or "Updated" for the current game patch.
 2.  **Update the Mod:** Make sure you have the absolute latest version of the mod installed.
 3.  **Check Dependencies:** Double-check if the mod requires other scripts (like **Smart Core Script**) or specific DLCs to function.
 4.  **Clear Game Cache:** Delete the `localthumbcache.package` file from your `The Sims 4` folder.
