@@ -2,7 +2,7 @@
 mod_id: purchase_occult_books
 title: "Purchase Occult Books"
 icon: "fas fa-book-dead"
-permalink: "/mods/purchase_books/"
+permalink: "/mods/purchase_occult_books/"
 requirements: ["smart_core", "pso_common"]
 packs: ["GP04", "GP08"]
 require_any_pack: true
