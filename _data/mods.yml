@@ -52,13 +52,10 @@
 
 - id: purchase-medicine
   version: "4.1.2"
-  requirements: ["smart_core", "pso_common"]
   status: "updated"
   updated: "2025-12-04"
 
 - id: obscura-network
-  name: "Obscura Network"
-  icon: "fas fa-rss"
   version: "1.2.1"
   status: "updated"
   updated: "2025-11-06"
@@ -152,8 +149,6 @@
   name: "Smart Sim Cheats"
   icon: "fas fa-terminal"
   version: "1.0.0"
-  status: "stable"
-  category: "Cheating"
 
 - id: smart_gender_cheats
   name: "Smart Gender Cheats"
@@ -165,8 +160,6 @@
   name: "Make Sims Pansexual Again"
   icon: "fas fa-heart"
   version: "Ultimate"
-  status: "stable"
-  category: "Cheating"
 
 # --- UNIVERSITY ---
 
