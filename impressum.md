@@ -10,34 +10,23 @@ sitemap: false
 ## Angaben gemäß § 5 TMG
 
 ### Betreiber der Webseite
-[Dein Vorname] [Dein Nachname]  
-[Deine Straße und Hausnummer]  
-[PLZ] [Ort]  
-Deutschland
+<img src="{{ '/assets/img/impressum/address.png' | relative_url }}" alt="Adresse Andreas Raaz" style="max-width: 300px; display: block; margin: 10px 0;">
 
 ### Kontakt
-E-Mail: [Deine E-Mail-Adresse]  
-Discord: [Dein Discord-Username]
+<img src="{{ '/assets/img/impressum/contact.png' | relative_url }}" alt="Kontakt E-Mail" style="max-width: 300px; display: block; margin: 10px 0;">
+Discord: andirz
 
 ### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV 
-[Dein Vorname] [Dein Nachname]  
-[Deine Straße und Hausnummer]  
-[PLZ] [Ort]
+<img src="{{ '/assets/img/impressum/address.png' | relative_url }}" alt="Adresse Andreas Raaz" style="max-width: 300px; display: block; margin: 10px 0;">
 
 ---
 
 ## Haftungsausschluss (Disclaimer)
 
-**Haftung für Inhalte** 
+**Haftung für Inhalte** Als Diensteanbieter bin ich gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
 
-Als Diensteanbieter bin ich gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+**Haftung für Links** Mein Angebot enthält Links zu externen Webseiten Dritter (z.B. Patreon, CurseForge, Discord), auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
 
-**Haftung für Links** 
-
-Mein Angebot enthält Links zu externen Webseiten Dritter (z.B. Patreon, CurseForge, Discord), auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
-
-**Urheberrecht** 
-
-Die durch mich erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+**Urheberrecht** Die durch mich erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
 
 *The Sims and The Sims 4 are trademarks of Electronic Arts, Inc. Diese Webseite steht in keiner Verbindung zu Electronic Arts, Inc. und wird nicht von ihnen unterstützt.*
