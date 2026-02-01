@@ -1,17 +1,16 @@
 ---
 layout: page
 title: Tarot Trial
-icon: "fas fa-hat-wizard"
+description: Memorize a tarot sequence and click it back in order.
+icon: fas fa-brain
 order: 3
-description: Memorize a tarot sequence and click it back in order — with decoys and lives.
-mode: Sequence Memory
-difficulty: Hard
-time: ~
 ---
 
 ## Tarot Trial
 
-Memorize the shown tarot sequence, then click the cards back **in the exact order**.  
-Each round adds more cards and extra decoys. Wrong clicks cost a life and reset your input.
+Memorize the shown tarot sequence.  
+Then click the cards back **in the exact correct order**.
+
+Wrong clicks cost a life and reset your input.
 
 {% include game-tarot.html %}

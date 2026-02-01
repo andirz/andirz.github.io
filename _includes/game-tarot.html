@@ -1,215 +1,243 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8" />
-<title>Tarot Trial</title>
-<style>
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
-  margin: 0;
-  padding: 2rem;
-}
+<div class="tt-root" data-tt>
+  <style>
+    .tt-wrap{
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background:#020617; color:#e5e7eb;
+      border-radius:24px; padding:2rem;
+      border:1px solid #1e293b;
+      box-shadow:0 30px 60px rgba(0,0,0,.35);
+      max-width:900px; margin:2rem auto;
+    }
+    .tt-head{display:flex; gap:1rem; flex-wrap:wrap; justify-content:space-between; align-items:flex-start;}
+    .tt-head h2{margin:0; font-weight:800;}
+    .tt-sub{color:#94a3b8; margin:.25rem 0 0 0;}
+    .tt-stats{display:flex; gap:.6rem; flex-wrap:wrap;}
+    .tt-badge{background:#020617; border:1px solid #1e293b; border-radius:999px; padding:.35rem .85rem; font-weight:650;}
+    .tt-prompt{margin:1.25rem 0; font-weight:650;}
+    .tt-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:14px;}
 
-.game {
-  max-width: 900px;
-  margin: auto;
-  background: #020617;
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-}
+    .tt-card{
+      aspect-ratio:1/1.6;
+      border-radius:16px;
+      border:2px solid #1e293b;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition:all .25s ease;
+      background:#0b1220;
+      position:relative; overflow:hidden;
+      user-select:none;
+    }
+    .tt-card:hover{transform:translateY(-4px); border-color:#38bdf8;}
+    .tt-card.disabled{opacity:.25; pointer-events:none; transform:none; border-color:#1e293b;}
+    .tt-card img{width:90%; height:90%; object-fit:contain; display:block;}
 
-h1 {
-  margin-top: 0;
-  font-weight: 800;
-}
+    /* “Back” ohne back.png: Pattern + ? */
+    .tt-back{
+      background:
+        radial-gradient(circle at 20% 20%, rgba(56,189,248,.25), transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(46,204,113,.18), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .tt-back::after{
+      content:"?";
+      font-size:2.2rem;
+      font-weight:900;
+      color:rgba(229,231,235,.85);
+      text-shadow:0 10px 20px rgba(0,0,0,.4);
+    }
 
-.status {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
+    .tt-btn{
+      margin-top:1.25rem;
+      background:#1e293b; color:#e5e7eb;
+      border:none; padding:.65rem 1.4rem;
+      border-radius:14px; font-weight:800; cursor:pointer;
+    }
+    .tt-btn:hover{background:#334155;}
+    .tt-note{color:#94a3b8; font-size:.95rem; margin-top:.5rem}
+  </style>
 
-.badge {
-  background: #020617;
-  border: 1px solid #1e293b;
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-}
+  <div class="tt-wrap">
+    <div class="tt-head">
+      <div>
+        <h2>Tarot Trial</h2>
+        <p class="tt-sub">Memorize the sequence, then click the cards in the correct order.</p>
+      </div>
+      <div class="tt-stats">
+        <div class="tt-badge">Score: <span data-tt-score>0</span></div>
+        <div class="tt-badge">Lives: <span data-tt-lives>3</span></div>
+        <div class="tt-badge">Round: <span data-tt-round>1</span></div>
+      </div>
+    </div>
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 14px;
-}
+    <div class="tt-prompt" data-tt-prompt>Loading…</div>
+    <div class="tt-grid" data-tt-grid></div>
 
-.card {
-  aspect-ratio: 1 / 1.6;
-  background: #020617;
-  border-radius: 16px;
-  border: 2px solid #1e293b;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s ease;
-}
-
-.card img {
-  width: 90%;
-  height: 90%;
-  object-fit: contain;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  border-color: #38bdf8;
-}
-
-.card.disabled {
-  opacity: 0.25;
-  pointer-events: none;
-}
-
-.prompt {
-  margin: 1.5rem 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-button {
-  margin-top: 1.5rem;
-  background: #1e293b;
-  color: #e5e7eb;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 14px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #334155;
-}
-</style>
-</head>
-<body>
-
-<div class="game">
-  <h1>Tarot Trial</h1>
-  <p style="color:#94a3b8; margin-top:-0.5rem">Merken · Kombinieren · Entscheiden</p>
-
-  <div class="status">
-    <div class="badge">Score: <span id="score">0</span></div>
-    <div class="badge">Lives: <span id="lives">3</span></div>
-    <div class="badge">Round: <span id="round">1</span></div>
+    <button class="tt-btn" type="button" data-tt-restart>Restart</button>
+    <div class="tt-note" data-tt-note></div>
   </div>
-
-  <div class="prompt" id="prompt">Merke dir die Karten…</div>
-  <div class="cards" id="cards"></div>
-
-  <button onclick="startGame()">Restart</button>
 </div>
 
 <script>
-const base = './'; // Ordner mit PNGs
-const deck = [
-  'fool','magician','high_spellcaster','empress','emperor','advocate','lovers','chariot','strength','hermit','wheel_of_fortune','justice','suspension','death','temperance','evil','tower','star','moon','sun','judgment','world'
-];
+(function(){
+  const root = document.currentScript.previousElementSibling; // the <div class="tt-root"...>
+  if(!root || !root.matches('[data-tt]')) return;
 
-let score = 0;
-let lives = 3;
-let round = 1;
-let solution = [];
-let locked = true;
+  const basePath = "/assets/img/games/tarot/";
 
-const cardsEl = document.getElementById('cards');
-const promptEl = document.getElementById('prompt');
+  // Dateinamen aus deinem Screenshot
+  const deck = [
+    "advocate","chariot","coins","cups","death","emperor","empress","evil",
+    "fool","hermit","high_spellcaster","judgment","justice","lovers","magician",
+    "moon","star","strength","sun","suspension","swords","temperance",
+    "tower","wands","wheel_of_fortune","world"
+  ];
 
-function startGame() {
-  score = 0; lives = 3; round = 1;
-  updateStatus();
-  nextRound();
-}
+  const elGrid   = root.querySelector('[data-tt-grid]');
+  const elPrompt = root.querySelector('[data-tt-prompt]');
+  const elScore  = root.querySelector('[data-tt-score]');
+  const elLives  = root.querySelector('[data-tt-lives]');
+  const elRound  = root.querySelector('[data-tt-round]');
+  const elNote   = root.querySelector('[data-tt-note]');
+  const btn      = root.querySelector('[data-tt-restart]');
 
-function nextRound() {
-  locked = true;
-  cardsEl.innerHTML = '';
-  solution = shuffle(deck).slice(0, Math.min(3 + round, 6));
+  let score=0, lives=3, round=1;
+  let solution=[], pickIndex=0, locked=true;
+  let t=null;
 
-  promptEl.textContent = 'Merke dir diese Reihenfolge';
+  function shuffle(a){ return [...a].sort(()=>Math.random()-0.5); }
 
-  solution.forEach(name => {
-    const c = createCard(name);
-    cardsEl.appendChild(c);
-  });
-
-  setTimeout(() => {
-    cardsEl.innerHTML = '';
-    promptEl.textContent = 'Klicke die Karten in der richtigen Reihenfolge';
-    shuffle(solution).forEach(name => {
-      const c = createCard(name, true);
-      cardsEl.appendChild(c);
-    });
-    locked = false;
-  }, 2000 + round * 300);
-}
-
-function createCard(name, clickable = false) {
-  const d = document.createElement('div');
-  d.className = 'card';
-  const img = document.createElement('img');
-  img.src = base + name + '.png';
-  d.appendChild(img);
-
-  if (clickable) {
-    d.onclick = () => pick(name, d);
+  function update(){
+    elScore.textContent = score;
+    elLives.textContent = lives;
+    elRound.textContent = round;
   }
-  return d;
-}
 
-let pickIndex = 0;
+  function placeholderDataUrl(text){
+    const safe = String(text).slice(0,18);
+    const svg =
+`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="460">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" rx="28" fill="url(#g)"/>
+  <text x="50%" y="46%" text-anchor="middle" font-size="38" fill="#e5e7eb" font-family="system-ui" font-weight="800">Missing</text>
+  <text x="50%" y="58%" text-anchor="middle" font-size="22" fill="#94a3b8" font-family="system-ui">${safe}</text>
+</svg>`;
+    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+  }
 
-function pick(name, el) {
-  if (locked) return;
-
-  if (name === solution[pickIndex]) {
-    score += 10;
-    el.classList.add('disabled');
-    pickIndex++;
-
-    if (pickIndex === solution.length) {
-      round++;
-      pickIndex = 0;
-      updateStatus();
-      setTimeout(nextRound, 800);
-    }
-  } else {
-    lives--;
+  function showMemorize(){
+    locked = true;
     pickIndex = 0;
-    updateStatus();
-    if (lives <= 0) {
-      promptEl.textContent = 'Game Over';
-      locked = true;
+    clearTimeout(t);
+
+    const len = Math.min(3 + round, 6);
+    solution = shuffle(deck).slice(0, len);
+
+    elGrid.innerHTML = "";
+    elPrompt.textContent = "Memorize this sequence";
+    elNote.textContent = "Tip: focus on the first 2–3 cards first.";
+
+    // show faces
+    solution.forEach(name => elGrid.appendChild(faceCard(name, false)));
+
+    // then hide as “backs” (no back.png) and switch to pick mode
+    t = setTimeout(()=>{
+      elGrid.innerHTML = "";
+      elPrompt.textContent = "Now click the cards in the correct order";
+
+      // clickable pool = shuffled solution (harder version later can add decoys)
+      shuffle(solution).forEach(name => elGrid.appendChild(faceCard(name, true, true)));
+      locked = false;
+    }, 1500 + round * 250);
+  }
+
+  function faceCard(name, clickable, startAsBack=false){
+    const el = document.createElement('div');
+    el.className = 'tt-card' + (startAsBack ? ' tt-back' : '');
+    el.dataset.name = name;
+
+    // If it starts as back, we flip to face on first click (keeps “back” concept without file)
+    if(!startAsBack){
+      const img = document.createElement('img');
+      img.src = basePath + name + ".png";
+      img.alt = name;
+      img.onerror = () => { img.src = placeholderDataUrl(name); };
+      el.appendChild(img);
+    }
+
+    if(clickable){
+      el.addEventListener('click', ()=>pick(name, el));
+    } else {
+      el.style.cursor = "default";
+    }
+    return el;
+  }
+
+  function revealFace(el, name){
+    el.classList.remove('tt-back');
+    el.innerHTML = "";
+    const img = document.createElement('img');
+    img.src = basePath + name + ".png";
+    img.alt = name;
+    img.onerror = () => { img.src = placeholderDataUrl(name); };
+    el.appendChild(img);
+  }
+
+  function pick(name, el){
+    if(locked) return;
+
+    // reveal on click (because they are shown as “backs”)
+    if(el.classList.contains('tt-back')){
+      revealFace(el, name);
+    }
+
+    if(name === solution[pickIndex]){
+      score += 10;
+      el.classList.add('disabled');
+      pickIndex++;
+      update();
+
+      if(pickIndex === solution.length){
+        round++;
+        update();
+        locked = true;
+        elPrompt.textContent = "Nice! Next round…";
+        t = setTimeout(showMemorize, 700);
+      }
+    } else {
+      lives--;
+      pickIndex = 0;
+      update();
+
+      if(lives <= 0){
+        elPrompt.textContent = "Game Over";
+        elNote.textContent = "Hit Restart to try again.";
+        locked = true;
+        return;
+      }
+
+      // reset: hide all revealed cards back again
+      elPrompt.textContent = "Wrong — input reset. Try again!";
+      [...elGrid.querySelectorAll('.tt-card')].forEach(card=>{
+        card.classList.remove('disabled');
+        if(!card.classList.contains('tt-back')){
+          card.innerHTML = "";
+          card.classList.add('tt-back');
+        }
+      });
     }
   }
-}
 
-function updateStatus() {
-  document.getElementById('score').textContent = score;
-  document.getElementById('lives').textContent = lives;
-  document.getElementById('round').textContent = round;
-}
+  function start(){
+    score=0; lives=3; round=1;
+    update();
+    showMemorize();
+  }
 
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
-startGame();
+  btn.addEventListener('click', start);
+  start();
+})();
 </script>
-
-</body>
-</html>

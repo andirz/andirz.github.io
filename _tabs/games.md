@@ -1,14 +1,10 @@
 ---
 layout: page
 title: Game Center
-icon: "fas fa-gamepad"
+icon: "fas fa-puzzle-piece"
 order: 9
 description: Sims 4 themed mini games — reflex challenges and thinking puzzles.
 ---
-
-## <i class="fas fa-gamepad"></i> Game Center
-
-Play small Sims 4 themed games — some are fast, some require planning and strategy.
 
 ---
 
@@ -33,8 +29,8 @@ Play small Sims 4 themed games — some are fast, some require planning and stra
     flex-direction:column;
     justify-content:space-between;
 
-    aspect-ratio: 1 / 1;      /* square tiles */
-    min-height:260px;         /* fallback */
+    aspect-ratio: 4 / 3;     /* flacher statt quadratisch */
+    min-height:220px;        /* etwas kompakter */
 
     border-radius:22px;
     border:1px solid var(--border-color, rgba(0,0,0,0.08));
