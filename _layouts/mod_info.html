@@ -4,26 +4,40 @@ layout: default
 
 <div class="mod-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
   
+  {% comment %} Der große Header mit Titel, Version und Status {% endcomment %}
   {% include mod-hero-header.html %}
 
   <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 50px;">
     
+    {% comment %} Linke Spalte: Beschreibung und Downloads {% endcomment %}
     <main style="flex: 2; min-width: 320px;">
-      <article class="mod-description">
+      <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color);">
         {{ content }}
       </article>
 
       <section id="download-zone" style="margin-top: 60px; padding: 35px; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--border-color);">
-        <h2><i class="fas fa-download"></i> Download & Installation</h2>
+        <h2 style="margin-top: 0; display: flex; align-items: center; gap: 12px;">
+          <i class="fas fa-download" style="color: #2563eb;"></i> Download & Installation
+        </h2>
         {% include installation.html %}
-        <hr style="margin: 30px 0; border-top: 1px solid var(--border-color);">
+        
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
+        
         {% include policy.html %}
       </section>
     </main>
 
+    {% comment %} Rechte Spalte: Metadaten, Anforderungen und direkte Links {% endcomment %}
     <aside style="flex: 1; min-width: 280px;">
       {% include mod-sidebar-info.html %}
     </aside>
 
   </div>
+
+  {% comment %} 
+    Die neue Gallery unter dem Hauptinhalt. 
+    Sie bekommt volle Breite für maximale visuelle Wirkung.
+  {% endcomment %}
+  {% include gallery-mods-related.html %}
+
 </div>
