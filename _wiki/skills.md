@@ -20,8 +20,21 @@ description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs, P
     border-radius: 10px; border: 1px solid var(--border-color);
     margin: 0 auto; position: relative;
   }
-  .skill-icon-fa { font-size: 1.1rem; color: var(--accent-color); position: absolute; }
-  .skill-icon-img { width: 32px; height: 32px; object-fit: contain; position: relative; z-index: 2; }
+  /* FA Icons größer, wenn kein Bild da ist oder als Schatten */
+  .skill-icon-fa { 
+    font-size: 1.4rem; 
+    color: var(--accent-color); 
+    position: absolute;
+    transition: all 0.2s ease;
+  }
+  .skill-icon-img { width: 34px; height: 34px; object-fit: contain; position: relative; z-index: 2; }
+  
+  /* Alter-Badge Styling */
+  .age-icon {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    cursor: help;
+  }
 </style>
 
 # The Sims 4 Skills List
@@ -34,7 +47,7 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
       <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
         <th style="padding: 12px; width: 60px; text-align: center;">#</th>
         <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer;">Skill Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer;">Age <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer; text-align: center;">Age <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer;">Pack ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         <th onclick="sortTable(4)" style="padding: 12px; cursor: pointer;">Pack Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         <th onclick="sortTable(5)" style="padding: 12px; cursor: pointer;">Skill ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
@@ -48,10 +61,6 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
         {% assign details = skill_row | split: "|" %}
         {% assign img_path = "/assets/img/skills/" | append: details[0] | append: ".png" %}
         
-        {% comment %}
-          Prüfung ob Datei existiert, um Jekyll Build Fehler zu vermeiden.
-          static_files enthält alle Dateien des Projekts.
-        {% endcomment %}
         {% assign img_exists = false %}
         {% for static_file in site.static_files %}
           {% if static_file.path == img_path %}
@@ -61,20 +70,32 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
         {% endfor %}
 
         <tr style="border-bottom: 1px solid var(--border-color);">
-          <td style="padding: 8px; text-align: center;">
-            <div class="skill-icon-container">
-              <i class="{{ details[1] }} skill-icon-fa" {% if img_exists %}style="opacity:0.3"{% endif %}></i>
+          <td style="padding: 8px; text-align: center; color: var(--text-muted); font-size: 0.8rem; font-family: monospace;">{{ forloop.index }}</td>
+          <td style="padding: 12px; font-weight: 700; color: var(--text-color); font-size: 1.05rem;">{{ details[2] }}</td>
+          
+          <td style="padding: 12px; text-align: center;">
+            {% if details[3] == "Adult" %}
+              <i class="fas fa-user age-icon" title="Adult"></i>
+            {% elsif details[3] == "Child" %}
+              <i class="fas fa-child age-icon" title="Child"></i>
+            {% elsif details[3] == "Toddler" %}
+              <i class="fas fa-baby age-icon" title="Toddler"></i>
+            {% endif %}
+          </td>
+
+          <td style="padding: 12px; font-size: 0.95rem;">{{ details[4] }}</td>
+          <td style="padding: 12px; font-size: 0.95rem; color: var(--text-muted);">{{ details[5] }}</td>
+          <td style="padding: 12px;"><code style="font-size: 0.85rem;">{{ details[6] }}</code></td>
+          <td style="padding: 12px; text-align: center; font-weight: 700;">{{ details[7] }}</td>
+          
+          <td style="padding: 8px; text-align: center; order: -1;">
+             <div class="skill-icon-container">
+              <i class="{{ details[1] }} skill-icon-fa" {% if img_exists %}style="opacity:0.25; font-size: 1.1rem;"{% endif %}></i>
               {% if img_exists %}
                 <img src="{{ img_path | relative_url }}" alt="{{ details[2] }}" class="skill-icon-img">
               {% endif %}
             </div>
           </td>
-          <td style="padding: 12px; font-weight: 700; color: var(--text-color); font-size: 1.05rem;">{{ details[2] }}</td>
-          <td style="padding: 12px;"><span style="background: var(--bg-secondary); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border-color); font-weight: 500; font-size: 0.85rem;">{{ details[3] }}</span></td>
-          <td style="padding: 12px; font-size: 0.95rem;">{{ details[4] }}</td>
-          <td style="padding: 12px; font-size: 0.95rem; color: var(--text-muted);">{{ details[5] }}</td>
-          <td style="padding: 12px;"><code style="font-size: 0.85rem;">{{ details[6] }}</code></td>
-          <td style="padding: 12px; text-align: center; font-weight: 700;">{{ details[7] }}</td>
         </tr>
       {% endfor %}
     </tbody>
@@ -82,6 +103,7 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
 </div>
 
 <script>
+// (Sortierfunktion bleibt gleich wie vorher)
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("skillTable");
