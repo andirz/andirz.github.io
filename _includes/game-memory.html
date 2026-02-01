@@ -81,7 +81,7 @@
 
 <script>
   (function() {
-    const basePath = "{{ 'assets/img/packs_blue/' | relative_url }}";
+    const basePath = "{{ 'assets/img/packs_blue' | relative_url }}/";
     const epPacks = Array.from({length: 18}, (_, i) => `ep${(i + 1).toString().padStart(2, '0')}`);
     const gpPacks = Array.from({length: 12}, (_, i) => `gp${(i + 1).toString().padStart(2, '0')}`);
     const allPacks = [...epPacks, ...gpPacks];

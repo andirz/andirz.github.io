@@ -4,6 +4,9 @@ title: Pack Picker Memory
 icon: "fas fa-brain"
 order: 2
 description: Match Sims 4 packs before time runs out.
+mode: Memory
+difficulty: Medium
+time: 45s
 ---
 
 ## Pack Picker Memory

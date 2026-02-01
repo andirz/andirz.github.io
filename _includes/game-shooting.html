@@ -144,7 +144,7 @@
 
 <script>
   (function(){
-    const basePath = "{{ 'assets/img/games/shoot/' | relative_url }}";
+    const basePath = "{{ 'assets/img/games/shoot' | relative_url }}/";
 
     const EVIL = Array.from({length: 10}, (_, i) => `evil${String(i+1).padStart(2,'0')}.png`);
     const GOOD = Array.from({length: 30}, (_, i) => `good${String(i+1).padStart(2,'0')}.png`);

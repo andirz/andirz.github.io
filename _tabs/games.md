@@ -16,79 +16,91 @@ Play small Sims 4 themed games — some are fast, some require planning and stra
   .game-grid{
     display:grid;
     grid-template-columns: 1fr;
-    gap:18px;
-    margin-top:1.5rem;
+    gap:22px;
+    margin-top:2rem;
   }
+
   @media (min-width:768px){
     .game-grid{ grid-template-columns: repeat(2, 1fr); }
   }
+
   @media (min-width:992px){
     .game-grid{ grid-template-columns: repeat(3, 1fr); }
   }
 
   .game-tile{
-    display:block;
-    height:100%;
-    border-radius:18px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    aspect-ratio: 1 / 1;      /* square tiles */
+    min-height:260px;         /* fallback */
+
+    border-radius:22px;
     border:1px solid var(--border-color, rgba(0,0,0,0.08));
     background: var(--bg-secondary, #fff);
-    padding:18px;
+    padding:22px;
     text-decoration:none;
-    box-shadow:0 10px 25px -12px rgba(0,0,0,0.12);
-    transition: transform .08s ease, box-shadow .08s ease, border-color .08s ease;
+
+    box-shadow:0 14px 35px -18px rgba(0,0,0,0.18);
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
   }
+
   .game-tile:hover{
-    transform: translateY(-2px);
-    box-shadow:0 18px 35px -16px rgba(0,0,0,0.20);
-    border-color: rgba(59,130,246,.35);
+    transform: translateY(-4px);
+    box-shadow:0 26px 55px -26px rgba(0,0,0,0.35);
+    border-color: rgba(59,130,246,.45);
   }
 
   .game-head{
     display:flex;
-    gap:12px;
-    align-items:flex-start;
+    flex-direction:column;
+    gap:14px;
+    align-items:center;
+    text-align:center;
   }
 
   .game-icon{
-    width:46px;
-    height:46px;
-    border-radius:14px;
+    width:64px;
+    height:64px;
+    border-radius:18px;
     display:grid;
     place-items:center;
-    background: rgba(59,130,246,0.10);
-    border:1px solid rgba(59,130,246,0.18);
-    flex:0 0 auto;
+    background: rgba(59,130,246,0.12);
+    border:1px solid rgba(59,130,246,0.22);
   }
+
   .game-icon i{
-    font-size:20px;
+    font-size:28px;
     color: var(--link-color, #2563eb);
   }
 
   .game-title{
-    font-weight:800;
+    font-weight:900;
     margin:0;
     line-height:1.2;
+    font-size:1.15rem;
     color: var(--link-color, #2563eb);
-    font-size:1.05rem;
   }
 
   .game-desc{
     margin-top:6px;
-    font-size:.92rem;
-    color: rgba(15,23,42,.72);
+    font-size:.95rem;
+    color: rgba(15,23,42,.75);
   }
 
   .game-meta{
-    margin-top:14px;
+    margin-top:16px;
     display:flex;
     gap:8px;
     flex-wrap:wrap;
+    justify-content:center;
   }
 
   .game-pill{
     font-size:.78rem;
     font-weight:700;
-    padding:6px 10px;
+    padding:6px 12px;
     border-radius:999px;
     border:1px solid rgba(0,0,0,.07);
     background:#f8fafc;
@@ -100,6 +112,7 @@ Play small Sims 4 themed games — some are fast, some require planning and stra
 {% assign sorted_games = site.games | sort: "order" %}
 {% for game in sorted_games %}
   <a href="{{ game.url | relative_url }}" class="game-tile">
+
     <div class="game-head">
       <div class="game-icon">
         {% if game.icon %}
@@ -125,9 +138,10 @@ Play small Sims 4 themed games — some are fast, some require planning and stra
         <span class="game-pill">Difficulty: {{ game.difficulty }}</span>
       {% endif %}
       {% if game.time %}
-        <span class="game-pill">Time: {{ game.time }}</span>
+        <span class="game-pill">{{ game.time }}</span>
       {% endif %}
     </div>
+
   </a>
 {% endfor %}
 </div>
