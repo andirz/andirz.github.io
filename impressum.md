@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Legal Notice / Impressum
+title: Legal Notice & Impressum
 permalink: /impressum/
 nav_exclude: true
 noindex: true
@@ -8,7 +8,7 @@ sitemap: false
 ---
 
 <style>
-  /* Schutz-Logik für Text */
+  /* Schutz-Logik gegen Bots und Kopieren */
   .protection-wrapper { user-select: none; -webkit-user-select: none; cursor: default; }
   .crypt { unicode-bidi: bidi-override; direction: rtl; text-align: left; display: inline-block; }
   .noise { display: none; }
@@ -23,14 +23,18 @@ sitemap: false
   .lang-content { display: none; }
   .lang-content.active { display: block; }
 
-  /* Rechtliche Boxen */
-  .legal-section { margin-bottom: 2.5rem; }
+  /* Rechtliche Sektionen */
+  .legal-section { margin-bottom: 2.5rem; line-height: 1.6; }
   .legal-box { 
     background: rgba(0,0,0,0.02); border-left: 4px solid #007bff; 
-    padding: 20px; margin: 15px 0; font-size: 0.9rem; line-height: 1.6;
+    padding: 20px; margin: 15px 0; font-size: 0.85rem;
+  }
+  .support-warning {
+    background: rgba(255, 0, 0, 0.03); border: 1px dashed #d9534f;
+    padding: 15px; border-radius: 6px; color: #d9534f; font-weight: bold;
   }
   h2 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 2rem; }
-  h3 { color: #333; margin-top: 1.5rem; }
+  h3 { color: #333; margin-top: 1.5rem; font-size: 1.1rem; }
 </style>
 
 <div class="lang-switch">
@@ -42,44 +46,44 @@ sitemap: false
 
   <div id="content-en" class="lang-content active">
     <div class="legal-section">
-      <h2>Legal Notice (Impressum)</h2>
+      <h2>Legal Notice</h2>
       <p>Information according to § 5 TMG (German Telemedia Act):</p>
       
       <p>
         <strong>Represented by:</strong><br>
-        <span class="crypt">zaaR<span class="noise">_bot_</span> saerdnA</span><br>
-        <span class="crypt">071<span class="noise">sims</span> eellA reualznerP</span><br>
+        <span class="crypt">zaaR<span class="noise">_legal_</span> saerdnA</span><br>
+        <span class="crypt">071<span class="noise">777</span> eellA reualznerP</span><br>
         <span class="crypt">nilreB 90401</span><br>
         Germany
       </p>
 
       <h3>Contact</h3>
       <p>
-        E-Mail: <span class="crypt">moc.liamg@zridna4smis</span><br>
-        Discord: andirz
+        E-Mail: <span class="crypt">moc.liamg@zridna4smis</span>
       </p>
 
-      <h3>Responsible for content according to § 55 Abs. 2 RStV</h3>
-      <p><span class="crypt">zaaR saerdnA</span> (Address as above)</p>
+      <div class="support-warning">
+        Please note: This website and the provided contact details are for legal purposes only. This website is not a platform for technical support, mod requests, or general inquiries regarding software. Any such requests will be ignored.
+      </div>
+
+      <h3>Responsible for Content</h3>
+      <p>Responsible for content according to § 55 Abs. 2 RStV:<br>
+      <span class="crypt">zaaR saerdnA</span> (Address as above)</p>
     </div>
 
     <div class="legal-section">
-      <h2>Privacy Policy & GDPR</h2>
+      <h2>Privacy Policy (GDPR)</h2>
       <div class="legal-box">
-        <strong>1. General Information:</strong> The operator of this website takes the protection of your personal data very seriously. I treat your personal data confidentially and in accordance with the statutory data protection regulations and this Privacy Policy.<br><br>
-        <strong>2. Hosting (GitHub Pages):</strong> This website is hosted by GitHub Inc. (USA). When you visit this site, GitHub collects log files including IP addresses, browser type, and time of access to ensure the security and stability of the service. This is a technical necessity according to Art. 6 Para. 1 lit. f GDPR.<br><br>
-        <strong>3. Cookies:</strong> This website itself does not use tracking or marketing cookies. Any cookies that may be set are technically necessary for the operation of the site by the hoster.<br><br>
-        <strong>4. External Links:</strong> This site links to third-party platforms (Patreon, CurseForge, Discord). Once you click these links, you leave my website, and the data protection regulations of the respective provider apply.
+        <strong>1. Data Protection:</strong> I treat your personal data confidentially and in accordance with the statutory data protection regulations.<br><br>
+        <strong>2. Hosting & DNS:</strong> This website is hosted via <strong>GitHub Pages</strong>. The domain is registered through <strong>Hostinger</strong>. For technical reasons, GitHub and Hostinger collect server log files (IP address, browser, timestamps) to ensure secure operation (Art. 6 Para. 1 lit. f GDPR).<br><br>
+        <strong>3. Data Collection:</strong> This website does not utilize any personal tracking, analytics tools, or marketing cookies.
       </div>
     </div>
 
     <div class="legal-section">
       <h2>Disclaimer</h2>
-      <h3>Liability for Content</h3>
-      <p>As a service provider, I am responsible for my own content on these pages according to § 7 Para.1 TMG. However, according to §§ 8 to 10 TMG, I am not obligated to monitor transmitted or stored third-party information.</p>
-      
-      <h3>Copyright</h3>
-      <p>The content and works created by the site operator on these pages are subject to German copyright law. Duplication, processing, distribution, or any form of commercialization beyond the scope of copyright law shall require the prior written consent of its respective author.</p>
+      <p><strong>Liability for Content:</strong> As a service provider, I am responsible for my own content according to general laws. I am not obligated to monitor transmitted third-party information.</p>
+      <p><strong>Liability for Links:</strong> This site contains links to external platforms (e.g. Patreon, CurseForge). I have no influence on their content and assume no liability.</p>
     </div>
   </div>
 
@@ -98,37 +102,33 @@ sitemap: false
 
       <h3>Kontakt</h3>
       <p>
-        E-Mail: <span class="crypt">moc.liamg@zridna4smis</span><br>
-        Discord: andirz
+        E-Mail: <span class="crypt">moc.liamg@zridna4smis</span>
       </p>
 
-      <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
-      <p><span class="crypt">zaaR saerdnA</span> (Anschrift wie oben)</p>
+      <div class="support-warning">
+        Wichtiger Hinweis: Diese Webseite und die angegebenen Kontaktdaten dienen ausschließlich gesetzlichen Informationspflichten. Diese Webseite bietet keinen Mod-Support oder technische Hilfe an. Entsprechende Anfragen werden nicht bearbeitet.
+      </div>
+
+      <h3>Verantwortlich für den Inhalt</h3>
+      <p>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>
+      <span class="crypt">zaaR saerdnA</span> (Anschrift wie oben)</p>
     </div>
 
     <div class="legal-section">
       <h2>Datenschutzerklärung</h2>
       <div class="legal-box">
-        <strong>1. Datenschutz auf einen Blick:</strong> Ich behandle Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.<br><br>
-        <strong>2. Hosting (GitHub Pages):</strong> Diese Seite wird bei GitHub Inc. gehostet. GitHub erhebt automatisch Informationen in sogenannten Server-Log-Dateien (u.a. IP-Adresse, Browsertyp). Dies erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO zur Gewährleistung der Sicherheit.<br><br>
-        <strong>3. Cookies:</strong> Ich setze keine eigenen Tracking-Cookies ein. Etwaige technisch notwendige Cookies werden durch den Hoster gesetzt.<br><br>
-        <strong>4. Betroffenenrechte:</strong> Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten.
+        <strong>1. Datenschutz:</strong> Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Ich behandle Ihre personenbezogenen Daten vertraulich.<br><br>
+        <strong>2. Hosting und Infrastruktur:</strong> Die technische Bereitstellung erfolgt über <strong>GitHub Pages</strong>, die Domain wird über <strong>Hostinger</strong> verwaltet. Dabei werden technisch notwendige Server-Log-Dateien (u.a. IP-Adresse) erhoben (Art. 6 Abs. 1 lit. f DSGVO).<br><br>
+        <strong>3. Keine Analyse:</strong> Auf dieser Webseite findet kein Tracking und keine statistische Auswertung durch den Betreiber statt.
       </div>
     </div>
 
     <div class="legal-section">
       <h2>Haftungsausschluss</h2>
-      <h3>Haftung für Inhalte und Links</h3>
-      <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Mein Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte ich keinen Einfluss habe.</p>
-      
-      <h3>Urheberrecht</h3>
-      <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Beiträge Dritter sind als solche gekennzeichnet.</p>
+      <p><strong>Haftung für Inhalte:</strong> Ich bin für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich, jedoch nicht verpflichtet, fremde Informationen zu überwachen.</p>
+      <p><strong>Haftung für Links:</strong> Mein Angebot enthält Links zu externen Webseiten Dritter (z.B. Patreon, CurseForge). Auf deren Inhalte habe ich keinen Einfluss.</p>
     </div>
   </div>
-
-  <p style="font-size: 0.8rem; font-style: italic; margin-top: 3rem; opacity: 0.7;">
-    The Sims and The Sims 4 are trademarks of Electronic Arts, Inc. This website is not affiliated with or endorsed by Electronic Arts, Inc.
-  </p>
 
 </div>
 
@@ -141,11 +141,12 @@ sitemap: false
     document.getElementById('btn-' + lang).classList.add('active');
   }
 
-  // Erweiterter Schutz gegen Markieren/Kopieren/Quelltext
+  // Schutz gegen Kopieren/Markieren
   document.addEventListener('keydown', function(e) {
-    if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'i')) {
+    if ((e.ctrlKey || e.metaKey) && ['c', 'u', 's', 'p', 'i', 'a'].includes(e.key.toLowerCase())) {
       e.preventDefault();
       return false;
     }
   });
+  document.addEventListener('dragstart', function(e) { e.preventDefault(); });
 </script>
