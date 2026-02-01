@@ -8,7 +8,6 @@ title: Home
     --sims-blue: #0076ff;
     --sims-green: #2ecc71;
     --sims-dark: #1e293b;
-    --sims-bg: #f8fafc;
   }
 
   .sims-home { padding-bottom: 80px; }
@@ -44,7 +43,6 @@ title: Home
     padding: 0 20px;
   }
 
-  /* --- SECTION TITLES --- */
   .home-h2 {
     font-family: 'Nunito', sans-serif;
     font-weight: 900;
@@ -98,12 +96,12 @@ title: Home
         <div style="width: 60px; height: 5px; background: var(--sims-blue); margin: -20px auto 0; border-radius: 5px;"></div>
       </div>
       
-      {% comment %} 
-        Diese Liste nutzt Bindestriche, wie sie oft in URLs/Dateinamen vorkommen. 
-        WICHTIG: Die IDs müssen EXAKT mit mod_id in deinen .md Dateien übereinstimmen.
-      {% endcomment %}
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
-        {% assign featured_list = "smart-core-script, online-store, better-pie-menu, smart-sim-randomizer, cleaner-script, purchase-medicine" | split: ", " %}
+        {% comment %} 
+           Nutzt die IDs aus deiner mods.yml. 
+           Die Logik prüft site.mods auf Übereinstimmung mit mod_id.
+        {% endcomment %}
+        {% assign featured_list = "smart_core, simsim_online_store, better_pie_menu, smart_sim_randomizer, cleaner_script, purchase_medicine" | split: ", " %}
         
         {% for f_id in featured_list %}
           {% assign f_id_clean = f_id | strip %}
@@ -111,6 +109,7 @@ title: Home
           {% assign g_mod = site.data.mods | where: "id", f_id_clean | first %}
           
           {% if mod_page %}
+            {% comment %} Karte wird nur angezeigt, wenn die Seite existiert {% endcomment %}
             {% include gallery-card-item.html mod_data=g_mod %}
           {% endif %}
         {% endfor %}
@@ -128,7 +127,7 @@ title: Home
         <div class="col-lg-6 mb-5 mb-lg-0">
           <span class="badge rounded-pill px-3 py-2 mb-3" style="background: var(--sims-blue);">Mini-Game</span>
           <h2 class="home-h2 mb-3">Mod Memory</h2>
-          <p class="text-muted fs-5 mb-0">Can you find all matching icons? Match the gameplay elements while your mods are downloading.</p>
+          <p class="text-muted fs-5 mb-0">Match the gameplay elements while your mods are downloading. Happy Simming!</p>
         </div>
         <div class="col-lg-6 text-center">
           <div class="memory-grid" id="memoryGrid"></div>
@@ -171,7 +170,7 @@ title: Home
               matched++;
               flipped = [];
               if (matched === icons.length) {
-                setTimeout(() => alert('Sul Sul! You found all pairs!'), 500);
+                setTimeout(() => alert('Sul Sul! Expert memory!'), 500);
               }
             } else {
               setTimeout(() => {
