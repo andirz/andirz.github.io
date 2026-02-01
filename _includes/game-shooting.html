@@ -1,0 +1,362 @@
+<style>
+  .shoot-section {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    margin: 40px 0;
+  }
+
+  .shoot-panel{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    margin-top: 10px;
+  }
+
+  .shoot-badge{
+    background:#f8fafc;
+    border:1px solid rgba(0,0,0,0.07);
+    border-radius:999px;
+    padding:8px 12px;
+    font-weight:700;
+    color:#0f172a;
+  }
+
+  .shoot-ok{ color:#16a34a; }
+  .shoot-danger{ color:#dc3545; }
+
+  .shoot-stage{
+    position:relative;
+    width:100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(15,23,42,0.06), rgba(15,23,42,0.02));
+    border: 1px solid rgba(0,0,0,0.08);
+    overflow:hidden;
+    cursor: crosshair;
+    user-select:none;
+  }
+
+  .shoot-target{
+    position:absolute;
+    width:110px;
+    height:110px;
+    border-radius:18px;
+    display:grid;
+    place-items:center;
+    transform: translate(-50%,-50%) scale(0.88);
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.10s ease, transform 0.10s ease;
+    box-shadow: 0 10px 20px -8px rgba(0,0,0,0.22);
+    background:#f1f5f9;
+  }
+
+  .shoot-target.show{
+    opacity:1;
+    transform: translate(-50%,-50%) scale(1);
+    pointer-events:auto;
+  }
+
+  .shoot-target.evil{
+    border:2px solid rgba(220,53,69,0.85);
+    background:#fee2e2;
+  }
+  .shoot-target.good{
+    border:2px solid rgba(22,163,74,0.85);
+    background:#dcfce7;
+  }
+
+  .shoot-img{
+    width:92%;
+    height:92%;
+    object-fit:contain;
+    user-select:none;
+    -webkit-user-drag:none;
+    pointer-events:none;
+  }
+
+  .shoot-fx{ position:absolute; inset:0; pointer-events:none; }
+  .shoot-pop{
+    position:absolute;
+    transform: translate(-50%,-50%);
+    font-weight:900;
+    animation: shootpop 520ms ease forwards;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  }
+
+  @keyframes shootpop{
+    0%{ opacity:0; transform: translate(-50%,-50%) scale(0.75); }
+    25%{ opacity:1; transform: translate(-50%,-50%) scale(1); }
+    100%{ opacity:0; transform: translate(-50%,-70%) scale(1.15); }
+  }
+</style>
+
+<section class="shoot-section">
+  <div class="row align-items-center">
+    <div class="col-lg-5 mb-4 mb-lg-0 text-center text-lg-start">
+      <h2 class="fw-800" style="color: #1e293b;">Quickdraw</h2>
+      <p class="text-muted">
+        Shoot only the <strong>evil</strong> Sims characters.  
+        <strong>Good</strong> ones must not be hit.
+      </p>
+
+      <div class="shoot-panel">
+        <div class="shoot-badge"><span id="shoot-score">Score: 0</span></div>
+        <div class="shoot-badge">
+          <span id="shoot-combo">Combo: x1</span>
+          <span style="opacity:.7" id="shoot-combo-n">0</span>
+        </div>
+        <div class="shoot-badge"><span id="shoot-time">Time: 30s</span></div>
+      </div>
+
+      <div class="shoot-panel">
+        <div class="shoot-badge">
+          <span id="shoot-status" class="shoot-ok">Ready</span>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.initShootGame()">
+          Start / Restart
+        </button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.toggleShootHardMode()">
+          Hard Mode: <span id="shoot-hard">OFF</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="shoot-stage" id="shoot-stage">
+        <div class="shoot-target" id="shoot-target">
+          <img class="shoot-img" id="shoot-img" alt="character" />
+        </div>
+        <div class="shoot-fx" id="shoot-fx"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const basePath = "{{ 'assets/img/games/shoot/' | relative_url }}";
+
+    const EVIL = Array.from({length: 10}, (_, i) => `evil${String(i+1).padStart(2,'0')}.png`);
+    const GOOD = Array.from({length: 30}, (_, i) => `good${String(i+1).padStart(2,'0')}.png`);
+
+    const stage = document.getElementById('shoot-stage');
+    const target = document.getElementById('shoot-target');
+    const imgEl  = document.getElementById('shoot-img');
+    const fx     = document.getElementById('shoot-fx');
+
+    const scoreLabel = document.getElementById('shoot-score');
+    const comboLabel = document.getElementById('shoot-combo');
+    const comboNLabel= document.getElementById('shoot-combo-n');
+    const timeLabel  = document.getElementById('shoot-time');
+    const statusLabel= document.getElementById('shoot-status');
+    const hardLabel  = document.getElementById('shoot-hard');
+
+    let score=0, timeLeft=30, running=false, hard=false;
+    let timer=null, lifeTimer=null;
+
+    let currentType=null;
+    let currentPos={x:0,y:0};
+    let wasHit=false;
+
+    let comboCount=0;
+    let comboMult=1;
+
+    function r(min,max){ return Math.random()*(max-min)+min; }
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    function setStatus(text, ok=true){
+      statusLabel.textContent = text;
+      statusLabel.classList.toggle('shoot-ok', ok);
+      statusLabel.classList.toggle('shoot-danger', !ok);
+    }
+
+    function ui(){
+      scoreLabel.textContent = `Score: ${score}`;
+      comboLabel.textContent = `Combo: x${comboMult}`;
+      comboNLabel.textContent= `${comboCount}`;
+      timeLabel.textContent  = `Time: ${timeLeft}s`;
+      timeLabel.classList.toggle('shoot-danger', timeLeft <= 10);
+    }
+
+    function hide(immediate=false){
+      if(immediate){ target.classList.remove('show'); return; }
+      target.classList.remove('show');
+    }
+
+    function pop(text, x, y, ok=true){
+      const el=document.createElement('div');
+      el.className='shoot-pop';
+      el.style.left = `${x}px`;
+      el.style.top  = `${y}px`;
+      el.style.color= ok ? '#16a34a' : '#dc3545';
+      el.textContent= text;
+      fx.appendChild(el);
+      setTimeout(()=>el.remove(), 550);
+    }
+
+    function add(points){
+      score = Math.max(0, score + points);
+      ui();
+    }
+
+    function comboUp(){
+      comboCount++;
+      comboMult = Math.min(5, 1 + Math.floor(comboCount/4));
+    }
+
+    function comboReset(){
+      comboCount=0;
+      comboMult=1;
+    }
+
+    function scheduleSpawn(delay){
+      clearTimeout(lifeTimer);
+      lifeTimer = setTimeout(spawn, delay);
+    }
+
+    function spawn(){
+      if(!running) return;
+
+      const goodChance = hard ? 0.45 : 0.55;
+      currentType = (Math.random() < goodChance) ? "good" : "evil";
+      wasHit=false;
+
+      const file = currentType==="evil" ? pick(EVIL) : pick(GOOD);
+      imgEl.src = `${basePath}${file}`;
+
+      target.classList.toggle('evil', currentType==="evil");
+      target.classList.toggle('good', currentType==="good");
+
+      const rect = stage.getBoundingClientRect();
+      const pad = 80;
+      const x = r(pad, rect.width - pad);
+      const y = r(pad, rect.height - pad);
+      currentPos = {x,y};
+
+      target.style.left = `${x}px`;
+      target.style.top  = `${y}px`;
+      target.classList.add('show');
+
+      const visible = hard ? r(300, 600) : r(420, 820);
+      clearTimeout(lifeTimer);
+      lifeTimer = setTimeout(()=>{
+        if(!running) return;
+        target.classList.remove('show');
+
+        if(currentType==="evil" && !wasHit){
+          comboReset();
+          add(hard ? -2 : -1);
+          pop("MISS", x, y, false);
+          setStatus("Missed evil target!", false);
+        }
+
+        scheduleSpawn(hard ? r(110, 210) : r(150, 260));
+      }, visible);
+    }
+
+    function end(){
+      running=false;
+      clearInterval(timer);
+      clearTimeout(lifeTimer);
+      hide(true);
+      setStatus(`Done! Final score: ${score}`, true);
+    }
+
+    function reset(){
+      clearInterval(timer);
+      clearTimeout(lifeTimer);
+      running=false;
+
+      score=0;
+      timeLeft=30;
+      comboCount=0;
+      comboMult=1;
+
+      hide(true);
+      setStatus("Ready", true);
+      ui();
+    }
+
+    function start(){
+      reset();
+      running=true;
+      setStatus("Go!", true);
+
+      timer = setInterval(()=>{
+        timeLeft--;
+        ui();
+        if(timeLeft<=0) end();
+      }, 1000);
+
+      scheduleSpawn(250);
+    }
+
+    target.addEventListener('click', (e)=>{
+      if(!running) return;
+      e.stopPropagation();
+      wasHit=true;
+      clearTimeout(lifeTimer);
+
+      const x=currentPos.x, y=currentPos.y;
+
+      if(currentType==="evil"){
+        comboUp();
+        const points = (hard ? 3 : 2) * comboMult;
+        add(points);
+        pop(`+${points}`, x, y, true);
+        setStatus(`Nice shot! +${points}`, true);
+      } else {
+        comboReset();
+        const penalty = hard ? -10 : -7;
+        const tpen    = hard ? 3 : 2;
+        add(penalty);
+        timeLeft = Math.max(0, timeLeft - tpen);
+        ui();
+        pop(`${penalty} / -${tpen}s`, x, y, false);
+        setStatus("Wrong! That was a good Sim!", false);
+        if(timeLeft<=0){ end(); return; }
+      }
+
+      hide();
+      scheduleSpawn(hard ? r(110, 210) : r(150, 260));
+    });
+
+    stage.addEventListener('click', (e)=>{
+      if(!running) return;
+      const rect = stage.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      comboReset();
+      add(hard ? -2 : -1);
+      pop("AIR", x, y, false);
+      setStatus("No target hit", false);
+    });
+
+    window.initShootGame = start;
+    window.toggleShootHardMode = function(){
+      hard = !hard;
+      hardLabel.textContent = hard ? "ON" : "OFF";
+      setStatus(hard ? "Hard Mode enabled" : "Hard Mode disabled", true);
+    };
+
+    window.addEventListener('keydown', (e)=>{
+      if(e.code==="Space"){
+        e.preventDefault();
+        start();
+      }
+    });
+
+    reset();
+  })();
+</script>
