@@ -5,6 +5,9 @@ icon: "fas fa-shopping-cart"
 permalink: "/mods/online-store/"
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay Mods]
+translations:
+  ENG: "Andirz"
+  GER: "Andirz"
 ---
 
 The **SimSim Online Store** is the ultimate shopping experience for your Sims! This mod allows instant access to the online store on all computers, laptops, tablets, smart hubs, and mobile phones. Even without internet access or when living off-the-grid, your Sims can shop via the **SimSim Hotline** or even through paper mail.
@@ -37,19 +40,3 @@ Purchasing goods isn't just about the items; it affects your Sims' emotions! Dep
 ### Call Center & Hotline
 The interactive Hotline brings the store to life. Sometimes annoying, sometimes rewarding—expect calls for special occasions and gifts! 
 *Note: This feature uses "Drama Node Tuning" and is currently in test mode.*
-
-## Translations
-The mod is localized for many languages:
-* **Native:** English, German, Spanish, Russian.
-* **Community:** Brazilian Portuguese, Chinese (Simplified/Traditional), French, Finnish, Italian, Japanese, Polish.
-
-## Compatibility & Requirements
-This mod does not overwrite any game files.
-* **Smart Core Script:** Required.
-* **P.S.O. Common Package:** Required.
-* **Scripts:** Must be enabled in game settings.
-
----
-## Installationsanleitung
-1. Lade die Dateien herunter und platziere sie im `Mods`-Ordner.
-2. Stelle sicher, dass das **Smart Core Script** installiert ist.
