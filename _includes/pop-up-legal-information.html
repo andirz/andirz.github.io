@@ -1,23 +1,23 @@
-<div id="legal-popup-overlay" style="display:none; position:fixed; z-index:999999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 20px;">
+<div id="legal-popup-overlay" style="display:none; position:fixed; z-index:999999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: 20px;">
   <div style="background-color:#ffffff; padding:40px; border-radius:8px; max-width:600px; width: 100%; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-shadow: 0 30px 60px rgba(0,0,0,0.5); border-top: 8px solid #007bff; position: relative;">
     
-    <div style="display: flex; justify-content: flex-end; gap: 5px; margin-bottom: 20px;">
-      <button onclick="setPopLang('en')" id="pop-btn-en" style="cursor:pointer; border:1px solid #ddd; background:#f8f9fa; padding:5px 12px; border-radius:4px; font-size: 0.8rem; font-weight:bold;">English</button>
-      <button onclick="setPopLang('de')" id="pop-btn-de" style="cursor:pointer; border:1px solid #ddd; background:#fff; padding:5px 12px; border-radius:4px; font-size: 0.8rem;">Deutsch</button>
+    <div style="display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 20px;">
+      <button type="button" id="pop-btn-en" style="cursor:pointer; border:1px solid #007bff; background:#007bff; color: white; padding:6px 14px; border-radius:4px; font-size: 0.8rem; font-weight:bold;">English</button>
+      <button type="button" id="pop-btn-de" style="cursor:pointer; border:1px solid #ddd; background:#fff; color: #333; padding:6px 14px; border-radius:4px; font-size: 0.8rem;">Deutsch</button>
     </div>
 
     <div id="pop-content-en">
       <h2 style="margin-top:0; color:#111; font-family: Georgia, serif; border-bottom: 1px solid #eee; padding-bottom: 10px;">Legal Access Notice</h2>
       <p style="line-height:1.6; color:#333; font-size: 0.95rem;">
-        Welcome to <strong>{{ site.title }}</strong>. By entering this website, you acknowledge that:
+        Welcome to <strong>{{ site.title }}</strong>. By entering this website, you acknowledge the following:
       </p>
       <ul style="line-height:1.6; color:#444; font-size: 0.9rem; padding-left: 20px;">
-        <li>This site uses technically necessary server logs (IP addresses) via <strong>GitHub Pages</strong> and <strong>Hostinger</strong> for security (Art. 6 GDPR).</li>
-        <li>The operator does not use any tracking, analytics, or marketing cookies.</li>
-        <li>This website is not an official platform for mod support or technical requests.</li>
+        <li>This site uses technically necessary logs (IP addresses) via <strong>GitHub Pages</strong> and <strong>Hostinger</strong> (Art. 6 GDPR).</li>
+        <li>The operator does not use any tracking or marketing cookies.</li>
+        <li>This website is <strong>not</strong> a platform for mod support or technical requests.</li>
       </ul>
       <p style="font-size:0.85rem; color:#777; margin-top:20px; border-top: 1px solid #eee; padding-top: 15px;">
-        For further details, please consult our <a href="{{ '/impressum/' | relative_url }}" style="color:#007bff; text-decoration:none; font-weight:bold;">Legal Notice & Privacy Policy</a>.
+        Details: <a href="{{ '/impressum/' | relative_url }}" style="color:#007bff; text-decoration:none; font-weight:bold;">Legal Notice & Privacy Policy</a>.
       </p>
     </div>
 
@@ -27,17 +27,17 @@
         Willkommen bei <strong>{{ site.title }}</strong>. Mit dem Betreten der Seite nehmen Sie Folgendes zur Kenntnis:
       </p>
       <ul style="line-height:1.6; color:#444; font-size: 0.9rem; padding-left: 20px;">
-        <li>Diese Seite nutzt technisch notwendige Server-Logs (IP-Adressen) via <strong>GitHub Pages</strong> und <strong>Hostinger</strong> zur Betriebssicherheit (Art. 6 DSGVO).</li>
-        <li>Es werden keine Tracking-, Analyse- oder Marketing-Cookies durch den Betreiber verwendet.</li>
-        <li>Diese Webseite ist keine Plattform für Mod-Support oder technische Anfragen.</li>
+        <li>Diese Seite nutzt technisch notwendige Server-Logs (IP-Adressen) via <strong>GitHub Pages</strong> und <strong>Hostinger</strong> (Art. 6 DSGVO).</li>
+        <li>Es werden keine Tracking- oder Marketing-Cookies durch den Betreiber verwendet.</li>
+        <li>Diese Webseite ist <strong>keine</strong> Plattform für Mod-Support oder technische Anfragen.</li>
       </ul>
       <p style="font-size:0.85rem; color:#777; margin-top:20px; border-top: 1px solid #eee; padding-top: 15px;">
-        Weitere Details finden Sie in unserem <a href="{{ '/impressum/' | relative_url }}" style="color:#007bff; text-decoration:none; font-weight:bold;">Impressum & der Datenschutzerklärung</a>.
+        Details: <a href="{{ '/impressum/' | relative_url }}" style="color:#007bff; text-decoration:none; font-weight:bold;">Impressum & Datenschutzerklärung</a>.
       </p>
     </div>
 
     <div style="margin-top: 35px;">
-      <button onclick="confirmPopLegal()" style="background-color:#007bff; color:#fff; border:none; padding:16px; border-radius:4px; cursor:pointer; font-weight:bold; font-size:1rem; width:100%; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,123,255,0.2);">
+      <button type="button" id="confirm-legal-btn" style="background-color:#007bff; color:#fff; border:none; padding:16px; border-radius:4px; cursor:pointer; font-weight:bold; font-size:1rem; width:100%; letter-spacing: 1px; transition: 0.2s;">
         ENTER WEBSITE / BETRETEN
       </button>
     </div>
@@ -45,26 +45,41 @@
 </div>
 
 <script>
-  (function() {
-    // Zeigt das Pop-up nur, wenn noch nicht bestätigt
-    if (!localStorage.getItem('legal_confirmed_v1')) {
-      document.getElementById('legal-popup-overlay').style.display = 'flex';
+  // Wir warten, bis das DOM bereit ist
+  document.addEventListener("DOMContentLoaded", function() {
+    const overlay = document.getElementById('legal-popup-overlay');
+    const btnEn = document.getElementById('pop-btn-en');
+    const btnDe = document.getElementById('pop-btn-de');
+    const btnConfirm = document.getElementById('confirm-legal-btn');
+    const contentEn = document.getElementById('pop-content-en');
+    const contentDe = document.getElementById('pop-content-de');
+
+    // 1. Initialprüfung
+    if (!localStorage.getItem('legal_confirmed_2026_v1')) {
+      overlay.style.setProperty('display', 'flex', 'important');
       document.body.style.overflow = 'hidden';
     }
-  })();
 
-  function setPopLang(lang) {
-    document.getElementById('pop-content-en').style.display = (lang === 'en' ? 'block' : 'none');
-    document.getElementById('pop-content-de').style.display = (lang === 'de' ? 'block' : 'none');
-    document.getElementById('pop-btn-en').style.background = (lang === 'en' ? '#f8f9fa' : '#fff');
-    document.getElementById('pop-btn-de').style.background = (lang === 'de' ? '#f8f9fa' : '#fff');
-    document.getElementById('pop-btn-en').style.fontWeight = (lang === 'en' ? 'bold' : 'normal');
-    document.getElementById('pop-btn-de').style.fontWeight = (lang === 'de' ? 'bold' : 'normal');
-  }
+    // 2. Sprachumschaltung
+    btnEn.addEventListener('click', function() {
+      contentEn.style.display = 'block';
+      contentDe.style.display = 'none';
+      btnEn.style.background = '#007bff'; btnEn.style.color = '#fff';
+      btnDe.style.background = '#fff'; btnDe.style.color = '#333'; btnDe.style.border = '1px solid #ddd';
+    });
 
-  function confirmPopLegal() {
-    localStorage.setItem('legal_confirmed_v1', 'true');
-    document.getElementById('legal-popup-overlay').style.display = 'none';
-    document.body.style.overflow = 'auto';
-  }
+    btnDe.addEventListener('click', function() {
+      contentEn.style.display = 'none';
+      contentDe.style.display = 'block';
+      btnDe.style.background = '#007bff'; btnDe.style.color = '#fff';
+      btnEn.style.background = '#fff'; btnEn.style.color = '#333'; btnEn.style.border = '1px solid #ddd';
+    });
+
+    // 3. Bestätigung
+    btnConfirm.addEventListener('click', function() {
+      localStorage.setItem('legal_confirmed_2026_v1', 'true');
+      overlay.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    });
+  });
 </script>
