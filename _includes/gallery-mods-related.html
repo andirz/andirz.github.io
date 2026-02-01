@@ -3,20 +3,20 @@
 {% assign gallery_count = 0 %}
 {% assign max_items = 3 %}
 
-{% comment %} Wir tracken die IDs in einem String-Check, um Duplikate zu vermeiden {% endcomment %}
+{% comment %} Tracke IDs als String für sicheren Ausschluss der aktuellen Mod {% endcomment %}
 {% assign shown_ids = current_id | prepend: "," | append: "," %}
 
 <section id="recommended-mods" class="gallery-wrapper gallery-related" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f5f9;">
   
   <div style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
     <div>
-      <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0; ">
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0; font-style: italic;">
         More {{ current_cats | first }} Mods
       </h2>
       <p style="color: #64748b; margin: 5px 0 0 0;">Recommended based on your interests:</p>
     </div>
     
-    <a href="{{ '/mods/' | relative_url }}" style="font-size: 0.85rem; font-weight: 700; color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #eff6ff; border-radius: 8px;">
+    <a href="{{ '/mods/' | relative_url }}" style="font-size: 0.85rem; font-weight: 700; color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #eff6ff; border-radius: 8px; transition: all 0.2s ease;">
       View all Mods <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
     </a>
   </div>
@@ -25,7 +25,7 @@
     
     {% assign all_mods = site.data.mods %}
 
-    {% comment %} STUFE 1: Wir gehen die Kategorien der Reihe nach durch (Gewichtung) {% endcomment %}
+    {% comment %} STUFE 1: Kategorien nach Gewichtung abarbeiten {% endcomment %}
     {% for cat in current_cats %}
       {% assign target_cat = cat | strip %}
       
@@ -44,7 +44,7 @@
       {% endfor %}
     {% endfor %}
 
-    {% comment %} STUFE 2: Auffüllen mit Rest, falls nach allen Kategorien immer noch < 3 {% endcomment %}
+    {% comment %} STUFE 2: Auffüllen auf 3, falls Kategorien nicht reichen {% endcomment %}
     {% if gallery_count < max_items %}
       {% for g_mod in all_mods %}
         {% if gallery_count < max_items %}
@@ -53,7 +53,7 @@
             {% assign gallery_count = gallery_count | plus: 1 %}
             {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
             {% include gallery-card-item.html mod_data=g_mod %}
-          {% endif %}
+          {% endunless %}
         {% endif %}
       {% endfor %}
     {% endif %}
