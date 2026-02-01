@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Skills
+title: Skills Overview
 icon: "fas fa-graduation-cap"
 description: "A complete reference guide for all skills in The Sims 4, updated for all packs including Royalty & Legacy."
 order: 3
@@ -21,20 +21,6 @@ order: 3
     outline-offset: -1.5px;
   }
 
-  /* Pack-Badge Design */
-  .pack-badge {
-    font-size: 0.65rem;
-    background: rgba(128, 128, 128, 0.1);
-    color: var(--text-muted);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-weight: 700;
-    border: 1px solid rgba(128, 128, 128, 0.2);
-    text-transform: uppercase;
-    line-height: 1.2;
-    display: inline-block;
-  }
-
   .age-badge {
     font-size: 0.75rem;
     padding: 3px 8px;
@@ -47,12 +33,11 @@ order: 3
 
   code {
     background: rgba(128, 128, 128, 0.1);
-    padding: 4px 8px;
-    border-radius: 6px;
+    padding: 2px 6px;
+    border-radius: 4px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
     color: var(--text-color);
-    display: inline-block;
   }
 </style>
 
@@ -64,8 +49,10 @@ order: 3
           <th style="padding: 12px; width: 60px; text-align: center;">Icon</th>
           <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer;">Skill Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
           <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer; width: 100px;">Age <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer; width: 150px;">Pack <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-          <th style="padding: 12px;">Cheat Code (Max Level)</th>
+          <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer; width: 80px;">Pack Code <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(4)" style="padding: 12px; cursor: pointer;">Pack Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(5)" style="padding: 12px; cursor: pointer; width: 60px;">Max <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(6)" style="padding: 12px; cursor: pointer;">Skill Code <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         </tr>
       </thead>
       <tbody>
@@ -92,7 +79,7 @@ order: 3
             <td style="padding: 8px; text-align: center;">
               <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
                 {% if icon_exists %}
-                  <img src="{{ icon_path }}" alt="{{ name }}" style="width: 32px; height: 32px; object-fit: contain;">
+                  <img src="{{ icon_path }}" style="width: 32px; height: 32px; object-fit: contain;">
                 {% else %}
                   <i class="fas fa-graduation-cap" style="opacity: 0.2;"></i>
                 {% endif %}
@@ -107,15 +94,20 @@ order: 3
               <span class="age-badge">{{ age }}</span>
             </td>
 
-            <td style="padding: 12px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="pack-badge" title="{{ pack_name }}">{{ pack_id }}</span>
-                <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">{{ pack_name }}</span>
-              </div>
+            <td style="padding: 12px; color: var(--text-muted);">
+              {{ pack_id }}
+            </td>
+
+            <td style="padding: 12px; color: var(--text-muted);">
+              {{ pack_name }}
+            </td>
+
+            <td style="padding: 12px; text-align: center; font-weight: 600;">
+              {{ max_level }}
             </td>
 
             <td style="padding: 12px;">
-              <code>stats.set_skill_level {{ internal_id }} {{ max_level }}</code>
+              <code>{{ internal_id }}</code>
             </td>
           </tr>
         {% endfor %}

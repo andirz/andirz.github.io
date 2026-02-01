@@ -1,0 +1,137 @@
+<style>
+  .memory-section {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    margin: 40px 0;
+  }
+
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .m-card {
+    aspect-ratio: 1;
+    cursor: pointer;
+    perspective: 1000px;
+  }
+
+  .m-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .m-card.flipped .m-inner { transform: rotateY(180deg); }
+
+  .m-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .m-front {
+    background: #1e293b;
+    color: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .m-back {
+    background: #f1f5f9;
+    border: 2px solid #2ecc71;
+    transform: rotateY(180deg);
+    padding: 10px;
+  }
+
+  .m-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+</style>
+
+<section class="memory-section">
+  <div class="row align-items-center">
+    <div class="col-lg-5 mb-4 mb-lg-0 text-center text-lg-start">
+      <h2 class="fw-800" style="color: #1e293b;">Pack Picker</h2>
+      <p class="text-muted">Match the expansion and game packs.</p>
+      <div id="game-status" class="badge bg-light text-dark p-2 mt-2">Matches: 0 / 8</div>
+      <div class="mt-3">
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.location.reload()">Reset Board</button>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="memory-grid" id="memoryGrid"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    const basePath = "{{ 'assets/img/packs_blue/' | relative_url }}";
+    const epPacks = Array.from({length: 18}, (_, i) => `ep${(i + 1).toString().padStart(2, '0')}`);
+    const gpPacks = Array.from({length: 12}, (_, i) => `gp${(i + 1).toString().padStart(2, '0')}`);
+    const allPacks = [...epPacks, ...gpPacks];
+
+    let selected = allPacks.sort(() => 0.5 - Math.random()).slice(0, 8);
+    let deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
+    
+    const grid = document.getElementById('memoryGrid');
+    const statusLabel = document.getElementById('game-status');
+    let flippedCards = [];
+    let lockBoard = false;
+    let matches = 0;
+
+    function createCard(packName) {
+      const card = document.createElement('div');
+      card.classList.add('m-card');
+      card.dataset.pack = packName;
+      card.innerHTML = `
+        <div class="m-inner">
+          <div class="m-face m-front"><i class="fas fa-box-open"></i></div>
+          <div class="m-face m-back"><img src="${basePath}${packName}.png" alt="Pack"></div>
+        </div>`;
+      card.addEventListener('click', flipCard);
+      return card;
+    }
+
+    function flipCard() {
+      if (lockBoard || this === flippedCards[0] || this.classList.contains('flipped')) return;
+      this.classList.add('flipped');
+      flippedCards.push(this);
+      if (flippedCards.length === 2) checkMatch();
+    }
+
+    function checkMatch() {
+      lockBoard = true;
+      const isMatch = flippedCards[0].dataset.pack === flippedCards[1].dataset.pack;
+      if (isMatch) {
+        matches++;
+        statusLabel.innerText = `Matches: ${matches} / 8`;
+        flippedCards = [];
+        lockBoard = false;
+        if (matches === 8) setTimeout(() => alert('Sul Sul! All packs matched.'), 500);
+      } else {
+        setTimeout(() => {
+          flippedCards.forEach(card => card.classList.remove('flipped'));
+          flippedCards = [];
+          lockBoard = false;
+        }, 1000);
+      }
+    }
+    deck.forEach(pack => grid.appendChild(createCard(pack)));
+  })();
+</script>
