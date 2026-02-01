@@ -5,17 +5,26 @@ icon: fas fa-box-open
 description: "A reference guide to the abbreviations used for The Sims 4 Expansion, Gameplay, and Stuff Packs."
 ---
 
-This list provides an overview of all official abbreviations and codes for **The Sims 4** Packs. It is a helpful resource for modders and players to identify packs across different languages. 
+<div class="intro-container">
+  <div class="intro-text">
+    This list provides an overview of all official abbreviations and codes for <strong>The Sims 4</strong> Packs. 
+    It is a helpful resource for modders and players to identify packs across different languages.
+    Click on the table headers to sort or use <code>Ctrl + F</code> to find a specific pack.
+  </div>
+  <div class="intro-toc">
+    <strong>Contents</strong>
+    <ul>
+      <li><a href="#expansion-packs">Expansion Packs</a></li>
+      <li><a href="#game-packs">Game Packs</a></li>
+      <li><a href="#stuff-packs">Stuff Packs</a></li>
+      <li><a href="#kits">Kits</a></li>
+    </ul>
+  </div>
+</div>
 
-## Table of Contents
-* [Expansion Packs](#expansion-packs)
-* [Game Packs](#game-packs)
-* [Stuff Packs](#stuff-packs)
-* [Kits](#kits)
+<hr class="section-divider">
 
----
-
-## Expansion Packs
+<h2 id="expansion-packs">Expansion Packs</h2>
 <div class="table-wrapper">
   <table id="tableEP">
     <thead>
@@ -39,7 +48,7 @@ This list provides an overview of all official abbreviations and codes for **The
   </table>
 </div>
 
-## Game Packs
+<h2 id="game-packs">Game Packs</h2>
 <div class="table-wrapper">
   <table id="tableGP">
     <thead>
@@ -63,7 +72,7 @@ This list provides an overview of all official abbreviations and codes for **The
   </table>
 </div>
 
-## Stuff Packs
+<h2 id="stuff-packs">Stuff Packs</h2>
 <div class="table-wrapper">
   <table id="tableSP">
     <thead>
@@ -87,7 +96,7 @@ This list provides an overview of all official abbreviations and codes for **The
   </table>
 </div>
 
-## Kits
+<h2 id="kits">Kits</h2>
 <div class="table-wrapper">
   <table id="tableKits">
     <thead>
@@ -112,43 +121,57 @@ This list provides an overview of all official abbreviations and codes for **The
 </div>
 
 <style>
-  /* Verringerter Abstand zwischen den Abschnitten */
-  h2 { margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  /* Flex-Layout für Einleitung & TOC */
+  .intro-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .intro-text { flex: 2; }
+  .intro-toc { 
+    flex: 1; 
+    background: rgba(0,0,0,0.02); 
+    padding: 10px 15px; 
+    border-radius: 8px; 
+    border-left: 3px solid var(--border-color);
+    font-size: 0.9rem;
+  }
+  .intro-toc ul { margin: 5px 0 0 0; padding-left: 20px; }
+  .section-divider { margin: 1rem 0; opacity: 0.5; }
+
+  /* Minimaler Abstand zwischen Überschrift und Tabelle */
+  h2 { margin-top: 0.8rem; margin-bottom: 0.2rem; font-size: 1.5rem; }
   
   table { 
     width: 100%; 
     border-collapse: collapse; 
-    margin-bottom: 1rem; /* Von 2rem auf 1rem reduziert */
+    margin-bottom: 0.5rem; /* Maximal reduziert */
   }
 
-  /* --- Spalte 1: Minimale Breite --- */
   th:nth-child(1), td:nth-child(1) { 
-    width: 12%;           
-    white-space: nowrap; 
-    text-align: center;
-    padding-right: 20px; 
-    font-family: monospace;
+    width: 12%; white-space: nowrap; text-align: center; font-family: monospace; 
   }
 
-  /* --- Sprachen: Gleichmäßige Verteilung --- */
-  th:nth-child(2), th:nth-child(3), th:nth-child(4) { width: auto; }
-
-  /* --- Design & Hover --- */
   th { 
     background: rgba(0,0,0,0.03); 
-    padding: 12px 8px; 
+    padding: 8px; 
     border-bottom: 2px solid var(--border-color); 
     cursor: pointer; 
     text-align: left;
   }
 
   th:hover { background: rgba(0,123,255,0.1) !important; }
-  tbody tr { transition: background-color 0.15s ease; }
-  tbody tr:hover { background-color: rgba(0, 123, 255, 0.08) !important; }
-  td { padding: 10px 8px; border-bottom: 1px solid var(--border-color); }
+  tbody tr:hover { background-color: rgba(0, 123, 255, 0.05) !important; }
+  td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); }
   th i { font-size: 0.7rem; opacity: 0.4; float: right; margin-top: 4px; }
   
   .table-wrapper { overflow-x: auto; }
+
+  @media (max-width: 600px) {
+    .intro-container { flex-direction: column; }
+    .intro-toc { width: 100%; }
+  }
 </style>
 
 <script>
