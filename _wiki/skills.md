@@ -29,9 +29,22 @@ description: "A complete reference guide for The Sims 4 skill cheats, updated fo
         {% assign internal_id = details[5] %}
         {% assign max_level = details[6] %}
         
+        {% assign icon_path = "/assets/img/skills/" | append: slug | append: ".png" %}
+        {% assign icon_exists = false %}
+        {% for file in site.static_files %}
+          {% if file.path == icon_path %}
+            {% assign icon_exists = true %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
         <tr>
           <td>
-            <img src="/assets/img/skills/{{ slug }}.png" alt="{{ name }}" class="skill-icon" onerror="this.src='/assets/img/skills/default.png';">
+            {% if icon_exists %}
+              <img src="{{ icon_path }}" alt="{{ name }}" class="skill-icon">
+            {% else %}
+              <div class="skill-icon-placeholder"></div>
+            {% endif %}
           </td>
           <td><strong>{{ name }}</strong></td>
           <td><span class="badge badge-{{ age | downcase }}">{{ age }}</span></td>
@@ -52,6 +65,7 @@ description: "A complete reference guide for The Sims 4 skill cheats, updated fo
   .skills-table th, .skills-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
   .skills-table th { background-color: #f4f4f4; position: sticky; top: 0; }
   .skill-icon { width: 40px; height: 40px; object-fit: contain; }
+  .skill-icon-placeholder { width: 40px; height: 40px; background-color: transparent; }
   .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.85em; color: white; text-transform: uppercase; font-weight: bold; }
   .badge-adult { background-color: #2c3e50; }
   .badge-child { background-color: #27ae60; }
