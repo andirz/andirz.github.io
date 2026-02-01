@@ -1,0 +1,331 @@
+<style>
+  .ec-section{
+    background: var(--bg-secondary, #fff);
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid var(--border-color, rgba(0,0,0,0.08));
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    margin: 40px 0;
+  }
+
+  .ec-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:16px;
+    align-items:start;
+  }
+  @media (min-width: 992px){
+    .ec-grid{ grid-template-columns: 1fr 1fr; }
+  }
+
+  .ec-card{
+    border:1px solid rgba(0,0,0,0.08);
+    border-radius:18px;
+    padding:16px;
+    background: linear-gradient(180deg, rgba(15,23,42,0.03), rgba(15,23,42,0.01));
+  }
+
+  .ec-badges{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+  .ec-badge{
+    background:#f8fafc;
+    border:1px solid rgba(0,0,0,0.07);
+    border-radius:999px;
+    padding:8px 12px;
+    font-weight:800;
+    color:#0f172a;
+  }
+  .ec-ok{ color:#16a34a; }
+  .ec-danger{ color:#dc3545; }
+
+  .ec-state{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    justify-content:space-between;
+  }
+
+  .ec-face{
+    width:120px;
+    height:120px;
+    border-radius:18px;
+    background:#fff;
+    border:1px solid rgba(0,0,0,0.08);
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+  }
+  .ec-face img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+  .ec-label{
+    font-weight:900;
+    margin-top:10px;
+    text-align:center;
+    color: rgba(15,23,42,0.85);
+  }
+
+  .ec-actions{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:10px;
+  }
+  @media (min-width: 576px){
+    .ec-actions{ grid-template-columns: 1fr 1fr; }
+  }
+
+  .ec-btn{
+    border-radius:14px;
+    border:1px solid rgba(0,0,0,0.10);
+    background:#fff;
+    padding:12px 12px;
+    cursor:pointer;
+    text-align:left;
+    transition: transform .06s ease, box-shadow .06s ease;
+  }
+  .ec-btn:hover{ transform: translateY(-1px); box-shadow:0 10px 18px -14px rgba(0,0,0,0.25); }
+  .ec-btn .t{ font-weight:900; }
+  .ec-btn .d{ font-size:0.9rem; opacity:0.75; margin-top:3px; }
+
+  .ec-footer{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    margin-top:12px;
+  }
+</style>
+
+<section class="ec-section">
+  <div class="row align-items-center">
+    <div class="col-lg-5 mb-3 text-center text-lg-start">
+      <h2 class="fw-800" style="color: var(--text-color);">Emotion Chain (Test)</h2>
+      <p class="text-muted">
+        Testversion: Bringe die Start-Emotion mit wenigen Aktionen zur Ziel-Emotion.
+        Wenn die Bilder laden und die Übergänge Sinn machen, bauen wir die „richtige“ Version aus.
+      </p>
+
+      <div class="ec-badges">
+        <div class="ec-badge"><span id="ec-moves">Moves left: 6</span></div>
+        <div class="ec-badge"><span id="ec-goal">Goal: Happy</span></div>
+      </div>
+
+      <div class="mt-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.ecReset()">Restart</button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.ecRandom()">Random Start</button>
+      </div>
+
+      <div class="mt-3">
+        <span id="ec-status" class="ec-ok" style="font-weight:900;">Choose an action.</span>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="ec-grid">
+        <div class="ec-card">
+          <div style="font-weight:900; margin-bottom:12px;">Current vs Target</div>
+
+          <div class="ec-state">
+            <div>
+              <div class="ec-face"><img id="ec-current-img" alt="current emotion"></div>
+              <div class="ec-label" id="ec-current-label">Current: —</div>
+            </div>
+
+            <div style="font-size:1.4rem; font-weight:900; opacity:.6;">→</div>
+
+            <div>
+              <div class="ec-face"><img id="ec-target-img" alt="target emotion"></div>
+              <div class="ec-label" id="ec-target-label">Target: —</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ec-card">
+          <div style="font-weight:900; margin-bottom:12px;">Actions</div>
+
+          <div class="ec-actions" id="ec-actions"></div>
+
+          <div class="ec-footer">
+            <span class="ec-badge">Rule: reach target before moves run out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // Slash-safe Jekyll base path
+  const basePath = "{{ 'assets/img/bunny' | relative_url }}/";
+
+  // Map emotion -> file + label
+  const EMOTIONS = {
+    happy:         { file: "happy.png",         label: "Happy" },
+    sad:           { file: "sad.png",           label: "Sad" },
+    stressed:      { file: "stressed.png",      label: "Stressed" },
+    uncomfortable: { file: "uncomfortable.png", label: "Uncomfortable" },
+    flirty:        { file: "flirty.png",        label: "Flirty" },
+    funny:         { file: "funny.png",         label: "Playful" },
+    friendly:      { file: "friendly.png",      label: "Friendly" },
+    mean:          { file: "mean.png",          label: "Angry" },
+    excited:       { file: "excited.png",       label: "Excited" },
+    proud:         { file: "proud.png",         label: "Proud" },
+  };
+
+  // Minimal action set for testing
+  const ACTIONS = [
+    { id:"sleep",   title:"🛏️ Sleep",     desc:"Calm down, recover." },
+    { id:"shower",  title:"🚿 Shower",    desc:"Reset uncomfortable vibes." },
+    { id:"eat",     title:"🍔 Eat",       desc:"Stabilize mood." },
+    { id:"social",  title:"💬 Socialize", desc:"Can turn things positive." },
+    { id:"game",    title:"🎮 Play",      desc:"More playful / excited." },
+    { id:"flirt",   title:"❤️ Flirt",     desc:"Only safe in good moods." },
+  ];
+
+  // Very small deterministic transition table (TEST VERSION)
+  // nextState(current, action) => new emotion key
+  function nextState(state, action){
+    switch(action){
+      case "sleep":
+        if(state === "stressed" || state === "mean") return "uncomfortable";
+        if(state === "sad") return "friendly";
+        return "happy";
+
+      case "shower":
+        if(state === "uncomfortable") return "friendly";
+        if(state === "mean") return "uncomfortable";
+        if(state === "stressed") return "friendly";
+        return state;
+
+      case "eat":
+        if(state === "sad") return "friendly";
+        if(state === "mean") return "uncomfortable";
+        if(state === "stressed") return "uncomfortable";
+        return "happy";
+
+      case "social":
+        if(state === "mean") return "stressed";          // arguing risk
+        if(state === "stressed") return "uncomfortable";
+        if(state === "sad") return "friendly";
+        return "happy";
+
+      case "game":
+        if(state === "stressed") return "uncomfortable";
+        if(state === "mean") return "stressed";
+        if(state === "sad") return "funny";
+        return "excited";
+
+      case "flirt":
+        if(state === "happy" || state === "friendly" || state === "excited") return "flirty";
+        return "uncomfortable"; // wrong timing
+    }
+    return state;
+  }
+
+  // DOM
+  const currentImg = document.getElementById("ec-current-img");
+  const targetImg  = document.getElementById("ec-target-img");
+  const currentLbl = document.getElementById("ec-current-label");
+  const targetLbl  = document.getElementById("ec-target-label");
+  const movesLbl   = document.getElementById("ec-moves");
+  const goalLbl    = document.getElementById("ec-goal");
+  const statusLbl  = document.getElementById("ec-status");
+  const actionsWrap= document.getElementById("ec-actions");
+
+  let target = "happy";
+  let state  = "sad";
+  let moves  = 6;
+  let locked = false;
+
+  function setStatus(text, ok=true){
+    statusLbl.textContent = text;
+    statusLbl.classList.toggle("ec-ok", ok);
+    statusLbl.classList.toggle("ec-danger", !ok);
+  }
+
+  function render(){
+    const s = EMOTIONS[state];
+    const t = EMOTIONS[target];
+
+    currentImg.src = basePath + s.file;
+    targetImg.src  = basePath + t.file;
+
+    currentLbl.textContent = `Current: ${s.label}`;
+    targetLbl.textContent  = `Target: ${t.label}`;
+
+    movesLbl.textContent = `Moves left: ${moves}`;
+    goalLbl.textContent  = `Goal: ${t.label}`;
+
+    // buttons
+    actionsWrap.innerHTML = "";
+    ACTIONS.forEach(a => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "ec-btn";
+      btn.innerHTML = `<div class="t">${a.title}</div><div class="d">${a.desc}</div>`;
+      btn.addEventListener("click", () => act(a.id));
+      actionsWrap.appendChild(btn);
+    });
+  }
+
+  function win(){
+    locked = true;
+    setStatus("✅ You reached the goal! Restart to try again.", true);
+  }
+
+  function lose(){
+    locked = true;
+    setStatus("❌ Out of moves. Restart and try a different chain.", false);
+  }
+
+  function act(action){
+    if(locked) return;
+
+    const prev = state;
+    state = nextState(state, action);
+    moves--;
+
+    render();
+
+    if(state === target){
+      setStatus(`Nice! "${action}" moved you from ${EMOTIONS[prev].label} to ${EMOTIONS[state].label}.`, true);
+      win();
+      return;
+    }
+
+    if(moves <= 0){
+      lose();
+      return;
+    }
+
+    setStatus(`"${action}" → ${EMOTIONS[state].label}. Choose next action.`, true);
+  }
+
+  function reset(){
+    locked = false;
+    moves = 6;
+    target = "happy";
+    state = "sad";
+    setStatus("Choose an action.", true);
+    render();
+  }
+
+  function randomStart(){
+    const keys = Object.keys(EMOTIONS).filter(k => k !== target);
+    state = keys[Math.floor(Math.random() * keys.length)];
+    moves = 6;
+    locked = false;
+    setStatus("Random start. Choose an action.", true);
+    render();
+  }
+
+  window.ecReset = reset;
+  window.ecRandom = randomStart;
+
+  reset();
+})();
+</script>

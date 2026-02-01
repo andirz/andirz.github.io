@@ -7,7 +7,6 @@
     box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
     margin: 40px 0;
   }
-
   .memory-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -15,62 +14,31 @@
     max-width: 400px;
     margin: 0 auto;
   }
-
-  .m-card {
-    aspect-ratio: 1;
-    cursor: pointer;
-    perspective: 1000px;
-  }
-
+  .m-card { aspect-ratio: 1; cursor: pointer; perspective: 1000px; }
   .m-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    position: relative; width: 100%; height: 100%;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
   }
-
   .m-card.flipped .m-inner { transform: rotateY(180deg); }
-
   .m-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
   }
-
-  .m-front {
-    background: #1e293b;
-    color: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-
-  .m-back {
-    background: #f1f5f9;
-    border: 2px solid #2ecc71;
-    transform: rotateY(180deg);
-    padding: 10px;
-  }
-
-  .m-back img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
+  .m-front { background: #1e293b; color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.1); }
+  .m-back { background: #f1f5f9; border: 2px solid #2ecc71; transform: rotateY(180deg); padding: 10px; }
+  .m-back img { width: 100%; height: 100%; object-fit: contain; }
 </style>
 
 <section class="memory-section">
   <div class="row align-items-center">
     <div class="col-lg-5 mb-4 mb-lg-0 text-center text-lg-start">
-      <h2 class="fw-800" style="color: #1e293b;">Pack Picker</h2>
-      <p class="text-muted">Match the expansion and game packs.</p>
-      <div id="game-status" class="badge bg-light text-dark p-2 mt-2">Matches: 0 / 8</div>
+      <h2 class="fw-800" style="color: #0f172a;">Pack Picker</h2>
+      <p class="text-muted">Match the expansion and game packs. Sul Sul!</p>
+      <div class="badge bg-light text-dark p-2 mt-2"><span id="game-status">Matches: 0 / 8</span></div>
       <div class="mt-3">
-        <button class="btn btn-sm btn-outline-secondary" onclick="window.location.reload()">Reset Board</button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="initGame()">Game Restart</button>
       </div>
     </div>
     <div class="col-lg-7">
@@ -81,19 +49,27 @@
 
 <script>
   (function() {
-    const basePath = "{{ 'assets/img/packs_blue' | relative_url }}/";
+    const basePath = "/assets/img/packs_blue/";
     const epPacks = Array.from({length: 18}, (_, i) => `ep${(i + 1).toString().padStart(2, '0')}`);
     const gpPacks = Array.from({length: 12}, (_, i) => `gp${(i + 1).toString().padStart(2, '0')}`);
     const allPacks = [...epPacks, ...gpPacks];
 
-    let selected = allPacks.sort(() => 0.5 - Math.random()).slice(0, 8);
-    let deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
-    
-    const grid = document.getElementById('memoryGrid');
-    const statusLabel = document.getElementById('game-status');
     let flippedCards = [];
     let lockBoard = false;
     let matches = 0;
+    const grid = document.getElementById('memoryGrid');
+    const statusLabel = document.getElementById('game-status');
+
+    window.initGame = function() {
+      grid.innerHTML = '';
+      flippedCards = [];
+      lockBoard = false;
+      matches = 0;
+      statusLabel.innerText = `Matches: 0 / 8`;
+      let selected = allPacks.sort(() => 0.5 - Math.random()).slice(0, 8);
+      let deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
+      deck.forEach(pack => grid.appendChild(createCard(pack)));
+    }
 
     function createCard(packName) {
       const card = document.createElement('div');
@@ -132,6 +108,6 @@
         }, 1000);
       }
     }
-    deck.forEach(pack => grid.appendChild(createCard(pack)));
+    initGame();
   })();
 </script>
