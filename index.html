@@ -4,168 +4,144 @@ title: Home
 ---
 
 <style>
-  /* --- CUSTOM SIMS LOOK --- */
+  /* --- CUSTOM SIMS LOOK & BRANDING --- */
   :root {
     --sims-blue: #0076ff;
     --sims-green: #2ecc71;
+    --sims-dark: #1e293b;
+    --sims-light: #f8fafc;
   }
 
-  .sims-home { padding: 20px; }
+  .sims-home { padding-bottom: 80px; }
 
-  /* Headings & Font */
-  .sims-home h1, .sims-home h2, .sims-home h3 {
-    font-family: 'Nunito', sans-serif !important;
-    font-weight: 900 !important;
+  /* Hero Section */
+  .hero-wrapper {
+    background: linear-gradient(135deg, #0076ff 0%, #0056b3 100%);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    border-radius: 0 0 50px 50px;
+    margin-bottom: 20px;
+    box-shadow: 0 15px 30px rgba(0, 118, 255, 0.15);
   }
 
-  /* Plumbob Animation */
   .plumbob-glow {
     color: var(--sims-green);
-    font-size: 3.5rem;
-    filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.5));
+    font-size: 4.5rem;
+    filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.8));
     animation: float 3s ease-in-out infinite;
     display: inline-block;
+    margin-bottom: 20px;
   }
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
   }
 
-  /* FIXED SCROLLER SECTION */
-  .gallery-container {
-    width: 100%;
-    overflow: hidden;
-    padding: 10px 0;
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
   }
 
-  .mod-gallery {
-    display: flex;
-    overflow-x: auto;
-    gap: 25px;
-    padding: 20px 5px 30px 5px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+  /* Memory Game Styling */
+  .game-card {
+    background: white;
+    border-radius: 30px;
+    padding: 40px;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-top: 40px;
   }
 
-  .mod-gallery::-webkit-scrollbar {
-    height: 8px;
-  }
-  .mod-gallery::-webkit-scrollbar-thumb {
-    background: var(--sims-blue);
-    border-radius: 10px;
-  }
-
-  .gallery-card {
-    flex: 0 0 320px;
-    scroll-snap-align: start;
-    background: var(--main-bg, #fff);
-    border: 2px solid var(--card-border-color, #edf2f7);
-    border-radius: 25px;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    text-decoration: none !important;
-    color: inherit !important;
-  }
-
-  .gallery-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--sims-blue);
-    box-shadow: 0 10px 25px rgba(0, 118, 255, 0.15);
-  }
-
-  .card-icon-circle {
-    width: 60px; height: 60px;
-    background: #f8f9fa;
-    color: var(--sims-blue);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; margin-bottom: 20px;
-  }
-
-  .sims-btn {
-    background: var(--sims-blue);
-    color: #fff !important;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-weight: 800;
-    text-decoration: none;
+  /* Surprise: Quote Box */
+  .quote-section {
+    margin-top: 80px;
     text-align: center;
-    display: block;
-    margin-top: auto;
+    padding: 40px;
+    background: #eff6ff;
+    border-radius: 40px;
+    border: 2px dashed var(--sims-blue);
   }
 
-  /* Memory Mini-Game */
+  .sim-quote-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--sims-blue);
+    margin-bottom: 15px;
+    min-height: 45px;
+  }
+
+  .refresh-quote {
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .refresh-quote:hover { color: var(--sims-blue); }
+
+  /* Re-integration of your memory styles for HTML consistency */
   .memory-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     max-width: 400px;
-    margin: 30px auto;
+    margin: 0 auto;
   }
   .memory-card { aspect-ratio: 1; cursor: pointer; perspective: 1000px; }
   .m-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
   .memory-card.flipped .m-inner { transform: rotateY(180deg); }
   .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
   .front { background: var(--sims-blue); color: white; }
-  .back { background: var(--main-bg, #fff); color: var(--sims-blue); border: 2px solid var(--sims-blue); transform: rotateY(180deg); }
+  .back { background: #fff; color: var(--sims-blue); border: 2px solid var(--sims-blue); transform: rotateY(180deg); }
 </style>
 
 <div class="sims-home">
-  <div class="text-center py-5">
+  
+  <header class="hero-wrapper">
     <div class="plumbob-glow"><i class="fas fa-gem"></i></div>
-    <h1 class="display-4">Sul Sul!</h1>
-    <p class="lead">Discover advanced logic systems for The Sims 4</p>
-  </div>
-
-  <div class="d-flex align-items-center mb-1">
-    <h2 class="m-0">Essential Systems</h2>
-    <small class="ms-auto text-muted"><i class="fas fa-hand-pointer"></i> Scroll to explore</small>
-  </div>
-
-  <div class="gallery-container">
-    <div class="mod-gallery">
-      {% assign essentials = "smart-core-script,online-store,better-pie-menu,smart-sim-randomizer,trait-tracker-injector,purchase-medicine,custom-electives,sim-nom-nom-delivery" | split: "," %}
-      
-      {% for id in essentials %}
-        {% assign mod_id_clean = id | strip %}
-        {% comment %} WICHTIG: Nur anzeigen, wenn die Seite wirklich existiert {% endcomment %}
-        {% assign mod_page = site.mods | where: "mod_id", mod_id_clean | first %}
-        
-        {% if mod_page %}
-          <a href="{{ mod_page.url | relative_url }}" class="gallery-card">
-            <div class="card-icon-circle">
-              {% if mod_id_clean contains 'store' %}<i class="fas fa-shopping-cart"></i>
-              {% elsif mod_id_clean contains 'nom-nom' %}<i class="fas fa-pizza-slice"></i>
-              {% elsif mod_id_clean contains 'university' or mod_id_clean contains 'electives' %}<i class="fas fa-university"></i>
-              {% elsif mod_id_clean contains 'core' %}<i class="fas fa-microchip"></i>
-              {% elsif mod_id_clean contains 'medicine' %}<i class="fas fa-capsules"></i>
-              {% elsif mod_id_clean contains 'trait' %}<i class="fas fa-fingerprint"></i>
-              {% else %}<i class="fas fa-plus"></i>{% endif %}
-            </div>
-            <h3 class="h5">{{ mod_page.title | default: mod_id_clean | replace: "-", " " | capitalize }}</h3>
-            <p class="small text-muted mb-4">{{ mod_page.description | default: "Enhances your gameplay with deep logic and custom integration." | truncate: 80 }}</p>
-            <div class="sims-btn">View Module</div>
-          </a>
-        {% endif %}
-      {% endfor %}
+    <h1 class="display-3 fw-bold" style="font-family: 'Nunito', sans-serif; font-weight: 900;">Sul Sul!</h1>
+    <p class="fs-4 opacity-75">Advanced logic systems and gameplay enhancements for The Sims 4.</p>
+    <div class="mt-4">
+      <a href="#featured" class="btn btn-light btn-lg px-5 rounded-pill fw-bold shadow-sm" style="color: var(--sims-blue);">Explore Catalog</a>
     </div>
-  </div>
+  </header>
 
-  <div class="mt-5 p-4 rounded-4 shadow-sm" style="background: #f8f9fa;">
-    <div class="text-center mb-4">
-      <span class="badge bg-primary mb-2">Mini-Game</span>
-      <h3>Mod Memory</h3>
-      <p class="text-muted small">Can you find all matching icons?</p>
+  <div class="section-container">
+    
+    <div id="featured">
+      {% include gallery-mods-featured.html %}
     </div>
-    <div class="memory-grid" id="memoryGrid"></div>
+
+    <section class="game-card">
+      <div class="row align-items-center">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <span class="badge rounded-pill px-3 py-2 mb-3" style="background: var(--sims-blue);">Mini-Game</span>
+          <h2 class="display-6 fw-bold" style="font-family: 'Nunito', sans-serif; font-weight: 900;">Mod Memory</h2>
+          <p class="text-muted fs-5">Can you find all matching icons? A little brain training between modding sessions.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="memory-grid" id="memoryGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote-section shadow-sm">
+      <div class="sim-quote-text" id="quoteText">"Loading Simlish..."</div>
+      <div class="refresh-quote" onclick="newQuote()">
+        <i class="fas fa-sync-alt me-2"></i> Random Wisdom
+      </div>
+    </section>
+
   </div>
 </div>
 
 <script>
+  /* Memory Game Logic */
   (function() {
     const icons = ['fa-gem', 'fa-shopping-cart', 'fa-pizza-slice', 'fa-university', 'fa-microchip', 'fa-heart', 'fa-flask', 'fa-code'];
     const gameIcons = [...icons, ...icons].sort(() => 0.5 - Math.random());
@@ -185,7 +161,7 @@ title: Home
             if (flipped[0].icon === flipped[1].icon) {
               matched++;
               flipped = [];
-              if (matched === icons.length) setTimeout(() => alert('Sul Sul! You found them all!'), 500);
+              if (matched === icons.length) setTimeout(() => alert('Dag Dag! Expert memory!'), 500);
             } else {
               setTimeout(() => {
                 flipped[0].card.classList.remove('flipped');
@@ -199,4 +175,22 @@ title: Home
       grid.appendChild(card);
     });
   })();
+
+  /* Quote Generator Logic */
+  const quotes = [
+    "Nooboo! A new mod idea just spawned.",
+    "Blursh! Is your script folder ready for this?",
+    "Sul Sul! Logic is the plumbob of your game.",
+    "Optimization is better than WooHoo.",
+    "Why fix a bug when you can call it a 'hidden feature'?",
+    "Dag Dag! Your Sims will thank you for these mods.",
+    "Happy Simming! May your Plumbob always be green.",
+    "Bebopp? Oh, you mean the cleaner script is running."
+  ];
+
+  function newQuote() {
+    const q = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById('quoteText').innerText = `"${q}"`;
+  }
+  newQuote();
 </script>
