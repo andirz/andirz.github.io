@@ -6,21 +6,48 @@ order: 2
 description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs, Pack Codes, and Max Levels."
 ---
 
+<style>
+  /* Zebra-Look: Jede zweite Zeile ganz leicht abgesetzt */
+  #skillTable tbody tr:nth-child(even) {
+    background-color: rgba(128, 128, 128, 0.03);
+  }
+
+  /* Aggressiver Hover im Stil der Webseite */
+  #skillTable tbody tr:hover {
+    background-color: rgba(128, 128, 128, 0.08) !important;
+    outline: 1.5px solid var(--text-muted);
+    outline-offset: -1.5px;
+  }
+
+  .skill-icon-container {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    color: var(--accent-color);
+    border: 1px solid var(--border-color);
+    margin: 0 auto;
+  }
+</style>
+
 # The Sims 4 Skills List
 
 Below is a complete list of all skills available in The Sims 4. You can use these IDs with the cheat `stats.set_skill_level [Skill_ID] [Level]`.
 
 <div class="status-table-container" style="overflow-x: auto; margin-top: 25px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-  <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
+  <table id="skillTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
     <thead>
       <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
-        <th style="padding: 15px; width: 60px; text-align: center;">#</th>
-        <th style="padding: 15px;">Skill Name</th>
-        <th style="padding: 15px;">Age</th>
-        <th style="padding: 15px;">Pack ID</th>
-        <th style="padding: 15px;">Pack Name</th>
-        <th style="padding: 15px;">Skill ID</th>
-        <th style="padding: 15px; text-align: center;">Max Level</th>
+        <th style="padding: 12px; width: 60px; text-align: center;">#</th>
+        <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer;">Skill Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer;">Age <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer;">Pack ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(4)" style="padding: 12px; cursor: pointer;">Pack Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(5)" style="padding: 12px; cursor: pointer;">Skill ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(6)" style="padding: 12px; cursor: pointer; text-align: center;">Max <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -28,16 +55,56 @@ Below is a complete list of all skills available in The Sims 4. You can use thes
 
       {% for skill_row in skills %}
         {% assign details = skill_row | split: "|" %}
-        <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.2s;" onmouseover="this.style.backgroundColor='var(--bg-secondary)'" onmouseout="this.style.backgroundColor='transparent'">
-          <td style="padding: 15px; text-align: center; color: var(--accent-color); font-size: 1.2rem;"><i class="{{ details[0] }}"></i></td>
-          <td style="padding: 15px; font-weight: 600;">{{ details[1] }}</td>
-          <td style="padding: 15px;"><span style="background: var(--bg-secondary); padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">{{ details[2] }}</span></td>
-          <td style="padding: 15px; font-size: 0.85rem;">{{ details[3] }}</td>
-          <td style="padding: 15px; font-size: 0.85rem;">{{ details[4] }}</td>
-          <td style="padding: 15px;"><code style="font-size: 0.85rem;">{{ details[5] }}</code></td>
-          <td style="padding: 15px; text-align: center; font-weight: 700;">{{ details[6] }}</td>
+        <tr style="border-bottom: 1px solid var(--border-color);">
+          <td style="padding: 8px; text-align: center;">
+            <div class="skill-icon-container">
+              <i class="{{ details[0] }}" style="font-size: 1.25rem;"></i>
+            </div>
+          </td>
+          <td style="padding: 12px; font-weight: 700; color: var(--link-color); font-size: 1.05rem;">{{ details[1] }}</td>
+          <td style="padding: 12px;"><span style="background: var(--bg-secondary); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border-color); font-weight: 500; font-size: 0.85rem;">{{ details[2] }}</span></td>
+          <td style="padding: 12px; font-size: 0.95rem;">{{ details[3] }}</td>
+          <td style="padding: 12px; font-size: 0.95rem; color: var(--text-muted);">{{ details[4] }}</td>
+          <td style="padding: 12px;"><code style="font-size: 0.85rem;">{{ details[5] }}</code></td>
+          <td style="padding: 12px; text-align: center; font-weight: 700;">{{ details[6] }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("skillTable");
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      var xValue = x.innerText.toLowerCase();
+      var yValue = y.innerText.toLowerCase();
+      
+      // Numerische Sortierung für die Max-Level Spalte (Index 6)
+      if (n === 6) {
+        if (dir == "asc") { if (parseInt(xValue) > parseInt(yValue)) { shouldSwitch = true; break; } }
+        else if (dir == "desc") { if (parseInt(xValue) < parseInt(yValue)) { shouldSwitch = true; break; } }
+      } else {
+        if (dir == "asc") { if (xValue > yValue) { shouldSwitch = true; break; } }
+        else if (dir == "desc") { if (xValue < yValue) { shouldSwitch = true; break; } }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
+    } else {
+      if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
+    }
+  }
+}
+</script>
