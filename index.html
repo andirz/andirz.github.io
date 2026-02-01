@@ -4,24 +4,23 @@ title: Home
 ---
 
 <style>
-  /* --- CUSTOM SIMS LOOK & BRANDING --- */
   :root {
     --sims-blue: #0076ff;
     --sims-green: #2ecc71;
     --sims-dark: #1e293b;
-    --sims-light: #f8fafc;
+    --sims-bg: #f8fafc;
   }
 
   .sims-home { padding-bottom: 80px; }
 
-  /* Hero Section */
+  /* --- HERO SECTION --- */
   .hero-wrapper {
     background: linear-gradient(135deg, #0076ff 0%, #0056b3 100%);
     color: white;
     padding: 80px 20px;
     text-align: center;
     border-radius: 0 0 50px 50px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
     box-shadow: 0 15px 30px rgba(0, 118, 255, 0.15);
   }
 
@@ -29,11 +28,12 @@ title: Home
     color: var(--sims-green);
     font-size: 4.5rem;
     filter: drop-shadow(0 0 15px rgba(46, 204, 113, 0.8));
-    animation: float 3s ease-in-out infinite;
+    animation: plumbob-float 3s ease-in-out infinite;
     display: inline-block;
     margin-bottom: 20px;
   }
-  @keyframes float {
+
+  @keyframes plumbob-float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-20px) rotate(5deg); }
   }
@@ -44,47 +44,25 @@ title: Home
     padding: 0 20px;
   }
 
-  /* Memory Game Styling */
+  /* --- SECTION TITLES --- */
+  .home-h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    color: var(--sims-dark);
+    font-size: 2.25rem;
+    margin-bottom: 35px;
+  }
+
+  /* --- MEMORY GAME CARD --- */
   .game-card {
     background: white;
-    border-radius: 30px;
-    padding: 40px;
-    border: 2px solid #e2e8f0;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    margin-top: 40px;
-  }
-
-  /* Surprise: Quote Box */
-  .quote-section {
-    margin-top: 80px;
-    text-align: center;
-    padding: 40px;
-    background: #eff6ff;
     border-radius: 40px;
-    border: 2px dashed var(--sims-blue);
+    padding: 45px;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    margin: 80px 0;
   }
 
-  .sim-quote-text {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--sims-blue);
-    margin-bottom: 15px;
-    min-height: 45px;
-  }
-
-  .refresh-quote {
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.2s;
-  }
-  .refresh-quote:hover { color: var(--sims-blue); }
-
-  /* Re-integration of your memory styles for HTML consistency */
   .memory-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -95,9 +73,10 @@ title: Home
   .memory-card { aspect-ratio: 1; cursor: pointer; perspective: 1000px; }
   .m-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
   .memory-card.flipped .m-inner { transform: rotateY(180deg); }
-  .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+  .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
   .front { background: var(--sims-blue); color: white; }
   .back { background: #fff; color: var(--sims-blue); border: 2px solid var(--sims-blue); transform: rotateY(180deg); }
+
 </style>
 
 <div class="sims-home">
@@ -113,35 +92,59 @@ title: Home
 
   <div class="section-container">
     
-    <div id="featured">
-      {% include gallery-mods-featured.html %}
-    </div>
+    <section id="featured" class="py-4">
+      <div class="text-center mb-5">
+        <h2 class="home-h2">Essential Systems</h2>
+        <div style="width: 60px; height: 5px; background: var(--sims-blue); margin: -20px auto 0; border-radius: 5px;"></div>
+      </div>
+      
+      {% comment %} 
+        Diese Liste nutzt Bindestriche, wie sie oft in URLs/Dateinamen vorkommen. 
+        WICHTIG: Die IDs müssen EXAKT mit mod_id in deinen .md Dateien übereinstimmen.
+      {% endcomment %}
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
+        {% assign featured_list = "smart-core-script, online-store, better-pie-menu, smart-sim-randomizer, cleaner-script, purchase-medicine" | split: ", " %}
+        
+        {% for f_id in featured_list %}
+          {% assign f_id_clean = f_id | strip %}
+          {% assign mod_page = site.mods | where: "mod_id", f_id_clean | first %}
+          {% assign g_mod = site.data.mods | where: "id", f_id_clean | first %}
+          
+          {% if mod_page %}
+            {% include gallery-card-item.html mod_data=g_mod %}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="text-center mt-5">
+        <a href="{{ '/mods/' | relative_url }}" class="btn btn-outline-primary btn-lg rounded-pill px-5 fw-bold">
+          View All Mods <i class="fas fa-arrow-right ms-2" style="font-size: 0.8rem;"></i>
+        </a>
+      </div>
+    </section>
 
     <section class="game-card">
       <div class="row align-items-center">
-        <div class="col-lg-5 mb-4 mb-lg-0">
+        <div class="col-lg-6 mb-5 mb-lg-0">
           <span class="badge rounded-pill px-3 py-2 mb-3" style="background: var(--sims-blue);">Mini-Game</span>
-          <h2 class="display-6 fw-bold" style="font-family: 'Nunito', sans-serif; font-weight: 900;">Mod Memory</h2>
-          <p class="text-muted fs-5">Can you find all matching icons? A little brain training between modding sessions.</p>
+          <h2 class="home-h2 mb-3">Mod Memory</h2>
+          <p class="text-muted fs-5 mb-0">Can you find all matching icons? Match the gameplay elements while your mods are downloading.</p>
         </div>
-        <div class="col-lg-7">
+        <div class="col-lg-6 text-center">
           <div class="memory-grid" id="memoryGrid"></div>
         </div>
       </div>
     </section>
 
-    <section class="quote-section shadow-sm">
-      <div class="sim-quote-text" id="quoteText">"Loading Simlish..."</div>
-      <div class="refresh-quote" onclick="newQuote()">
-        <i class="fas fa-sync-alt me-2"></i> Random Wisdom
-      </div>
+    <section id="tips">
+      {% include did-you-know-tips.html %}
     </section>
 
   </div>
 </div>
 
 <script>
-  /* Memory Game Logic */
+  /* --- MEMORY GAME LOGIC --- */
   (function() {
     const icons = ['fa-gem', 'fa-shopping-cart', 'fa-pizza-slice', 'fa-university', 'fa-microchip', 'fa-heart', 'fa-flask', 'fa-code'];
     const gameIcons = [...icons, ...icons].sort(() => 0.5 - Math.random());
@@ -152,22 +155,29 @@ title: Home
     gameIcons.forEach(icon => {
       const card = document.createElement('div');
       card.className = 'memory-card';
-      card.innerHTML = `<div class="m-inner"><div class="face front"><i class="fas fa-question"></i></div><div class="face back"><i class="fas ${icon}"></i></div></div>`;
+      card.innerHTML = `
+        <div class="m-inner">
+          <div class="face front"><i class="fas fa-question"></i></div>
+          <div class="face back"><i class="fas ${icon}"></i></div>
+        </div>`;
+      
       card.onclick = () => {
         if (flipped.length < 2 && !card.classList.contains('flipped')) {
           card.classList.add('flipped');
           flipped.push({card, icon});
+
           if (flipped.length === 2) {
             if (flipped[0].icon === flipped[1].icon) {
               matched++;
               flipped = [];
-              if (matched === icons.length) setTimeout(() => alert('Dag Dag! Expert memory!'), 500);
+              if (matched === icons.length) {
+                setTimeout(() => alert('Sul Sul! You found all pairs!'), 500);
+              }
             } else {
               setTimeout(() => {
-                flipped[0].card.classList.remove('flipped');
-                flipped[1].card.classList.remove('flipped');
+                flipped.forEach(item => item.card.classList.remove('flipped'));
                 flipped = [];
-              }, 1000);
+              }, 800);
             }
           }
         }
@@ -175,22 +185,4 @@ title: Home
       grid.appendChild(card);
     });
   })();
-
-  /* Quote Generator Logic */
-  const quotes = [
-    "Nooboo! A new mod idea just spawned.",
-    "Blursh! Is your script folder ready for this?",
-    "Sul Sul! Logic is the plumbob of your game.",
-    "Optimization is better than WooHoo.",
-    "Why fix a bug when you can call it a 'hidden feature'?",
-    "Dag Dag! Your Sims will thank you for these mods.",
-    "Happy Simming! May your Plumbob always be green.",
-    "Bebopp? Oh, you mean the cleaner script is running."
-  ];
-
-  function newQuote() {
-    const q = quotes[Math.floor(Math.random() * quotes.length)];
-    document.getElementById('quoteText').innerText = `"${q}"`;
-  }
-  newQuote();
 </script>
