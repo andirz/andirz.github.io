@@ -1,0 +1,373 @@
+<style>
+  :root {
+    --sims-green: #2ecc71;
+    --sims-blue: #1e293b;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --muted: #64748b;
+    --panel: #f8fafc;
+    --border: #e2e8f0;
+    --transition: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  }
+
+  .tarottrial-container{
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--panel);
+    border-radius: 32px;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
+  }
+
+  .tt-header{
+    margin-bottom: 1.25rem;
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .tt-title h2{
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0;
+    font-size: 1.75rem;
+  }
+
+  .tt-title p{
+    color: var(--muted);
+    margin: 0.25rem 0 0 0;
+  }
+
+  .tt-stats{
+    display:flex;
+    gap: .75rem;
+    align-items:center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .tt-badge{
+    background: white;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 2px solid var(--border);
+    font-weight: 650;
+    color: var(--sims-blue);
+    white-space: nowrap;
+  }
+
+  .tt-btn{
+    background: var(--sims-blue);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tt-btn:hover{
+    background: #334155;
+    transform: translateY(-2px);
+  }
+
+  .tt-prompt{
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 0.9rem 1rem;
+    margin: 1rem 0 1.25rem 0;
+    color: var(--sims-blue);
+    font-weight: 650;
+  }
+
+  .tt-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+    gap: 12px;
+  }
+
+  .tt-card{
+    aspect-ratio: 1;
+    background: white;
+    border-radius: 16px;
+    border: 3px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
+    overflow:hidden;
+    user-select:none;
+  }
+  .tt-card:hover{
+    transform: translateY(-2px);
+    border-color: #60a5fa;
+  }
+  .tt-card.disabled{
+    opacity: 0.28;
+    pointer-events:none;
+  }
+
+  .tt-card img{
+    width: 88%;
+    height: 88%;
+    object-fit: contain;
+    display:block;
+  }
+
+  .tt-stagebar{
+    display:flex;
+    gap: 10px;
+    align-items:center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .tt-dot{
+    width: 10px; height: 10px;
+    border-radius: 999px;
+    border: 2px solid #cbd5e1;
+    background: transparent;
+  }
+  .tt-dot.ok{ background: var(--sims-green); border-color: var(--sims-green); }
+  .tt-dot.bad{ background: #ef4444; border-color: #ef4444; }
+
+  @media (max-width: 576px){
+    .tt-grid{ grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+
+<div class="tarottrial-container" id="tt-root">
+  <div class="tt-header">
+    <div class="tt-title">
+      <h2>Tarot Trial</h2>
+      <p>Merke die Sequenz. Klicke sie danach in der richtigen Reihenfolge.</p>
+    </div>
+
+    <div class="tt-stats">
+      <div class="tt-badge">Score: <span id="tt-score">0</span></div>
+      <div class="tt-badge">Lives: <span id="tt-lives">3</span></div>
+      <div class="tt-badge">Round: <span id="tt-round">1</span></div>
+      <button class="tt-btn" onclick="window.ttStart()">Restart</button>
+    </div>
+  </div>
+
+  <div class="tt-prompt" id="tt-prompt">Ready? Click “Restart” to begin.</div>
+
+  <div class="tt-grid" id="tt-grid"></div>
+
+  <div class="tt-stagebar">
+    <span id="tt-phase">Phase: –</span>
+    <span>•</span>
+    <span id="tt-hint">–</span>
+    <span style="margin-left:auto" id="tt-dots"></span>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Passe das an deinen Ordner an:
+  const basePath = "/assets/img/tarot/";
+
+  const deck = [
+    "advocate","chariot","coins","cups","death","emperor","empress","evil","fool","hermit",
+    "high_spellcaster","judgment","justice","lovers","magician","moon","star","strength",
+    "sun","suspension","swords","temperance","tower","wands","wheel_of_fortune","world"
+  ];
+
+  let score = 0;
+  let lives = 3;
+  let round = 1;
+
+  let solution = [];
+  let pickIndex = 0;
+  let locked = true;
+
+  let phase = "idle"; // idle | memorize | pick | over
+  let timeouts = [];
+
+  const elScore = document.getElementById("tt-score");
+  const elLives = document.getElementById("tt-lives");
+  const elRound = document.getElementById("tt-round");
+  const elPrompt = document.getElementById("tt-prompt");
+  const elGrid = document.getElementById("tt-grid");
+  const elPhase = document.getElementById("tt-phase");
+  const elHint = document.getElementById("tt-hint");
+  const elDots = document.getElementById("tt-dots");
+
+  function clearTimers(){
+    timeouts.forEach(t => clearTimeout(t));
+    timeouts = [];
+  }
+
+  function shuffle(arr){
+    return [...arr].sort(() => Math.random() - 0.5);
+  }
+
+  function setStatus(){
+    elScore.textContent = score;
+    elLives.textContent = lives;
+    elRound.textContent = round;
+  }
+
+  function setPhase(p){
+    phase = p;
+    const map = {
+      idle: "Phase: –",
+      memorize: "Phase: Merken",
+      pick: "Phase: Eingabe",
+      over: "Phase: Game Over"
+    };
+    elPhase.textContent = map[p] || "Phase: –";
+  }
+
+  function buildDots(len){
+    elDots.innerHTML = "";
+    for(let i=0;i<len;i++){
+      const d = document.createElement("span");
+      d.className = "tt-dot";
+      d.dataset.i = i;
+      elDots.appendChild(d);
+    }
+  }
+
+  function markDot(i, ok){
+    const d = elDots.querySelector(`.tt-dot[data-i="${i}"]`);
+    if(!d) return;
+    d.classList.remove("ok","bad");
+    d.classList.add(ok ? "ok" : "bad");
+  }
+
+  function cardEl(name, clickable){
+    const c = document.createElement("div");
+    c.className = "tt-card";
+    const img = document.createElement("img");
+    img.src = basePath + name + ".png";
+    img.alt = name;
+    img.onerror = function(){ this.src = "https://placehold.co/140?text=Tarot"; };
+    c.appendChild(img);
+
+    if(clickable){
+      c.onclick = () => pick(name, c);
+    } else {
+      c.style.cursor = "default";
+    }
+    return c;
+  }
+
+  function showMemorize(){
+    locked = true;
+    pickIndex = 0;
+
+    // Schwierigkeit: Sequenz wird länger (max 7)
+    const seqLen = Math.min(3 + Math.floor((round-1)/1), 7);
+
+    // Zusätzlich: jede Runde ein paar Decoys (nicht in Lösung), damit es nicht trivial wird
+    const decoyCount = Math.min(3 + Math.floor(round/2), 6);
+
+    solution = shuffle(deck).slice(0, seqLen);
+
+    elGrid.innerHTML = "";
+    elPrompt.textContent = "Merke dir diese Reihenfolge (sie verschwindet gleich).";
+    elHint.textContent = `Sequenzlänge: ${seqLen} • Danach mit Decoys (${decoyCount})`;
+    buildDots(seqLen);
+    setPhase("memorize");
+
+    solution.forEach(name => elGrid.appendChild(cardEl(name, false)));
+
+    // Merkdauer wächst leicht, aber nicht unendlich
+    const memorizeMs = 1800 + round * 250;
+
+    timeouts.push(setTimeout(() => {
+      showPick(decoyCount);
+    }, memorizeMs));
+  }
+
+  function showPick(decoyCount){
+    elGrid.innerHTML = "";
+    elPrompt.textContent = "Klicke die Karten in der richtigen Reihenfolge.";
+    elHint.textContent = "Falscher Klick kostet 1 Leben und setzt die Eingabe zurück.";
+    setPhase("pick");
+
+    // Pool: Lösung + Decoys
+    const decoys = shuffle(deck.filter(x => !solution.includes(x))).slice(0, decoyCount);
+    const pool = shuffle([...solution, ...decoys]);
+
+    pool.forEach(name => elGrid.appendChild(cardEl(name, true)));
+    locked = false;
+  }
+
+  function pick(name, el){
+    if(locked || phase !== "pick") return;
+
+    const expected = solution[pickIndex];
+
+    if(name === expected){
+      score += 10 + Math.max(0, (solution.length - pickIndex)); // kleine Bonuskurve
+      el.classList.add("disabled");
+      markDot(pickIndex, true);
+      pickIndex++;
+
+      setStatus();
+
+      if(pickIndex >= solution.length){
+        locked = true;
+        round++;
+        elPrompt.textContent = "Nice! Nächste Runde…";
+        elHint.textContent = "Schwierigkeit steigt.";
+        setStatus();
+        timeouts.push(setTimeout(showMemorize, 900));
+      }
+    } else {
+      lives--;
+      markDot(pickIndex, false);
+      setStatus();
+
+      if(lives <= 0){
+        gameOver();
+        return;
+      }
+
+      // Reset der Eingabe (anspruchsvoller als “weiterklicken”)
+      pickIndex = 0;
+
+      // Kurze visuelle Rückmeldung: alle Karten wieder aktiv machen
+      [...elGrid.querySelectorAll(".tt-card.disabled")].forEach(x => x.classList.remove("disabled"));
+      buildDots(solution.length);
+
+      elPrompt.textContent = "Falsch — Sequenz zurückgesetzt. Versuch’s nochmal!";
+      elHint.textContent = `Lives: ${lives} • Tipp: erst die ersten 2 Karten sichern.`;
+    }
+  }
+
+  function gameOver(){
+    locked = true;
+    clearTimers();
+    setPhase("over");
+    elPrompt.textContent = `Game Over. Score: ${score}. Runde erreicht: ${round}.`;
+    elHint.textContent = "Restart, um neu zu starten.";
+  }
+
+  window.ttStart = function(){
+    clearTimers();
+    score = 0;
+    lives = 3;
+    round = 1;
+    solution = [];
+    pickIndex = 0;
+    locked = true;
+    setStatus();
+    showMemorize();
+  };
+
+  // Autostart (optional) – wenn du das nicht willst, diese Zeile löschen:
+  window.ttStart();
+})();
+</script>
