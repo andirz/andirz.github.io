@@ -7,50 +7,26 @@ description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs, P
 ---
 
 <style>
-  /* Zebra-Look */
-  #skillTable tbody tr:nth-child(even) {
-    background-color: rgba(128, 128, 128, 0.03);
-  }
-
-  /* Aggressiver Hover */
+  #skillTable tbody tr:nth-child(even) { background-color: rgba(128, 128, 128, 0.03); }
   #skillTable tbody tr:hover {
     background-color: rgba(128, 128, 128, 0.08) !important;
     outline: 1.5px solid var(--text-muted);
     outline-offset: -1.5px;
   }
-
   .skill-icon-container {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
     background: var(--bg-secondary);
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    margin: 0 auto;
-    position: relative; /* Für die Schichtung von Icon und Bild */
+    border-radius: 10px; border: 1px solid var(--border-color);
+    margin: 0 auto; position: relative;
   }
-
-  .skill-icon-fa {
-    font-size: 1.1rem;
-    color: var(--accent-color);
-    opacity: 0.5; /* Etwas dezenter, wenn das Bild darüber liegt */
-    position: absolute;
-  }
-
-  .skill-icon-img {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    position: relative;
-    z-index: 2; /* Bild liegt über dem Icon */
-  }
+  .skill-icon-fa { font-size: 1.1rem; color: var(--accent-color); position: absolute; }
+  .skill-icon-img { width: 32px; height: 32px; object-fit: contain; position: relative; z-index: 2; }
 </style>
 
 # The Sims 4 Skills List
 
-Below is a complete list of all skills available in The Sims 4. You can use these IDs with the cheat `stats.set_skill_level [Skill_ID] [Level]`.
+Below is a complete list of all skills available in The Sims 4. Use `stats.set_skill_level [Skill_ID] [Level]`.
 
 <div class="status-table-container" style="overflow-x: auto; margin-top: 25px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
   <table id="skillTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
@@ -70,14 +46,28 @@ Below is a complete list of all skills available in The Sims 4. You can use thes
 
       {% for skill_row in skills %}
         {% assign details = skill_row | split: "|" %}
+        {% assign img_path = "/assets/img/skills/" | append: details[0] | append: ".png" %}
+        
+        {% comment %}
+          Prüfung ob Datei existiert, um Jekyll Build Fehler zu vermeiden.
+          static_files enthält alle Dateien des Projekts.
+        {% endcomment %}
+        {% assign img_exists = false %}
+        {% for static_file in site.static_files %}
+          {% if static_file.path == img_path %}
+            {% assign img_exists = true %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
         <tr style="border-bottom: 1px solid var(--border-color);">
           <td style="padding: 8px; text-align: center;">
             <div class="skill-icon-container">
-              <i class="{{ details[1] }} skill-icon-fa"></i>
-              <img src="{{ '/assets/img/skills/' | append: details[0] | append: '.png' | relative_url }}" 
-                   alt="{{ details[2] }}" 
-                   class="skill-icon-img"
-                   onerror="this.style.display='none'"> </div>
+              <i class="{{ details[1] }} skill-icon-fa" {% if img_exists %}style="opacity:0.3"{% endif %}></i>
+              {% if img_exists %}
+                <img src="{{ img_path | relative_url }}" alt="{{ details[2] }}" class="skill-icon-img">
+              {% endif %}
+            </div>
           </td>
           <td style="padding: 12px; font-weight: 700; color: var(--text-color); font-size: 1.05rem;">{{ details[2] }}</td>
           <td style="padding: 12px;"><span style="background: var(--bg-secondary); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border-color); font-weight: 500; font-size: 0.85rem;">{{ details[3] }}</span></td>
@@ -106,7 +96,6 @@ function sortTable(n) {
       y = rows[i + 1].getElementsByTagName("TD")[n];
       var xValue = x.innerText.toLowerCase();
       var yValue = y.innerText.toLowerCase();
-      
       if (n === 6) {
         if (dir == "asc") { if (parseInt(xValue) > parseInt(yValue)) { shouldSwitch = true; break; } }
         else if (dir == "desc") { if (parseInt(xValue) < parseInt(yValue)) { shouldSwitch = true; break; } }
@@ -115,13 +104,8 @@ function sortTable(n) {
         else if (dir == "desc") { if (xValue < yValue) { shouldSwitch = true; break; } }
       }
     }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      switchcount ++;
-    } else {
-      if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
-    }
+    if (shouldSwitch) { rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); switching = true; switchcount ++; }
+    else { if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } }
   }
 }
 </script>
