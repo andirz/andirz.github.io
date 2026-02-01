@@ -7,29 +7,38 @@ noindex: true
 sitemap: false
 ---
 
+<style>
+  .img-protection {
+    display: block;
+    margin: 10px 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* Verhindert alle Maus-Interaktionen */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .addr { 
+    width: 300px; height: 120px; 
+    background-image: url('/assets/img/impressum/address.png'); 
+  }
+  .cont { 
+    width: 300px; height: 50px; 
+    background-image: url('/assets/img/impressum/contact.png'); 
+  }
+</style>
+
 ## Angaben gemäß § 5 TMG
 
 ### Betreiber der Webseite
-<img src="/assets/img/impressum/address.png" 
-     alt="Address" 
-     oncontextmenu="return false;" 
-     draggable="false" 
-     style="max-width: 300px; display: block; margin: 10px 0; pointer-events: none; user-select: none;">
+<div class="img-protection addr"></div>
 
 ### Kontakt
-<img src="/assets/img/impressum/contact.png" 
-     alt="Contact" 
-     oncontextmenu="return false;" 
-     draggable="false" 
-     style="max-width: 300px; display: block; margin: 10px 0; pointer-events: none; user-select: none;">
+<div class="img-protection cont"></div>
 Discord: andirz
 
 ### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV 
-<img src="/assets/img/impressum/address.png" 
-     alt="Address" 
-     oncontextmenu="return false;" 
-     draggable="false" 
-     style="max-width: 300px; display: block; margin: 10px 0; pointer-events: none; user-select: none;">
+<div class="img-protection addr"></div>
 
 ---
 
