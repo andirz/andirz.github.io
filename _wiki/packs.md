@@ -40,7 +40,12 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "EP" %}
       {% assign icon_id = code | downcase %}
       <tr>
-        <td style="text-align: center;"><img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="{{ code }}" style="height: 32px; width: auto;"></td>
+        <td style="text-align: center;">
+          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" 
+               alt="" 
+               style="height: 32px; width: auto;" 
+               onerror="this.style.display='none';">
+        </td>
         <td><strong>{{ code }}</strong></td>
         <td>{{ info.en }}</td>
         <td>{{ info.de }}</td>
@@ -67,7 +72,12 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "GP" %}
       {% assign icon_id = code | downcase %}
       <tr>
-        <td style="text-align: center;"><img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="{{ code }}" style="height: 32px; width: auto;"></td>
+        <td style="text-align: center;">
+          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" 
+               alt="" 
+               style="height: 32px; width: auto;" 
+               onerror="this.style.display='none';">
+        </td>
         <td><strong>{{ code }}</strong></td>
         <td>{{ info.en }}</td>
         <td>{{ info.de }}</td>
