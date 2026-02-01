@@ -1,3 +1,5 @@
+# _includes/mod-sidebar-info.html
+
 {% comment %} 1. Daten laden & Fallbacks {% endcomment %}
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 {% assign current_version = page.version | default: mod.version %}
