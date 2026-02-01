@@ -1,0 +1,106 @@
+<script>
+(function() {
+  const IMG_BASE = "assets/img/games/shop/";
+  const FALLBACK_IMG = IMG_BASE + "placeholder.png";
+
+  const items = [];
+
+  function pad(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  // Food
+  for (let i = 1; i <= 17; i++) {
+    items.push({
+      img: `food${pad(i)}.png`,
+      n: `Food Item ${i}`,
+      cat: "nomnom"
+    });
+  }
+
+  // Medicine
+  for (let i = 1; i <= 5; i++) {
+    items.push({
+      img: `med${pad(i)}.png`,
+      n: `Medicine ${i}`,
+      cat: "pharmacy"
+    });
+  }
+
+  // Shop / Tech
+  for (let i = 1; i <= 20; i++) {
+    items.push({
+      img: `shop${pad(i)}.png`,
+      n: `Shop Item ${i}`,
+      cat: "simsim"
+    });
+  }
+
+  // Trash
+  for (let i = 1; i <= 11; i++) {
+    items.push({
+      img: `trash${pad(i)}.png`,
+      n: `Trash Item ${i}`,
+      cat: "trash"
+    });
+  }
+
+  let score = 0, time = 45, active = false, current = null, timer;
+  const imgEl = document.getElementById("sort-current-img");
+
+  function setImage(filename, alt) {
+    imgEl.src = IMG_BASE + filename;
+    imgEl.alt = alt;
+    imgEl.onerror = () => imgEl.src = FALLBACK_IMG;
+  }
+
+  window.startSorting = function() {
+    score = 0; time = 45; active = true;
+    document.getElementById("s-start").style.display = "none";
+    document.getElementById("sort-msg").innerText = "";
+    updateUI();
+    next();
+    timer = setInterval(() => {
+      time--;
+      updateUI();
+      if (time <= 0) end();
+    }, 1000);
+  };
+
+  function next() {
+    if (!active) return;
+    current = items[Math.floor(Math.random() * items.length)];
+    setImage(current.img, current.n);
+    document.getElementById("sort-item-name").innerText = current.n;
+  }
+
+  window.checkSort = function(cat) {
+    if (!active) return;
+    const msg = document.getElementById("sort-msg");
+    if (cat === current.cat) {
+      score += 10;
+      msg.innerText = "Correct!";
+      msg.className = "s-success";
+    } else {
+      score = Math.max(0, score - 5);
+      msg.innerText = "Wrong category!";
+      msg.className = "s-error";
+    }
+    updateUI();
+    next();
+  };
+
+  function updateUI() {
+    document.getElementById("s-score").innerText = score;
+    document.getElementById("s-time").innerText = time;
+  }
+
+  function end() {
+    active = false;
+    clearInterval(timer);
+    document.getElementById("sort-item-name").innerText = "Shift Over!";
+    document.getElementById("s-start").style.display = "inline-block";
+    document.getElementById("s-start").innerText = "Restart Shift";
+  }
+})();
+</script>

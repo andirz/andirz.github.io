@@ -16,4 +16,4 @@ Don't mix up the medicine with the trash!
 
 ---
 
-{% include game-sorting.html %}
+{% include games/shop.html %}
