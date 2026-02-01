@@ -129,7 +129,9 @@
   }
 </style>
 
-<div class="pp-container" data-pp-root>
+<div class="pp-container"
+     data-pp-root
+     data-pack-base="{{ '/assets/img/packs/blue/' | relative_url }}">
   <div class="pp-header">
     <div class="pp-title">
       <h2>Pack Picker</h2>
@@ -167,12 +169,12 @@
       return;
     }
 
-    const basePath = "{{ site.baseurl }}/assets/img/packs/blue/";
+    const basePath = root.dataset.packBase; // <- kommt fix aus HTML/Liquid
+    // Optional: Debug (kannst du wieder rauswerfen)
+    // console.log("[PackPicker] basePath =", basePath);
 
-    // 4x4 => 8 Paare
-    const PAIRS = 8;
+    const PAIRS = 8; // 4x4
 
-    // Packs (ep01..ep18, gp01..gp12)
     const epPacks = Array.from({ length: 18 }, (_, i) => `ep${String(i + 1).padStart(2, "0")}`);
     const gpPacks = Array.from({ length: 12 }, (_, i) => `gp${String(i + 1).padStart(2, "0")}`);
     const allPacks = [...epPacks, ...gpPacks];
@@ -225,10 +227,12 @@
         card.className = "pp-card";
         card.dataset.pack = pack;
 
+        const imgUrl = `${basePath}${pack}.png`;
+
         card.innerHTML = `
           <div class="pp-face pp-front">?</div>
           <div class="pp-face pp-back">
-            <img src="${basePath}${pack}.png"
+            <img src="${imgUrl}"
                  alt="${pack}"
                  loading="lazy"
                  onerror="this.src='https://placehold.co/120?text=Pack'">

@@ -1,65 +1,177 @@
+<style>
+  .sort-section {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .sort-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .sort-badge {
+    background: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.07);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .sort-image {
+    width: 140px;
+    height: 140px;
+    margin: 30px auto;
+    border-radius: 20px;
+    background-color: #fff;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 10px 25px -15px rgba(0,0,0,0.15);
+    transition: transform 0.15s ease;
+  }
+
+  .sort-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .sort-box {
+    background: #ffffff;
+    border: 2px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .sort-box:hover {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+    transform: translateY(-2px);
+  }
+
+  .sort-box span {
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: block;
+  }
+
+  .sort-box small {
+    color: #94a3b8;
+    font-size: 0.75rem;
+  }
+
+  #sort-msg {
+    height: 20px;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  .s-success { color: #22c55e; }
+  .s-error { color: #ef4444; }
+</style>
+
+<div class="sort-section">
+  <div class="sort-badges">
+    <div class="sort-badge">Score: <span id="s-score">0</span></div>
+    <div class="sort-badge">Time: <span id="s-time">45</span>s</div>
+  </div>
+
+  <div id="sort-current" class="sort-image"></div>
+
+  <div id="sort-item-name" style="font-weight:700;color:#64748b;margin-bottom:20px;">
+    Ready?
+  </div>
+
+  <div class="sort-grid">
+    <div class="sort-box" onclick="checkSort('simsim')">
+      <span>SimSim Store</span>
+      <small>Tech & Gadgets</small>
+    </div>
+    <div class="sort-box" onclick="checkSort('nomnom')">
+      <span>Sim-Nom-Nom</span>
+      <small>Food & Delivery</small>
+    </div>
+    <div class="sort-box" onclick="checkSort('pharmacy')">
+      <span>Pharmacy</span>
+      <small>Medicine</small>
+    </div>
+    <div class="sort-box" onclick="checkSort('trash')">
+      <span>Trash Bin</span>
+      <small>Waste & Junk</small>
+    </div>
+  </div>
+
+  <div id="sort-msg"></div>
+  <button id="s-start" class="btn btn-primary mt-4" onclick="startSorting()">Start Shift</button>
+</div>
+
 <script>
-(function() {
-  const IMG_BASE = "assets/img/games/shop/";
-  const FALLBACK_IMG = IMG_BASE + "placeholder.png";
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* Jekyll-safe Pfad (wie in packs.md / skills.md) */
+  const IMG_BASE = "{{ site.baseurl }}/assets/img/games/shop/";
+  const FALLBACK = IMG_BASE + "food01.png";
 
   const items = [];
+  const pad = n => String(n).padStart(2, "0");
 
-  function pad(n) {
-    return String(n).padStart(2, "0");
-  }
-
-  // Food
-  for (let i = 1; i <= 17; i++) {
-    items.push({
-      img: `food${pad(i)}.png`,
-      n: `Food Item ${i}`,
-      cat: "nomnom"
-    });
-  }
-
-  // Medicine
-  for (let i = 1; i <= 5; i++) {
-    items.push({
-      img: `med${pad(i)}.png`,
-      n: `Medicine ${i}`,
-      cat: "pharmacy"
-    });
-  }
-
-  // Shop / Tech
-  for (let i = 1; i <= 20; i++) {
-    items.push({
-      img: `shop${pad(i)}.png`,
-      n: `Shop Item ${i}`,
-      cat: "simsim"
-    });
-  }
-
-  // Trash
-  for (let i = 1; i <= 11; i++) {
-    items.push({
-      img: `trash${pad(i)}.png`,
-      n: `Trash Item ${i}`,
-      cat: "trash"
-    });
-  }
+  for (let i = 1; i <= 17; i++) items.push({ img: `food${pad(i)}.png`,  cat: "nomnom",  n: "Food" });
+  for (let i = 1; i <= 5;  i++) items.push({ img: `med${pad(i)}.png`,   cat: "pharmacy",n: "Medicine" });
+  for (let i = 1; i <= 20; i++) items.push({ img: `shop${pad(i)}.png`,  cat: "simsim",  n: "Shop Item" });
+  for (let i = 1; i <= 11; i++) items.push({ img: `trash${pad(i)}.png`, cat: "trash",   n: "Trash" });
 
   let score = 0, time = 45, active = false, current = null, timer;
-  const imgEl = document.getElementById("sort-current-img");
+  const box = document.getElementById("sort-current");
 
-  function setImage(filename, alt) {
-    imgEl.src = IMG_BASE + filename;
-    imgEl.alt = alt;
-    imgEl.onerror = () => imgEl.src = FALLBACK_IMG;
+  function setImage(filename) {
+    const url = IMG_BASE + filename;
+    box.style.backgroundImage = `url("${url}")`;
+
+    const t = new Image();
+    t.onerror = () => box.style.backgroundImage = `url("${FALLBACK}")`;
+    t.src = url;
+  }
+
+  function updateUI() {
+    document.getElementById("s-score").innerText = score;
+    document.getElementById("s-time").innerText = time;
+  }
+
+  function next() {
+    if (!active) return;
+    current = items[Math.floor(Math.random() * items.length)];
+    setImage(current.img);
+    document.getElementById("sort-item-name").innerText = current.n;
+
+    box.style.transform = "scale(1.06)";
+    setTimeout(() => box.style.transform = "scale(1)", 80);
   }
 
   window.startSorting = function() {
-    score = 0; time = 45; active = true;
+    score = 0;
+    time = 45;
+    active = true;
+
     document.getElementById("s-start").style.display = "none";
     document.getElementById("sort-msg").innerText = "";
+
     updateUI();
     next();
+
+    clearInterval(timer);
     timer = setInterval(() => {
       time--;
       updateUI();
@@ -67,16 +179,10 @@
     }, 1000);
   };
 
-  function next() {
-    if (!active) return;
-    current = items[Math.floor(Math.random() * items.length)];
-    setImage(current.img, current.n);
-    document.getElementById("sort-item-name").innerText = current.n;
-  }
-
   window.checkSort = function(cat) {
     if (!active) return;
     const msg = document.getElementById("sort-msg");
+
     if (cat === current.cat) {
       score += 10;
       msg.innerText = "Correct!";
@@ -86,14 +192,10 @@
       msg.innerText = "Wrong category!";
       msg.className = "s-error";
     }
+
     updateUI();
     next();
   };
-
-  function updateUI() {
-    document.getElementById("s-score").innerText = score;
-    document.getElementById("s-time").innerText = time;
-  }
 
   function end() {
     active = false;
@@ -102,5 +204,8 @@
     document.getElementById("s-start").style.display = "inline-block";
     document.getElementById("s-start").innerText = "Restart Shift";
   }
-})();
+
+  /* initial */
+  setImage("food01.png");
+});
 </script>
