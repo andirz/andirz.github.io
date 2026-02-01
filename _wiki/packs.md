@@ -5,6 +5,8 @@ icon: "fas fa-box-open"
 description: "A reference guide to the abbreviations used for The Sims 4 Expansion, Gameplay, and Stuff Packs."
 ---
 
+{% include table_styles.html %}
+
 <div class="intro-container">
   <div class="intro-text">
     This list provides an overview of all official abbreviations and codes for <strong>The Sims 4</strong> Packs. 
@@ -26,14 +28,14 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 
 <h2 id="expansion-packs">Expansion Packs</h2>
 <div class="table-wrapper">
-  <table id="tableEP">
+  <table id="tableEP" class="custom-wiki-table">
     <thead>
       <tr>
         <th style="width: 50px; text-align: center;">Logo</th>
-        <th onclick="sortTable('tableEP', 1)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableEP', 2)">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableEP', 3)">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableEP', 4)">es <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(1, 'tableEP')">Code <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(2, 'tableEP')">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(3, 'tableEP')">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(4, 'tableEP')">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -41,10 +43,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       {% assign icon_id = code | downcase %}
       <tr>
         <td style="text-align: center;">
-          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" 
-               alt="" 
-               style="height: 32px; width: auto;" 
-               onerror="this.style.display='none';">
+          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="height: 32px; width: auto;" onerror="this.style.display='none';">
         </td>
         <td><strong>{{ code }}</strong></td>
         <td>{{ info.en }}</td>
@@ -58,14 +57,14 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 
 <h2 id="game-packs">Game Packs</h2>
 <div class="table-wrapper">
-  <table id="tableGP">
+  <table id="tableGP" class="custom-wiki-table">
     <thead>
       <tr>
         <th style="width: 50px; text-align: center;">Logo</th>
-        <th onclick="sortTable('tableGP', 1)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableGP', 2)">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableGP', 3)">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableGP', 4)">es <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(1, 'tableGP')">Code <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(2, 'tableGP')">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(3, 'tableGP')">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(4, 'tableGP')">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -73,10 +72,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       {% assign icon_id = code | downcase %}
       <tr>
         <td style="text-align: center;">
-          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" 
-               alt="" 
-               style="height: 32px; width: auto;" 
-               onerror="this.style.display='none';">
+          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="height: 32px; width: auto;" onerror="this.style.display='none';">
         </td>
         <td><strong>{{ code }}</strong></td>
         <td>{{ info.en }}</td>
@@ -90,13 +86,13 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 
 <h2 id="stuff-packs">Stuff Packs</h2>
 <div class="table-wrapper">
-  <table id="tableSP">
+  <table id="tableSP" class="custom-wiki-table">
     <thead>
       <tr>
-        <th onclick="sortTable('tableSP', 0)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableSP', 1)">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableSP', 2)">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableSP', 3)">es <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(0, 'tableSP')">Code <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(1, 'tableSP')">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(2, 'tableSP')">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(3, 'tableSP')">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -114,13 +110,13 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 
 <h2 id="kits">Kits</h2>
 <div class="table-wrapper">
-  <table id="tableKits">
+  <table id="tableKits" class="custom-wiki-table">
     <thead>
       <tr>
-        <th onclick="sortTable('tableKits', 0)">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableKits', 1)">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableKits', 2)">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable('tableKits', 3)">es <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(0, 'tableKits')">Code <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(1, 'tableKits')">en <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(2, 'tableKits')">de <i class="fas fa-sort"></i></th>
+        <th onclick="sortTable(3, 'tableKits')">es <i class="fas fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -143,42 +139,10 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
   .intro-toc ul { margin: 5px 0 0 0; padding-left: 20px; }
   .section-divider { margin: 1rem 0; opacity: 0.5; }
   h2 { margin-top: 0.8rem; margin-bottom: 0.2rem; font-size: 1.5rem; }
-  table { width: 100%; border-collapse: collapse; margin-bottom: 0.5rem; }
-  th { background: rgba(0,0,0,0.03); padding: 8px; border-bottom: 2px solid var(--border-color); cursor: pointer; text-align: left; }
   th:hover { background: rgba(0,123,255,0.1) !important; }
-  tbody tr:hover { background-color: rgba(0, 123, 255, 0.05) !important; }
-  td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); }
   th i { font-size: 0.7rem; opacity: 0.4; float: right; margin-top: 4px; }
   .table-wrapper { overflow-x: auto; }
   @media (max-width: 600px) { .intro-container { flex-direction: column; } .intro-toc { width: 100%; } }
 </style>
 
-<script>
-function sortTable(tableId, n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById(tableId);
-  switching = true;
-  dir = "asc"; 
-  while (switching) {
-    switching = false;
-    rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      if (dir == "asc") {
-        if (x.innerText.toLowerCase() > y.innerText.toLowerCase()) { shouldSwitch = true; break; }
-      } else if (dir == "desc") {
-        if (x.innerText.toLowerCase() < y.innerText.toLowerCase()) { shouldSwitch = true; break; }
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      switchcount ++;      
-    } else {
-      if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
-    }
-  }
-}
-</script>
+{% include table_sorting_script.html %}
