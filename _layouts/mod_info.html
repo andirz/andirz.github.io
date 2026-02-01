@@ -9,11 +9,35 @@ layout: default
 
   <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 50px;">
     
-    {% comment %} Linke Spalte: Beschreibung und Downloads {% endcomment %}
+    {% comment %} Linke Spalte: Beschreibung, Translations und Downloads {% endcomment %}
     <main style="flex: 2; min-width: 320px;">
       <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color);">
         {{ content }}
       </article>
+
+      {% comment %} Translations Section {% endcomment %}
+      <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+        {% include mod-translations.html 
+          ENG=page.translations.ENG
+          GER=page.translations.GER
+          SPA=page.translations.SPA
+          RUS=page.translations.RUS
+          ITA=page.translations.ITA 
+          BRA=page.translations.BRA 
+          CHS=page.translations.CHS 
+          CHT=page.translations.CHT
+          FRE=page.translations.FRE
+          POL=page.translations.POL
+          DUT=page.translations.DUT
+          CZE=page.translations.CZE
+          DAN=page.translations.DAN
+          FIN=page.translations.FIN
+          JPN=page.translations.JPN
+          KOR=page.translations.KOR
+          NOR=page.translations.NOR
+          SWE=page.translations.SWE
+        %}
+      </section>
 
       <section id="download-zone" style="margin-top: 60px; padding: 35px; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--border-color);">
         <h2 style="margin-top: 0; display: flex; align-items: center; gap: 12px;">
