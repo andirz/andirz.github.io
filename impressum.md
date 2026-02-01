@@ -8,46 +8,61 @@ sitemap: false
 ---
 
 <style>
-  .img-protection {
-    display: block;
-    margin: 10px 0;
-    background-repeat: no-repeat;
-    background-size: contain;
-    /* Verhindert alle Maus-Interaktionen */
-    pointer-events: none;
+  /* Verhindert das Markieren von Text */
+  .no-copy {
     user-select: none;
-    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
   }
-  .addr { 
-    width: 300px; height: 120px; 
-    background-image: url('/assets/img/impressum/address.png'); 
+
+  /* Dreht den rückwärts geschriebenen Text für das Auge wieder um */
+  .crypt {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: left;
+    display: inline-block;
   }
-  .cont { 
-    width: 300px; height: 50px; 
-    background-image: url('/assets/img/impressum/contact.png'); 
+
+  /* Versteckt Stör-Elemente für Menschen, aber Bots kopieren sie mit */
+  .noise {
+    display: none;
   }
 </style>
 
-## Angaben gemäß § 5 TMG
+<div class="no-copy" oncopy="return false" oncut="return false" oncontextmenu="return false">
 
-### Betreiber der Webseite
-<div class="img-protection addr"></div>
+  ## Angaben gemäß § 5 TMG
 
-### Kontakt
-<div class="img-protection cont"></div>
-Discord: andirz
+  ### Betreiber der Webseite
+  <span class="crypt">zaaR<span class="noise">_bot-trap_</span> saerdnA</span><br>
+  <span class="crypt">071<span class="noise">777</span> eellA reualznerP</span><br>
+  <span class="crypt">nilreB 90401</span><br>
+  Deutschland
 
-### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV 
-<div class="img-protection addr"></div>
+  ### Kontakt
+  E-Mail: <span class="crypt">moc.liamg@<span class="noise">null</span>zridna4smis</span><br>
+  Discord: andirz
+
+  ### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV 
+  <span class="crypt">zaaR saerdnA</span><br>
+  <span class="crypt">071 eellA reualznerP</span><br>
+  <span class="crypt">nilreB 90401</span>
+
+</div>
+
+<script>
+  // Extra Sicherheit: Verhindert Tastenkombinationen wie Strg+C / Strg+U
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+</script>
 
 ---
 
 ## Haftungsausschluss (Disclaimer)
-
-**Haftung für Inhalte** Als Diensteanbieter bin ich gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
-
-**Haftung für Links** Mein Angebot enthält Links zu externen Webseiten Dritter (z.B. Patreon, CurseForge, Discord), auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
-
-**Urheberrecht** Die durch mich erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
-
-*The Sims and The Sims 4 are trademarks of Electronic Arts, Inc. Diese Webseite steht in keiner Verbindung zu Electronic Arts, Inc. und wird nicht von ihnen unterstützt.*
+*(Hier kannst du deinen normalen Disclaimer-Text von oben einfügen)*
