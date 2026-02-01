@@ -10,14 +10,26 @@ sitemap: false
 ## Angaben gemäß § 5 TMG
 
 ### Betreiber der Webseite
-<img src="{{ '/assets/img/impressum/address.png' | relative_url }}" style="max-width: 300px; display: block; margin: 10px 0;">
+<img src="/assets/img/impressum/address.png" 
+     alt="Address" 
+     oncontextmenu="return false;" 
+     draggable="false" 
+     style="max-width: 300px; display: block; margin: 10px 0; pointer-events: none; user-select: none;">
 
 ### Kontakt
-<img src="{{ '/assets/img/impressum/contact.png' | relative_url }}" style="max-width: 300px; display: block; margin: 10px 0;">
+<img src="/assets/img/impressum/contact.png" 
+     alt="Contact" 
+     oncontextmenu="return false;" 
+     draggable="false" 
+     style="max-width: 300px; display: block; margin: 10px 0; pointer-events: none; user-select: none;">
 Discord: andirz
 
 ### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV 
-<img src="{{ '/assets/img/impressum/address.png' | relative_url }}" style="max-width: 300px; display: block; margin: 10px 0;">
+<img src="/assets/img/impressum/address.png" 
+     alt="Address" 
+     oncontextmenu="return false;" 
+     draggable="false" 
+     style="max-width: 300px; display: block; margin: 10px 0; pointer-events: none; user-select: none;">
 
 ---
 
