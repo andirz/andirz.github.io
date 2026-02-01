@@ -6,14 +6,11 @@ permalink: "/mods/online-store/"
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay Mods]
 translations:
-  ENG: "Andirz"
-  GER: "Andirz"
+  ENG: "myself"
 ---
 
-The **SimSim Online Store** is the ultimate shopping experience for your Sims! This mod allows instant access to the online store on all computers, laptops, tablets, smart hubs, and mobile phones. Even without internet access or when living off-the-grid, your Sims can shop via the **SimSim Hotline** or even through paper mail.
-
 ## What does this mod do?
-A wide range of items can be purchased and added directly to a Sim’s inventory—no postal delivery required! The mod features a simple account management system and an optional premium membership for additional features.
+The **SimSim Online Store** is the ultimate shopping experience for your Sims! This mod allows instant access to the online store on all computers, laptops, tablets, smart hubs, and mobile phones. Even without internet access or when living off-the-grid, your Sims can shop via the **SimSim Hotline** or even through paper mail. A wide range of items can be purchased and added directly to a Sim’s inventory—no postal delivery required! The mod features a simple account management system and an optional premium membership for additional features.
 
 ## Shopping Assortment
 The store includes almost every object from the **Base Game and all packs** (EPs, GPs, SPs, Kits) that can fit into a Sim's inventory.
