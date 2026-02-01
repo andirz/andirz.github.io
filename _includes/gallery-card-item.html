@@ -1,5 +1,11 @@
 {% assign g_mod = include.mod_data %}
-{% assign mod_url = g_mod.id | replace: '_', '-' | append: '/' %}
+
+{% comment %} 
+  WICHTIG: Die URL muss absolut von der Root (/mods/) gebaut werden.
+  replace: '_', '-' sorgt dafür, dass aus smart_core -> smart-core wird.
+{% endcomment %}
+{% assign mod_url_slug = g_mod.id | replace: '_', '-' %}
+{% assign final_url = '/mods/' | append: mod_url_slug | append: '/' | relative_url %}
 
 {% comment %} Logik für das "NEW" Badge (Updates innerhalb der letzten 30 Tage) {% endcomment %}
 {% assign thirty_days = 2592000 %}
@@ -7,18 +13,19 @@
 {% assign mod_seconds = g_mod.updated | date: "%s" | plus: 0 %}
 {% assign diff = now_seconds | minus: mod_seconds %}
 
-<div class="gallery-card" style="background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; transition: all 0.3s ease; position: relative;">
+<div class="gallery-card" style="background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; height: 100%; display: flex; flex-direction: column;">
   
   {% comment %} NEW Badge Overlay {% endcomment %}
   {% if diff < thirty_days %}
-    <div style="position: absolute; top: 12px; left: 12px; z-index: 10; background: #ef4444; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <div style="position: absolute; top: 12px; left: 12px; z-index: 10; background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);">
       New Update
     </div>
   {% endif %}
 
-  <a href="{{ mod_url | relative_url }}" style="display: block; position: relative; aspect-ratio: 16/9; background: #f1f5f9; text-decoration: none;">
+  {% comment %} Bild / Icon Bereich {% endcomment %}
+  <a href="{{ final_url }}" style="display: block; position: relative; aspect-ratio: 16/9; background: #f1f5f9; text-decoration: none; overflow: hidden;">
     {% if g_mod.image %}
-      <img src="{{ g_mod.image | relative_url }}" alt="{{ g_mod.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+      <img src="{{ g_mod.image | relative_url }}" alt="{{ g_mod.name }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
     {% else %}
       <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #cbd5e1;">
         <i class="{{ g_mod.icon | default: 'fas fa-box' }}" style="font-size: 2.5rem;"></i>
@@ -26,16 +33,19 @@
     {% endif %}
   </a>
 
-  <div style="padding: 20px;">
-    <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 800; font-style: italic;">
-      <a href="{{ mod_url | relative_url }}" style="text-decoration: none; color: #1e293b;">{{ g_mod.name }}</a>
-    </h3>
+  {% comment %} Text Bereich {% endcomment %}
+  <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 700; line-height: 1.3;">
+        <a href="{{ final_url }}" style="text-decoration: none; color: #1e293b;">{{ g_mod.name }}</a>
+      </h3>
+    </div>
     
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span style="font-size: 0.6rem; background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; padding: 2px 8px; border-radius: 4px; font-weight: 700; text-transform: uppercase;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+      <span style="font-size: 0.65rem; background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; padding: 3px 8px; border-radius: 4px; font-weight: 700; text-transform: uppercase;">
         {{ g_mod.categories | first }}
       </span>
-      <span style="font-size: 0.7rem; color: #94a3b8; font-family: monospace;">v{{ g_mod.version }}</span>
+      <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; font-family: 'JetBrains Mono', monospace;">v{{ g_mod.version }}</span>
     </div>
   </div>
 </div>
