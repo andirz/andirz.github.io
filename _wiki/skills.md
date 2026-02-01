@@ -20,7 +20,6 @@ description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs, P
     border-radius: 10px; border: 1px solid var(--border-color);
     margin: 0 auto; position: relative;
   }
-  /* FA Icons größer, wenn kein Bild da ist oder als Schatten */
   .skill-icon-fa { 
     font-size: 1.4rem; 
     color: var(--accent-color); 
@@ -29,7 +28,6 @@ description: "A comprehensive guide to all Sims 4 skills, including Cheat IDs, P
   }
   .skill-icon-img { width: 34px; height: 34px; object-fit: contain; position: relative; z-index: 2; }
   
-  /* Alter-Badge Styling */
   .age-icon {
     font-size: 1.1rem;
     color: var(--text-muted);
@@ -45,13 +43,14 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
   <table id="skillTable" style="width: 100%; border-collapse: collapse; font-size: 0.95rem; background: var(--bg-primary);">
     <thead>
       <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
-        <th style="padding: 12px; width: 60px; text-align: center;">#</th>
-        <th onclick="sortTable(1)" style="padding: 12px; cursor: pointer;">Skill Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer; text-align: center;">Age <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer;">Pack ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(4)" style="padding: 12px; cursor: pointer;">Pack Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(5)" style="padding: 12px; cursor: pointer;">Skill ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-        <th onclick="sortTable(6)" style="padding: 12px; cursor: pointer; text-align: center;">Max <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th style="padding: 12px; width: 50px; text-align: center;">#</th>
+        <th style="padding: 12px; width: 70px; text-align: center;">Icon</th>
+        <th onclick="sortTable(2)" style="padding: 12px; cursor: pointer;">Skill Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(3)" style="padding: 12px; cursor: pointer; text-align: center;">Age <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(4)" style="padding: 12px; cursor: pointer;">Pack ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(5)" style="padding: 12px; cursor: pointer;">Pack Name <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(6)" style="padding: 12px; cursor: pointer;">Skill ID <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+        <th onclick="sortTable(7)" style="padding: 12px; cursor: pointer; text-align: center;">Max <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -71,11 +70,21 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
 
         <tr style="border-bottom: 1px solid var(--border-color);">
           <td style="padding: 8px; text-align: center; color: var(--text-muted); font-size: 0.8rem; font-family: monospace;">{{ forloop.index }}</td>
+          
+          <td style="padding: 8px; text-align: center;">
+             <div class="skill-icon-container">
+              <i class="{{ details[1] }} skill-icon-fa" {% if img_exists %}style="opacity:0.25; font-size: 1.1rem;"{% endif %}></i>
+              {% if img_exists %}
+                <img src="{{ img_path | relative_url }}" alt="{{ details[2] }}" class="skill-icon-img">
+              {% endif %}
+            </div>
+          </td>
+
           <td style="padding: 12px; font-weight: 700; color: var(--text-color); font-size: 1.05rem;">{{ details[2] }}</td>
           
           <td style="padding: 12px; text-align: center;">
             {% if details[3] == "Adult" %}
-              <i class="fas fa-user age-icon" title="Adult"></i>
+              <i class="fas fa-accessibility age-icon" title="Adult"></i>
             {% elsif details[3] == "Child" %}
               <i class="fas fa-child age-icon" title="Child"></i>
             {% elsif details[3] == "Toddler" %}
@@ -87,15 +96,6 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
           <td style="padding: 12px; font-size: 0.95rem; color: var(--text-muted);">{{ details[5] }}</td>
           <td style="padding: 12px;"><code style="font-size: 0.85rem;">{{ details[6] }}</code></td>
           <td style="padding: 12px; text-align: center; font-weight: 700;">{{ details[7] }}</td>
-          
-          <td style="padding: 8px; text-align: center; order: -1;">
-             <div class="skill-icon-container">
-              <i class="{{ details[1] }} skill-icon-fa" {% if img_exists %}style="opacity:0.25; font-size: 1.1rem;"{% endif %}></i>
-              {% if img_exists %}
-                <img src="{{ img_path | relative_url }}" alt="{{ details[2] }}" class="skill-icon-img">
-              {% endif %}
-            </div>
-          </td>
         </tr>
       {% endfor %}
     </tbody>
@@ -103,7 +103,6 @@ Below is a complete list of all skills available in The Sims 4. Use `stats.set_s
 </div>
 
 <script>
-// (Sortierfunktion bleibt gleich wie vorher)
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("skillTable");
@@ -118,7 +117,9 @@ function sortTable(n) {
       y = rows[i + 1].getElementsByTagName("TD")[n];
       var xValue = x.innerText.toLowerCase();
       var yValue = y.innerText.toLowerCase();
-      if (n === 6) {
+      
+      // Nummerische Sortierung für die Max-Spalte (Index 7)
+      if (n === 7) {
         if (dir == "asc") { if (parseInt(xValue) > parseInt(yValue)) { shouldSwitch = true; break; } }
         else if (dir == "desc") { if (parseInt(xValue) < parseInt(yValue)) { shouldSwitch = true; break; } }
       } else {
@@ -126,8 +127,13 @@ function sortTable(n) {
         else if (dir == "desc") { if (xValue < yValue) { shouldSwitch = true; break; } }
       }
     }
-    if (shouldSwitch) { rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); switching = true; switchcount ++; }
-    else { if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
+    } else {
+      if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
+    }
   }
 }
 </script>
