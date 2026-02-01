@@ -1,46 +1,39 @@
 {% assign g_mod_data = include.mod_data %}
-{% comment %} Suche die Seite in der Collection, um Frontmatter (Title, Icon, Image) zu erhalten {% endcomment %}
 {% assign mod_page = site.mods | where: "mod_id", g_mod_data.id | first %}
 
-{% comment %} Daten-Priorität {% endcomment %}
+{% comment %} --- AUTOMATISCHE BILD-SUCH-LOGIK --- {% endcomment %}
+{% assign card_image = nil %}
+{% assign fallback_img = nil %}
+{% assign mod_img_folder = "/assets/img/mods/" | append: g_mod_data.id | append: "/" %}
+
+{% for file in site.static_files %}
+  {% if file.path contains mod_img_folder %}
+    {% comment %} Wir suchen cover.png oder cover.jpg {% endcomment %}
+    {% if file.name contains "cover" %}
+      {% assign card_image = file.path %}
+      {% break %}
+    {% elsif fallback_img == nil %}
+      {% comment %} Merke dir das erste Bild im Ordner als Fallback {% endcomment %}
+      {% if file.extname == ".png" or file.extname == ".jpg" or file.extname == ".jpeg" or file.extname == ".webp" %}
+        {% assign fallback_img = file.path %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign final_image = card_image | default: fallback_img %}
+{% comment %} --- BILD-SUCH-LOGIK ENDE --- {% endcomment %}
+
 {% assign final_title = mod_page.title | default: g_mod_data.name %}
 {% assign final_icon  = mod_page.icon  | default: g_mod_data.icon | default: 'fas fa-box' %}
-{% assign final_image = mod_page.image | default: g_mod_data.image %}
-
-{% comment %} Erster Dateityp für das Icon unten {% endcomment %}
-{% assign first_file_type = g_mod_data.files | first | downcase | strip %}
-
-{% if first_file_type contains "script" %}
-  {% assign type_icon = "fas fa-code" %}
-  {% assign type_label = "Script" %}
-{% elsif first_file_type contains "package" %}
-  {% assign type_icon = "fas fa-file-archive" %}
-  {% assign type_label = "Package" %}
-{% elsif first_file_type contains "tuning" or first_file_type contains "batch" or first_file_type contains "replacement" %}
-  {% assign type_icon = "fas fa-wrench" %}
-  {% assign type_label = "Tuning" %}
-{% else %}
-  {% assign type_icon = "fas fa-cube" %}
-  {% assign type_label = first_file_type | capitalize %}
-{% endif %}
-
 {% assign mod_url_slug = g_mod_data.id | replace: '_', '-' %}
 {% assign final_url = '/mods/' | append: mod_url_slug | append: '/' | relative_url %}
 
-{% comment %} "New Update" Badge Logik (30 Tage) {% endcomment %}
-{% assign thirty_days = 2592000 %}
-{% assign now_seconds = "now" | date: "%s" | plus: 0 %}
-{% assign mod_seconds = g_mod_data.updated | date: "%s" | plus: 0 %}
-{% assign diff = now_seconds | minus: mod_seconds %}
+<div class="gallery-card" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: all 0.2s ease; height: 100%;" 
+     onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.05)';" 
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
 
-<div class="gallery-card" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; position: relative; height: 100%;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.05)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-  
-  {% if diff < thirty_days %}
-    <div style="position: absolute; top: 12px; left: 12px; z-index: 10; background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;">New Update</div>
-  {% endif %}
-
-  {% comment %} Bild / Großes Icon Fallback {% endcomment %}
-  <a href="{{ final_url }}" style="display: block; aspect-ratio: 16/9; background: #f8fafc; position: relative; text-decoration: none; border-bottom: 1px solid #f1f5f9; overflow: hidden;">
+  <a href="{{ final_url }}" style="display: block; aspect-ratio: 16/9; background: #f8fafc; position: relative; text-decoration: none; overflow: hidden;">
     {% if final_image %}
       <img src="{{ final_image | relative_url }}" alt="{{ final_title }}" style="width: 100%; height: 100%; object-fit: cover;">
     {% else %}
@@ -51,16 +44,12 @@
   </a>
 
   <div style="padding: 18px; flex-grow: 1; display: flex; flex-direction: column;">
-    <h3 style="margin: 0 0 12px 0; font-size: 1rem; font-weight: 700; color: #1e293b; line-height: 1.3;">
+    <h3 style="margin: 0 0 12px 0; font-size: 1rem; font-weight: 700; color: #1e293b;">
       <a href="{{ final_url }}" style="text-decoration: none; color: inherit;">{{ final_title }}</a>
     </h3>
-    
-    <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center;">
-      <div style="display: flex; align-items: center; gap: 6px; color: #94a3b8;">
-        <i class="{{ type_icon }}" style="font-size: 0.75rem;"></i>
-        <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">{{ type_label }}</span>
-      </div>
-      <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; font-family: monospace;">v. {{ g_mod_data.version }}</span>
+    <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; color: #94a3b8; font-size: 0.75rem;">
+       <span><i class="fas fa-layer-group me-1"></i> {{ g_mod_data.version }}</span>
+       <span style="font-weight: 700; text-transform: uppercase;">{{ g_mod_data.status }}</span>
     </div>
   </div>
 </div>
