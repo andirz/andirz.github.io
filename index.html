@@ -5,18 +5,17 @@ title: Home
 
 <style>
   :root {
-    --brand-primary: #1e293b; /* Dunkles Slate statt Blau */
-    --brand-accent: #2ecc71;  /* Sims Grün */
-    --text-muted: #64748b;
+    --brand-primary: #1e293b;
+    --brand-accent: #2ecc71;
   }
 
   .sims-home { padding-bottom: 60px; }
 
-  /* --- HERO SECTION (KLEINER & SCHLICHTER) --- */
+  /* --- HERO SECTION --- */
   .hero-wrapper {
-    background: #f8fafc; /* Heller, neutraler Hintergrund */
+    background: #f8fafc;
     color: var(--brand-primary);
-    padding: 40px 20px;
+    padding: 50px 20px;
     text-align: center;
     border-bottom: 1px solid #e2e8f0;
     margin-bottom: 40px;
@@ -24,7 +23,7 @@ title: Home
 
   .plumbob-small {
     color: var(--brand-accent);
-    font-size: 2.5rem; /* Kleiner als vorher */
+    font-size: 2.5rem;
     filter: drop-shadow(0 0 10px rgba(46, 204, 113, 0.4));
     animation: float-simple 3s ease-in-out infinite;
     display: inline-block;
@@ -36,79 +35,76 @@ title: Home
     50% { transform: translateY(-10px); }
   }
 
-  .hero-wrapper h1 {
-    font-size: 2.5rem; /* Kleiner */
-    font-weight: 800;
-    margin-bottom: 10px;
-  }
-
-  /* --- MEMORY GAME --- */
+  /* --- GAME CARD --- */
   .game-card {
-    background: var(--main-bg, white);
-    border-radius: 20px;
+    background: white;
+    border-radius: 24px;
     padding: 30px;
-    border: 1px solid var(--border-color, #e2e8f0);
-    margin: 40px 0;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
   }
 
   .memory-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    max-width: 350px;
+    gap: 12px;
+    max-width: 400px;
     margin: 0 auto;
   }
 
-  .memory-card { 
-    aspect-ratio: 1; 
-    cursor: pointer; 
-    perspective: 1000px; 
+  .m-card {
+    aspect-ratio: 1;
+    cursor: pointer;
+    perspective: 1000px;
+  }
+
+  .m-inner {
     position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
   }
 
-  .m-inner { 
-    position: relative; 
-    width: 100%; 
-    height: 100%; 
-    transition: transform 0.5s; 
-    transform-style: preserve-3d; 
+  .m-card.flipped .m-inner { transform: rotateY(180deg); }
+
+  .m-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .memory-card.flipped .m-inner { transform: rotateY(180deg); }
-
-  .face { 
-    position: absolute; 
-    width: 100%; 
-    height: 100%; 
-    backface-visibility: hidden; 
-    border-radius: 8px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+  .m-front {
+    background: var(--brand-primary);
+    color: rgba(255,255,255,0.2);
+    font-size: 1.2rem;
+    border: 1px solid rgba(255,255,255,0.1);
   }
 
-  .front { 
-    background: var(--brand-primary); 
-    color: white; 
+  .m-back {
+    background: #f1f5f9;
+    border: 2px solid var(--brand-accent);
+    transform: rotateY(180deg);
+    padding: 10px;
   }
 
-  .back { 
-    background: white; 
-    border: 2px solid var(--brand-primary); 
-    transform: rotateY(180deg); 
-    padding: 8px;
-  }
-
-  .back img { 
-    max-width: 100%; 
-    max-height: 100%; 
-    object-fit: contain; 
+  .m-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Da die Icons blau sind, hilft ein leichter Kontrast */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
   }
 
   .home-h2 {
     font-weight: 800;
     color: var(--brand-primary);
-    font-size: 1.75rem;
+    font-size: 1.8rem;
   }
 </style>
 
@@ -123,54 +119,55 @@ title: Home
   {% include gallery-mods-featured.html %}
 
   <div class="container px-md-4">
-    
-    <section class="game-card">
+    <section class="game-card my-5">
       <div class="row align-items-center">
-        <div class="col-lg-6 mb-4 mb-lg-0 text-center text-lg-start">
-          <h2 class="home-h2 mb-2">Skill Memory</h2>
-          <p class="text-muted mb-0">Train your memory while waiting.</p>
+        <div class="col-lg-5 mb-4 mb-lg-0 text-center text-lg-start">
+          <h2 class="home-h2">Pack Picker</h2>
+          <p class="text-muted">Can you match the expansion and game packs? A little distraction for a true simmer.</p>
+          <div id="game-status" class="badge bg-light text-dark p-2 mt-2">Matches: 0 / 8</div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-7">
           <div class="memory-grid" id="memoryGrid"></div>
         </div>
       </div>
     </section>
 
     {% include did-you-know-tips.html %}
-
   </div>
 </div>
 
 <script>
   (function() {
-    const skillPath = "{{ '/assets/img/skills/' | relative_url }}";
+    // Pfad zu deinen neuen Icons
+    const basePath = "{{ 'assets/img/packs_blue/' | relative_url }}";
     
-    // Die exakten Dateinamen deiner .png Dateien (ohne Endung)
-    const skills = [
-      'logic', 'cooking', 'gardening', 'painting', 
-      'fitness', 'programming', 'writing', 'charisma',
-      'acting', 'baking', 'handiness', 'mischief'
-    ];
+    // Listen der verfügbaren Packs basierend auf deiner Angabe
+    const epPacks = Array.from({length: 18}, (_, i) => `ep${(i + 1).toString().padStart(2, '0')}`);
+    const gpPacks = Array.from({length: 12}, (_, i) => `gp${(i + 1).toString().padStart(2, '0')}`);
+    const allPacks = [...epPacks, ...gpPacks];
 
-    // 8 zufällige auswählen
-    let selected = skills.sort(() => 0.5 - Math.random()).slice(0, 8);
+    // 8 zufällige Packs für das Spiel auswählen
+    let selected = allPacks.sort(() => 0.5 - Math.random()).slice(0, 8);
     let deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
     
     const grid = document.getElementById('memoryGrid');
+    const statusLabel = document.getElementById('game-status');
     let flippedCards = [];
     let lockBoard = false;
     let matches = 0;
 
-    function createCard(skill) {
+    function createCard(packName) {
       const card = document.createElement('div');
-      card.classList.add('memory-card');
-      card.dataset.skill = skill;
+      card.classList.add('m-card');
+      card.dataset.pack = packName;
       
       card.innerHTML = `
         <div class="m-inner">
-          <div class="face front"><i class="fas fa-question opacity-25"></i></div>
-          <div class="face back">
-            <img src="${skillPath}${skill}.png" alt="${skill}">
+          <div class="m-face m-front">
+            <i class="fas fa-box-open"></i>
+          </div>
+          <div class="m-face m-back">
+            <img src="${basePath}${packName}.png" alt="Pack" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect width=%221%22 height=%221%22 fill=%22%23ccc%22/></svg>'">
           </div>
         </div>
       `;
@@ -182,6 +179,7 @@ title: Home
     function flipCard() {
       if (lockBoard) return;
       if (this === flippedCards[0]) return;
+      if (this.classList.contains('flipped')) return;
 
       this.classList.add('flipped');
       flippedCards.push(this);
@@ -192,28 +190,27 @@ title: Home
     }
 
     function checkMatch() {
-      const isMatch = flippedCards[0].dataset.skill === flippedCards[1].dataset.skill;
-      isMatch ? disableCards() : unflipCards();
-    }
+      lockBoard = true;
+      const isMatch = flippedCards[0].dataset.pack === flippedCards[1].dataset.pack;
 
-    function disableCards() {
-      matches++;
-      flippedCards = [];
-      if (matches === 8) {
-        setTimeout(() => alert('Glückwunsch! Alle Skills gefunden.'), 500);
+      if (isMatch) {
+        matches++;
+        statusLabel.innerText = `Matches: ${matches} / 8`;
+        flippedCards = [];
+        lockBoard = false;
+        if (matches === 8) {
+          setTimeout(() => alert('Perfect! You know your packs.'), 500);
+        }
+      } else {
+        setTimeout(() => {
+          flippedCards.forEach(card => card.classList.remove('flipped'));
+          flippedCards = [];
+          lockBoard = false;
+        }, 1000);
       }
     }
 
-    function unflipCards() {
-      lockBoard = true;
-      setTimeout(() => {
-        flippedCards.forEach(card => card.classList.remove('flipped'));
-        flippedCards = [];
-        lockBoard = false;
-      }, 900);
-    }
-
     // Grid initialisieren
-    deck.forEach(skill => grid.appendChild(createCard(skill)));
+    deck.forEach(pack => grid.appendChild(createCard(pack)));
   })();
 </script>
