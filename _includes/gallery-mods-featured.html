@@ -1,47 +1,35 @@
-{% comment %} Liste der 6 populärsten Mod-IDs in deiner gewünschten Reihenfolge {% endcomment %}
-{% assign featured_ids = "smart_core, simsim_online_store, better_pie_menu, smart_sim_randomizer, cleaner_script, purchase_medicine" | split: ", " %}
+{% assign featured_ids = "smart_core_script, simsim_online_store, better_pie_menu, smart_sim_randomizer, cleanup_script, purchase_medicine" | split: ", " %}
 
 <section id="featured-mods" class="gallery-wrapper" style="padding: 80px 0; background: #f8fafc;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
     
-    {% comment %} Header Bereich {% endcomment %}
     <div style="margin-bottom: 50px; text-align: center;">
-      <h2 style="font-size: 2.25rem; font-weight: 900; color: #1e293b; margin: 0; letter-spacing: -0.025em;">
-        Popular Mods
-      </h2>
-      <p style="color: #64748b; margin: 10px 0 0 0; font-size: 1.1rem;">
-        The most downloaded mods for your game.
-      </p>
+      <h2 style="font-size: 2.25rem; font-weight: 900; color: #1e293b; margin: 0; letter-spacing: -0.025em;">Popular Mods</h2>
+      <p style="color: #64748b; margin: 10px 0 0 0; font-size: 1.1rem;">The most downloaded mods for your game.</p>
       <div style="width: 60px; height: 4px; background: #2563eb; margin: 20px auto 0; border-radius: 2px;"></div>
     </div>
 
-    {% comment %} Grid Layout {% endcomment %}
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
       {% for f_id in featured_ids %}
         {% assign mod_id_clean = f_id | strip %}
-        
-        {% comment %} Daten aus YAML holen {% endcomment %}
         {% assign g_mod = site.data.mods | where: "id", mod_id_clean | first %}
-        {% comment %} Prüfen, ob die Seite wirklich existiert {% endcomment %}
         {% assign mod_page = site.mods | where: "mod_id", mod_id_clean | first %}
 
         {% if mod_page and g_mod %}
+          {% comment %} 
+            Wir übergeben g_mod. Das Card-Item nutzt g_mod.id, 
+            um im Ordner /assets/img/mods/[id]/ nach Bildern zu suchen. 
+          {% endcomment %}
           {% include gallery-card-item.html mod_data=g_mod %}
         {% endif %}
       {% endfor %}
     </div>
 
-    {% comment %} Footer Button {% endcomment %}
     <div style="margin-top: 60px; text-align: center;">
-      <a href="{{ '/mods/' | relative_url }}" 
-         class="view-all-button"
-         style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 32px; background: #1e293b; color: white; text-decoration: none; border-radius: 14px; font-weight: 700; font-size: 1.05rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);"
-         onmouseover="this.style.background='#2563eb'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 20px 25px -5px rgba(0, 0, 0, 0.1)';" 
-         onmouseout="this.style.background='#1e293b'; this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0, 0, 0, 0.1)';">
-        Explore Full Catalog
-        <i class="fas fa-arrow-right"></i>
+      <a href="{{ '/mods/' | relative_url }}" class="view-all-button" 
+         style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 32px; background: #1e293b; color: white; text-decoration: none; border-radius: 14px; font-weight: 700;">
+        Explore Full Catalog <i class="fas fa-arrow-right"></i>
       </a>
     </div>
-
   </div>
 </section>
