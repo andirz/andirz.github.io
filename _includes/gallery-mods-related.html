@@ -1,0 +1,60 @@
+{% comment %} 
+  Gallery for related mods based on categories.
+  Usage: {% include gallery-mods-related.html %}
+{% endcomment %}
+
+{% assign current_id = page.mod_id %}
+{% assign primary_cat = page.categories | first %}
+{% assign gallery_count = 0 %}
+
+<section class="gallery-wrapper gallery-related" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #e2e8f0;">
+  <div style="margin-bottom: 30px;">
+    <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0;">Recommended Mods</h2>
+    <p style="color: #64748b; margin: 5px 0 0 0;">Because you are looking at <strong>{{ primary_cat }}</strong></p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+    {% for g_mod in site.data.mods %}
+      {% if g_mod.id == current_id %}{% continue %}{% endif %}
+      
+      {% comment %} Filter: Same category + limit to 3 items {% endcomment %}
+      {% if g_mod.categories contains primary_cat and gallery_count < 3 %}
+        {% assign gallery_count = gallery_count | plus: 1 %}
+        {% assign mod_url = g_mod.id | replace: '_', '-' | append: '/' %}
+        
+        <div class="gallery-card" style="background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+          
+          <a href="{{ mod_url | relative_url }}" style="display: block; position: relative; aspect-ratio: 16/9; background: #f1f5f9; text-decoration: none;">
+            {% if g_mod.image %}
+              <img src="{{ g_mod.image | relative_url }}" alt="{{ g_mod.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+            {% else %}
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #cbd5e1;">
+                <i class="{{ g_mod.icon | default: 'fas fa-box' }}" style="font-size: 2.5rem;"></i>
+              </div>
+            {% endif %}
+          </a>
+
+          <div style="padding: 20px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 800;">
+              <a href="{{ mod_url | relative_url }}" style="text-decoration: none; color: #1e293b;">{{ g_mod.name }}</a>
+            </h3>
+            
+            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+              {% for cat in g_mod.categories limit: 2 %}
+                <span style="font-size: 0.6rem; background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; padding: 2px 8px; border-radius: 4px; font-weight: 700; text-transform: uppercase;">
+                  {{ cat }}
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if gallery_count == 0 %}
+    <div style="padding: 40px; text-align: center; background: #f8fafc; border-radius: 16px; border: 1px dashed #cbd5e1;">
+      <p style="color: #94a3b8; margin: 0;">No similar mods found. Check out the <a href="/mods/">full catalog</a>!</p>
+    </div>
+  {% endif %}
+</section>
