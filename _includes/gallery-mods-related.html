@@ -1,25 +1,31 @@
 {% assign current_id = page.mod_id %}
 {% assign current_cats = page.categories %}
+{% assign main_cat = current_cats | first %} {% comment %} Die Hauptkategorie für den Text {% endcomment %}
 {% assign gallery_count = 0 %}
 {% assign max_items = 3 %}
 
-{% comment %} 
-  Initialisierung des Arrays mit der aktuellen Mod-ID, 
-  damit die Seite auf der man gerade ist, nicht in den Empfehlungen auftaucht.
-{% endcomment %}
 {% assign shown_ids = "" | split: "," %}
 {% assign shown_ids = shown_ids | push: current_id %}
 
-{% comment %} ID "recommended-mods" für den Sidebar-Link hinzugefügt {% endcomment %}
 <section id="recommended-mods" class="gallery-wrapper gallery-related" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f5f9;">
-  <div style="margin-bottom: 30px;">
-    <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0;">Recommended Mods</h2>
-    <p style="color: #64748b; margin: 5px 0 0 0;">Check out more of my work:</p>
+  
+  <div style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+    <div>
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0; font-style: italic;">
+        More Mods from {{ main_cat | default: "this Category" }}
+      </h2>
+      <p style="color: #64748b; margin: 5px 0 0 0;">Handpicked recommendations for your game:</p>
+    </div>
+    
+    {% comment %} Link zur kompletten Liste {% endcomment %}
+    <a href="{{ '/mods/' | relative_url }}" style="font-size: 0.85rem; font-weight: 700; color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #eff6ff; border-radius: 8px; transition: all 0.2s ease;" onmouseover="this.style.background='#dbeafe';" onmouseout="this.style.background='#eff6ff';">
+      View all Mods <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+    </a>
   </div>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+    {% comment %} ... Deine bestehende Loop-Logik (Stufe 1, 2, 3) ... {% endcomment %}
     
-    {% comment %} STUFE 1 & 2: Suche nach Übereinstimmungen {% endcomment %}
     {% for cat in current_cats %}
       {% assign clean_cat = cat | strip %}
       {% for g_mod in site.data.mods %}
@@ -35,7 +41,7 @@
       {% endfor %}
     {% endfor %}
 
-    {% comment %} STUFE 3: Auffüllung {% endcomment %}
+    {% comment %} Stufe 3: Auffüllung falls nötig {% endcomment %}
     {% if gallery_count < max_items %}
       {% for g_mod in site.data.mods %}
         {% unless shown_ids contains g_mod.id %}
@@ -47,6 +53,5 @@
         {% endunless %}
       {% endfor %}
     {% endif %}
-
   </div>
 </section>
