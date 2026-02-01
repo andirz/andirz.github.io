@@ -15,12 +15,13 @@ Explore the detailed documentation for all my mods. Each page contains informati
   <div class="list-group">
   {% assign sorted_wiki = site.wiki | sort: "title" %}
   {% for entry in sorted_wiki %}
-    <a href="{{ entry.url | relative_url }}" class="list-group-item list-group-item-action d-flex align-items-center" style="padding: 1rem;">
-      <div class="icon-wrapper" style="margin-right: 1.5rem; width: 30px; text-align: center;">
+    <a href="{{ entry.url | relative_url }}" class="list-group-item list-group-item-action d-flex align-items-center" style="padding: 1.2rem;">
+      <div class="icon-wrapper" style="margin-right: 1.5rem; width: 45px; text-align: center;">
         {% if entry.icon %}
-          <i class="{{ entry.icon }} text-primary fa-lg"></i>
+          <i class="{{ entry.icon }} text-primary fa-2xl"></i>
         {% else %}
-          <i class="fas fa-file-alt text-primary fa-lg"></i> {% endif %}
+          <i class="fas fa-file-alt text-primary fa-2xl"></i>
+        {% endif %}
       </div>
       <div>
         <h5 class="mb-1" style="font-weight: 600; color: var(--link-color);">{{ entry.title }}</h5>
