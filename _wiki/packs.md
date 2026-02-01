@@ -7,7 +7,13 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 
 This list provides an overview of all official abbreviations and codes for **The Sims 4** Packs. It is a helpful resource for modders and players to identify packs across different languages. 
 
-Click on the table headers to sort the columns or use `Ctrl + F` to find a specific pack.
+## Table of Contents
+* [Expansion Packs](#expansion-packs)
+* [Game Packs](#game-packs)
+* [Stuff Packs](#stuff-packs)
+* [Kits](#kits)
+
+---
 
 ## Expansion Packs
 <div class="table-wrapper">
@@ -106,25 +112,26 @@ Click on the table headers to sort the columns or use `Ctrl + F` to find a speci
 </div>
 
 <style>
+  /* Verringerter Abstand zwischen den Abschnitten */
+  h2 { margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  
   table { 
     width: 100%; 
     border-collapse: collapse; 
-    margin-bottom: 2rem; 
+    margin-bottom: 1rem; /* Von 2rem auf 1rem reduziert */
   }
 
   /* --- Spalte 1: Minimale Breite --- */
   th:nth-child(1), td:nth-child(1) { 
-    width: 12%;          
+    width: 12%;           
     white-space: nowrap; 
     text-align: center;
     padding-right: 20px; 
     font-family: monospace;
   }
 
-  /* --- Sprachen: Gleichmäßige Verteilung des Rests --- */
-  th:nth-child(2), th:nth-child(3), th:nth-child(4) { 
-    width: auto; 
-  }
+  /* --- Sprachen: Gleichmäßige Verteilung --- */
+  th:nth-child(2), th:nth-child(3), th:nth-child(4) { width: auto; }
 
   /* --- Design & Hover --- */
   th { 
@@ -136,8 +143,6 @@ Click on the table headers to sort the columns or use `Ctrl + F` to find a speci
   }
 
   th:hover { background: rgba(0,123,255,0.1) !important; }
-
-  /* Zeilen-Hover für die ganze Zeile */
   tbody tr { transition: background-color 0.15s ease; }
   tbody tr:hover { background-color: rgba(0, 123, 255, 0.08) !important; }
   td { padding: 10px 8px; border-bottom: 1px solid var(--border-color); }
