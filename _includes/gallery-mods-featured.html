@@ -10,7 +10,7 @@
         Popular Mods
       </h2>
       <p style="color: #64748b; margin: 10px 0 0 0; font-size: 1.1rem;">
-        The most downloaded and essential mods for your game.
+        The most downloaded mods for your game.
       </p>
       <div style="width: 60px; height: 4px; background: #2563eb; margin: 20px auto 0; border-radius: 2px;"></div>
     </div>
@@ -19,11 +19,15 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
       {% for f_id in featured_ids %}
         {% assign mod_id_clean = f_id | strip %}
-        {% for g_mod in site.data.mods %}
-          {% if g_mod.id == mod_id_clean %}
-            {% include gallery-card-item.html mod_data=g_mod %}
-          {% endif %}
-        {% endfor %}
+        
+        {% comment %} Daten aus YAML holen {% endcomment %}
+        {% assign g_mod = site.data.mods | where: "id", mod_id_clean | first %}
+        {% comment %} Prüfen, ob die Seite wirklich existiert {% endcomment %}
+        {% assign mod_page = site.mods | where: "mod_id", mod_id_clean | first %}
+
+        {% if mod_page and g_mod %}
+          {% include gallery-card-item.html mod_data=g_mod %}
+        {% endif %}
       {% endfor %}
     </div>
 
@@ -35,7 +39,7 @@
          onmouseover="this.style.background='#2563eb'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 20px 25px -5px rgba(0, 0, 0, 0.1)';" 
          onmouseout="this.style.background='#1e293b'; this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0, 0, 0, 0.1)';">
         Explore Full Catalog
-        <i class="fas fa-arrow-right-long"></i>
+        <i class="fas fa-arrow-right"></i>
       </a>
     </div>
 
