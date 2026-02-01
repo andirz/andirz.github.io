@@ -1,22 +1,24 @@
 {% comment %}
-  Zentrales Include für Mod-Dateiformat-Icons.
-  Parameter: 
-    - files: Das Array der Dateitypen (page.files)
-    - icon_color: (Optional) Eine spezifische Farbe, z.B. "#2563eb"
+  Zentrales Include für Mod-Dateiformat-Icons mit Label.
 {% endcomment %}
+{% assign current_color = include.icon_color | default: "#cbd5e1" %}
 
-{% assign current_color = include.icon_color | default: "#94a3b8" %}
-
-<div style="display: flex; gap: 12px; align-items: center; color: {{ current_color }};">
+<div style="display: flex; gap: 15px; align-items: center; color: #475569; font-weight: 600; font-size: 0.85rem;">
   {% if include.files contains 'ts4script' %}
-    <i class="fas fa-scroll" title="Script Mod (.ts4script)" style="cursor: help;"></i>
+    <span style="display: flex; align-items: center; gap: 6px;">
+      <i class="fas fa-scroll" title="Script Mod" style="color: {{ current_color }}; font-size: 1rem;"></i> Script Mod
+    </span>
   {% endif %}
   
   {% if include.files contains 'package' or include.files == nil %}
-    <i class="fas fa-file-archive" title="Package File (.package)" style="cursor: help;"></i>
+    <span style="display: flex; align-items: center; gap: 6px;">
+      <i class="fas fa-file-archive" title="Package File" style="color: {{ current_color }}; font-size: 1rem;"></i> Package
+    </span>
   {% endif %}
 
   {% if include.files contains 'bat' %}
-    <i class="fas fa-terminal" title="Batch File (.bat)" style="cursor: help;"></i>
+    <span style="display: flex; align-items: center; gap: 6px;">
+      <i class="fas fa-terminal" title="Batch File" style="color: {{ current_color }}; font-size: 1rem;"></i> Batch Tool
+    </span>
   {% endif %}
 </div>
