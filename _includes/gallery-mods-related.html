@@ -2,9 +2,16 @@
 {% assign current_cats = page.categories %}
 {% assign gallery_count = 0 %}
 {% assign max_items = 3 %}
-{% assign shown_ids = current_id | split: "," %}
 
-<section class="gallery-wrapper gallery-related" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f5f9;">
+{% comment %} 
+  Initialisierung des Arrays mit der aktuellen Mod-ID, 
+  damit die Seite auf der man gerade ist, nicht in den Empfehlungen auftaucht.
+{% endcomment %}
+{% assign shown_ids = "" | split: "," %}
+{% assign shown_ids = shown_ids | push: current_id %}
+
+{% comment %} ID "recommended-mods" für den Sidebar-Link hinzugefügt {% endcomment %}
+<section id="recommended-mods" class="gallery-wrapper gallery-related" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f5f9;">
   <div style="margin-bottom: 30px;">
     <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0; font-style: italic;">Recommended Mods</h2>
     <p style="color: #64748b; margin: 5px 0 0 0;">Check out more of my work:</p>
@@ -12,7 +19,7 @@
 
   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
     
-    {% comment %} STUFE 1 & 2: Suche nach Übereinstimmungen (priorisiert nach Reihenfolge deiner Kategorien) {% endcomment %}
+    {% comment %} STUFE 1 & 2: Suche nach Übereinstimmungen {% endcomment %}
     {% for cat in current_cats %}
       {% assign clean_cat = cat | strip %}
       {% for g_mod in site.data.mods %}
@@ -21,21 +28,21 @@
             {% if gallery_count < max_items %}
               {% assign gallery_count = gallery_count | plus: 1 %}
               {% assign shown_ids = shown_ids | push: g_mod.id %}
-              {% include gallery-card-item.html mod_data=g_mod is_new=true %}
+              {% include gallery-card-item.html mod_data=g_mod %}
             {% endif %}
           {% endif %}
         {% endunless %}
       {% endfor %}
     {% endfor %}
 
-    {% comment %} STUFE 3: Random/Rest-Auffüllung (falls weniger als 3 gefunden wurden) {% endcomment %}
+    {% comment %} STUFE 3: Auffüllung {% endcomment %}
     {% if gallery_count < max_items %}
       {% for g_mod in site.data.mods %}
         {% unless shown_ids contains g_mod.id %}
           {% if gallery_count < max_items %}
             {% assign gallery_count = gallery_count | plus: 1 %}
             {% assign shown_ids = shown_ids | push: g_mod.id %}
-            {% include gallery-card-item.html mod_data=g_mod is_new=false %}
+            {% include gallery-card-item.html mod_data=g_mod %}
           {% endif %}
         {% endunless %}
       {% endfor %}
