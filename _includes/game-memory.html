@@ -129,7 +129,7 @@
   <div class="game-header">
     <div class="game-title">
       <h2>Pack Picker</h2>
-      <p style="color: #64748b; margin: 0;">Finde die Paare. Sul Sul!</p>
+      <p style="color:#64748b; margin:0;">Finde die Paare. Sul Sul!</p>
     </div>
     <div class="game-stats">
       <div class="status-badge" id="game-status">Matches: 0 / 8</div>
@@ -141,78 +141,102 @@
 </div>
 
 <script>
-  (function() {
-    const basePath = "/assets/img/packs_blue/";
-    // Dynamische Generierung der Pack-Listen
-    const epPacks = Array.from({length: 18}, (_, i) => `ep${(i + 1).toString().padStart(2, '0')}`);
-    const gpPacks = Array.from({length: 12}, (_, i) => `gp${(i + 1).toString().padStart(2, '0')}`);
-    const allPacks = [...epPacks, ...gpPacks];
+(function () {
 
-    let flippedCards = [];
-    let lockBoard = false;
-    let matches = 0;
-    const grid = document.getElementById('memoryGrid');
-    const statusLabel = document.getElementById('game-status');
+  const basePath = "{{ site.baseurl }}/assets/img/packs/blue/";
 
-    window.initGame = function() {
-      grid.innerHTML = '';
+  const epPacks = Array.from({ length: 18 }, (_, i) =>
+    `ep${(i + 1).toString().padStart(2, '0')}`
+  );
+  const gpPacks = Array.from({ length: 12 }, (_, i) =>
+    `gp${(i + 1).toString().padStart(2, '0')}`
+  );
+
+  const allPacks = [...epPacks, ...gpPacks];
+
+  let flippedCards = [];
+  let lockBoard = false;
+  let matches = 0;
+
+  const grid = document.getElementById("memoryGrid");
+  const statusLabel = document.getElementById("game-status");
+
+  window.initGame = function () {
+    grid.innerHTML = "";
+    flippedCards = [];
+    lockBoard = false;
+    matches = 0;
+    updateStatus();
+
+    const selected = [...allPacks]
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 8);
+
+    const deck = [...selected, ...selected]
+      .sort(() => 0.5 - Math.random());
+
+    deck.forEach(pack => {
+      const card = document.createElement("div");
+      card.className = "m-card";
+      card.dataset.pack = pack;
+
+      card.innerHTML = `
+        <div class="m-face m-front">?</div>
+        <div class="m-face m-back">
+          <img src="${basePath}${pack}.png"
+               alt="${pack}"
+               loading="lazy"
+               onerror="this.src='https://placehold.co/100?text=Pack'">
+        </div>
+      `;
+
+      card.onclick = () => flipCard(card);
+      grid.appendChild(card);
+    });
+  };
+
+  function flipCard(card) {
+    if (lockBoard || card === flippedCards[0] || card.classList.contains("flipped")) {
+      return;
+    }
+
+    card.classList.add("flipped");
+    flippedCards.push(card);
+
+    if (flippedCards.length === 2) {
+      checkMatch();
+    }
+  }
+
+  function checkMatch() {
+    lockBoard = true;
+
+    const isMatch =
+      flippedCards[0].dataset.pack === flippedCards[1].dataset.pack;
+
+    if (isMatch) {
+      matches++;
+      updateStatus();
       flippedCards = [];
       lockBoard = false;
-      matches = 0;
-      updateStatus();
-      
-      // Zufällige Auswahl und Mischen
-      const selected = [...allPacks].sort(() => 0.5 - Math.random()).slice(0, 8);
-      const deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
-      
-      deck.forEach(pack => {
-        const card = document.createElement('div');
-        card.className = 'm-card';
-        card.dataset.pack = pack;
-        card.innerHTML = `
-          <div class="m-face m-front">?</div>
-          <div class="m-face m-back">
-            <img src="${basePath}${pack}.png" alt="Pack" onerror="this.src='https://placehold.co/100?text=Pack'">
-          </div>`;
-        card.onclick = function() { flipCard(this); };
-        grid.appendChild(card);
-      });
-    }
 
-    function flipCard(card) {
-      if (lockBoard || card === flippedCards[0] || card.classList.contains('flipped')) return;
-      
-      card.classList.add('flipped');
-      flippedCards.push(card);
-
-      if (flippedCards.length === 2) {
-        checkMatch();
+      if (matches === 8) {
+        setTimeout(() => alert("Glückwunsch! Alle Packs gefunden!"), 500);
       }
-    }
-
-    function checkMatch() {
-      lockBoard = true;
-      const isMatch = flippedCards[0].dataset.pack === flippedCards[1].dataset.pack;
-
-      if (isMatch) {
-        matches++;
-        updateStatus();
+    } else {
+      setTimeout(() => {
+        flippedCards.forEach(c => c.classList.remove("flipped"));
         flippedCards = [];
         lockBoard = false;
-        if (matches === 8) setTimeout(() => alert('Glückwunsch! Alle Packs gefunden!'), 500);
-      } else {
-        setTimeout(() => {
-          flippedCards.forEach(card => card.classList.remove('flipped'));
-          flippedCards = [];
-          lockBoard = false;
-        }, 800);
-      }
+      }, 800);
     }
+  }
 
-    function updateStatus() {
-      statusLabel.innerText = `Matches: ${matches} / 8`;
-    }
+  function updateStatus() {
+    statusLabel.textContent = `Matches: ${matches} / 8`;
+  }
 
-    initGame();
-  })();
+  initGame();
+
+})();
 </script>
