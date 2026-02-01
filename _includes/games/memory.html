@@ -1,296 +1,266 @@
 <style>
-  :root{
-    --sims-green:#2ecc71;
-    --sims-blue:#1e293b;
-    --text-main:#0f172a;
-    --transition:0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  :root {
+    --sims-green: #2ecc71;
+    --sims-blue: #1e293b;
+    --text-main: #0f172a;
+    --flip-ease: 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
   }
 
-  .pp-container{
-    font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    background:#f8fafc;
-    border-radius:32px;
-    padding:2rem;
-    max-width:900px;
-    margin:2rem auto;
-    border:1px solid #e2e8f0;
-    box-shadow:0 20px 25px -5px rgba(0,0,0,0.05);
+  .memory-game {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Helvetica, Arial, sans-serif;
+    background: #f8fafc;
+    border-radius: 28px;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
   }
 
-  .pp-header{
-    margin-bottom:1.25rem;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:1rem;
+  .memory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
   }
 
-  .pp-title h2{
-    font-weight:800;
-    color:var(--text-main);
-    margin:0;
-    font-size:1.75rem;
+  .memory-title h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-main);
   }
 
-  .pp-title p{
-    color:#64748b;
-    margin:0;
+  .memory-title p {
+    margin: 0;
+    color: #64748b;
   }
 
-  .pp-stats{
-    display:flex;
-    gap:0.75rem;
-    align-items:center;
-    flex-wrap:wrap;
+  .memory-stats {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
-  .pp-badge{
-    background:#fff;
-    padding:0.5rem 1rem;
-    border-radius:50px;
-    border:2px solid #e2e8f0;
-    font-weight:600;
-    color:var(--sims-blue);
-    white-space:nowrap;
+  .memory-badge {
+    background: #fff;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 2px solid #e2e8f0;
+    font-weight: 600;
+    color: var(--sims-blue);
+    white-space: nowrap;
   }
 
-  .pp-btn{
-    background:var(--sims-blue);
-    color:#fff;
-    border:none;
-    padding:0.6rem 1.25rem;
-    border-radius:12px;
-    font-weight:600;
-    cursor:pointer;
-    transition:all 0.2s;
+  .memory-btn {
+    background: var(--sims-blue);
+    color: #fff;
+    border: none;
+    padding: 0.55rem 1.2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
   }
 
-  .pp-btn:hover{
-    background:#334155;
-    transform:translateY(-2px);
+  .memory-btn:hover {
+    background: #334155;
+    transform: translateY(-2px);
   }
 
-  .pp-grid{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(80px, 1fr));
-    gap:12px;
-    perspective:1000px;
-    margin-top:14px;
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(80px, 1fr));
+    gap: 12px;
+    perspective: 1000px;
+    margin-top: 14px;
   }
 
-  .pp-card{
-    aspect-ratio:1;
-    cursor:pointer;
-    position:relative;
-    transform-style:preserve-3d;
-    transition:transform var(--transition);
+  .memory-card {
+    aspect-ratio: 1;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform var(--flip-ease);
   }
 
-  .pp-card:hover{ transform:scale(1.02); }
-  .pp-card.is-flipped{ transform:rotateY(180deg); }
-
-  .pp-face{
-    position:absolute;
-    width:100%;
-    height:100%;
-    backface-visibility:hidden;
-    border-radius:16px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);
+  .memory-card.is-flipped {
+    transform: rotateY(180deg);
   }
 
-  .pp-front{
-    background:var(--sims-blue);
-    color:#fff;
-    font-size:1.5rem;
-    border:2px solid rgba(255,255,255,0.1);
+  .memory-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
   }
 
-  .pp-back{
-    background:#fff;
-    transform:rotateY(180deg);
-    padding:8px;
-    border:3px solid var(--sims-green);
+  .memory-front {
+    background: var(--sims-blue);
+    color: #fff;
+    font-size: 1.5rem;
+    border: 2px solid rgba(255,255,255,0.1);
   }
 
-  .pp-back img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
+  .memory-back {
+    background: #fff;
+    transform: rotateY(180deg);
+    padding: 8px;
+    border: 3px solid var(--sims-green);
   }
 
-  .pp-error{
-    margin-top:12px;
-    color:#b91c1c;
-    font-weight:700;
+  .memory-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 </style>
 
-<div class="pp-container"
-     data-pp-root
+<div class="memory-game"
+     data-memory-root
      data-pack-base="{{ '/assets/img/packs/blue/' | relative_url }}">
-  <div class="pp-header">
-    <div class="pp-title">
+
+  <div class="memory-header">
+    <div class="memory-title">
       <h2>Pack Picker</h2>
-      <p>Finde die Paare. Sul Sul!</p>
+      <p>Find all matching pairs.</p>
     </div>
 
-    <div class="pp-stats">
-      <div class="pp-badge" data-pp-status>Matches: 0 / 8</div>
-      <div class="pp-badge" data-pp-timer>Time: 00:00</div>
-      <button class="pp-btn" type="button" data-pp-restart>Restart</button>
+    <div class="memory-stats">
+      <div class="memory-badge" data-status>Matches: 0 / 8</div>
+      <div class="memory-badge" data-timer>Time: 00:00</div>
+      <button class="memory-btn" data-restart>Restart</button>
     </div>
   </div>
 
-  <div class="pp-grid" data-pp-grid></div>
-  <div class="pp-error" data-pp-error style="display:none;"></div>
+  <div class="memory-grid" data-grid></div>
 </div>
 
 <script>
 (function () {
-  function boot() {
-    const root = document.querySelector('[data-pp-root]');
+  function start() {
+    const root = document.querySelector('[data-memory-root]');
     if (!root) return;
 
-    const grid = root.querySelector('[data-pp-grid]');
-    const statusEl = root.querySelector('[data-pp-status]');
-    const timerEl = root.querySelector('[data-pp-timer]');
-    const btnRestart = root.querySelector('[data-pp-restart]');
-    const errEl = root.querySelector('[data-pp-error]');
+    const grid = root.querySelector('[data-grid]');
+    const statusEl = root.querySelector('[data-status]');
+    const timerEl = root.querySelector('[data-timer]');
+    const restartBtn = root.querySelector('[data-restart]');
 
-    if (!grid || !statusEl || !timerEl || !btnRestart) {
-      if (errEl) {
-        errEl.style.display = "block";
-        errEl.textContent = "Pack Picker: UI-Elemente fehlen im DOM (Markdown hat evtl. HTML umgebaut).";
-      }
-      return;
-    }
-
-    const basePath = root.dataset.packBase; // <- kommt fix aus HTML/Liquid
-    // Optional: Debug (kannst du wieder rauswerfen)
-    // console.log("[PackPicker] basePath =", basePath);
-
+    const basePath = root.dataset.packBase; // Jekyll-safe
     const PAIRS = 8; // 4x4
 
-    const epPacks = Array.from({ length: 18 }, (_, i) => `ep${String(i + 1).padStart(2, "0")}`);
-    const gpPacks = Array.from({ length: 12 }, (_, i) => `gp${String(i + 1).padStart(2, "0")}`);
-    const allPacks = [...epPacks, ...gpPacks];
+    const ep = Array.from({ length: 18 }, (_, i) => `ep${String(i + 1).padStart(2,'0')}`);
+    const gp = Array.from({ length: 12 }, (_, i) => `gp${String(i + 1).padStart(2,'0')}`);
+    const packs = [...ep, ...gp];
 
-    let flipped = [];
-    let lock = false;
+    let opened = [];
+    let locked = false;
     let matches = 0;
 
     let timerId = null;
-    let startMs = 0;
+    let startTime = 0;
 
     function formatTime(ms) {
-      const totalSec = Math.floor(ms / 1000);
-      const m = Math.floor(totalSec / 60);
-      const s = totalSec % 60;
-      return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+      const t = Math.floor(ms / 1000);
+      const m = Math.floor(t / 60);
+      const s = t % 60;
+      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     }
 
     function startTimer() {
-      stopTimer();
-      startMs = Date.now();
-      timerEl.textContent = "Time: 00:00";
+      clearInterval(timerId);
+      startTime = Date.now();
+      timerEl.textContent = 'Time: 00:00';
       timerId = setInterval(() => {
-        timerEl.textContent = `Time: ${formatTime(Date.now() - startMs)}`;
+        timerEl.textContent = 'Time: ' + formatTime(Date.now() - startTime);
       }, 250);
-    }
-
-    function stopTimer() {
-      if (timerId) clearInterval(timerId);
-      timerId = null;
     }
 
     function updateStatus() {
       statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
     }
 
-    function initGame() {
-      grid.innerHTML = "";
-      flipped = [];
-      lock = false;
+    function resetGame() {
+      grid.innerHTML = '';
+      opened = [];
+      locked = false;
       matches = 0;
       updateStatus();
       startTimer();
 
-      const selected = [...allPacks].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
-      const deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
+      const chosen = [...packs].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
+      const deck = [...chosen, ...chosen].sort(() => 0.5 - Math.random());
 
-      deck.forEach(pack => {
-        const card = document.createElement("div");
-        card.className = "pp-card";
-        card.dataset.pack = pack;
-
-        const imgUrl = `${basePath}${pack}.png`;
+      deck.forEach(id => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.id = id;
 
         card.innerHTML = `
-          <div class="pp-face pp-front">?</div>
-          <div class="pp-face pp-back">
-            <img src="${imgUrl}"
-                 alt="${pack}"
-                 loading="lazy"
-                 onerror="this.src='https://placehold.co/120?text=Pack'">
+          <div class="memory-face memory-front">?</div>
+          <div class="memory-face memory-back">
+            <img src="${basePath}${id}.png" alt="${id}">
           </div>
         `;
 
-        card.addEventListener("click", () => flipCard(card));
+        card.addEventListener('click', () => flip(card));
         grid.appendChild(card);
       });
     }
 
-    function flipCard(card) {
-      if (lock) return;
-      if (card.classList.contains("is-flipped")) return;
-      if (flipped[0] === card) return;
+    function flip(card) {
+      if (locked || card.classList.contains('is-flipped')) return;
+      if (opened[0] === card) return;
 
-      card.classList.add("is-flipped");
-      flipped.push(card);
+      card.classList.add('is-flipped');
+      opened.push(card);
 
-      if (flipped.length === 2) checkMatch();
+      if (opened.length === 2) check();
     }
 
-    function checkMatch() {
-      lock = true;
-      const a = flipped[0];
-      const b = flipped[1];
-      const ok = a.dataset.pack === b.dataset.pack;
+    function check() {
+      locked = true;
+      const [a, b] = opened;
 
-      if (ok) {
+      if (a.dataset.id === b.dataset.id) {
         matches++;
+        opened = [];
+        locked = false;
         updateStatus();
-        flipped = [];
-        lock = false;
 
         if (matches === PAIRS) {
-          stopTimer();
+          clearInterval(timerId);
           setTimeout(() => {
-            alert(`Glückwunsch! Zeit: ${formatTime(Date.now() - startMs)}`);
-          }, 250);
+            alert('Finished in ' + formatTime(Date.now() - startTime));
+          }, 300);
         }
       } else {
         setTimeout(() => {
-          a.classList.remove("is-flipped");
-          b.classList.remove("is-flipped");
-          flipped = [];
-          lock = false;
+          a.classList.remove('is-flipped');
+          b.classList.remove('is-flipped');
+          opened = [];
+          locked = false;
         }, 800);
       }
     }
 
-    btnRestart.addEventListener("click", initGame);
-    initGame();
+    restartBtn.addEventListener('click', resetGame);
+    resetGame();
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
   } else {
-    boot();
+    start();
   }
 })();
 </script>

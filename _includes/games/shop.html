@@ -25,17 +25,20 @@
     color: #0f172a;
   }
 
+  /* NUR das Bild – klein, neutral */
   .sort-image {
-    width: 140px;
-    height: 140px;
-    margin: 30px auto;
-    border-radius: 20px;
-    background-color: #fff;
+    width: 96px;
+    height: 96px;
+    margin: 24px auto;
+
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    border: 1px solid #f1f5f9;
-    box-shadow: 0 10px 25px -15px rgba(0,0,0,0.15);
+
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+
     transition: transform 0.15s ease;
   }
 
@@ -43,7 +46,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    max-width: 500px;
+    max-width: 420px;
     margin: 0 auto;
   }
 
@@ -51,7 +54,7 @@
     background: #ffffff;
     border: 2px solid #f1f5f9;
     border-radius: 16px;
-    padding: 15px;
+    padding: 18px;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -89,11 +92,8 @@
     <div class="sort-badge">Time: <span id="s-time">45</span>s</div>
   </div>
 
+  <!-- NUR Bild -->
   <div id="sort-current" class="sort-image"></div>
-
-  <div id="sort-item-name" style="font-weight:700;color:#64748b;margin-bottom:20px;">
-    Ready?
-  </div>
 
   <div class="sort-grid">
     <div class="sort-box" onclick="checkSort('simsim')">
@@ -115,23 +115,24 @@
   </div>
 
   <div id="sort-msg"></div>
-  <button id="s-start" class="btn btn-primary mt-4" onclick="startSorting()">Start Shift</button>
+  <button id="s-start" class="btn btn-primary mt-4" onclick="startSorting()">
+    Start Shift
+  </button>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* Jekyll-safe Pfad (wie in packs.md / skills.md) */
   const IMG_BASE = "{{ site.baseurl }}/assets/img/games/shop/";
   const FALLBACK = IMG_BASE + "food01.png";
 
   const items = [];
   const pad = n => String(n).padStart(2, "0");
 
-  for (let i = 1; i <= 17; i++) items.push({ img: `food${pad(i)}.png`,  cat: "nomnom",  n: "Food" });
-  for (let i = 1; i <= 5;  i++) items.push({ img: `med${pad(i)}.png`,   cat: "pharmacy",n: "Medicine" });
-  for (let i = 1; i <= 20; i++) items.push({ img: `shop${pad(i)}.png`,  cat: "simsim",  n: "Shop Item" });
-  for (let i = 1; i <= 11; i++) items.push({ img: `trash${pad(i)}.png`, cat: "trash",   n: "Trash" });
+  for (let i = 1; i <= 17; i++) items.push({ img: `food${pad(i)}.png`,  cat: "nomnom"  });
+  for (let i = 1; i <= 5;  i++) items.push({ img: `med${pad(i)}.png`,   cat: "pharmacy"});
+  for (let i = 1; i <= 20; i++) items.push({ img: `shop${pad(i)}.png`,  cat: "simsim"  });
+  for (let i = 1; i <= 11; i++) items.push({ img: `trash${pad(i)}.png`, cat: "trash"   });
 
   let score = 0, time = 45, active = false, current = null, timer;
   const box = document.getElementById("sort-current");
@@ -152,11 +153,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function next() {
     if (!active) return;
+
     current = items[Math.floor(Math.random() * items.length)];
     setImage(current.img);
-    document.getElementById("sort-item-name").innerText = current.n;
 
-    box.style.transform = "scale(1.06)";
+    box.style.transform = "scale(1.08)";
     setTimeout(() => box.style.transform = "scale(1)", 80);
   }
 
@@ -181,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.checkSort = function(cat) {
     if (!active) return;
+
     const msg = document.getElementById("sort-msg");
 
     if (cat === current.cat) {
@@ -189,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
       msg.className = "s-success";
     } else {
       score = Math.max(0, score - 5);
-      msg.innerText = "Wrong category!";
+      msg.innerText = "Wrong!";
       msg.className = "s-error";
     }
 
@@ -200,12 +202,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function end() {
     active = false;
     clearInterval(timer);
-    document.getElementById("sort-item-name").innerText = "Shift Over!";
     document.getElementById("s-start").style.display = "inline-block";
     document.getElementById("s-start").innerText = "Restart Shift";
   }
 
-  /* initial */
+  /* initial preview */
   setImage("food01.png");
 });
 </script>
