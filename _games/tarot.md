@@ -13,4 +13,4 @@ Then click the cards back **in the exact correct order**.
 
 Wrong clicks cost a life and reset your input.
 
-{% include game-tarot.html %}
+{% include games/tarot.html %}
