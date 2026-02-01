@@ -175,6 +175,10 @@ collections:
     output: true
     sort_by: order
     permalink: /wiki/:name/
+  games:
+    output: true
+    sort_by: order
+    permalink: /games/:name/
   tutorials:
     output: true
     sort_by: order
@@ -200,12 +204,14 @@ defaults:
       path: "_mods"
     values:
       layout: mod_info
-      toc: true
   - scope:
       path: "_wiki"
     values:
       layout: page
-      toc: true
+  - scope:
+      path: "_games"
+    values:
+      layout: page
   - scope:
       path: "_tutorials"
     values:
