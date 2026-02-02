@@ -2,14 +2,8 @@
 mod_id: smart-core-script
 title: Smart Core Script
 icon: fas fa-microchip
-files: ["ts4script", "package"]
+files: [ts4script, package]
 categories: [Scripts, Injectors, Core Library]
-translations:
-   default: [ENG, GER, ESP, RUS]
-   BRA: Nymphieta
-   ITA: vale93_games
-   CHT: Orchard Team
-   CHS: Orchard Team
 ---
 
 ## The Engine Behind the Magic
@@ -21,7 +15,6 @@ If you are here, it is likely because you want to use one of my gameplay mods. T
 **Important:** You only need to install this library if a mod’s requirements specifically state that it is required! If you don’t use any of my core-dependent mods, you don’t need this file in your folder.
 
 ## Key Features
-
 * **Engine Extensions:** Adds vital script injections and logic that are missing from the original game engine, enabling complex mod features.
 * **Version Validation:** Automatically checks if the script is outdated and notifies you to ensure your game stays stable after patches.
 * **Optimized Performance:** Built for efficiency with minimal impact on game loading times and frame rates.
@@ -30,6 +23,13 @@ If you are here, it is likely because you want to use one of my gameplay mods. T
 
 ## Compatibility
 This is a standalone script library. It does not override any game files (tuning or internal code), so there are **no known compatibility issues** with other mods or game updates. The included package file contains only the translations for menus and system messages.
+
+## Translations
+* English, German, Sanisch and Russian – by me
+* Italian – by vale93_games
+* Portuguese – by Nymphieta
+* Danish – by Misling
+* Traditional Chinese and Simplified Chinese – by Orchard Team
 
 ## How To Use
 {% include notice-script.html %}
