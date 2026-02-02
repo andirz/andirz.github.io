@@ -7,7 +7,7 @@
   }
 
   .mm-root {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: system-ui, -apple-system, sans-serif;
     background: #f8fafc;
     border-radius: 24px;
     padding: 1.6rem;
@@ -57,7 +57,7 @@
   .mm-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(68px, 1fr));
-    gap: 10px;
+    gap: 12px;
     perspective: 1000px;
     margin-top: 10px;
   }
@@ -73,34 +73,32 @@
   .mm-card.is-flipped { transform: rotateY(180deg); }
 
   .mm-face {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     backface-visibility: hidden;
     border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     box-shadow: 0 4px 6px -2px rgba(0,0,0,0.12);
   }
 
-  .mm-front { background: var(--sims-blue); color: #fff; font-size: 1.35rem; border: 2px solid rgba(255,255,255,0.1); }
-  .mm-back { background: #fff; transform: rotateY(180deg); padding: 7px; border: 3px solid var(--sims-green); }
+  .mm-front { background: var(--sims-blue); color: #fff; font-size: 1.5rem; border: 2px solid rgba(255,255,255,0.1); }
+  .mm-back { background: #fff; transform: rotateY(180deg); padding: 8px; border: 3px solid var(--sims-green); }
   .mm-back img { width: 100%; height: 100%; object-fit: contain; display: block; }
 </style>
 
-{%- comment -%} Parameter aus dem Include oder Standardwerte {%- endcomment -%}
+{%- comment -%} Parameter-Logik {%- endcomment -%}
 {%- assign current_folder = include.folder | default: "/assets/img/packs/blue/" -%}
 {%- assign max_ep = include.ep_count | default: 18 -%}
-{%- assign max_gp = include.gp_count | default: 0 -%}
+{%- assign max_gp = include.gp_count | default: 12 -%}
+{%- assign pairs_to_match = include.pairs | default: 8 -%}
 
 <div class="mm-root" data-mm>
   <div class="mm-header">
     <div class="mm-title">
       <h2>Pack Picker</h2>
-      <p>Finde alle passenden Paare.</p>
+      <p>Finde alle Paare.</p>
     </div>
     <div class="mm-stats">
-      <div class="mm-badge" data-mm-status>Matches: 0 / 8</div>
+      <div class="mm-badge" data-mm-status>Matches: 0 / {{ pairs_to_match }}</div>
       <div class="mm-badge" data-mm-timer>Zeit: 00:00</div>
       <button class="mm-btn" type="button" data-mm-restart>Neu starten</button>
     </div>
@@ -110,32 +108,33 @@
 
 <script>
 (function () {
+  // Wir bauen die Liste der verfügbaren Bilder sicher zusammen
   const PACKS = [
-    {%- comment -%} Expansion Packs Check {%- endcomment -%}
+    {%- comment -%} Suche Expansion Packs {%- endcomment -%}
     {%- for i in (1..max_ep) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
-      {%- assign pack_id = "ep" | append: id -%}
-      {%- assign full_path = current_folder | append: pack_id | append: ".png" -%}
-      {%- assign exists = false -%}
+      {%- assign p_id = "ep" | append: id -%}
+      {%- assign f_path = current_folder | append: p_id | append: ".png" -%}
+      {%- assign found = false -%}
       {%- for file in site.static_files -%}
-        {%- if file.path == full_path -%}{%- assign exists = true -%}{%- break -%}{%- endif -%}
+        {%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
-      {%- if exists -%}
-        { id: "{{ pack_id }}", url: "{{ full_path | relative_url }}" },
+      {%- if found -%}
+        { id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },
       {%- endif -%}
     {%- endfor -%}
 
-    {%- comment -%} Game Packs Check {%- endcomment -%}
+    {%- comment -%} Suche Game Packs {%- endcomment -%}
     {%- for i in (1..max_gp) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
-      {%- assign pack_id = "gp" | append: id -%}
-      {%- assign full_path = current_folder | append: pack_id | append: ".png" -%}
-      {%- assign exists = false -%}
+      {%- assign p_id = "gp" | append: id -%}
+      {%- assign f_path = current_folder | append: p_id | append: ".png" -%}
+      {%- assign found = false -%}
       {%- for file in site.static_files -%}
-        {%- if file.path == full_path -%}{%- assign exists = true -%}{%- break -%}{%- endif -%}
+        {%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
-      {%- if exists -%}
-        { id: "{{ pack_id }}", url: "{{ full_path | relative_url }}" },
+      {%- if found -%}
+        { id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },
       {%- endif -%}
     {%- endfor -%}
   ];
@@ -145,10 +144,11 @@
     const statusEl = root.querySelector('[data-mm-status]');
     const timerEl = root.querySelector('[data-mm-timer]');
     const restartBtn = root.querySelector('[data-mm-restart]');
-    const PAIRS = 8;
+    const PAIRS = {{ pairs_to_match }};
 
-    if (!PACKS || PACKS.length < PAIRS) {
-      statusEl.textContent = "Nicht genug Bilder in " + "{{ current_folder }}";
+    if (PACKS.length < PAIRS) {
+      statusEl.textContent = "Fehler: Zu wenige Bilder!";
+      console.error("Memory Error: Nur " + PACKS.length + " Bilder gefunden. Benötigt: " + PAIRS);
       return;
     }
 
@@ -167,6 +167,7 @@
       startMs = Date.now();
       timerId = setInterval(() => timerEl.textContent = "Zeit: " + format(Date.now() - startMs), 250);
 
+      // Zufällige Auswahl der Bilder
       const chosen = [...PACKS].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
       const deck = [...chosen, ...chosen].sort(() => 0.5 - Math.random());
 
@@ -174,11 +175,18 @@
         const card = document.createElement("div");
         card.className = "mm-card";
         card.dataset.id = item.id;
-        card.innerHTML = `<div class="mm-face mm-front">?</div><div class="mm-face mm-back"><img src="${item.url}" alt="${item.id}"></div>`;
+        card.innerHTML = `
+          <div class="mm-face mm-front">?</div>
+          <div class="mm-face mm-back">
+            <img src="${item.url}" alt="${item.id}" loading="lazy">
+          </div>
+        `;
+
         card.addEventListener("click", () => {
           if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
           card.classList.add("is-flipped");
           opened.push(card);
+
           if (opened.length === 2) {
             locked = true;
             if (opened[0].dataset.id === opened[1].dataset.id) {
