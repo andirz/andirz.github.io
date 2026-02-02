@@ -1,5 +1,5 @@
 {% comment %} 
-  ID aus dem Dateinamen extrahieren (z.B. cleanup-script.md -> cleanup-script)
+  ID aus dem Dateinamen extrahieren
 {% endcomment %}
 {% assign filename = page.path | split: "/" | last | replace: ".md", "" %}
 {% assign current_id = page.mod_id | default: filename %}
@@ -14,7 +14,7 @@
 {% assign paypal_link = site.data.globals.links.paypal %}
 {% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: (current_id | replace: '_', '-') %}
 
-{% comment %} BILD-CHECK: Prüfen ob das Cover existiert {% endcomment %}
+{% comment %} BILD-CHECK {% endcomment %}
 {% assign expected_cover_path = "/assets/img/mods/" | append: current_id | append: "/cover.png" %}
 {% assign cover_exists = false %}
 {% for file in site.static_files %}
@@ -26,14 +26,17 @@
 
 <div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
   
-  {% comment %} 1. MOD INFO BOX mit schwarzem Rahmen {% endcomment %}
+  {% comment %} 1. MOD INFO BOX - Schwarzer Rahmen {% endcomment %}
   <div class="sidebar-box" style="background: white; border: 2px solid #000000; border-radius: 16px; overflow: hidden; margin-bottom: 15px;">
-    {% comment %} Trennlinie unten zum Bild/Icon jetzt schwarz {% endcomment %}
-    <div style="width: 100%; background: #f8fafc; border-bottom: 2px solid #000000; display: flex; justify-content: center; align-items: center;">
+    {% comment %} Schwarze Trennlinie unter dem Bild-Container {% endcomment %}
+    <div style="width: 100%; height: 180px; background: #f8fafc; border-bottom: 2px solid #000000; display: flex; justify-content: center; align-items: center; overflow: hidden;">
       {% if cover_exists %}
-        <img src="{{ expected_cover_path }}" alt="{{ mod_full_name }}" style="width: 100%; height: auto; display: block;">
+        {% comment %} object-fit: cover erzwingt die gleiche Größe für alle Bilder {% endcomment %}
+        <img src="{{ expected_cover_path }}" 
+             alt="{{ mod_full_name }}" 
+             style="width: 100%; height: 100%; object-fit: cover; display: block;">
       {% else %}
-        <div style="padding: 30px 0; font-size: 50px; color: #3b82f6;">
+        <div style="font-size: 50px; color: #3b82f6;">
            <i class="{{ page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
         </div>
       {% endif %}
@@ -44,7 +47,7 @@
       <div style="margin-top: 6px; display: flex; justify-content: center; align-items: center; gap: 8px; color: #64748b; font-size: 0.8rem; font-weight: 600;">
         <span>v. {{ current_version }}</span>
         
-        {% comment %} Dateityp-Icons mit Alt-Text (title) {% endcomment %}
+        {% comment %} Schwarze Trennlinie vor den Typ-Icons {% endcomment %}
         <div style="display: flex; gap: 6px; margin-left: 5px; border-left: 1px solid #000000; padding-left: 8px;">
           {% if page.files contains 'ts4script' %}
             <i class="fas {% if current_id == 'smart-core-script' %}fa-microchip{% else %}fa-code{% endif %}" title="Script Mod" aria-label="Script Mod" style="color: #3b82f6;"></i>
@@ -62,7 +65,7 @@
     </div>
   </div>
 
-  {% comment %} 2. REQUIREMENTS BOX mit schwarzem Rahmen {% endcomment %}
+  {% comment %} 2. REQUIREMENTS BOX - Schwarzer Rahmen {% endcomment %}
   {% if final_reqs.size > 0 or page.packs.size > 0 %}
   <div class="sidebar-box" style="background: white; border: 2px solid #000000; border-radius: 16px; overflow: hidden; margin-bottom: 15px;">
     <div style="padding: 8px; background: #000000; text-align: center; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 1px;">Requirements</div>
@@ -93,7 +96,7 @@
   </div>
   {% endif %}
 
-  {% comment %} 3. DOWNLOAD & SUPPORT mit schwarzem Rahmen {% endcomment %}
+  {% comment %} 3. DOWNLOAD & SUPPORT - Schwarzer Rahmen {% endcomment %}
   <div class="sidebar-box" style="background: white; border: 2px solid #000000; border-radius: 16px; overflow: hidden;">
     <div style="padding: 12px; display: flex; flex-direction: column; gap: 8px;">
       {% unless page.curseforge_ban %}
