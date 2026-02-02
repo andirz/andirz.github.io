@@ -12,6 +12,3 @@ This library contains **common resources** (icons, images, tests, and shared set
 The P.S.O. Common Package acts as a central resource hub. You don't need to download this unless another mod (like *SimSim Online Store*) explicitly requires it.
 
 **Important Update (v2.0+):** The custom script has been removed to avoid conflicts. This mod now relies entirely on the **Smart Core Script**, which must be installed separately!
-
-## Translations
-This mod does not add new text strings to the game; therefore, no translations are required.

@@ -2,11 +2,10 @@
 mod_id: simsim-online-store
 title: SimSim Online Store
 icon: "fas fa-shopping-cart"
-permalink: "/mods/online-store/"
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay Mods]
 translations:
-  ENG: "myself"
+  default: [ENG, GER, ESP, RUS]
 ---
 
 ## What does this mod do?
@@ -15,7 +14,7 @@ The **SimSim Online Store** is the ultimate shopping experience for your Sims! T
 ## Shopping Assortment
 The store includes almost every object from the **Base Game and all packs** (EPs, GPs, SPs, Kits) that can fit into a Sim's inventory.
 
-### Available Categories
+#### Available Categories
 The assortment is organized into numerous departments:
 * **Lifestyle:** Wellness & Beauty, Sport & Fitness, Pets & Animals.
 * **Home:** Furniture, Home Appliances, Garden & Farming, Plants & Flowers.
@@ -24,16 +23,16 @@ The assortment is organized into numerous departments:
 * **And much more:** Posters, Kids Stuff, Party & Celebration, Beach & Outdoor.
 
 ## Special Features
-### Custom Mod Integration
+#### Custom Mod Integration
 SimSim supports numerous CC objects from well-known mods, such as:
 * **Functional Broom** (Mizore Yukii)
 * **Functional Fitness Objects** (Zulf)
 * **Home & Land Company** (SimRealist)
 * *Custom objects only appear if the corresponding mods are installed.*
 
-### Shopping Buff System
+#### Shopping Buff System
 Purchasing goods isn't just about the items; it affects your Sims' emotions! Depending on their personal traits, Sims can receive buffs ranging from **Enthusiasm** to **Boredom**.
 
-### Call Center & Hotline
+#### Call Center & Hotline
 The interactive Hotline brings the store to life. Sometimes annoying, sometimes rewarding—expect calls for special occasions and gifts! 
 *Note: This feature uses "Drama Node Tuning" and is currently in test mode.*
