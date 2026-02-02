@@ -13,7 +13,7 @@ time: 45s
 
 As a delivery assistant, sort items into the correct Mod-Category. Don't mix up the medicine!
 
-{% include games/shop.html
+{% include games/shop-sorting.html
    food_count=37
    med_count=9
    shop_count=38
