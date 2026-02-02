@@ -115,7 +115,7 @@
       border: 1px solid rgba(148,163,184,.25);
       color:#e5e7eb;
       letter-spacing: .2px;
-      z-index: 2;
+      z-index: 5;
     }
 
     .tf-panel{
@@ -164,7 +164,7 @@
     <div class="tf-head">
       <div class="tf-title">
         <h2>Tarot Fortune Teller</h2>
-        <p class="tf-sub">Sims-style readings. Pick a spread, draw cards, and get a playful prediction. Sul sul.</p>
+        <p class="tf-sub">Sims-style readings. Pick a spread, draw cards, and get a playful prediction.</p>
       </div>
 
       <div class="tf-controls">
@@ -178,7 +178,7 @@
     <div class="tf-stage">
       <div class="tf-board">
         <div class="tf-cards" data-tf-cards></div>
-        <div class="tf-small">Cards show briefly, then flip back. Click to reveal.</div>
+        <div class="tf-small">Cards reveal briefly, then flip. Click to reveal.</div>
       </div>
 
       <div class="tf-panel">
@@ -214,9 +214,10 @@
     return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
   }
 
-  // Korrigierte Pfad-Funktion analog zu skills.md
+  // Pfad-Funktion exakt auf deinen Wunsch angepasst
   function imgSrc(name){
-    return "{{ site.baseurl }}/assets/img/tarot/" + name + ".png";
+    // Nutzt den Pfad, den du angegeben hast
+    return "/assets/img/games/tarot/" + name + ".png";
   }
 
   const meaning = {
@@ -254,12 +255,12 @@
 
   const intros = {
     quick:[
-      "Your Plumbob is vibrating. That usually means… something is about to happen.",
+      "Your Plumbob is vibrating. Something is about to happen.",
       "The Universe rolled a D20 and got ‘Maybe’.",
       "Someone in your save is about to make a bold decision."
     ],
     three:[
-      "Past / Present / Future — or: ‘what you did’, ‘what you’re doing’, ‘what breaks next’.",
+      "Past / Present / Future — what you did, what you’re doing, what breaks next.",
       "This spread is basically a loading screen, but with destiny.",
       "The Watcher answered with chaos."
     ],
@@ -275,12 +276,11 @@
     const parts = cards.map(getMeaning);
     const positive = Math.random() < 0.58;
     const main = positive ? parts.map(p=>p.good).join(" ") : parts.map(p=>p.bad).join(" ");
-    const extra = spread === "mood" ? "Forecast: emotions change fast." : "Watcher’s note: chaos included.";
     const moods = shuffle(parts.flatMap(p=>p.moods || [])).slice(0,3);
 
     return {
       title: spread === "quick" ? "Quick Fate Check" : spread === "three" ? "Classic 3-Card Spread" : "Moodlets Forecast",
-      text: `${intro}\n\n${main}\n\n${extra}`,
+      text: `${intro}\n\n${main}`,
       moods
     };
   }
@@ -319,24 +319,20 @@
       cardsWrap.innerHTML = "";
     }
 
-    function createFaceCard(tag, name){
+    function createCardMarkup(name, tag, isBack = false){
       const el = document.createElement('div');
-      el.className = "tf-card";
-      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-      const img = document.createElement('img');
-      img.src = imgSrc(name);
-      img.alt = name;
-      img.onerror = () => { img.src = placeholder(name); console.error("Failed to load: " + img.src); };
-      el.appendChild(img);
-      return el;
-    }
-
-    function createBackCard(tag, name){
-      const el = document.createElement('div');
-      el.className = "tf-card tf-back";
+      el.className = "tf-card" + (isBack ? " tf-back" : "");
       el.dataset.name = name;
       el.dataset.tag = tag;
       el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+      
+      if(!isBack){
+        const img = document.createElement('img');
+        img.src = imgSrc(name);
+        img.alt = name;
+        img.onerror = () => { img.src = placeholder(name); console.warn("Missing image:", img.src); };
+        el.appendChild(img);
+      }
       return el;
     }
 
@@ -359,6 +355,7 @@
       elMoodlets.innerHTML = "";
       reading.moods.forEach(m => elMoodlets.appendChild(moodletSpan(m)));
       elReading.style.display = "block";
+      elPrompt.textContent = "Your reading is ready.";
     }
 
     function draw(){
@@ -371,12 +368,14 @@
       const tags = spread === "quick" ? ["FATE"] : spread === "three" ? ["PAST","PRESENT","FUTURE"] : ["MIND","HEART","ENERGY"];
       
       cardsWrap.innerHTML = "";
-      drawn.forEach((name,i) => cardsWrap.appendChild(createFaceCard(tags[i], name)));
+      drawn.forEach((name,i) => cardsWrap.appendChild(createCardMarkup(name, tags[i], false)));
+
+      elPrompt.textContent = "The cards show their faces...";
 
       timer = setTimeout(()=>{
         cardsWrap.innerHTML = "";
         drawn.forEach((name,i)=>{
-          const el = createBackCard(tags[i], name);
+          const el = createCardMarkup(name, tags[i], true);
           el.addEventListener('click', ()=>{
             if(lockClicks) return;
             if(el.classList.contains('tf-back')){
@@ -389,7 +388,7 @@
         });
         lockClicks = false;
         elPrompt.textContent = "Click each card to reveal your reading.";
-      }, 1200);
+      }, 1500);
     }
 
     pills.forEach(p => p.addEventListener('click', ()=>setSpread(p.dataset.tfSpread)));
