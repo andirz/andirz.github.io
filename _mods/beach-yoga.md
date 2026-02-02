@@ -5,7 +5,7 @@ parent: "Mods"
 icon: "fas fa-spa"
 packs: ["EP07", "GP02"]
 requirements: ["xml_injector"]
-categories: [Gameplay Mods, Activities]
+categories: [Gameplay Mods, Activities, Skills]
 ---
 
 ## What does this mod do?
