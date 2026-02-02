@@ -14,4 +14,4 @@ time: 45s
 Match all Sims 4 expansion and game packs before the timer runs out.  
 A classic memory game for true Sims fans.
 
-{% include games/memory.html %}
+{% include games/pack-memory.html %}

@@ -16,4 +16,4 @@ Plan a full Sim day using 8 time slots.
 Balance **energy**, **hunger**, **fun**, and **money** to maximize happiness.  
 No reflexes required — this one is all about thinking ahead.
 
-{% include game-day-planner.html %}
+{% include games/day-planner.html %}
