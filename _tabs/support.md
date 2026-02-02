@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Mod Support
-icon: fas fa-users-gear
-order: 100
+title: "Mod Support"
+icon: "fas fa-users-gear"
+order: 500
 ---
 
 ## <i class="fas fa-info-circle"></i> Support Guidelines

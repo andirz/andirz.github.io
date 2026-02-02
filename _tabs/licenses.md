@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Icon Licenses
+title: "Credits & Licenses"
 icon: "fas fa-balance-scale"
-permalink: "/licenses/"
+order: 400
 ---
 
 This page provides mandatory attribution for third-party assets used exclusively within the **P.S.O. (Purchasing System Overhaul)** mods.
