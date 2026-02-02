@@ -1,9 +1,9 @@
 ---
-mod_id: create-new-sim
+mod_id: create_new_sim
 title: "Create New Sim"
 icon: "fas fa-user-plus"
 requirements: ["lot51_core"]
-categories: [Cheats & Debugging, Sim Personalization]
+categories: [Cheats, Debugging]
 ---
 
 ## Mod Description

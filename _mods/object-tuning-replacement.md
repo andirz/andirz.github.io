@@ -1,5 +1,5 @@
 ---
-mod_id: object-tuning-replacement
+mod_id: object_tuning_replacement
 title: Object Tuning Replacement
 icon: fas fa-chair
 files: ["ts4script"]

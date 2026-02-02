@@ -4,7 +4,7 @@ title: "Take It Off: No Shoes! No Accessories!"
 parent: "Mods"
 icon: "fas fa-socks"
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Immersion, Tweaks]
+categories: [Sim Personalization, Gameplay Mods, Tweaks, Adopted Mods]
 ---
 
 ## What does this mod do?

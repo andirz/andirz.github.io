@@ -1,5 +1,5 @@
 ---
-mod_id: death-roulette
+mod_id: death_roulette
 title: "Death Roulette Challenge"
 parent: "Mods"
 icon: "fas fa-skull-crossbones"

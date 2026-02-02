@@ -1,5 +1,5 @@
 ---
-mod_id: autofill-personality-traits
+mod_id: autofill_personality_traits
 title: "Auto-Fill Personality Traits"
 parent: "Mods"
 icon: "fas fa-user-tag"

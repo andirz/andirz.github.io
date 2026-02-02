@@ -1,5 +1,5 @@
 ---
-mod_id: better-pie-menu
+mod_id: better_pie_menu
 title: "Better Pie Menu"
 icon: "fas fa-list-ul"
 requirements: ["lot51_core"]

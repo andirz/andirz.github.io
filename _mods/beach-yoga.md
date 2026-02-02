@@ -1,5 +1,5 @@
 ---
-mod_id: beach-yoga
+mod_id: beach_yoga
 title: "Beach Yoga"
 parent: "Mods"
 icon: "fas fa-spa"

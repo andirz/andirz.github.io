@@ -1,8 +1,7 @@
 ---
-mod_id: sim-nom-nom-delivery
+mod_id: sim_nom_nom_delivery
 title: "Sim-Nom-Nom Food Delivery"
 icon: fas fa-utensils
-permalink: "/mods/sim-nom-nom-delivery/"
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Food, Gameplay Mods]
 ---

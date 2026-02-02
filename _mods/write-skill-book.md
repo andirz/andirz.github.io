@@ -1,5 +1,5 @@
 ---
-mod_id: write-skill-book
+mod_id: write_skill_book
 title: "Write Skill Book"
 icon: "fas fa-pen-nib"
 parent: "Mods"

@@ -1,5 +1,5 @@
 ---
-mod_id: purchase-drinks
+mod_id: purchase_drinks
 title: "Purchase Drinks"
 icon: "fas fa-wine-bottle"
 packs: ["EP09", "EP14"]

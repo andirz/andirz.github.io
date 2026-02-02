@@ -1,5 +1,5 @@
 ---
-mod_id: pso-common-package
+mod_id: pso_common_package
 title: "P.S.O. Common Package"
 icon: fas fa-cubes
 requirements: ["smart_core"]

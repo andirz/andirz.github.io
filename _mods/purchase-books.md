@@ -1,5 +1,5 @@
 ---
-mod_id: purchase-occult-books
+mod_id: purchase_occult_books
 title: "Purchase Occult Books"
 icon: "fas fa-book-dead"
 requirements: ["smart_core", "pso_common"]

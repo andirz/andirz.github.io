@@ -1,19 +1,9 @@
 ---
-mod_id: simsim-online-store
+mod_id: simsim_online_store
 title: SimSim Online Store
 icon: "fas fa-shopping-cart"
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay Mods]
-translations:
-  default: [ENG, GER, ESP, RUS]
-  BRA: Thamis4 and Nymphieta
-  CHT: Wanzi & Orchard Team
-  CHS: Wanzi & Orchard team
-  FRA: Mollory
-  FN: Muffin
-  ITA: vale93_games
-  JAP: Blackxxdahlia
-  POL: Iskierka and Aarathiel
 ---
 
 ## What does this mod do?

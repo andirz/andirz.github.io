@@ -1,11 +1,11 @@
 ---
-mod_id: extended-private-journal
+mod_id: extended_private_journal
 title: "Extended Private Journal"
 parent: "Mods"
 icon: "fas fa-book-open"
 packs: ["GP05"]
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Storytelling, Skills]
+categories: [Gameplay Mods, Storytelling, Skills, Adopted Mods]
 ---
 
 ## What does this mod do?

@@ -1,5 +1,5 @@
 ---
-mod_id: the-bill-master
+mod_id: the_bill_master
 title: "The Bill Master"
 icon: "fas fa-money-bill-wave"
 requirements: ["lot51_core"]

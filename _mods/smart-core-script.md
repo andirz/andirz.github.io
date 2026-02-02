@@ -1,5 +1,5 @@
 ---
-mod_id: smart-core-script
+mod_id: smart_core_script
 title: Smart Core Script
 icon: fas fa-microchip
 files: [ts4script, package]

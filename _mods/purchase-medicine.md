@@ -1,9 +1,9 @@
 ---
+mod_id: "purchase_medicine"
 title: Purchase Medicine
-mod_id: "purchase-medicine"
 icon: "fas fa-pills"
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Game Play Mods]
+categories: [Purchasing System, Gameplay Mods]
 ---
 
 ## What does this mod do?

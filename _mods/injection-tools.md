@@ -1,9 +1,9 @@
 ---
-mod_id: injection-tools
+mod_id: injection_tools
 title: Injection Tools
 icon: "fas fa-tools"
 files: ["ts4script"]
-categories: [Scripts, Injectors]
+categories: [Scripts, Injectors, Adopted Mods]
 ---
 
 ## What is that?
