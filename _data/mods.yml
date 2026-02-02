@@ -174,8 +174,9 @@
 # --- SELVADORADIAN & DEATH ---
 
 - id: death_roulette
-  version: "1.0.0"
+  version: "1.5.0"
   status: "compatible"
+  updated: "2025-10-08"
 
 - id: urn_stone_overhaul
   name: "Urn/Stone Overhaul"
@@ -278,29 +279,34 @@
 # --- CAREERS & INDEPENDENT ---
 
 - id: auto_service
-  version: "1.0.0"
+  version: "2.2.3"
   status: "compatible"
-  updated: "2025-05-12"
+  updated: "2025-07-05"
 
 - id: the-bill-master
-  version: "1.1.0"
-  status: "stable"
+  version: "2.2.5"
+  status: "compatible"
+  updated: "2025-07-06"
 
 - id: beach_yoga
   version: "1.1.1"
   status: "compatible"
+  updated: "2024-03-01"
 
 - id: take_it_off
   version: "4.2.3"
   status: "compatible"
+  updated: "2025-03-15"
 
 - id: extended_private_journal
   version: "3.3.0"
   status: "compatible"
+  updated: "2024-07-02"
 
 - id: write_skill_book
   version: "1.2.0"
   status: "compatible"
+  updated: "2025-10-07"
 
 - id: body_hair_replacement_luumia
   name: "Body Hair Replacement: Luumia Edition"
