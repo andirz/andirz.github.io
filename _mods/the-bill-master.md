@@ -1,11 +1,9 @@
 ---
 mod_id: the-bill-master
 title: "The Bill Master"
-parent: "Mods"
 icon: "fas fa-money-bill-wave"
-packs: ["EP01", "EP05", "GP04"]
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Cheats & Tweaks, Money]
+categories: [Gameplay Mods, Money, Adopted Mods]
 ---
 
 ## What does this mod do?
@@ -30,7 +28,6 @@ Three new bill-related interactions are added:
 ## Gameplay Rework & Improvements
 
 ### Hack Into the Tax and Bills Office
-
 - Can be attempted from **Programming Skill level 4**
 - Success chance depends on multiple factors:
   - Programming skill level
@@ -54,18 +51,14 @@ Three new bill-related interactions are added:
 - Failure results in the card being blocked and the transaction failing
 
 ### Ask for Help Paying Bills
-
 - Currently unchanged from the original version
 - Planned to receive additional depth and variability in a future update
 
 ## Packs & Gameplay Requirements
-
-- **Get to Work (EP01)** – required for core bill mechanics
-- **Seasons (EP05)** – affects Discount Day behavior
-- **Realm of Magic (GP04)** – optional gameplay modifiers via Lucky Potion
+- **Seasons (EP05)** – optional
+- **Realm of Magic (GP04)** – optional 
 
 ## Translations
-
 - **English, German, Spanish, Russian** – by me  
 - **French** – Heidi (Luniversims team)  
 - **Italian** – vale93_games  
@@ -73,7 +66,6 @@ Three new bill-related interactions are added:
 - **Chinese & Simplified Chinese** – Orchard team
 
 ## Compatibility
-
 - No game resources are overridden
 - All interactions are added independently
 - No compatibility issues are expected
