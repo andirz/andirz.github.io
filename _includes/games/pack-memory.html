@@ -72,7 +72,7 @@
     grid-template-columns:repeat(4, minmax(68px, 1fr));
     gap:10px;
     perspective:1000px;
-    margin-top:100px;
+    margin-top:10px;
   }
 
   .mm-card{
@@ -140,8 +140,8 @@
 <script>
 (function () {
   const PACKS = [
-    {%- comment -%} Expansion Packs 01 bis 18 {%- endcomment -%}
-    {%- for i in (1..18) -%}
+    {%- comment -%} Schleife für Expansion Packs (EP) {%- endcomment -%}
+    {%- for i in (1..21) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign pack_id = "ep" | append: id -%}
       {%- assign full_path = blue_folder | append: pack_id | append: ".png" -%}
@@ -149,8 +149,7 @@
       {%- assign exists = false -%}
       {%- for file in site.static_files -%}
         {%- if file.path == full_path -%}
-          {%- assign exists = true -%}{%- break -%}
-        {%- endif -%}
+          {%- assign exists = true -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
 
       {%- if exists -%}
@@ -158,7 +157,7 @@
       {%- endif -%}
     {%- endfor -%}
 
-    {%- comment -%} Game Packs 01 bis 12 {%- endcomment -%}
+    {%- comment -%} Schleife für Game Packs (GP) {%- endcomment -%}
     {%- for i in (1..12) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign pack_id = "gp" | append: id -%}
@@ -167,8 +166,7 @@
       {%- assign exists = false -%}
       {%- for file in site.static_files -%}
         {%- if file.path == full_path -%}
-          {%- assign exists = true -%}{%- break -%}
-        {%- endif -%}
+          {%- assign exists = true -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
 
       {%- if exists -%}
