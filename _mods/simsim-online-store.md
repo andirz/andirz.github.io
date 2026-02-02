@@ -32,11 +32,11 @@ The assortment is organized into numerous departments:
 
 ## Special Features
 #### Custom Mod Integration
-SimSim supports numerous CC objects from well-known mods, such as:
+SimSim Online Store supports numerous CC objects from well-known mods, such as:
 * **Functional Broom** (Mizore Yukii)
 * **Functional Fitness Objects** (Zulf)
 * **Home & Land Company** (SimRealist)
-* *Custom objects only appear if the corresponding mods are installed.*
+Custom objects only appear if the corresponding mods are installed.
 
 #### Shopping Buff System
 Purchasing goods isn't just about the items; it affects your Sims' emotions! Depending on their personal traits, Sims can receive buffs ranging from **Enthusiasm** to **Boredom**.
