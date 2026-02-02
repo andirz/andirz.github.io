@@ -1,5 +1,5 @@
 ---
-mod_id: auto-service
+mod_id: auto-service-career
 title: "Auto Service Career"
 parent: "Mods"
 icon: "fas fa-car-side"
