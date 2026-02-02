@@ -17,10 +17,10 @@ Sims with a low **Obscura Skill** level are at the mercy of the network’s puni
 
 ## Main Features
 
-* <i class="fas fa-skull-crossbones" style="color: #6366f1; margin-right: 8px;"></i> **The Black Market:** Buy forbidden and rare goods that you won't find anywhere else.
-* <i class="fas fa-biohazard" style="color: #6366f1; margin-right: 8px;"></i> **Risk & Reward:** High chance of running into viruses, scammers, or even police surveillance.
-* <i class="fas fa-graduation-cap" style="color: #6366f1; margin-right: 8px;"></i> **New Minor Skill:** Obscura Network Skill (5 levels) to master the dangers.
-* <i class="fas fa-ghost" style="color: #6366f1; margin-right: 8px;"></i> **New Fear:** Fear of Obscura—a psychological toll for those who fail.
+* **The Black Market:** Buy forbidden and rare goods that you won't find anywhere else.
+* **Risk & Reward:** High chance of running into viruses, scammers, or even police surveillance.
+* **New Minor Skill:** Obscura Network Skill (5 levels) to master the dangers.
+* **New Fear:** Fear of Obscura—a psychological toll for those who fail.
 
 ---
 
@@ -33,8 +33,6 @@ Many features are still in their early stages of development. I would love to he
 Please share your feedback and suggestions on Discord!
 
 ---
-
-{% include script_notice.html %}
 
 ## Compatibility
 This mod does not overwrite any game files, so no compatibility issues are to be expected.
