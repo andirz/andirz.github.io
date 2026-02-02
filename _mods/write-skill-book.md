@@ -1,9 +1,9 @@
 ---
 mod_id: write-skill-book
 title: "Write Skill Book"
+icon: "fas fa-pen-nib"
 parent: "Mods"
 icon: "fas fa-book"
-packs: ["EP08"]
 requirements: ["smart_core"]
 categories: [Gameplay Mods, Skills, Writing]
 ---

@@ -3,7 +3,7 @@ mod_id: extended-private-journal
 title: "Extended Private Journal"
 parent: "Mods"
 icon: "fas fa-book-open"
-packs: ["GP05", "EP08", "EP10"]
+packs: ["GP05"]
 requirements: ["lot51_core"]
 categories: [Gameplay Mods, Storytelling, Skills]
 ---

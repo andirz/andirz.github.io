@@ -1,0 +1,80 @@
+---
+mod_id: auto-service
+title: "Auto Service Career"
+parent: "Mods"
+icon: "fas fa-car-side"
+requirements: ["lot51_core"]
+categories: [Careers, Gameplay Mods]
+---
+
+## What does this mod do?
+
+**Auto Service Career** is a full remake and modernization of the original *Auto Service Career* by **YouLie**, originally published on ModTheSims.
+
+The original mod had not been updated since mid-2019 and was no longer functional. It also missed many gameplay systems introduced with later expansions such as **Discover University**, **High School Years**, **Growing Together**, lifestyles, and other modern mechanics.
+
+With permission from the original author, this mod was fully adopted, repaired, and expanded.  
+All images used in the career still belong to the original creator.
+
+## Career Overview
+
+This is a classic **rabbit hole career** focused on hands-on automotive work.
+
+Most career levels are based on the original mod, but many aspects have been adjusted or rebalanced:
+
+- Working hours  
+- Work outfits  
+- Promotion requirements  
+- Salary levels  
+
+Because this is **not an academic profession**, no university degrees are required for promotion.  
+Progression is instead driven by **relevant skills**, making the career more immersive and logical.
+
+## Career Tracks
+
+### Main Track
+
+- Workshop Cleaner  
+- Car Washer  
+- Repair Assistant  
+
+### Repair Service Track
+
+- Tyre Fitter  
+- Mechanic  
+- Mechatronics Engineer  
+- Chief Mechanic  
+- Quality Inspector  
+- Repair Expert  
+- Workshop Supervisor  
+
+### Auto Design Track
+
+- Vinyl Wrapper  
+- Respray Master  
+- Interior Decorator  
+- Bodykit Designer  
+- Style Creator  
+- Project Supervisor  
+- Head of Department  
+
+## Translations
+
+- **English & Russian** – originally by YouLie, updated by me  
+- **German & Spanish** – by me  
+- **Italian** – vale93_games  
+- **Portuguese** – Nymphieta  
+- **Danish** – Misling  
+- **Traditional Chinese** – WANZI  
+- **Simplified Chinese** – WANZI  
+
+## Requirements
+
+- **Lot51 Core Library** – required for full functionality  
+- **Script Mods** must be enabled in game options
+
+## Compatibility
+
+- No EA game resources are overridden  
+- Fully standalone rabbit hole career  
+- No compatibility issues are expected

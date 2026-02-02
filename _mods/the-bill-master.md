@@ -2,7 +2,7 @@
 mod_id: the-bill-master
 title: "The Bill Master"
 parent: "Mods"
-icon: "fas fa-file-invoice-dollar"
+icon: "fas fa-money-bill-wave"
 packs: ["EP01", "EP05", "GP04"]
 requirements: ["lot51_core"]
 categories: [Gameplay Mods, Cheats & Tweaks, Money]

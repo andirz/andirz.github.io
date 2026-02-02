@@ -3,7 +3,7 @@ mod_id: beach-yoga
 title: "Beach Yoga"
 parent: "Mods"
 icon: "fas fa-spa"
-packs: ["GP01", "EP07"]
+packs: ["EP07", "GP02"]
 requirements: ["xml_injector"]
 categories: [Gameplay Mods, Activities]
 ---

@@ -174,10 +174,8 @@
 # --- SELVADORADIAN & DEATH ---
 
 - id: death_roulette
-  name: "Death Roulette Challenge"
-  icon: "fas fa-skull-crossbones"
   version: "1.0.0"
-  status: "stable"
+  status: "compatible"
 
 - id: urn_stone_overhaul
   name: "Urn/Stone Overhaul"
@@ -280,43 +278,27 @@
 # --- CAREERS & INDEPENDENT ---
 
 - id: auto_service
-  name: "Auto Service Career"
-  icon: "fas fa-car-side"
   version: "1.0.0"
-  status: "stable"
+  status: "compatible"
   updated: "2025-05-12"
-  github: "https://github.com/Andirz/TS4-Auto-Service-Career"
-  patreon: "https://www.patreon.com/andirz"
 
-- id: billmaster
-  name: "The Bill Master"
-  icon: "fas fa-money-bill-wave"
+- id: the-bill-master
   version: "1.1.0"
   status: "stable"
 
 - id: beach_yoga
-  name: "Beach Yoga"
-  icon: "fas fa-spa"
   version: "1.1.1"
-  packs: ["EP07", "GP02"]
   status: "compatible"
 
 - id: take_it_off
-  name: "Take It Off: No Shoes! No Accessories!"
-  icon: "fas fa-socks"
   version: "4.2.3"
   status: "compatible"
 
 - id: extended_private_journal
-  name: "Extended Private Journal"
-  icon: "fas fa-book-open"
   version: "3.3.0"
-  packs: ["GP05"]
   status: "compatible"
 
 - id: write_skill_book
-  name: "Write Skill Book"
-  icon: "fas fa-pen-nib"
   version: "1.2.0"
   status: "compatible"
 
