@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Shoot the Evil Sim
+title: "Shoot the Evil Sim"
 icon: "fas fa-crosshairs"
 order: 1
-description: Test your reflexes! Hit the evil Sims and avoid the good ones to reach the highscore.
+description: "Test your reflexes! Hit the evil Sims and avoid the good ones to reach the highscore."
 mode: Reflex
 difficulty: Hard
 time: 30s

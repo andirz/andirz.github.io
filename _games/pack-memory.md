@@ -3,7 +3,7 @@ layout: page
 title: Pack Picker Memory
 icon: "fas fa-brain"
 order: 2
-description: A classic memory challenge: match all Sims 4 Expansion and Game Packs before time runs out.
+description: "A classic memory challenge: match all Sims 4 Expansion and Game Packs before time runs out."
 mode: Memory
 difficulty: Medium
 time: 45s

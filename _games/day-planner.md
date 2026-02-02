@@ -3,7 +3,7 @@ layout: page
 title: Sim Day Planner
 icon: "fas fa-calendar-alt"
 order: 3
-description: Strategic planning: balance energy, hunger, fun, and money to maximize your Sim's happiness.
+description: "Strategic planning: balance energy, hunger, fun, and money to maximize your Sim's happiness."
 mode: Strategy
 difficulty: Easy
 time: Untimed
