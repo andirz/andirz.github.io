@@ -15,8 +15,6 @@
       position: relative;
       overflow: hidden;
     }
-
-    /* Sims-ish glow */
     .tf-wrap::before{
       content:"";
       position:absolute; inset:-40%;
@@ -29,7 +27,7 @@
     }
 
     .tf-head{position:relative; display:flex; gap:1rem; flex-wrap:wrap; justify-content:space-between; align-items:flex-start;}
-    .tf-title h2{margin:0; font-weight:900; letter-spacing:.2px;}
+    .tf-title h2{margin:0; font-weight:900;}
     .tf-sub{margin:.25rem 0 0 0; color:#94a3b8; max-width: 650px;}
 
     .tf-controls{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center;}
@@ -38,7 +36,7 @@
       border: 1px solid rgba(148,163,184,.25);
       border-radius: 999px;
       padding: .4rem .8rem;
-      font-weight: 700;
+      font-weight: 800;
       color:#e5e7eb;
       cursor:pointer;
       transition: transform .15s ease, border-color .15s ease, background .15s ease;
@@ -85,7 +83,7 @@
       overflow:hidden;
       position:relative;
       transform: translateY(0);
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, opacity .2s ease;
       cursor: pointer;
       user-select:none;
     }
@@ -131,23 +129,18 @@
       padding: 1.25rem;
     }
 
-    .tf-prompt{
-      font-weight: 900;
-      margin: 0 0 .75rem 0;
-    }
+    .tf-prompt{font-weight: 900; margin: 0 0 .75rem 0;}
     .tf-muted{color:#94a3b8; margin: 0 0 .85rem 0;}
 
     .tf-reading{
       border-top: 1px dashed rgba(148,163,184,.22);
       padding-top: .9rem;
       margin-top: .9rem;
+      display:none;
     }
-    .tf-reading h3{
-      margin: 0 0 .35rem 0;
-      font-size: 1.05rem;
-      font-weight: 900;
-    }
-    .tf-reading p{margin:.35rem 0; color:#e5e7eb; line-height: 1.35;}
+    .tf-reading h3{margin: 0 0 .35rem 0; font-size: 1.05rem; font-weight: 900;}
+    .tf-reading p{margin:.35rem 0; color:#e5e7eb; line-height: 1.35; white-space: pre-line;}
+
     .tf-moodlets{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.65rem;}
     .tf-moodlet{
       background: rgba(46,204,113,.12);
@@ -169,14 +162,14 @@
       color:#eaf7ff;
     }
 
-    .tf-small{font-size:.92rem; color:#94a3b8;}
+    .tf-small{font-size:.92rem; color:#94a3b8; margin-top:.85rem;}
   </style>
 
   <div class="tf-wrap">
     <div class="tf-head">
       <div class="tf-title">
         <h2>Tarot Fortune Teller</h2>
-        <p class="tf-sub">Sims-style readings. Pick a spread, draw cards, and get a playful prediction. No realism, just vibes. Sul sul.</p>
+        <p class="tf-sub">Sims-style readings. Pick a spread, draw cards, and get a playful prediction. Sul sul.</p>
       </div>
 
       <div class="tf-controls">
@@ -190,14 +183,14 @@
     <div class="tf-stage">
       <div class="tf-board">
         <div class="tf-cards" data-tf-cards></div>
-        <div class="tf-small" style="margin-top:.85rem;">Tip: Click a card to reveal it. Draw again for new chaos.</div>
+        <div class="tf-small">Cards briefly reveal first (to ensure images load), then flip back. Click to reveal again.</div>
       </div>
 
       <div class="tf-panel">
         <p class="tf-prompt" data-tf-prompt>Choose a spread and click “Draw”.</p>
-        <p class="tf-muted" data-tf-muted>We promise: 0% accuracy, 100% Sims energy.</p>
+        <p class="tf-muted" data-tf-muted>0% accuracy, 100% Sims energy.</p>
 
-        <div class="tf-reading" data-tf-reading style="display:none;">
+        <div class="tf-reading" data-tf-reading>
           <h3 data-tf-title>Reading</h3>
           <p data-tf-text></p>
           <div class="tf-moodlets" data-tf-moodlets></div>
@@ -214,7 +207,6 @@
 
   const basePath = "{{ tf_base }}";
 
-  // Your tarot filenames
   const deck = [
     "advocate","chariot","coins","cups","death","emperor","empress","evil",
     "fool","hermit","high_spellcaster","judgment","justice","lovers","magician",
@@ -235,247 +227,87 @@
     return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
   }
 
-  // Sims-ish templates
-  const sims = {
-    quick: {
-      title: "Quick Fate Check",
-      intros: [
-        "Your Plumbob is vibrating. That usually means… something is about to happen.",
-        "The Universe rolled a D20 and got ‘Maybe’. Let’s interpret the vibes.",
-        "Someone in your save is about to make a very bold decision without permission."
-      ]
-    },
-    three: {
-      title: "Classic 3-Card Spread",
-      intros: [
-        "Past / Present / Future — or in Sims terms: ‘What you did’, ‘what you’re doing’, ‘what breaks next’.",
-        "This spread is basically a loading screen, but with destiny.",
-        "We asked the Watcher. The Watcher answered with chaos."
-      ]
-    },
-    mood: {
-      title: "Moodlets Forecast",
-      intros: [
-        "Today’s emotional buffet: pick your moodlets carefully.",
-        "Your Sim’s feelings are about to shift faster than autonomy on high.",
-        "We checked your emotional aura… it’s doing *that thing*."
-      ]
-    }
-  };
-
-  // Card meaning fragments (Sims-flavored)
   const meaning = {
-    fool: {
-      good: "A spontaneous choice pays off — unless you flirt with the Grim Reaper again.",
-      bad: "Impulsive actions trigger unexpected drama. Avoid ‘Try for Baby’ during a tense moment.",
-      moods: ["✨ Inspired", "😬 Embarrassed"]
-    },
-    magician: {
-      good: "You can totally pull this off. Skill gain is strong today.",
-      bad: "You *think* you’re in control. The game disagrees.",
-      moods: ["⚡ Focused", "🌀 Confident"]
-    },
-    high_spellcaster: {
-      good: "Big ‘spell success’ energy. Perfect time to fix things… magically.",
-      bad: "Miscast vibes. Don’t experiment with cursed objects right now.",
-      moods: ["🔮 Energized", "💥 Dazed"]
-    },
-    empress: {
-      good: "Comfort, beauty, and ‘I deserve this’ purchases. Treat yourself.",
-      bad: "Too much indulgence. The bills are watching.",
-      moods: ["💚 Happy", "🛋️ Cozy"]
-    },
-    emperor: {
-      good: "Structure wins. Set rules, schedules, and boundaries (yes, even with neighbors).",
-      bad: "Control issues create conflict. Let autonomy breathe a little.",
-      moods: ["🧱 Confident", "😤 Tense"]
-    },
-    advocate: {
-      good: "A quiet but powerful ‘talk it out’ moment. Social gains without cringe.",
-      bad: "Overthinking blocks progress. Stop rehearsing the conversation in the mirror.",
-      moods: ["🧠 Focused", "😟 Anxious"]
-    },
-    lovers: {
-      good: "Romance is boosted. Flirty interactions land. Dates go well.",
-      bad: "Jealousy pop-up incoming. Clear the air before it escalates.",
-      moods: ["💖 Flirty", "🔥 Passionate"]
-    },
-    chariot: {
-      good: "Momentum! Push forward. Promotions, wins, and ‘just do it’ energy.",
-      bad: "You’re speeding. Don’t bulldoze relationships for progress.",
-      moods: ["🏁 Energized", "😤 Tense"]
-    },
-    strength: {
-      good: "Gentle confidence. You handle problems like a pro Sim with max charisma.",
-      bad: "Pride triggers stubbornness. Apologizing is a power move too.",
-      moods: ["🦁 Confident", "🧊 Calm"]
-    },
-    hermit: {
-      good: "Solo time heals. Cancel plans, recharge, and come back stronger.",
-      bad: "Isolation turns into gloom. Text someone you trust.",
-      moods: ["🌙 Reflective", "😔 Sad"]
-    },
-    wheel_of_fortune: {
-      good: "Random luck spike. You might find money in the couch (or in your household inventory).",
-      bad: "The RNG is feeling spicy. Backup your plans.",
-      moods: ["🎲 Lucky", "🫣 Uncertain"]
-    },
-    justice: {
-      good: "Fair outcomes. Receipts matter. You get what you earned.",
-      bad: "Consequences arrive. Maybe don’t ‘Swipe’ things today.",
-      moods: ["⚖️ Focused", "😐 Serious"]
-    },
-    suspension: {
-      good: "Pause and reset. A ‘do nothing’ day avoids bigger mistakes.",
-      bad: "Stuck energy. Don’t doomscroll the phone for 6 Sim hours.",
-      moods: ["⏸️ Calm", "😵 Confused"]
-    },
-    death: {
-      good: "A clean ending makes room for a better chapter. Transform the routine.",
-      bad: "Clinging to the old hurts. Let the storyline evolve.",
-      moods: ["🦋 Renewed", "🖤 Gloomy"]
-    },
-    temperance: {
-      good: "Balance. Tiny improvements stack. Your needs bars stay stable.",
-      bad: "Trying to please everyone drains you. Say no.",
-      moods: ["🧘 Calm", "🫧 Balanced"]
-    },
-    evil: {
-      good: "Use your villain arc wisely. Set boundaries, don’t start fires.",
-      bad: "Drama magnet day. Avoid mean socials and prank wars.",
-      moods: ["😈 Mischievous", "😡 Angry"]
-    },
-    tower: {
-      good: "A surprise shake-up clears what’s false. You rebuild better.",
-      bad: "Chaos event. Something breaks. Keep a repair kit ready.",
-      moods: ["⚡ Shocked", "😱 Panicked"]
-    },
-    star: {
-      good: "Hope buff. Things align. Your dream plan gets a green light.",
-      bad: "Don’t idealize. Keep expectations realistic.",
-      moods: ["⭐ Inspired", "💙 Hopeful"]
-    },
-    moon: {
-      good: "Intuition is strong. Trust subtle signals and vibe checks.",
-      bad: "Confusion and mixed messages. Double-check invites and texts.",
-      moods: ["🌕 Dreamy", "🌀 Uncertain"]
-    },
-    sun: {
-      good: "Massive positive energy. Socials succeed. Outdoor fun wins.",
-      bad: "Overconfidence. You can still embarrass yourself in public.",
-      moods: ["☀️ Happy", "🎉 Playful"]
-    },
-    judgment: {
-      good: "A big ‘level up’ moment. Forgive, learn, move on.",
-      bad: "Don’t self-critique endlessly. Past mistakes don’t define your save.",
-      moods: ["🔔 Inspired", "🧠 Reflective"]
-    },
-    world: {
-      good: "Completion. Goals achieved. Time to celebrate and set a new one.",
-      bad: "Post-achievement emptiness. Start a fresh storyline.",
-      moods: ["🏆 Confident", "✨ Fulfilled"]
-    },
-    coins: {
-      good: "Money and resources improve. Sell something. Invest wisely.",
-      bad: "Impulse spending. Avoid ‘Build/Buy’ rabbit holes today.",
-      moods: ["💰 Secure", "🛒 Tempted"]
-    },
-    cups: {
-      good: "Friendship and comfort. Deep talks go well. Soft day.",
-      bad: "Emotional overshare. Save the drama for the diary.",
-      moods: ["🥤 Warm", "🥺 Sensitive"]
-    },
-    swords: {
-      good: "Clarity. Cut distractions. Finish that task.",
-      bad: "Harsh words. Don’t ‘Argue’ when tired.",
-      moods: ["🗡️ Focused", "😠 Irritated"]
-    },
-    wands: {
-      good: "Creative burst. Start something fun. High success chance.",
-      bad: "Restlessness. Don’t start 5 projects at once.",
-      moods: ["🔥 Inspired", "🏃 Restless"]
-    }
+    fool:{good:"Spontaneity pays off — unless you flirt with the Grim Reaper again.", bad:"Impulses trigger drama. Avoid ‘Try for Baby’ during a tense moment.", moods:["✨ Inspired","😬 Embarrassed"]},
+    magician:{good:"Skill gain is strong today. You can pull this off.", bad:"You think you’re in control. The game disagrees.", moods:["⚡ Focused","🌀 Confident"]},
+    high_spellcaster:{good:"Big spell success energy. Fix things magically.", bad:"Miscast vibes. Don’t experiment with cursed objects.", moods:["🔮 Energized","💥 Dazed"]},
+    empress:{good:"Comfort and ‘treat yourself’ purchases. Cozy win.", bad:"Too much indulgence. The bills are watching.", moods:["💚 Happy","🛋️ Cozy"]},
+    emperor:{good:"Structure wins. Set boundaries (yes, with neighbors).", bad:"Control issues create conflict. Let autonomy breathe.", moods:["🧱 Confident","😤 Tense"]},
+    advocate:{good:"A quiet but powerful talk clears the air.", bad:"Overthinking blocks progress. Stop rehearsing.", moods:["🧠 Focused","😟 Anxious"]},
+    lovers:{good:"Romance is boosted. Flirty interactions land.", bad:"Jealousy pop-up incoming. Communicate early.", moods:["💖 Flirty","🔥 Passionate"]},
+    chariot:{good:"Momentum! Promotions and wins are likely.", bad:"You’re speeding. Don’t bulldoze relationships.", moods:["🏁 Energized","😤 Tense"]},
+    strength:{good:"Gentle confidence. You handle problems like a pro.", bad:"Stubborn pride. Apologizing is a power move.", moods:["🦁 Confident","🧊 Calm"]},
+    hermit:{good:"Solo time heals. Cancel plans, recharge.", bad:"Isolation turns into gloom. Text someone.", moods:["🌙 Reflective","😔 Sad"]},
+    wheel_of_fortune:{good:"Luck spike. You might find money in inventory.", bad:"RNG is spicy. Backup your plans.", moods:["🎲 Lucky","🫣 Uncertain"]},
+    justice:{good:"Fair outcomes. Receipts matter.", bad:"Consequences arrive. Maybe don’t ‘Swipe’ today.", moods:["⚖️ Focused","😐 Serious"]},
+    suspension:{good:"Pause day. Avoid bigger mistakes.", bad:"Stuck energy. Don’t doomscroll for 6 Sim hours.", moods:["⏸️ Calm","😵 Confused"]},
+    death:{good:"A clean ending opens a better chapter.", bad:"Clinging hurts. Let the storyline evolve.", moods:["🦋 Renewed","🖤 Gloomy"]},
+    temperance:{good:"Balance. Needs bars stay stable.", bad:"People-pleasing drains you. Say no.", moods:["🧘 Calm","🫧 Balanced"]},
+    evil:{good:"Use your villain arc wisely. Set boundaries.", bad:"Drama magnet day. Avoid prank wars.", moods:["😈 Mischievous","😡 Angry"]},
+    tower:{good:"A shake-up clears what’s false. Rebuild better.", bad:"Chaos event. Something breaks. Keep a repair kit.", moods:["⚡ Shocked","😱 Panicked"]},
+    star:{good:"Hope buff. Plans align.", bad:"Don’t idealize. Keep it realistic.", moods:["⭐ Inspired","💙 Hopeful"]},
+    moon:{good:"Intuition is strong. Trust vibe checks.", bad:"Mixed messages. Double-check texts.", moods:["🌕 Dreamy","🌀 Uncertain"]},
+    sun:{good:"Huge positive energy. Outdoor fun wins.", bad:"Overconfidence can still embarrass you.", moods:["☀️ Happy","🎉 Playful"]},
+    judgment:{good:"Level up moment. Learn, move on.", bad:"Stop endless self-critique. It’s a save.", moods:["🔔 Inspired","🧠 Reflective"]},
+    world:{good:"Completion. Celebrate and set a new goal.", bad:"Post-goal emptiness. Start a fresh storyline.", moods:["🏆 Confident","✨ Fulfilled"]},
+    coins:{good:"Money improves. Sell something. Invest wisely.", bad:"Impulse spending. Avoid Build/Buy rabbit holes.", moods:["💰 Secure","🛒 Tempted"]},
+    cups:{good:"Friendship and comfort. Deep talks go well.", bad:"Emotional overshare. Save drama for diary.", moods:["🥤 Warm","🥺 Sensitive"]},
+    swords:{good:"Clarity. Finish the task.", bad:"Harsh words. Don’t argue when tired.", moods:["🗡️ Focused","😠 Irritated"]},
+    wands:{good:"Creative burst. Start something fun.", bad:"Restlessness. Don’t start 5 projects.", moods:["🔥 Inspired","🏃 Restless"]}
   };
 
   function getMeaning(card){
-    return meaning[card] || {
-      good: "Something interesting is unfolding. Keep an eye on the neighborhood.",
-      bad: "Today feels a bit glitchy. Save often.",
-      moods: ["✨ Inspired","🌀 Uncertain"]
-    };
+    return meaning[card] || {good:"Something interesting unfolds. Keep an eye on neighbors.", bad:"Today feels glitchy. Save often.", moods:["✨ Inspired","🌀 Uncertain"]};
   }
 
-  function makeCardEl(tag, name){
-    const el = document.createElement('div');
-    el.className = 'tf-card tf-back';
-    el.dataset.name = name;
-    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-    return el;
+  function moodletSpan(text){
+    const bad = /Tense|Angry|Sad|Panicked|Irritated|Dazed|Embarrassed|Anxious|Gloomy/.test(text);
+    const s = document.createElement('span');
+    s.className = "tf-moodlet " + (bad ? "bad" : "neutral");
+    s.textContent = text;
+    return s;
   }
 
-  function reveal(el, name){
-    el.classList.remove('tf-back');
-    el.innerHTML = `<span class="tf-tag">${el.querySelector('.tf-tag')?.textContent || ""}</span>`;
-    const img = document.createElement('img');
-    img.src = basePath + name + ".png";
-    img.alt = name;
-    img.onerror = () => img.src = placeholder(name);
-    el.appendChild(img);
-  }
-
-  function moodletEl(text, kind){
-    const d = document.createElement('span');
-    d.className = 'tf-moodlet' + (kind ? ' ' + kind : '');
-    d.textContent = text;
-    return d;
-  }
-
-  function rollMoodlets(list){
-    // Pick 2, sometimes add a spicy one
-    const pool = shuffle(list);
-    const out = pool.slice(0,2);
-    if(Math.random() < 0.35) out.push(Math.random() < 0.5 ? "🫠 Awkward" : "🎯 Focused");
-    return out;
-  }
+  const intros = {
+    quick:[
+      "Your Plumbob is vibrating. That usually means… something is about to happen.",
+      "The Universe rolled a D20 and got ‘Maybe’. Let’s interpret the vibes.",
+      "Someone in your save is about to make a bold decision without permission."
+    ],
+    three:[
+      "Past / Present / Future — or: ‘what you did’, ‘what you’re doing’, ‘what breaks next’.",
+      "This spread is basically a loading screen, but with destiny.",
+      "We asked the Watcher. The Watcher answered with chaos."
+    ],
+    mood:[
+      "Today’s emotional buffet: pick your moodlets carefully.",
+      "Your feelings may shift faster than autonomy on high.",
+      "We checked your aura… it’s doing *that thing*."
+    ]
+  };
 
   function buildReading(spread, cards){
-    const cfg = sims[spread];
-    const intro = shuffle(cfg.intros)[0];
+    const intro = shuffle(intros[spread])[0];
+    const parts = cards.map(getMeaning);
 
-    // Combine meanings
-    const parts = cards.map(c => getMeaning(c));
-    const goodCount = parts.filter(_ => Math.random() < 0.55).length; // playful
-    const toneGood = goodCount >= Math.ceil(cards.length/2);
+    const positive = Math.random() < 0.58;
+    const main = positive ? parts.map(p=>p.good).join(" ") : parts.map(p=>p.bad).join(" ");
 
-    const main = toneGood
-      ? parts.map(p => p.good)
-      : parts.map(p => p.bad);
+    const extra = spread === "mood"
+      ? "Forecast: emotions may change faster than your Sim’s autonomy settings."
+      : spread === "three"
+        ? "Watcher’s note: if a neighbor shows up uninvited, it’s probably part of the prophecy."
+        : "Quick tip: take a screenshot. Future-you will swear this was scripted.";
 
-    // Sims-ish “forecast”
-    let extra = "";
-    if(spread === "mood"){
-      extra = "Forecast: your emotional state may change faster than your Sim’s autonomy settings.";
-    } else if(spread === "three"){
-      extra = "Watcher’s note: if a neighbor shows up uninvited, it’s probably part of the prophecy.";
-    } else {
-      extra = "Quick tip: take a screenshot. Future-you will swear this was scripted.";
-    }
+    const moods = shuffle(parts.flatMap(p=>p.moods || [])).slice(0,3);
 
-    const moodsRaw = parts.flatMap(p => p.moods || []);
-    const moods = rollMoodlets(moodsRaw);
-
-    // Some negative tags
-    const moodlets = moods.map(m => ({text: m, kind: /Tense|Angry|Sad|Panicked|Irritated|Dazed|Embarrassed|Anxious/.test(m) ? "bad" : "neutral"}));
-
-    return {
-      title: cfg.title,
-      text: `${intro}\n\n${main.join(" ")}\n\n${extra}`,
-      moodlets
-    };
+    return { title: spread === "quick" ? "Quick Fate Check" : spread === "three" ? "Classic 3-Card Spread" : "Moodlets Forecast",
+             text: `${intro}\n\n${main}\n\n${extra}`,
+             moods };
   }
 
-  roots.forEach(root => {
-    root.setAttribute('data-tf-init', '1');
+  roots.forEach(root=>{
+    root.setAttribute('data-tf-init','1');
 
     const pills = [...root.querySelectorAll('[data-tf-spread]')];
     const btn = root.querySelector('[data-tf-draw]');
@@ -490,77 +322,109 @@
 
     let spread = "quick";
     let drawn = [];
-    let revealed = 0;
+    let revealCount = 0;
+    let lockClicks = false;
+    let timer;
 
     function setSpread(s){
       spread = s;
       pills.forEach(p => p.classList.toggle('active', p.dataset.tfSpread === s));
       elReading.style.display = "none";
-      elPrompt.textContent = "Click “Draw” to pull your cards.";
-      elMuted.textContent = "It’s Sims-style: fun, chaotic, not serious.";
+      elPrompt.textContent = "Choose a spread and click “Draw”.";
+      elMuted.textContent = "Cards will reveal briefly to preload images, then flip back.";
       cardsWrap.innerHTML = "";
     }
 
-    function layout(count, tags){
-      cardsWrap.innerHTML = "";
-      revealed = 0;
-      for(let i=0;i<count;i++){
-        const name = drawn[i];
-        const tag = tags[i];
-        const el = makeCardEl(tag, name);
-        el.addEventListener('click', () => {
-          if(el.classList.contains('tf-back')){
-            reveal(el, name);
-            revealed++;
-            if(revealed === count){
-              showReading();
-            }
-          }
-        });
-        cardsWrap.appendChild(el);
-      }
-      // If 1-card spread, make grid nicer (center)
-      if(count === 1){
-        cardsWrap.style.gridTemplateColumns = "minmax(140px, 220px)";
-        cardsWrap.style.justifyContent = "start";
-      } else {
-        cardsWrap.style.gridTemplateColumns = "";
-        cardsWrap.style.justifyContent = "";
-      }
+    function createFaceCard(tag, name){
+      const el = document.createElement('div');
+      el.className = "tf-card";
+      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+      const img = document.createElement('img');
+      img.src = basePath + name + ".png";
+      img.alt = name;
+      img.onerror = () => img.src = placeholder(name);
+      el.appendChild(img);
+      return el;
+    }
+
+    function createBackCard(tag, name){
+      const el = document.createElement('div');
+      el.className = "tf-card tf-back";
+      el.dataset.name = name;
+      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+      return el;
+    }
+
+    function reveal(el){
+      const name = el.dataset.name;
+      el.classList.remove('tf-back');
+      const tag = el.querySelector('.tf-tag')?.textContent || "";
+      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+      const img = document.createElement('img');
+      img.src = basePath + name + ".png";
+      img.alt = name;
+      img.onerror = () => img.src = placeholder(name);
+      el.appendChild(img);
     }
 
     function showReading(){
       const reading = buildReading(spread, drawn);
       elTitle.textContent = reading.title;
       elText.textContent = reading.text;
+
       elMoodlets.innerHTML = "";
-      reading.moodlets.forEach(m => elMoodlets.appendChild(moodletEl(m.text, m.kind)));
+      reading.moods.forEach(m => elMoodlets.appendChild(moodletSpan(m)));
+
       elReading.style.display = "block";
       elPrompt.textContent = "Your reading is ready.";
       elMuted.textContent = "Draw again if you want a different timeline.";
     }
 
     function draw(){
-      if(spread === "quick"){
-        drawn = shuffle(deck).slice(0,1);
-        elPrompt.textContent = "Tap the card to reveal your fate.";
-        elMuted.textContent = "One card. One vibe. One questionable life choice.",
-        layout(1, ["FATE"]);
-      } else if(spread === "three"){
-        drawn = shuffle(deck).slice(0,3);
-        elPrompt.textContent = "Reveal the cards in any order.";
-        elMuted.textContent = "Past • Present • Future (but in Sims terms).";
-        layout(3, ["PAST", "PRESENT", "FUTURE"]);
-      } else {
-        drawn = shuffle(deck).slice(0,3);
-        elPrompt.textContent = "Reveal your moodlets forecast.";
-        elMuted.textContent = "Emotions may fluctuate. That’s normal. In Sims it’s a feature.";
-        layout(3, ["MIND", "HEART", "ENERGY"]);
-      }
+      clearTimeout(timer);
       elReading.style.display = "none";
+      lockClicks = true;
+      revealCount = 0;
+
+      let count = spread === "quick" ? 1 : 3;
+      drawn = shuffle(deck).slice(0, count);
+
+      const tags = spread === "quick"
+        ? ["FATE"]
+        : spread === "three"
+          ? ["PAST","PRESENT","FUTURE"]
+          : ["MIND","HEART","ENERGY"];
+
+      // Step 1: show faces immediately (like your previous game)
+      cardsWrap.innerHTML = "";
+      drawn.forEach((name,i) => cardsWrap.appendChild(createFaceCard(tags[i], name)));
+
+      elPrompt.textContent = "Memorize the vibe…";
+      elMuted.textContent = "Flipping back in a moment…";
+
+      // Step 2: flip to backs, then allow click reveal
+      timer = setTimeout(()=>{
+        cardsWrap.innerHTML = "";
+        drawn.forEach((name,i)=>{
+          const el = createBackCard(tags[i], name);
+          el.addEventListener('click', ()=>{
+            if(lockClicks) return;
+            if(el.classList.contains('tf-back')){
+              reveal(el);
+              revealCount++;
+              if(revealCount === count) showReading();
+            }
+          });
+          cardsWrap.appendChild(el);
+        });
+
+        lockClicks = false;
+        elPrompt.textContent = "Click each card to reveal your reading.";
+        elMuted.textContent = "Sims logic applies. Chaos included.";
+      }, 1200);
     }
 
-    pills.forEach(p => p.addEventListener('click', () => setSpread(p.dataset.tfSpread)));
+    pills.forEach(p => p.addEventListener('click', ()=>setSpread(p.dataset.tfSpread)));
     btn.addEventListener('click', draw);
 
     setSpread("quick");

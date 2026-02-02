@@ -1,3 +1,9 @@
+{% assign food_count  = include.food_count  | default: 0 %}
+{% assign med_count   = include.med_count   | default: 0 %}
+{% assign shop_count  = include.shop_count  | default: 0 %}
+{% assign trash_count = include.trash_count | default: 0 %}
+{% assign start_image = include.start_image | default: "start.png" %}
+
 <style>
   .sort-section {
     background: white;
@@ -24,56 +30,51 @@
     padding: 8px 16px;
     font-weight: 800;
     color: #0f172a;
-    letter-spacing: 0.2px;
   }
 
   .sort-image {
     width: 110px;
     height: 110px;
-    margin: 22px auto 18px auto;
-
+    margin: 22px auto 18px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-
     background-color: transparent;
     border: none;
     box-shadow: none;
-
     transition: transform 0.15s ease, filter 0.15s ease;
   }
 
   @keyframes blinkSoft {
-    0%, 100% { opacity: 1; }
+    0%,100% { opacity: 1; }
     50% { opacity: 0.55; }
   }
-
   @keyframes blinkHard {
-    0%, 100% { opacity: 1; }
+    0%,100% { opacity: 1; }
     50% { opacity: 0.2; }
   }
 
   .is-blinking { animation: blinkSoft 0.9s ease-in-out infinite; }
   .is-danger {
     animation: blinkHard 0.35s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(239,68,68,0.6)) saturate(1.2);
+    filter: drop-shadow(0 0 10px rgba(239,68,68,.6));
   }
 
   .sort-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2,1fr);
     gap: 14px;
     max-width: 520px;
     margin: 0 auto;
   }
 
   .sort-box {
-    background: #ffffff;
+    background: #fff;
     border: 2px solid #f1f5f9;
     border-radius: 16px;
-    padding: 18px 14px;
+    padding: 18px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all .2s;
     user-select: none;
   }
 
@@ -86,27 +87,11 @@
   .sort-box span {
     font-weight: 900;
     font-size: 1.05rem;
-    display: block;
-    letter-spacing: 0.2px;
   }
 
-  #sort-msg {
-    height: 22px;
-    margin-top: 14px;
-    font-weight: 900;
-  }
-
-  .s-success { color: #22c55e; }
-  .s-error { color: #ef4444; }
-
-  .btn {
-    display: inline-block;
-    border: 0;
-    border-radius: 14px;
-    padding: 12px 18px;
-    font-weight: 900;
-    cursor: pointer;
-  }
+  #sort-msg { height: 22px; font-weight: 900; margin-top: 14px; }
+  .s-success { color:#22c55e }
+  .s-error   { color:#ef4444 }
 </style>
 
 <div class="sort-section">
@@ -120,251 +105,102 @@
   <div id="sort-current" class="sort-image"></div>
 
   <div class="sort-grid">
-    <div class="sort-box" onclick="checkSort('simsim')">
-      <span>SimSim Store</span>
-    </div>
-    <div class="sort-box" onclick="checkSort('nomnom')">
-      <span>Sim-Nom-Nom</span>
-    </div>
-    <div class="sort-box" onclick="checkSort('pharmacy')">
-      <span>Pharmacy</span>
-    </div>
-    <div class="sort-box" onclick="checkSort('trash')">
-      <span>Trash Bin</span>
-    </div>
+    <div class="sort-box" onclick="checkSort('simsim')"><span>SimSim Store</span></div>
+    <div class="sort-box" onclick="checkSort('nomnom')"><span>Sim-Nom-Nom</span></div>
+    <div class="sort-box" onclick="checkSort('pharmacy')"><span>Pharmacy</span></div>
+    <div class="sort-box" onclick="checkSort('trash')"><span>Trash Bin</span></div>
   </div>
 
   <div id="sort-msg"></div>
-  <button id="s-start" class="btn btn-primary mt-4" onclick="startSorting()">Start</button>
+  <button id="s-start" class="btn mt-4" onclick="startSorting()">Start</button>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const IMG_BASE = "{{ site.baseurl }}/assets/img/games/shop/";
-  const START_IMG = IMG_BASE + "start.png";
+  const START_IMG = IMG_BASE + "{{ start_image }}";
 
-  // counts you gave:
-  const FOOD_COUNT = 36;   // food01..food36
-  const MED_COUNT  = 5;    // med01..med05
-  const SHOP_COUNT = 21;   // shop01..shop21
-  const TRASH_COUNT = 11;  // trash01..trash11
+  const FOOD_COUNT  = {{ food_count }};
+  const MED_COUNT   = {{ med_count }};
+  const SHOP_COUNT  = {{ shop_count }};
+  const TRASH_COUNT = {{ trash_count }};
 
-  const ITEM_TIME = 5;     // seconds per image
+  const ITEM_TIME = 5;
   const MAX_LIVES = 3;
 
-  let deck = [];
-  let score = 0;
-  let lives = MAX_LIVES;
-  let active = false;
-
-  let current = null;
-  let itemTime = ITEM_TIME;
-  let itemTimer = null;
+  let deck=[], score=0, lives=MAX_LIVES, active=false;
+  let current=null, itemTime=ITEM_TIME, timer=null;
 
   const box = document.getElementById("sort-current");
-  const elScore = document.getElementById("s-score");
-  const elLives = document.getElementById("s-lives");
-  const elItemTime = document.getElementById("s-itemtime");
-  const elLeft = document.getElementById("s-left");
-  const elMsg = document.getElementById("sort-msg");
-  const btnStart = document.getElementById("s-start");
+  const elScore = s("s-score"), elLives=s("s-lives"),
+        elItemTime=s("s-itemtime"), elLeft=s("s-left"), elMsg=s("sort-msg");
 
-  const pad = n => String(n).padStart(2, "0");
+  function s(id){return document.getElementById(id)}
+  const pad=n=>String(n).padStart(2,"0");
+  const hearts=n=>"❤️".repeat(n);
 
-  function hearts(n) {
-    return "❤️".repeat(Math.max(0, n));
+  function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+  function buildDeck(){
+    let a=[];
+    for(let i=1;i<=FOOD_COUNT;i++)  a.push({img:`food${pad(i)}.png`,cat:"nomnom"});
+    for(let i=1;i<=MED_COUNT;i++)   a.push({img:`med${pad(i)}.png`,cat:"pharmacy"});
+    for(let i=1;i<=SHOP_COUNT;i++)  a.push({img:`shop${pad(i)}.png`,cat:"simsim"});
+    for(let i=1;i<=TRASH_COUNT;i++) a.push({img:`trash${pad(i)}.png`,cat:"trash"});
+    return shuffle(a);
   }
 
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
+  function setImage(f){box.style.backgroundImage=`url("${IMG_BASE+f}")`}
+  function ui(){elScore.innerText=score;elLives.innerText=hearts(lives);elItemTime.innerText=itemTime;elLeft.innerText=deck.length+(current?1:0)}
+
+  function next(){
+    if(!active) return;
+    if(deck.length===0){end(true);return}
+    current=deck.pop(); setImage(current.img);
+    startTimer(); ui();
   }
 
-  function setImage(url) {
-    box.style.backgroundImage = `url("${url}")`;
-  }
-
-  function setImageByFile(filename) {
-    setImage(IMG_BASE + filename);
-  }
-
-  function ui() {
-    elScore.innerText = score;
-    elLives.innerText = hearts(lives);
-    elItemTime.innerText = itemTime;
-    elLeft.innerText = deck.length + (current ? 1 : 0);
-  }
-
-  function clearDanger() {
-    box.classList.remove("is-blinking");
-    box.classList.remove("is-danger");
-  }
-
-  function startItemTimer() {
-    clearInterval(itemTimer);
-    itemTime = ITEM_TIME;
-    clearDanger();
-    box.classList.add("is-blinking");
-    ui();
-
-    itemTimer = setInterval(() => {
-      if (!active) return;
-      itemTime -= 1;
-
-      if (itemTime <= 1) {
-        box.classList.add("is-danger");
-        box.classList.remove("is-blinking");
-      }
-
-      if (itemTime <= 0) {
-        clearInterval(itemTimer);
-        timeoutLoseLife();
-        return;
-      }
-
+  function startTimer(){
+    clearInterval(timer); itemTime=ITEM_TIME;
+    box.className="sort-image is-blinking";
+    timer=setInterval(()=>{
+      itemTime--;
+      if(itemTime<=1) box.className="sort-image is-danger";
+      if(itemTime<=0){clearInterval(timer); loseLife()}
       ui();
-    }, 1000);
+    },1000);
   }
 
-  function nextItem() {
-    if (!active) return;
+  function loseLife(){
+    lives--; elMsg.innerText="Too slow!"; elMsg.className="s-error";
+    if(lives<=0){end(false);return}
+    setTimeout(next,400);
+  }
 
-    clearDanger();
-    elMsg.innerText = "";
-    elMsg.className = "";
+  function end(win){
+    active=false; clearInterval(timer);
+    setImage("{{ start_image }}");
+    elMsg.innerText = win ? "All items sorted!" : "Game Over";
+    elMsg.className = win ? "s-success" : "s-error";
+    s("s-start").style.display="inline-block";
+  }
 
-    if (deck.length === 0) {
-      win();
-      return;
-    }
-
-    current = deck.pop();
-    setImageByFile(current.img);
-
-    box.style.transform = "scale(1.10)";
-    setTimeout(() => (box.style.transform = "scale(1)"), 90);
-
-    startItemTimer();
+  window.startSorting=()=>{
+    deck=buildDeck(); score=0; lives=MAX_LIVES; active=true;
+    s("s-start").style.display="none";
+    setImage("{{ start_image }}"); setTimeout(next,300);
     ui();
   }
 
-  function buildDeck() {
-    const items = [];
-
-    for (let i = 1; i <= FOOD_COUNT; i++)  items.push({ img: `food${pad(i)}.png`,  cat: "nomnom" });
-    for (let i = 1; i <= MED_COUNT;  i++)  items.push({ img: `med${pad(i)}.png`,   cat: "pharmacy" });
-    for (let i = 1; i <= SHOP_COUNT; i++)  items.push({ img: `shop${pad(i)}.png`,  cat: "simsim" });
-    for (let i = 1; i <= TRASH_COUNT; i++) items.push({ img: `trash${pad(i)}.png`, cat: "trash" });
-
-    return shuffle(items);
+  window.checkSort=cat=>{
+    if(!active||!current) return;
+    clearInterval(timer);
+    if(cat===current.cat) score+=10;
+    else score=Math.max(0,score-5);
+    next(); ui();
   }
 
-  function loseLife(reasonText) {
-    lives = Math.max(0, lives - 1);
-    elMsg.innerText = reasonText;
-    elMsg.className = "s-error";
-    ui();
-
-    if (lives <= 0) {
-      gameOver();
-      return;
-    }
-
-    // show short feedback then continue
-    setTimeout(() => {
-      if (!active) return;
-      nextItem();
-    }, 450);
-  }
-
-  function timeoutLoseLife() {
-    loseLife("Too slow! -1 life");
-  }
-
-  function win() {
-    active = false;
-    clearInterval(itemTimer);
-    current = null;
-    clearDanger();
-    setImage(START_IMG);
-    elMsg.innerText = "All items sorted. You win!";
-    elMsg.className = "s-success";
-    btnStart.style.display = "inline-block";
-    btnStart.innerText = "Play again";
-    ui();
-  }
-
-  function gameOver() {
-    active = false;
-    clearInterval(itemTimer);
-    current = null;
-    clearDanger();
-    setImage(START_IMG);
-    elMsg.innerText = "Game Over!";
-    elMsg.className = "s-error";
-    btnStart.style.display = "inline-block";
-    btnStart.innerText = "Try again";
-    ui();
-  }
-
-  window.startSorting = function() {
-    score = 0;
-    lives = MAX_LIVES;
-    deck = buildDeck();
-    active = true;
-
-    btnStart.style.display = "none";
-    elMsg.innerText = "";
-    elMsg.className = "";
-
-    setImage(START_IMG);
-    current = null;
-    ui();
-
-    // slight pause then start first item
-    setTimeout(() => {
-      if (!active) return;
-      nextItem();
-    }, 250);
-  };
-
-  window.checkSort = function(cat) {
-    if (!active || !current) return;
-
-    clearInterval(itemTimer);
-
-    if (cat === current.cat) {
-      score += 10;
-      elMsg.innerText = "Correct!";
-      elMsg.className = "s-success";
-      current = null;
-
-      setTimeout(() => {
-        if (!active) return;
-        nextItem();
-      }, 180);
-    } else {
-      // no life loss on wrong click (only timeout costs life, per your spec)
-      score = Math.max(0, score - 5);
-      elMsg.innerText = "Wrong!";
-      elMsg.className = "s-error";
-      // keep going to next item
-      current = null;
-
-      setTimeout(() => {
-        if (!active) return;
-        nextItem();
-      }, 220);
-    }
-
-    ui();
-  };
-
-  // initial preview
-  setImage(START_IMG);
-  elLeft.innerText = String(FOOD_COUNT + MED_COUNT + SHOP_COUNT + TRASH_COUNT);
+  setImage("{{ start_image }}");
+  elLeft.innerText=FOOD_COUNT+MED_COUNT+SHOP_COUNT+TRASH_COUNT;
 });
 </script>

@@ -16,4 +16,10 @@ Don't mix up the medicine with the trash!
 
 ---
 
-{% include games/shop.html %}
+{% include games/shop.html
+   food_count=37
+   med_count=9
+   shop_count=38
+   trash_count=11
+   start_image="start.png"
+%}
