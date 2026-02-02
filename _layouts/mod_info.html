@@ -16,6 +16,7 @@ layout: default
 
       {% unless page.disable_translations %}
         <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+          <h2 style="margin-bottom: 20px;">Translations</h2>
           {% include mod-translations.html 
             ENG=page.translations.ENG
             GER=page.translations.GER
@@ -47,10 +48,7 @@ layout: default
     <aside style="flex: 1; min-width: 280px;">
       {% include mod-sidebar-info.html %}
     </aside>
-
   </div>
-
-  {% include policy.html %}
   {% include gallery-mods-related.html %}
-
+  {% include policy.html %}
 </div>
