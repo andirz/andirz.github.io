@@ -1,6 +1,41 @@
-{% include games/tarot/style.html %}
-
 <div class="tf-root" data-tf>
+  <style>
+    /* UI Design */
+    .tf-wrap {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(180deg, #06111f, #020617);
+      color: #e5e7eb; border-radius: 28px; padding: 2rem; border: 1px solid #1e293b;
+      box-shadow: 0 30px 60px rgba(0,0,0,.35); max-width: 980px; margin: 2rem auto;
+      position: relative; overflow: hidden;
+    }
+    .tf-wrap::before {
+      content: ""; position: absolute; inset: -40%;
+      background: radial-gradient(circle at 25% 25%, rgba(46,204,113,.22), transparent 50%),
+                  radial-gradient(circle at 70% 35%, rgba(56,189,248,.20), transparent 55%),
+                  radial-gradient(circle at 55% 80%, rgba(168,85,247,.14), transparent 60%);
+      filter: blur(12px); pointer-events: none;
+    }
+    .tf-head { position: relative; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+    .tf-title h2 { margin: 0; font-weight: 900; }
+    .tf-sub { margin: .25rem 0 0 0; color: #94a3b8; font-size: 0.9rem; }
+    .tf-controls { display: flex; gap: .6rem; align-items: center; }
+    .tf-pill { background: rgba(2,6,23,.65); border: 1px solid rgba(148,163,184,.25); border-radius: 999px; padding: .4rem .9rem; font-weight: 900; font-size: 0.85rem; cursor: pointer; transition: 0.2s; color: #94a3b8; }
+    .tf-pill.active { border-color: rgba(46,204,113,.85); background: rgba(46,204,113,.10); color: #fff; }
+    .tf-btn { background: #3b82f6; color: #fff; border: none; padding: .65rem 1.4rem; border-radius: 14px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+    .tf-btn:hover { background: #2563eb; transform: translateY(-2px); }
+    .tf-stage { display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px; }
+    @media (max-width: 920px) { .tf-stage { grid-template-columns: 1fr; } }
+    .tf-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; min-height: 250px; }
+    .tf-card { aspect-ratio: 1 / 1.55; border-radius: 18px; border: 2px solid rgba(148,163,184,.25); background: rgba(11,18,32,.85); position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; transition: 0.3s; }
+    .tf-card img { width: 92%; height: 92%; object-fit: contain; }
+    .tf-back { background: radial-gradient(circle at 20% 20%, rgba(46,204,113,.2), transparent 50%), #0b1220; }
+    .tf-back::after { content: "✦"; font-size: 2.5rem; color: rgba(148,163,184,0.3); }
+    .tf-tag { position: absolute; top: 10px; left: 10px; font-size: 0.75rem; font-weight: 900; background: rgba(0,0,0,0.6); padding: 2px 8px; border-radius: 6px; z-index: 10; }
+    .tf-reading { display: none; margin-top: 1rem; padding: 1.5rem; background: rgba(2,6,23,0.4); border-radius: 20px; border: 1px solid rgba(148,163,184,0.1); }
+    .tf-moodlet { display: inline-block; margin: 4px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #2ecc7111; border: 1px solid #2ecc7144; color: #eafff1; }
+    .tf-moodlet.bad { background: #ef444411; border-color: #ef444444; color: #ffecec; }
+  </style>
+
   <div class="tf-wrap">
     <div class="tf-head">
       <div class="tf-title">
@@ -10,7 +45,6 @@
       <div class="tf-controls">
         <span class="tf-pill active" data-tf-spread="quick">Quick (1)</span>
         <span class="tf-pill" data-tf-spread="three">Classic (3)</span>
-        <span class="tf-pill" data-tf-spread="mood">Moodlets (3)</span>
         <button class="tf-btn" type="button" data-tf-draw>Draw</button>
       </div>
     </div>
@@ -18,14 +52,13 @@
     <div class="tf-stage">
       <div class="tf-board">
         <div class="tf-cards" data-tf-cards></div>
-        <p class="tf-small" data-tf-prompt>Choose a spread and click “Draw”.</p>
       </div>
-
       <div class="tf-panel">
+        <p id="tf-status" style="font-weight: bold; color: #94a3b8;">Choose your spread.</p>
         <div class="tf-reading" data-tf-reading>
-          <h3 data-tf-title>Reading</h3>
-          <p data-tf-text></p>
-          <div class="tf-moodlets" data-tf-moodlets></div>
+          <h3 style="margin-top:0; color:#3b82f6;">Reading</h3>
+          <p id="tf-text" style="line-height:1.5; white-space: pre-line;"></p>
+          <div class="tf-moodlets" id="tf-moodlets"></div>
         </div>
       </div>
     </div>
@@ -34,11 +67,87 @@
 
 <script>
 (function(){
-  const roots = document.querySelectorAll('[data-tf]:not([data-tf-init])');
-  if(!roots.length) return;
+  const root = document.querySelector('[data-tf]');
+  if(!root) return;
 
-  // 2. Audio-Engine & 3. Spiellogik laden
-  {% include games/tarot/audio.js %}
-  {% include games/tarot/logic.js %}
+  // --- AUDIO ENGINE ---
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playSynth(type) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    if (type === 'draw') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, now); osc.frequency.exponentialRampToValueAtTime(40, now+0.2); gain.gain.setValueAtTime(0.05, now); }
+    else if (type === 'reveal') { osc.type = 'sine'; osc.frequency.setValueAtTime(880, now); osc.frequency.exponentialRampToValueAtTime(1200, now+0.1); gain.gain.setValueAtTime(0.1, now); }
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+    osc.start(); osc.stop(now + 0.3);
+  }
+
+  // --- DATA ---
+  const deck = ["advocate","chariot","coins","cups","death","emperor","empress","evil","fool","hermit","high_spellcaster","judgment","justice","lovers","magician","moon","star","strength","sun","suspension","swords","temperance","tower","wands","wheel_of_fortune","world"];
+  const meanings = {
+    fool: { text: "Spontaneity pays off — unless you flirt with the Grim Reaper again.", moods: ["✨ Inspired"] },
+    death: { text: "A clean ending opens a better chapter. Time to clear that inventory.", moods: ["🦋 Renewed"] },
+    sun: { text: "Huge positive energy. Outdoor fun wins today.", moods: ["☀️ Happy"] },
+    tower: { text: "Chaos! Something is about to break. Keep a repair kit handy.", moods: ["😱 Panicked"] }
+  };
+
+  // --- LOGIC ---
+  const btn = root.querySelector('[data-tf-draw]');
+  const cardsWrap = root.querySelector('[data-tf-cards]');
+  const elReading = root.querySelector('[data-tf-reading]');
+  const elText = document.getElementById('tf-text');
+  const elStatus = document.getElementById('tf-status');
+  const elMoodlets = document.getElementById('tf-moodlets');
+  let spread = "quick";
+
+  root.querySelectorAll('[data-tf-spread]').forEach(p => {
+    p.addEventListener('click', () => {
+      spread = p.dataset.tfSpread;
+      root.querySelectorAll('[data-tf-spread]').forEach(b => b.classList.remove('active'));
+      p.classList.add('active');
+    });
+  });
+
+  btn.addEventListener('click', () => {
+    playSynth('draw');
+    const count = spread === "quick" ? 1 : 3;
+    const drawn = [...deck].sort(() => Math.random() - 0.5).slice(0, count);
+    const tags = spread === "quick" ? ["FATE"] : ["PAST", "PRESENT", "FUTURE"];
+    
+    cardsWrap.innerHTML = "";
+    elReading.style.display = "none";
+    elStatus.textContent = "Revealing destiny...";
+
+    drawn.forEach((name, i) => {
+      const card = document.createElement('div');
+      card.className = "tf-card tf-back";
+      card.innerHTML = `<span class="tf-tag">${tags[i]}</span>`;
+      
+      card.addEventListener('click', function() {
+        if (!this.classList.contains('tf-back')) return;
+        playSynth('reveal');
+        this.classList.remove('tf-back');
+        this.innerHTML = `<span class="tf-tag">${tags[i]}</span><img src="{{ site.baseurl }}/assets/img/games/tarot/${name}.png" alt="Card">`;
+        
+        if (root.querySelectorAll('.tf-back').length === 0) {
+          elReading.style.display = "block";
+          elStatus.textContent = "The Watcher has spoken.";
+          const lastCard = drawn[drawn.length - 1];
+          elText.textContent = meanings[lastCard]?.text || "The spirits are mysterious. Expect chaos.";
+          
+          elMoodlets.innerHTML = "";
+          (meanings[lastCard]?.moods || ["✨ Neutral"]).forEach(m => {
+            const span = document.createElement('span');
+            span.className = "tf-moodlet";
+            span.textContent = m;
+            elMoodlets.appendChild(span);
+          });
+        }
+      });
+      cardsWrap.appendChild(card);
+    });
+  });
 })();
 </script>
