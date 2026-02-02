@@ -28,9 +28,10 @@
     <span style="margin-left: 5px; color: #94a3b8; font-size: 1.1rem;" title="Primary File Type">
       {% if first_file == "ts4script" %}
         <i class="fas fa-file-code" title="Script Mod"></i>
-      {% elif first_file == "bat" %}
+      {% elsif first_file == "bat" %}
         <i class="fas fa-terminal" title="Batch File"></i>
       {% else %}
+        {% comment %} Default fallback to package icon {% endcomment %}
         <i class="fas fa-box-open" title="Package File"></i>
       {% endif %}
     </span>
