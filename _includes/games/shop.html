@@ -30,12 +30,13 @@
     padding: 8px 16px;
     font-weight: 800;
     color: #0f172a;
+    letter-spacing: 0.2px;
   }
 
   .sort-image {
     width: 110px;
     height: 110px;
-    margin: 22px auto 18px;
+    margin: 22px auto 18px auto;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -46,35 +47,35 @@
   }
 
   @keyframes blinkSoft {
-    0%,100% { opacity: 1; }
+    0%, 100% { opacity: 1; }
     50% { opacity: 0.55; }
   }
   @keyframes blinkHard {
-    0%,100% { opacity: 1; }
+    0%, 100% { opacity: 1; }
     50% { opacity: 0.2; }
   }
 
   .is-blinking { animation: blinkSoft 0.9s ease-in-out infinite; }
   .is-danger {
     animation: blinkHard 0.35s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(239,68,68,.6));
+    filter: drop-shadow(0 0 10px rgba(239,68,68,0.6)) saturate(1.2);
   }
 
   .sort-grid {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
     max-width: 520px;
     margin: 0 auto;
   }
 
   .sort-box {
-    background: #fff;
+    background: #ffffff;
     border: 2px solid #f1f5f9;
     border-radius: 16px;
-    padding: 18px;
+    padding: 18px 14px;
     cursor: pointer;
-    transition: all .2s;
+    transition: all 0.2s;
     user-select: none;
   }
 
@@ -87,11 +88,27 @@
   .sort-box span {
     font-weight: 900;
     font-size: 1.05rem;
+    display: block;
+    letter-spacing: 0.2px;
   }
 
-  #sort-msg { height: 22px; font-weight: 900; margin-top: 14px; }
-  .s-success { color:#22c55e }
-  .s-error   { color:#ef4444 }
+  #sort-msg {
+    height: 22px;
+    margin-top: 14px;
+    font-weight: 900;
+  }
+
+  .s-success { color: #22c55e; }
+  .s-error { color: #ef4444; }
+
+  .btn {
+    display: inline-block;
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-weight: 900;
+    cursor: pointer;
+  }
 </style>
 
 <div class="sort-section">
@@ -117,8 +134,13 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const IMG_BASE = "{{ site.baseurl }}/assets/img/games/shop/";
-  const START_IMG = IMG_BASE + "{{ start_image }}";
+  // ABSOLUTER ROOT-PFAD – ohne baseurl, ohne const IMG_BASE
+  // Deine Dateien: /assets/img/games/shop/food01.png etc.
+  function imgUrl(file) {
+    return "/assets/img/games/shop/" + file;
+  }
+
+  const START_FILE = "{{ start_image }}";
 
   const FOOD_COUNT  = {{ food_count }};
   const MED_COUNT   = {{ med_count }};
@@ -128,79 +150,202 @@ document.addEventListener("DOMContentLoaded", () => {
   const ITEM_TIME = 5;
   const MAX_LIVES = 3;
 
-  let deck=[], score=0, lives=MAX_LIVES, active=false;
-  let current=null, itemTime=ITEM_TIME, timer=null;
+  let deck = [];
+  let score = 0;
+  let lives = MAX_LIVES;
+  let active = false;
+
+  let current = null;
+  let itemTime = ITEM_TIME;
+  let itemTimer = null;
 
   const box = document.getElementById("sort-current");
-  const elScore = s("s-score"), elLives=s("s-lives"),
-        elItemTime=s("s-itemtime"), elLeft=s("s-left"), elMsg=s("sort-msg");
+  const elScore = document.getElementById("s-score");
+  const elLives = document.getElementById("s-lives");
+  const elItemTime = document.getElementById("s-itemtime");
+  const elLeft = document.getElementById("s-left");
+  const elMsg = document.getElementById("sort-msg");
+  const btnStart = document.getElementById("s-start");
 
-  function s(id){return document.getElementById(id)}
-  const pad=n=>String(n).padStart(2,"0");
-  const hearts=n=>"❤️".repeat(n);
+  const pad = n => String(n).padStart(2, "0");
+  const hearts = n => "❤️".repeat(Math.max(0, n));
 
-  function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-
-  function buildDeck(){
-    let a=[];
-    for(let i=1;i<=FOOD_COUNT;i++)  a.push({img:`food${pad(i)}.png`,cat:"nomnom"});
-    for(let i=1;i<=MED_COUNT;i++)   a.push({img:`med${pad(i)}.png`,cat:"pharmacy"});
-    for(let i=1;i<=SHOP_COUNT;i++)  a.push({img:`shop${pad(i)}.png`,cat:"simsim"});
-    for(let i=1;i<=TRASH_COUNT;i++) a.push({img:`trash${pad(i)}.png`,cat:"trash"});
-    return shuffle(a);
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   }
 
-  function setImage(f){box.style.backgroundImage=`url("${IMG_BASE+f}")`}
-  function ui(){elScore.innerText=score;elLives.innerText=hearts(lives);elItemTime.innerText=itemTime;elLeft.innerText=deck.length+(current?1:0)}
-
-  function next(){
-    if(!active) return;
-    if(deck.length===0){end(true);return}
-    current=deck.pop(); setImage(current.img);
-    startTimer(); ui();
+  function setImage(file) {
+    box.style.backgroundImage = `url("${imgUrl(file)}")`;
   }
 
-  function startTimer(){
-    clearInterval(timer); itemTime=ITEM_TIME;
-    box.className="sort-image is-blinking";
-    timer=setInterval(()=>{
+  function clearDanger() {
+    box.classList.remove("is-blinking");
+    box.classList.remove("is-danger");
+  }
+
+  function ui() {
+    elScore.innerText = score;
+    elLives.innerText = hearts(lives);
+    elItemTime.innerText = itemTime;
+    elLeft.innerText = String(deck.length + (current ? 1 : 0));
+  }
+
+  function buildDeck() {
+    const items = [];
+    for (let i = 1; i <= FOOD_COUNT; i++)  items.push({ img: `food${pad(i)}.png`,  cat: "nomnom" });
+    for (let i = 1; i <= MED_COUNT; i++)   items.push({ img: `med${pad(i)}.png`,   cat: "pharmacy" });
+    for (let i = 1; i <= SHOP_COUNT; i++)  items.push({ img: `shop${pad(i)}.png`,  cat: "simsim" });
+    for (let i = 1; i <= TRASH_COUNT; i++) items.push({ img: `trash${pad(i)}.png`, cat: "trash" });
+    return shuffle(items);
+  }
+
+  function startItemTimer() {
+    clearInterval(itemTimer);
+    itemTime = ITEM_TIME;
+
+    clearDanger();
+    box.classList.add("is-blinking");
+    ui();
+
+    itemTimer = setInterval(() => {
+      if (!active) return;
+
       itemTime--;
-      if(itemTime<=1) box.className="sort-image is-danger";
-      if(itemTime<=0){clearInterval(timer); loseLife()}
+
+      if (itemTime <= 1) {
+        box.classList.add("is-danger");
+        box.classList.remove("is-blinking");
+      }
+
+      if (itemTime <= 0) {
+        clearInterval(itemTimer);
+        loseLife("Too slow! -1 life");
+        return;
+      }
+
       ui();
-    },1000);
+    }, 1000);
   }
 
-  function loseLife(){
-    lives--; elMsg.innerText="Too slow!"; elMsg.className="s-error";
-    if(lives<=0){end(false);return}
-    setTimeout(next,400);
-  }
+  function nextItem() {
+    if (!active) return;
 
-  function end(win){
-    active=false; clearInterval(timer);
-    setImage("{{ start_image }}");
-    elMsg.innerText = win ? "All items sorted!" : "Game Over";
-    elMsg.className = win ? "s-success" : "s-error";
-    s("s-start").style.display="inline-block";
-  }
+    clearDanger();
+    elMsg.innerText = "";
+    elMsg.className = "";
 
-  window.startSorting=()=>{
-    deck=buildDeck(); score=0; lives=MAX_LIVES; active=true;
-    s("s-start").style.display="none";
-    setImage("{{ start_image }}"); setTimeout(next,300);
+    if (deck.length === 0) {
+      win();
+      return;
+    }
+
+    current = deck.pop();
+    setImage(current.img);
+
+    box.style.transform = "scale(1.10)";
+    setTimeout(() => (box.style.transform = "scale(1)"), 90);
+
+    startItemTimer();
     ui();
   }
 
-  window.checkSort=cat=>{
-    if(!active||!current) return;
-    clearInterval(timer);
-    if(cat===current.cat) score+=10;
-    else score=Math.max(0,score-5);
-    next(); ui();
+  function loseLife(text) {
+    lives = Math.max(0, lives - 1);
+    elMsg.innerText = text;
+    elMsg.className = "s-error";
+    ui();
+
+    if (lives <= 0) {
+      gameOver();
+      return;
+    }
+
+    setTimeout(() => {
+      if (!active) return;
+      nextItem();
+    }, 450);
   }
 
-  setImage("{{ start_image }}");
-  elLeft.innerText=FOOD_COUNT+MED_COUNT+SHOP_COUNT+TRASH_COUNT;
+  function win() {
+    active = false;
+    clearInterval(itemTimer);
+    current = null;
+    clearDanger();
+
+    setImage(START_FILE);
+    elMsg.innerText = "All items sorted!";
+    elMsg.className = "s-success";
+
+    btnStart.style.display = "inline-block";
+    btnStart.innerText = "Play again";
+    ui();
+  }
+
+  function gameOver() {
+    active = false;
+    clearInterval(itemTimer);
+    current = null;
+    clearDanger();
+
+    setImage(START_FILE);
+    elMsg.innerText = "Game Over!";
+    elMsg.className = "s-error";
+
+    btnStart.style.display = "inline-block";
+    btnStart.innerText = "Try again";
+    ui();
+  }
+
+  window.startSorting = function() {
+    score = 0;
+    lives = MAX_LIVES;
+    deck = buildDeck();
+    active = true;
+
+    btnStart.style.display = "none";
+    elMsg.innerText = "";
+    elMsg.className = "";
+
+    setImage(START_FILE);
+    current = null;
+    ui();
+
+    setTimeout(() => {
+      if (!active) return;
+      nextItem();
+    }, 250);
+  };
+
+  window.checkSort = function(cat) {
+    if (!active || !current) return;
+
+    clearInterval(itemTimer);
+
+    if (cat === current.cat) {
+      score += 10;
+      elMsg.innerText = "Correct!";
+      elMsg.className = "s-success";
+    } else {
+      score = Math.max(0, score - 5);
+      elMsg.innerText = "Wrong!";
+      elMsg.className = "s-error";
+    }
+
+    current = null;
+    ui();
+
+    setTimeout(() => {
+      if (!active) return;
+      nextItem();
+    }, 200);
+  };
+
+  // initial
+  setImage(START_FILE);
+  elLeft.innerText = String(FOOD_COUNT + MED_COUNT + SHOP_COUNT + TRASH_COUNT);
 });
 </script>
