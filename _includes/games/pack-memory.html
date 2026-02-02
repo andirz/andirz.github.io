@@ -45,7 +45,6 @@
     transition: all 0.3s;
   }
 
-  /* Roter Alarm für den Timer */
   .mm-badge.is-warning {
     color: #fff;
     background: var(--sims-red);
@@ -126,56 +125,50 @@
 
 <script>
 (function () {
-  // --- SOUND SYSTEM (Web Audio API) ---
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  function playSound(type) {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
+  let audioCtx = null;
 
-    if (type === 'flip') {
-      osc.type = 'sine'; osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-      osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-    } else if (type === 'match') {
-      osc.type = 'triangle'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-      osc.frequency.exponentialRampToValueAtTime(1046.5, audioCtx.currentTime + 0.2); // C6
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-      osc.start(); osc.stop(audioCtx.currentTime + 0.3);
-    } else if (type === 'error') {
-      osc.type = 'sawtooth'; osc.frequency.setValueAtTime(220, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.2);
-      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-      osc.start(); osc.stop(audioCtx.currentTime + 0.2);
-    } else if (type === 'win') {
-      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = 'sine'; o.connect(g); g.connect(audioCtx.destination);
-        o.frequency.setValueAtTime(f, audioCtx.currentTime + (i * 0.1));
-        g.gain.setValueAtTime(0.1, audioCtx.currentTime + (i * 0.1));
-        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + (i * 0.1) + 0.4);
-        o.start(audioCtx.currentTime + (i * 0.1)); o.stop(audioCtx.currentTime + (i * 0.1) + 0.4);
-      });
-    }
+  function playSound(type) {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'flip') {
+        osc.type = 'sine'; osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+      } else if (type === 'match') {
+        osc.type = 'triangle'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1046.5, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+      } else if (type === 'error') {
+        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+      }
+    } catch (e) { console.warn("Audio failed", e); }
   }
 
   const PACKS = [
     {%- for i in (1..max_ep) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}{%- assign p_id = "ep" | append: id -%}{%- assign f_path = current_folder | append: p_id | append: ".png" -%}
       {%- assign found = false -%}{%- for file in site.static_files -%}{%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
-      {%- if found -%}{ id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },{%- endif -%}
+      {%- if found -%}{ id: "{{ p_id }}", url: "{{ f_path | relative_url }}" },{%- endif -%}
     {%- endfor -%}
     {%- for i in (1..max_gp) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}{%- assign p_id = "gp" | append: id -%}{%- assign f_path = current_folder | append: p_id | append: ".png" -%}
       {%- assign found = false -%}{%- for file in site.static_files -%}{%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
-      {%- if found -%}{ id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },{%- endif -%}
+      {%- if found -%}{ id: "{{ p_id }}", url: "{{ f_path | relative_url }}" },{%- endif -%}
     {%- endfor -%}
   ];
 
@@ -208,15 +201,13 @@
       timerId = setInterval(() => {
         const elapsed = Math.floor((Date.now() - startMs) / 1000);
         const remaining = TIME_LIMIT - elapsed;
-
         if (remaining <= 10) timerEl.classList.add('is-warning');
-        
         if (remaining <= 0) {
           clearInterval(timerId);
           timerEl.textContent = "Time: 00:00";
           locked = true;
           playSound('error');
-          setTimeout(() => alert("Game Over! Time is up."), 100);
+          alert("Game Over! Time is up.");
           return;
         }
         timerEl.textContent = "Time: " + format(remaining);
@@ -232,11 +223,9 @@
         card.innerHTML = `<div class="mm-face mm-front">?</div><div class="mm-face mm-back"><img src="${item.url}" alt="${item.id}"></div>`;
         card.addEventListener("click", () => {
           if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
-          
           playSound('flip');
           card.classList.add("is-flipped");
           opened.push(card);
-
           if (opened.length === 2) {
             locked = true;
             if (opened[0].dataset.id === opened[1].dataset.id) {
@@ -246,8 +235,7 @@
               playSound('match');
               if (matches === PAIRS) {
                 clearInterval(timerId);
-                playSound('win');
-                setTimeout(() => alert("Victory! You matched them all."), 250);
+                setTimeout(() => alert("Victory!"), 300);
               }
             } else {
               setTimeout(() => {
