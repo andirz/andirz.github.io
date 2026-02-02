@@ -4,12 +4,14 @@ smart_core:
   name: "Smart Core Script"
   short_name: "SCS"
   author: "Andirz"
+  icon: "fas fa-microchip"
   url: "/mods/smart-core-script/"
 
 pso_common:
   name: "P.S.O. Common Package"
   short_name: "PSO"
   author: "Andirz"
+  icon: "fas fa-cubes"
   url: "/mods/pso-common-package/"
 
 xml_injector:
