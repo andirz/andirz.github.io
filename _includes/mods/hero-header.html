@@ -9,7 +9,7 @@
     {{ mod.name | default: page.title }}
   </h1>
   
-  <div class="mod-tags-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+  <div class="mod-tags-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 25px;">
     {% if mod.status %}
       <span style="background: {{ status_color }}; color: white; padding: 5px 14px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
         {{ mod.status }}
@@ -24,29 +24,43 @@
     {% endfor %}
   </div>
 
-  <div style="display: flex; align-items: center; gap: 25px; color: #64748b; font-size: 0.9rem; flex-wrap: wrap;">
+  <div style="display: flex; align-items: flex-start; gap: 30px; color: #64748b; font-size: 0.9rem; flex-wrap: wrap;">
     
-    {% comment %} Version {% endcomment %}
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <i class="fas fa-code-branch" style="color: #cbd5e1; font-size: 1rem;"></i>
-      <span style="font-weight: 600; color: #475569;">v. {{ current_version }}</span>
+    {% comment %} Version Section {% endcomment %}
+    <div style="display: flex; flex-direction: column; gap: 5px;">
+      <span style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Current Version</span>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-code-branch" style="color: #cbd5e1; font-size: 1rem;"></i>
+        <span style="font-weight: 600; color: #475569;">v. {{ current_version }}</span>
+      </div>
     </div>
     
-    {% comment %} Updated {% endcomment %}
-    <div style="display: flex; align-items: center; gap: 10px; padding-left: 25px; border-left: 1px solid #f1f5f9;">
-      <i class="fas fa-calendar-alt" style="color: #cbd5e1; font-size: 1rem;"></i>
-      <span style="font-weight: 600; color: #475569;">{{ last_updated | date: "%b %d, %Y" }}</span>
+    {% comment %} Updated Section {% endcomment %}
+    <div style="display: flex; flex-direction: column; gap: 5px; padding-left: 30px; border-left: 1px solid #f1f5f9;">
+      <span style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Last Update</span>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-calendar-alt" style="color: #cbd5e1; font-size: 1rem;"></i>
+        <span style="font-weight: 600; color: #475569;">{{ last_updated | date: "%b %d, %Y" }}</span>
+      </div>
     </div>
 
-    {% comment %} Pack Icons (wie in deiner Tabelle) {% endcomment %}
-    {% if page.requirements_packs.size > 0 %}
-    <div style="display: flex; align-items: center; gap: 6px; padding-left: 25px; border-left: 1px solid #f1f5f9;">
-      {% for pack_code in page.requirements_packs %}
-        {% assign icon_id = pack_code | downcase %}
-        <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;" title="{{ pack_code }}">
-          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="{{ pack_code }}" style="width: 24px; height: 24px; object-fit: contain;">
-        </div>
-      {% endfor %}
+    {% comment %} Pack Icons Section {% endcomment %}
+    {% assign mod_packs = page.requirements_packs | default: mod.packs %}
+    {% if mod_packs.size > 0 %}
+    <div style="display: flex; flex-direction: column; gap: 5px; padding-left: 30px; border-left: 1px solid #f1f5f9;">
+      <span style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Required Packs</span>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        {% for pack_code in mod_packs %}
+          {% assign icon_id = pack_code | downcase %}
+          <div style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;" title="{{ pack_code }}">
+            <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" 
+                 alt="{{ pack_code }}" 
+                 style="width: 26px; height: 26px; object-fit: contain;"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <i class="fas fa-box" style="display: none; font-size: 14px; opacity: 0.3;"></i>
+          </div>
+        {% endfor %}
+      </div>
     </div>
     {% endif %}
 
