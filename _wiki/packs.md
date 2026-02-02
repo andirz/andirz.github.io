@@ -1,148 +1,175 @@
 ---
 layout: page
-title: Packs
+title: Packs Overview
 icon: "fas fa-box-open"
 description: "A reference guide to the abbreviations used for The Sims 4 Expansion, Gameplay, and Stuff Packs."
 ---
 
 {% include table_styles.html %}
 
-<div class="intro-container">
-  <div class="intro-text">
-    This list provides an overview of all official abbreviations and codes for <strong>The Sims 4</strong> Packs. 
-    It is a helpful resource for modders and players to identify packs across different languages.
-    Click on the table headers to sort or use <code>Ctrl + F</code> to find a specific pack.
-  </div>
-  <div class="intro-toc">
-    <strong>Contents</strong>
-    <ul>
-      <li><a href="#expansion-packs">Expansion Packs</a></li>
-      <li><a href="#game-packs">Game Packs</a></li>
-      <li><a href="#stuff-packs">Stuff Packs</a></li>
-      <li><a href="#kits">Kits</a></li>
-    </ul>
-  </div>
-</div>
+This list provides an overview of all official abbreviations and codes for <strong>The Sims 4</strong> Packs.
+It is a helpful resource for modders and players to identify packs across different languages.
+
+<strong>Contents</strong>
+<ul>
+  <li><a href="#expansion-packs">Expansion Packs</a></li>
+  <li><a href="#game-packs">Game Packs</a></li>
+  <li><a href="#stuff-packs">Stuff Packs</a></li>
+  <li><a href="#kits">Kits</a></li>
+</ul>
 
 <hr class="section-divider">
 
-<h2 id="expansion-packs">Expansion Packs</h2>
-<div class="table-wrapper">
-  <table id="tableEP" class="custom-wiki-table">
-    <thead>
-      <tr>
-        <th style="width: 50px; text-align: center;">Logo</th>
-        <th onclick="sortTable(1, 'tableEP')">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(2, 'tableEP')">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(3, 'tableEP')">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(4, 'tableEP')">es <i class="fas fa-sort"></i></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "EP" %}
-      {% assign icon_id = code | downcase %}
-      <tr>
-        <td style="text-align: center;">
-          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="height: 32px; width: auto;" onerror="this.style.display='none';">
-        </td>
-        <td><strong>{{ code }}</strong></td>
-        <td>{{ info.en }}</td>
-        <td>{{ info.de }}</td>
-        <td>{{ info.es }}</td>
-      </tr>
-      {% endif %}{% endfor %}
-    </tbody>
-  </table>
+{% capture table_header %}
+<thead>
+  <tr class="packs-header-row">
+    <th class="packs-th-icon">Icon</th>
+    <th class="packs-th-sort js-sort" data-col="1">Code <i class="fas fa-sort packs-sort-icon"></i></th>
+    <th class="packs-th-sort js-sort" data-col="2">en <i class="fas fa-sort packs-sort-icon"></i></th>
+    <th class="packs-th-sort js-sort" data-col="3">de <i class="fas fa-sort packs-sort-icon"></i></th>
+    <th class="packs-th-sort js-sort" data-col="4">es <i class="fas fa-sort packs-sort-icon"></i></th>
+  </tr>
+</thead>
+{% endcapture %}
+
+{% assign tables = 
+  "EP|Expansion Packs,
+   GP|Game Packs,
+   SP_MAIN|Stuff Packs,
+   SP_KITS|Kits" | split: "," %}
+
+{% for t in tables %}
+{% assign tdata = t | split: "|" %}
+{% assign tkey = tdata[0] %}
+{% assign ttitle = tdata[1] %}
+
+<h2 id="{{ ttitle | downcase | replace: ' ', '-' }}">{{ ttitle }}</h2>
+<div class="content-wrapper">
+  <div class="status-table-container">
+    <table class="custom-wiki-table packs-table">
+      {{ table_header }}
+      <tbody>
+        {% for pack in site.data.packs %}
+        {% assign code = pack[0] %}
+        {% assign info = pack[1] %}
+        {% assign sp_num = code | remove: "SP" | plus: 0 %}
+
+        {% if
+          (tkey == "EP" and code contains "EP") or
+          (tkey == "GP" and code contains "GP") or
+          (tkey == "SP_MAIN" and code contains "SP" and sp_num <= 18 or sp_num == 46 or sp_num == 49) or
+          (tkey == "SP_KITS" and code contains "SP" and sp_num > 18 and sp_num != 46 and sp_num != 49)
+        %}
+          {% assign icon_id = code | downcase %}
+          {% assign icon_path = "/assets/img/packs/" | append: icon_id | append: ".png" %}
+          {% assign icon_exists = false %}
+          {% for file in site.static_files %}
+            {% if file.path == icon_path %}{% assign icon_exists = true %}{% break %}{% endif %}
+          {% endfor %}
+
+          <tr>
+            <td class="packs-td-icon">
+              <div class="packs-icon-box">
+                {% if icon_exists %}
+                  <img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" class="packs-icon-img">
+                {% else %}
+                  <i class="fas fa-box packs-icon-fallback"></i>
+                {% endif %}
+              </div>
+            </td>
+            <td class="packs-td-code"><strong>{{ code }}</strong></td>
+            <td class="packs-td-text">{{ info.en }}</td>
+            <td class="packs-td-text packs-muted">{{ info.de }}</td>
+            <td class="packs-td-text packs-muted">{{ info.es }}</td>
+          </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<h2 id="game-packs">Game Packs</h2>
-<div class="table-wrapper">
-  <table id="tableGP" class="custom-wiki-table">
-    <thead>
-      <tr>
-        <th style="width: 50px; text-align: center;">Logo</th>
-        <th onclick="sortTable(1, 'tableGP')">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(2, 'tableGP')">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(3, 'tableGP')">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(4, 'tableGP')">es <i class="fas fa-sort"></i></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "GP" %}
-      {% assign icon_id = code | downcase %}
-      <tr>
-        <td style="text-align: center;">
-          <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="height: 32px; width: auto;" onerror="this.style.display='none';">
-        </td>
-        <td><strong>{{ code }}</strong></td>
-        <td>{{ info.en }}</td>
-        <td>{{ info.de }}</td>
-        <td>{{ info.es }}</td>
-      </tr>
-      {% endif %}{% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<h2 id="stuff-packs">Stuff Packs</h2>
-<div class="table-wrapper">
-  <table id="tableSP" class="custom-wiki-table">
-    <thead>
-      <tr>
-        <th onclick="sortTable(0, 'tableSP')">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(1, 'tableSP')">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(2, 'tableSP')">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(3, 'tableSP')">es <i class="fas fa-sort"></i></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% if sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
-      <tr>
-        <td><strong>{{ code }}</strong></td>
-        <td>{{ info.en }}</td>
-        <td>{{ info.de }}</td>
-        <td>{{ info.es }}</td>
-      </tr>
-      {% endif %}{% endif %}{% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<h2 id="kits">Kits</h2>
-<div class="table-wrapper">
-  <table id="tableKits" class="custom-wiki-table">
-    <thead>
-      <tr>
-        <th onclick="sortTable(0, 'tableKits')">Code <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(1, 'tableKits')">en <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(2, 'tableKits')">de <i class="fas fa-sort"></i></th>
-        <th onclick="sortTable(3, 'tableKits')">es <i class="fas fa-sort"></i></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% unless sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
-      <tr>
-        <td><strong>{{ code }}</strong></td>
-        <td>{{ info.en }}</td>
-        <td>{{ info.de }}</td>
-        <td>{{ info.es }}</td>
-      </tr>
-      {% endunless %}{% endif %}{% endfor %}
-    </tbody>
-  </table>
-</div>
+{% endfor %}
 
 <style>
-  .intro-container { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 1rem; }
-  .intro-text { flex: 2; }
-  .intro-toc { flex: 1; background: rgba(0,0,0,0.02); padding: 10px 15px; border-radius: 8px; border-left: 3px solid var(--border-color); font-size: 0.9rem; }
-  .intro-toc ul { margin: 5px 0 0 0; padding-left: 20px; }
-  .section-divider { margin: 1rem 0; opacity: 0.5; }
-  h2 { margin-top: 0.8rem; margin-bottom: 0.2rem; font-size: 1.5rem; }
-  th:hover { background: rgba(0,123,255,0.1) !important; }
-  th i { font-size: 0.7rem; opacity: 0.4; float: right; margin-top: 4px; }
-  .table-wrapper { overflow-x: auto; }
-  @media (max-width: 600px) { .intro-container { flex-direction: column; } .intro-toc { width: 100%; } }
+h2 { margin-top: 1.6rem; margin-bottom: 0.5rem; font-size: 1.55rem; }
+
+.packs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: var(--bg-primary);
+  margin-bottom: 2rem;
+}
+
+.packs-header-row {
+  background: var(--bg-secondary);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.packs-th-icon { width: 60px; text-align: center; padding: 6px; }
+.packs-th-sort { padding: 6px; cursor: pointer; user-select: none; }
+.packs-sort-icon { font-size: 0.75rem; opacity: 0.3; margin-left: 4px; }
+
+.packs-table th,
+.packs-table td { line-height: 1.1; }
+
+.packs-td-icon { padding: 5px; text-align: center; }
+.packs-td-code,
+.packs-td-text { padding: 6px; }
+
+.packs-muted { color: var(--text-muted); }
+
+.packs-icon-box {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.packs-icon-img { width: 28px; height: 28px; object-fit: contain; }
+.packs-icon-fallback { opacity: 0.25; }
 </style>
 
-{% include table_sorting_script.html %}
+<script>
+(function () {
+
+  function sortTable(table, col) {
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.rows);
+
+    const lastCol = table.dataset.sortCol;
+    const lastDir = table.dataset.sortDir || 'asc';
+    const dir = (String(lastCol) === String(col) && lastDir === 'asc') ? 'desc' : 'asc';
+
+    rows.sort((a, b) => {
+      const A = (a.cells[col]?.textContent || '').trim().toLowerCase();
+      const B = (b.cells[col]?.textContent || '').trim().toLowerCase();
+      const r = A.localeCompare(B, undefined, { numeric: true, sensitivity: 'base' });
+      return dir === 'asc' ? r : -r;
+    });
+
+    rows.forEach(r => tbody.appendChild(r));
+    table.dataset.sortCol = col;
+    table.dataset.sortDir = dir;
+  }
+
+  function init() {
+    document.querySelectorAll('th.js-sort').forEach(th => {
+      th.addEventListener('click', () => {
+        const table = th.closest('table');
+        if (!table) return;
+        sortTable(table, parseInt(th.dataset.col, 10));
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  window.addEventListener('pageshow', init);
+
+})();
+</script>
