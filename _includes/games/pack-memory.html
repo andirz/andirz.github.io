@@ -14,7 +14,7 @@
     background: #f8fafc;
     border-radius: 24px;
     padding: 1.6rem;
-    max-width: 820px;
+    max-width: 720px; /* Reduziert von 820px auf ca. 80% */
     margin: 1.6rem auto;
     border: 1px solid #e2e8f0;
     box-shadow: 0 16px 22px -8px rgba(0,0,0,0.06);
@@ -75,10 +75,14 @@
 
   .mm-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(68px, 1fr));
+    /* Grid-Kacheln auf ca. 80% (68px -> 54px) */
+    grid-template-columns: repeat(4, minmax(54px, 1fr)); 
     gap: 12px;
     perspective: 1000px;
     margin-top: 10px;
+    max-width: 500px; /* Zentriert das Grid kompakter */
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .mm-card {
@@ -99,10 +103,10 @@
     box-shadow: 0 4px 6px -2px rgba(0,0,0,0.12);
   }
 
-  .mm-front { background: var(--sims-blue); color: #fff; font-size: 1.5rem; border: 2px solid rgba(255,255,255,0.1); }
+  .mm-front { background: var(--sims-blue); color: #fff; font-size: 1.2rem; border: 2px solid rgba(255,255,255,0.1); }
   .mm-back { background: #fff; transform: rotateY(180deg); padding: 8px; border: 3px solid var(--sims-green); }
   .mm-back img { width: 100%; height: 100%; object-fit: contain; display: block; }
-  .mm-back i { font-size: 2.5rem; color: var(--sims-blue); opacity: 0.55; }
+  .mm-back i { font-size: 2rem; color: var(--sims-blue); opacity: 0.55; } /* Icon verkleinert */
 
   /* Victory Theme für das Game Over Fenster */
   .is-victory .game-over-card { border-color: var(--sims-green); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 30px rgba(46, 204, 113, 0.2); }
