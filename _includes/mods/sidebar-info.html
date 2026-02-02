@@ -33,10 +33,7 @@
     <!-- COVER -->
     <div class="sidebar-cover">
       {% if cover_exists %}
-        <a href="{{ expected_cover_path }}"
-           target="_blank"
-           rel="noopener noreferrer"
-           title="Open cover in new tab">
+        <a href="{{ expected_cover_path }}" target="_blank" rel="noopener noreferrer">
           <img src="{{ expected_cover_path }}" alt="{{ mod_full_name }}">
         </a>
       {% else %}
@@ -53,16 +50,13 @@
       <div class="meta">
         <span>v. {{ current_version }}</span>
 
-        <!-- MOD TYPE -->
         <div class="files">
           {% if page.files contains 'ts4script' %}
             <i class="fas fa-code" title="Script Mod"></i>
           {% endif %}
-
           {% if page.files contains 'bat' %}
             <i class="fas fa-terminal" title="Batch Tool"></i>
           {% endif %}
-
           {% unless page.files contains 'ts4script' or page.files contains 'bat' %}
             <i class="fas fa-box" title="Package Mod"></i>
           {% endunless %}
@@ -85,9 +79,7 @@
           {% assign dep = site.data.dependencies[req_id] %}
           <li>
             <i class="{{ dep.icon | default: 'fas fa-puzzle-piece' }}"></i>
-            <a href="{{ dep.url | default:'#' }}"
-               target="_blank"
-               rel="noopener noreferrer">
+            <a href="{{ dep.url | default:'#' }}" target="_blank" rel="noopener noreferrer">
               {{ dep.name | default: req_id }}
             </a>
           </li>
@@ -121,18 +113,11 @@
   <div class="sidebar-box">
     <div class="download-wrap">
       {% unless page.curseforge_ban %}
-      <a href="{{ cf_url }}"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download-btn cf-btn">
+      <a href="{{ cf_url }}" target="_blank" rel="noopener noreferrer" class="download-btn cf-btn">
         <i class="fab fa-firefox-browser"></i> CurseForge
       </a>
       {% endunless %}
-
-      <a href="{{ patreon_link }}"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download-btn patreon-btn">
+      <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" class="download-btn patreon-btn">
         <i class="fab fa-patreon"></i> Patreon
       </a>
     </div>
@@ -153,6 +138,11 @@
 </div>
 
 <style>
+/* 🎨 GLOBAL COLOR */
+:root {
+  --soft-black: #1f2937;
+}
+
 /* LAYOUT */
 .sticky-sidebar-wrapper {
   position: sticky;
@@ -162,34 +152,33 @@
 /* BOX */
 .sidebar-box {
   background: #fff;
-  border: 2px solid #000;
-  border-radius: 16px;
+  border: 1px solid var(--soft-black);
+  border-radius: 14px;
   overflow: hidden;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 
 .sidebar-box-header {
-  background: #000;
+  background: var(--soft-black);
   color: #fff;
   font-size: 0.65rem;
   font-weight: 800;
   text-align: center;
-  padding: 8px;
+  padding: 7px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .sidebar-box-content {
-  padding: 12px 15px;
+  padding: 12px 14px;
 }
 
 /* COVER */
 .sidebar-cover {
   position: relative;
-  width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-bottom: 2px solid #000;
+  border-bottom: 1px solid var(--soft-black);
 }
 
 .sidebar-cover a,
@@ -204,48 +193,26 @@
   object-fit: cover;
 }
 
-/* FALLBACK */
-.cover-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-}
-
 /* CONTENT */
 .sidebar-content {
-  padding: 15px;
+  padding: 14px;
   text-align: center;
-}
-
-.sidebar-content h3 {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 800;
 }
 
 .meta {
   margin-top: 6px;
   font-size: 0.8rem;
-  color: #64748b;
+  color: #6b7280;
   display: flex;
   justify-content: center;
   gap: 8px;
-  align-items: center;
 }
 
 .files {
   display: flex;
   gap: 6px;
-  border-left: 1px solid #000;
+  border-left: 1px solid var(--soft-black);
   padding-left: 8px;
-}
-
-.files i {
-  font-size: 0.85rem;
-  opacity: 0.9;
 }
 
 /* REQUIREMENTS */
@@ -263,43 +230,17 @@
   margin-bottom: 8px;
 }
 
-.requirements-list li:last-child {
-  margin-bottom: 0;
-}
-
-.requirements-list a {
-  font-weight: 700;
-  text-decoration: none;
-}
-
-/* PACKS */
 .packs-block {
-  border-top: 1px solid #e2e8f0;
-  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
   margin-top: 10px;
+  padding-top: 8px;
   font-size: 0.7rem;
 }
 
-/* Wenn keine extra Mods/Requirements existieren -> keine Trennlinie */
 .packs-block.no-divider {
   border-top: none;
-  padding-top: 0;
   margin-top: 0;
-}
-
-.packs-list {
-  margin-top: 6px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.packs-list span {
-  background: #eff6ff;
-  border: 1px solid #dbeafe;
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-weight: 700;
+  padding-top: 0;
 }
 
 /* DOWNLOAD */
@@ -311,11 +252,8 @@
 }
 
 .download-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 9px;
   font-weight: 800;
   font-size: 0.85rem;
   color: #fff !important;
@@ -323,9 +261,7 @@
   transition: filter 0.2s ease;
 }
 
-.download-btn:hover {
-  filter: brightness(1.15);
-}
+.download-btn:hover { filter: brightness(1.12); }
 
 .cf-btn { background: #f16436; }
 .patreon-btn { background: #1e293b; }
@@ -334,24 +270,20 @@
 .support-icons {
   display: flex;
   justify-content: center;
-  gap: 25px;
-  padding: 10px 0;
+  gap: 22px;
+  padding: 6px 0 2px;
 }
 
 .support-icons a {
   font-size: 1.35rem;
-  display: inline-block;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275);
 }
 
-.support-icons a:hover {
-  transform: scale(1.3);
-}
+.support-icons a:hover { transform: scale(1.3); }
 
-.support-icons a[title="Patreon"] { color: #000; }
-.support-icons a[title="Ko-fi"]   { color: #29abe0; }
-.support-icons a[title="PayPal"]  { color: #0070ba; }
+.support-icons a[title="Patreon"] { color: #111827; }
+.support-icons a[title="Ko-fi"]   { color: #38bdf8; }
+.support-icons a[title="PayPal"]  { color: #3b82f6; }
 
 /* 🔥 GLOW-KILLER */
 .sticky-sidebar-wrapper *,
@@ -359,6 +291,5 @@
 .sticky-sidebar-wrapper *::after {
   box-shadow: none !important;
   filter: none !important;
-  text-shadow: none !important;
 }
 </style>
