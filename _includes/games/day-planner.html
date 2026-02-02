@@ -1,3 +1,10 @@
+{% assign icon_gift = "/assets/img/games/emily/gift.png" %}
+{% assign icon_goodjob = "/assets/img/games/emily/goodjob.png" %}
+{% assign icon_warning = "/assets/img/games/emily/warning.png" %}
+{% assign icon_wave = "/assets/img/games/emily/wave.png" %}
+{% assign icon_wrench = "/assets/img/games/emily/wrench.png" %}
+{% assign icon_writing = "/assets/img/games/emily/writing.png" %}
+
 <style>
   .plan-section{
     background:#fff;
@@ -23,18 +30,18 @@
     display:grid;
     grid-template-columns: 1fr;
     gap:14px;
-    max-width:760px;
-    margin:0 auto;
+    max-width: 760px;
+    margin: 0 auto;
   }
   @media (min-width: 992px){
-    .plan-grid{ grid-template-columns: 1.1fr 0.9fr; }
+    .plan-grid{ grid-template-columns: 1.1fr 0.9fr; align-items:start; }
   }
 
   .plan-card{
     border:1px solid rgba(0,0,0,0.08);
     border-radius:18px;
     padding:16px;
-    background:linear-gradient(180deg, rgba(15,23,42,0.03), rgba(15,23,42,0.01));
+    background: linear-gradient(180deg, rgba(15,23,42,0.03), rgba(15,23,42,0.01));
   }
 
   .plan-slots{
@@ -51,27 +58,32 @@
     display:flex;
     flex-direction:column;
     gap:6px;
+    justify-content:space-between;
   }
   .plan-slot .t{ font-weight:800; font-size:0.9rem; opacity:0.85; }
   .plan-slot .a{ font-weight:800; font-size:0.95rem; }
   .plan-slot .s{ font-size:0.82rem; opacity:0.75; }
 
-  .plan-actions{ display:flex; flex-direction:column; gap:10px; }
+  .plan-actions{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
 
   .plan-btn{
     width:100%;
+    text-align:left;
     border-radius:14px;
     border:1px solid rgba(0,0,0,0.10);
     background:#fff;
-    padding:12px;
+    padding:12px 12px;
     cursor:pointer;
+    transition: transform 0.06s ease, box-shadow 0.06s ease;
   }
-  .plan-btn:hover{
-    transform:translateY(-1px);
-    box-shadow:0 10px 18px -14px rgba(0,0,0,0.25);
-  }
+  .plan-btn:hover{ transform: translateY(-1px); box-shadow:0 10px 18px -14px rgba(0,0,0,0.25); }
   .plan-btn .name{ font-weight:900; }
-  .plan-btn .desc{ font-size:0.88rem; opacity:0.78; }
+  .plan-btn .desc{ font-size:0.88rem; opacity:0.78; margin-top:2px; }
+  .plan-btn small{ display:block; opacity:0.7; margin-top:6px; }
 
   .plan-footer{
     max-width:760px;
@@ -79,192 +91,271 @@
     color: rgba(15,23,42,0.75);
     font-size:0.95rem;
   }
+
+  .plan-action-row{ display:flex; gap:10px; align-items:flex-start; }
+  .plan-action-row img{ width:28px; height:28px; object-fit:contain; flex:0 0 auto; margin-top:2px; }
 </style>
 
 <section class="plan-section">
-  <h2>Sim Day Planner</h2>
 
-  <div class="plan-badges">
-    <div class="plan-badge" id="p-money">Money</div>
-    <div class="plan-badge" id="p-energy">Energy</div>
-    <div class="plan-badge" id="p-hunger">Hunger</div>
-    <div class="plan-badge" id="p-fun">Fun</div>
-    <div class="plan-badge" id="p-happy">Happiness</div>
-  </div>
+  <!-- Pfade wie in skills.md direkt im HTML (JS liest nur noch data-*) -->
+  <div id="p-icons"
+       data-gift="{{ icon_gift }}"
+       data-goodjob="{{ icon_goodjob }}"
+       data-warning="{{ icon_warning }}"
+       data-wave="{{ icon_wave }}"
+       data-wrench="{{ icon_wrench }}"
+       data-writing="{{ icon_writing }}"
+       style="display:none;"></div>
 
-  <div class="plan-grid">
-    <div class="plan-card">
-      <div style="font-weight:900;margin-bottom:10px;">Your Day</div>
-      <div class="plan-slots" id="p-slots"></div>
+  <div class="row align-items-center">
+    <div class="col-lg-5 mb-3 text-center text-lg-start">
+      <h2 class="fw-800" style="color:#1e293b;">Sim Day Planner</h2>
+      <p class="text-muted">
+        Plan 8 time slots. Keep needs above 0. Aim for the highest “Happiness” score.
+        This is a slow thinking puzzle — no reflex clicks.
+      </p>
+
+      <div class="plan-badges">
+        <div class="plan-badge" id="p-money">Money: §250</div>
+        <div class="plan-badge" id="p-energy">Energy: 60</div>
+        <div class="plan-badge" id="p-hunger">Hunger: 60</div>
+        <div class="plan-badge" id="p-fun">Fun: 60</div>
+        <div class="plan-badge" id="p-happy">Happiness: 0</div>
+      </div>
+
+      <div class="mt-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.planReset()">Restart</button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.planUndo()">Undo</button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="window.planFinish()">Finish</button>
+      </div>
+
+      <div class="mt-3">
+        <span id="p-status" class="plan-ok" style="font-weight:800;">Pick an activity for the next slot.</span>
+      </div>
     </div>
 
-    <div class="plan-card">
-      <div style="font-weight:900;margin-bottom:10px;">Activities</div>
-      <div class="plan-actions" id="p-actions"></div>
+    <div class="col-lg-7">
+      <div class="plan-grid">
+        <div class="plan-card">
+          <div style="font-weight:900; margin-bottom:10px;">Your Day (8 slots)</div>
+          <div class="plan-slots" id="p-slots"></div>
+        </div>
+
+        <div class="plan-card">
+          <div style="font-weight:900; margin-bottom:10px;">Activities</div>
+          <div class="plan-actions" id="p-actions"></div>
+        </div>
+      </div>
+
+      <div class="plan-footer">
+        Tips: Sleep restores Energy but costs time. Work gives money but drains needs.
+        If any need drops below 0, your Sim “melts down” and you lose.
+      </div>
     </div>
-  </div>
-
-  <div style="margin-top:12px;">
-    <button onclick="window.planReset()">Restart</button>
-    <button onclick="window.planUndo()">Undo</button>
-    <button onclick="window.planFinish()">Finish</button>
-  </div>
-
-  <div style="margin-top:10px;font-weight:800;" id="p-status"></div>
-
-  <div class="plan-footer">
-    Keep all needs above 0. Plan all 8 slots.
   </div>
 </section>
 
 <script>
 (function(){
+  const START = { money: 250, energy: 60, hunger: 60, fun: 60, happy: 0 };
 
+  const iconsEl = document.getElementById('p-icons');
   const ICON = {
-    gift: "{{ '/assets/img/games/emily/gift.png' | relative_url }}",
-    goodjob: "{{ '/assets/img/games/emily/goodjob.png' | relative_url }}",
-    warning: "{{ '/assets/img/games/emily/warning.png' | relative_url }}",
-    wave: "{{ '/assets/img/games/emily/wave.png' | relative_url }}",
-    wrench: "{{ '/assets/img/games/emily/wrench.png' | relative_url }}",
-    writing: "{{ '/assets/img/games/emily/writing.png' | relative_url }}"
+    gift: iconsEl?.dataset.gift || "",
+    goodjob: iconsEl?.dataset.goodjob || "",
+    warning: iconsEl?.dataset.warning || "",
+    wave: iconsEl?.dataset.wave || "",
+    wrench: iconsEl?.dataset.wrench || "",
+    writing: iconsEl?.dataset.writing || ""
   };
 
-  const START = { money:250, energy:60, hunger:60, fun:60, happy:0 };
-
   const ACTIONS = [
-    { id:"sleep", name:"Sleep", icon:ICON.wave, desc:"Recover energy.",
+    { id:"sleep", name:"Sleep", icon:"wave", desc:"Recover energy. Costs time (no money gain).",
       fx:{ money:0, energy:+28, hunger:-10, fun:-6, happy:+1 } },
 
-    { id:"cook", name:"Cook & Eat", icon:ICON.gift, desc:"Good food.",
+    { id:"cook", name:"Cook & Eat", icon:"gift", desc:"Fix hunger, small fun. Costs a bit of money.",
       fx:{ money:-15, energy:-6, hunger:+22, fun:+4, happy:+2 } },
 
-    { id:"quick", name:"Quick Meal", icon:ICON.gift, desc:"Fast food.",
+    { id:"quickmeal", name:"Quick Meal", icon:"gift", desc:"Fast food. Cheap, okay hunger, not much else.",
       fx:{ money:-8, energy:-3, hunger:+14, fun:+1, happy:+1 } },
 
-    { id:"work", name:"Work", icon:ICON.wrench, desc:"Earn money.",
+    { id:"work", name:"Go to Work", icon:"wrench", desc:"Earn money but drains needs.",
       fx:{ money:+75, energy:-18, hunger:-14, fun:-18, happy:+3 } },
 
-    { id:"skill", name:"Build Skill", icon:ICON.writing, desc:"Learn stuff.",
+    { id:"skills", name:"Build Skill", icon:"writing", desc:"Slow fun, small happiness, drains energy.",
       fx:{ money:0, energy:-10, hunger:-6, fun:+6, happy:+4 } },
 
-    { id:"social", name:"Socialize", icon:ICON.wave, desc:"Meet people.",
+    { id:"social", name:"Socialize", icon:"wave", desc:"Good fun + happiness, costs some energy.",
       fx:{ money:0, energy:-8, hunger:-6, fun:+14, happy:+6 } },
 
-    { id:"game", name:"Play Games", icon:ICON.goodjob, desc:"Have fun.",
+    { id:"game", name:"Play Games", icon:"goodjob", desc:"Big fun, small hunger drain.",
       fx:{ money:0, energy:-6, hunger:-5, fun:+20, happy:+5 } },
 
-    { id:"bath", name:"Bath", icon:ICON.gift, desc:"Relax.",
+    { id:"bath", name:"Long Bath", icon:"gift", desc:"Relaxing. Small fun, small energy.",
       fx:{ money:-5, energy:+6, hunger:-4, fun:+6, happy:+3 } },
   ];
 
-  const SLOTS = ["Morning 1","Morning 2","Noon 1","Noon 2","Afternoon 1","Afternoon 2","Evening 1","Evening 2"];
+  const SLOT_NAMES = ["Morning 1","Morning 2","Noon 1","Noon 2","Afternoon 1","Afternoon 2","Evening 1","Evening 2"];
 
-  const elSlots = document.getElementById("p-slots");
-  const elActions = document.getElementById("p-actions");
-  const elStatus = document.getElementById("p-status");
+  const elSlots = document.getElementById('p-slots');
+  const elActions = document.getElementById('p-actions');
+  const elStatus = document.getElementById('p-status');
 
   const badge = {
-    money: document.getElementById("p-money"),
-    energy: document.getElementById("p-energy"),
-    hunger: document.getElementById("p-hunger"),
-    fun: document.getElementById("p-fun"),
-    happy: document.getElementById("p-happy"),
+    money: document.getElementById('p-money'),
+    energy: document.getElementById('p-energy'),
+    hunger: document.getElementById('p-hunger'),
+    fun: document.getElementById('p-fun'),
+    happy: document.getElementById('p-happy'),
   };
 
   let state = {...START};
+  let slotIndex = 0;
   let plan = [];
-  let slot = 0;
   let history = [];
 
+  function clamp(v){ return Math.max(-999, Math.min(999, v)); }
+
   function renderBadges(){
-    badge.money.textContent = "Money: §" + state.money;
-    badge.energy.textContent = "Energy: " + state.energy;
-    badge.hunger.textContent = "Hunger: " + state.hunger;
-    badge.fun.textContent = "Fun: " + state.fun;
-    badge.happy.textContent = "Happiness: " + state.happy;
+    badge.money.textContent = `Money: §${state.money}`;
+    badge.energy.textContent = `Energy: ${state.energy}`;
+    badge.hunger.textContent = `Hunger: ${state.hunger}`;
+    badge.fun.textContent = `Fun: ${state.fun}`;
+    badge.happy.textContent = `Happiness: ${state.happy}`;
   }
 
   function renderSlots(){
     elSlots.innerHTML = "";
     for(let i=0;i<8;i++){
-      elSlots.innerHTML += `
-        <div class="plan-slot">
-          <div class="t">${SLOTS[i]}</div>
-          <div class="a">${plan[i]?.name || "—"}</div>
-          <div class="s">${plan[i]?.sum || ""}</div>
-        </div>`;
+      const slot = document.createElement('div');
+      slot.className = "plan-slot";
+      const pick = plan[i];
+
+      slot.innerHTML = `
+        <div class="t">${SLOT_NAMES[i]}</div>
+        <div class="a">${pick ? pick.name : "—"}</div>
+        <div class="s">${pick ? pick.summary : "Pick an activity"}</div>
+      `;
+      elSlots.appendChild(slot);
     }
+  }
+
+  function actionSummary(a){
+    const fx = a.fx;
+    const parts = [];
+    if(fx.money) parts.push(`§${fx.money>0?"+":""}${fx.money}`);
+    if(fx.energy) parts.push(`E${fx.energy>0?"+":""}${fx.energy}`);
+    if(fx.hunger) parts.push(`H${fx.hunger>0?"+":""}${fx.hunger}`);
+    if(fx.fun) parts.push(`F${fx.fun>0?"+":""}${fx.fun}`);
+    if(fx.happy) parts.push(`☺${fx.happy>0?"+":""}${fx.happy}`);
+    return parts.join("  ");
   }
 
   function renderActions(){
     elActions.innerHTML = "";
     ACTIONS.forEach(a=>{
-      const b = document.createElement("button");
-      b.className = "plan-btn";
-      b.innerHTML = `
-        <div style="display:flex;gap:10px;">
-          <img src="${a.icon}" width="28" height="28">
+      const btn = document.createElement('button');
+      btn.type = "button";
+      btn.className = "plan-btn";
+
+      const iconUrl = ICON[a.icon] || "";
+      const iconHtml = iconUrl
+        ? `<img src="${iconUrl}" alt="">`
+        : ``;
+
+      btn.innerHTML = `
+        <div class="plan-action-row">
+          ${iconHtml}
           <div>
             <div class="name">${a.name}</div>
             <div class="desc">${a.desc}</div>
+            <small>${actionSummary(a)}</small>
           </div>
-        </div>`;
-      b.onclick = ()=>pick(a);
-      elActions.appendChild(b);
+        </div>
+      `;
+      btn.addEventListener('click', ()=>pickAction(a.id));
+      elActions.appendChild(btn);
     });
   }
 
-  function pick(a){
-    if(slot>=8) return;
-    history.push({state:{...state}, plan:[...plan], slot});
+  function setStatus(text, ok=true){
+    elStatus.textContent = text;
+    elStatus.classList.toggle('plan-ok', ok);
+    elStatus.classList.toggle('plan-danger', !ok);
+  }
 
-    state.money += a.fx.money;
-    state.energy += a.fx.energy;
-    state.hunger += a.fx.hunger;
-    state.fun += a.fx.fun;
-    state.happy += a.fx.happy;
+  function isDead(s){
+    return (s.energy < 0 || s.hunger < 0 || s.fun < 0 || s.money < 0);
+  }
 
-    if(state.money<0||state.energy<0||state.hunger<0||state.fun<0){
-      elStatus.innerHTML = `<img src="${ICON.warning}" width="20"> Meltdown!`;
-      slot = 8;
-      return;
-    }
+  function pickAction(id){
+    if(slotIndex>=8) return;
 
-    plan[slot] = { name:a.name, sum:Object.values(a.fx).join(" ") };
-    slot++;
+    const a = ACTIONS.find(x=>x.id===id);
+    if(!a) return;
+
+    history.push({ state:{...state}, slotIndex, plan: plan.slice() });
+
+    state.money  = clamp(state.money + a.fx.money);
+    state.energy = clamp(state.energy + a.fx.energy);
+    state.hunger = clamp(state.hunger + a.fx.hunger);
+    state.fun    = clamp(state.fun + a.fx.fun);
+    state.happy  = clamp(state.happy + a.fx.happy);
+
+    plan[slotIndex] = { name:a.name, summary: actionSummary(a) };
+    slotIndex++;
 
     renderBadges();
     renderSlots();
-    elStatus.textContent = slot>=8 ? "Day complete!" : "Next: " + SLOTS[slot];
+
+    if(isDead(state)){
+      setStatus("Meltdown! A need dropped below 0. Restart and plan smarter.", false);
+      slotIndex = 8;
+      return;
+    }
+
+    if(slotIndex>=8){
+      setStatus(`Day complete! Final Happiness: ${state.happy}. Click “Finish” to lock it in.`, true);
+    } else {
+      setStatus(`Pick an activity for: ${SLOT_NAMES[slotIndex]}`, true);
+    }
   }
 
-  window.planReset = function(){
+  function reset(){
     state = {...START};
+    slotIndex = 0;
     plan = [];
-    slot = 0;
     history = [];
     renderBadges();
     renderSlots();
     renderActions();
-    elStatus.textContent = "Pick an activity.";
-  };
+    setStatus("Pick an activity for the next slot.", true);
+  }
 
-  window.planUndo = function(){
-    const h = history.pop();
-    if(!h) return;
-    state = {...h.state};
-    plan = [...h.plan];
-    slot = h.slot;
+  function undo(){
+    const last = history.pop();
+    if(!last) return;
+    state = {...last.state};
+    slotIndex = last.slotIndex;
+    plan = last.plan.slice();
     renderBadges();
     renderSlots();
-    elStatus.textContent = "Undone.";
-  };
+    setStatus(`Undone. Next: ${SLOT_NAMES[slotIndex]}`, true);
+  }
 
-  window.planFinish = function(){
-    elStatus.innerHTML = `<img src="${ICON.goodjob}" width="20"> Final Happiness: ${state.happy}`;
-  };
+  function finish(){
+    if(slotIndex < 8){
+      setStatus(`Not finished yet. ${8-slotIndex} slot(s) left.`, false);
+      return;
+    }
+    setStatus(`Locked! Final Happiness: ${state.happy}. Restart to try a better plan.`, true);
+  }
 
-  window.planReset();
+  window.planReset = reset;
+  window.planUndo = undo;
+  window.planFinish = finish;
 
+  reset();
 })();
 </script>

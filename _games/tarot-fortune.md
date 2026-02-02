@@ -11,4 +11,4 @@ description: Connect to the Obscura Network for a Sims-style tarot reading full 
 A simplified tarot reading, but **Sims 4 style**: playful, chaotic, and full of moodlets.  
 Pick a spread, draw cards, and enjoy your prediction.
 
-{% include games/tarot.html %}
+{% include games/tarot-fortune.html %}

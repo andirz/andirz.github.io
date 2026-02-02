@@ -1,3 +1,5 @@
+{% assign tarot_dir = "/assets/img/games/tarot/" %}
+
 <div class="tf-root" data-tf>
   <style>
     .tf-wrap{
@@ -90,7 +92,6 @@
       box-shadow: 0 18px 30px rgba(0,0,0,.25);
     }
 
-    /* Back ohne Datei */
     .tf-back{
       background:
         radial-gradient(circle at 20% 20%, rgba(46,204,113,.24), transparent 45%),
@@ -106,6 +107,12 @@
     }
 
     .tf-card img{width: 92%; height: 92%; object-fit: contain; display:block;}
+
+    .tf-fallback{
+      font-size: 2rem;
+      opacity: .25;
+    }
+
     .tf-tag{
       position:absolute; left:10px; top:10px;
       font-size: .78rem;
@@ -200,6 +207,8 @@
   const roots = document.querySelectorAll('[data-tf]:not([data-tf-init])');
   if(!roots.length) return;
 
+  const tarotDir = "{{ tarot_dir }}";
+
   const deck = [
     "advocate","chariot","coins","cups","death","emperor","empress","evil",
     "fool","hermit","high_spellcaster","judgment","justice","lovers","magician",
@@ -209,19 +218,9 @@
 
   function shuffle(a){ return [...a].sort(()=>Math.random()-0.5); }
 
-  function placeholder(name){
-    const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="460">
-  <rect width="100%" height="100%" rx="28" fill="#0b1220"/>
-  <text x="50%" y="50%" text-anchor="middle"
-        font-size="22" fill="#94a3b8"
-        font-family="system-ui" font-weight="900">${name}</text>
-</svg>`;
-    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
-  }
-
   function imgSrc(name){
-    return "{{ site.baseurl }}/assets/img/games/tarot/" + name + ".png";
+    // EXACTLY like skills.md: root path string, no basePath const trickery
+    return tarotDir + name + ".png";
   }
 
   const meaning = {
@@ -304,6 +303,47 @@
     return s;
   }
 
+  function createFaceCard(tag, name){
+    const el = document.createElement('div');
+    el.className = "tf-card";
+    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+
+    const img = document.createElement('img');
+    img.src = imgSrc(name);
+    img.alt = name;
+
+    // fallback like skills.md would show an icon if missing
+    img.onerror = () => {
+      el.innerHTML = `<span class="tf-tag">${tag}</span><i class="fas fa-hat-wizard tf-fallback"></i>`;
+    };
+
+    el.appendChild(img);
+    return el;
+  }
+
+  function createBackCard(tag, name){
+    const el = document.createElement('div');
+    el.className = "tf-card tf-back";
+    el.dataset.name = name;
+    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+    return el;
+  }
+
+  function reveal(el){
+    const name = el.dataset.name;
+    const tag = el.querySelector('.tf-tag')?.textContent || "";
+    el.classList.remove('tf-back');
+    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+
+    const img = document.createElement('img');
+    img.src = imgSrc(name);
+    img.alt = name;
+    img.onerror = () => {
+      el.innerHTML = `<span class="tf-tag">${tag}</span><i class="fas fa-hat-wizard tf-fallback"></i>`;
+    };
+    el.appendChild(img);
+  }
+
   roots.forEach(root=>{
     root.setAttribute('data-tf-init','1');
 
@@ -329,40 +369,8 @@
       pills.forEach(p => p.classList.toggle('active', p.dataset.tfSpread === s));
       elReading.style.display = "none";
       elPrompt.textContent = "Choose a spread and click “Draw”.";
-      elMuted.textContent = "Cards will reveal briefly to preload images, then flip back.";
+      elMuted.textContent = "Cards reveal briefly (preload), then flip back.";
       cardsWrap.innerHTML = "";
-    }
-
-    function createFaceCard(tag, name){
-      const el = document.createElement('div');
-      el.className = "tf-card";
-      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-      const img = document.createElement('img');
-      img.src = imgSrc(name);
-      img.alt = name;
-      img.onerror = () => img.src = placeholder(name);
-      el.appendChild(img);
-      return el;
-    }
-
-    function createBackCard(tag, name){
-      const el = document.createElement('div');
-      el.className = "tf-card tf-back";
-      el.dataset.name = name;
-      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-      return el;
-    }
-
-    function reveal(el){
-      const name = el.dataset.name;
-      el.classList.remove('tf-back');
-      const tag = el.querySelector('.tf-tag')?.textContent || "";
-      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-      const img = document.createElement('img');
-      img.src = imgSrc(name);
-      img.alt = name;
-      img.onerror = () => img.src = placeholder(name);
-      el.appendChild(img);
     }
 
     function showReading(){
@@ -393,12 +401,14 @@
           ? ["PAST","PRESENT","FUTURE"]
           : ["MIND","HEART","ENERGY"];
 
+      // Step 1: show faces (preload)
       cardsWrap.innerHTML = "";
       drawn.forEach((name,i) => cardsWrap.appendChild(createFaceCard(tags[i], name)));
 
       elPrompt.textContent = "Memorize the vibe…";
       elMuted.textContent = "Flipping back in a moment…";
 
+      // Step 2: flip back
       timer = setTimeout(()=>{
         cardsWrap.innerHTML = "";
         drawn.forEach((name,i)=>{

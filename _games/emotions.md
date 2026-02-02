@@ -2,7 +2,12 @@
 layout: page
 title: Emotion Chain
 icon: "fas fa-link"
-order: 4
-description: A slow Sims-style puzzle: guide your Sim from one emotion to another.
+order: 6
+description: A logic-based puzzle: guide your Sim through a sequence of emotions to reach the goal.
 ---
-{% include game-emotion-chain.html %}
+
+## Emotion Chain
+
+A slow Sims-style puzzle: guide your Sim from one emotion to another.
+
+{% include games/emotion-chain.html %}
