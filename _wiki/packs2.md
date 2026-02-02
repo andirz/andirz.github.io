@@ -49,7 +49,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
           <tr style="border-bottom: 1px solid var(--border-color);">
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" style="width: 34px; height: 34px; object-fit: contain;">
+                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
                 {% else %}<i class="fas fa-box-open" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
@@ -76,7 +76,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
           <tr style="border-bottom: 1px solid var(--border-color);">
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" style="width: 34px; height: 34px; object-fit: contain;">
+                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
                 {% else %}<i class="fas fa-box-open" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
@@ -103,7 +103,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
           <tr style="border-bottom: 1px solid var(--border-color);">
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" style="width: 34px; height: 34px; object-fit: contain;">
+                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
                 {% else %}<i class="fas fa-box-open" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
@@ -130,7 +130,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
           <tr style="border-bottom: 1px solid var(--border-color);">
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" style="width: 34px; height: 34px; object-fit: contain;">
+                {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
                 {% else %}<i class="fas fa-shirt" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>

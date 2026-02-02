@@ -17,6 +17,6 @@ Match all Sims 4 packs before the timer runs out. A classic memory game for true
    ep_count=18 
    gp_count=12 
    pairs=8
-   time_limit=120
+   time_limit=20
    folder="/assets/img/packs/blue/" 
 %}
