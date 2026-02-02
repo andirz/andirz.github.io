@@ -6,7 +6,7 @@ order: 2
 description: "Match all Sims 4 Expansion and Game Packs before time runs out."
 mode: Memory
 difficulty: Medium
-time: 45s
+time: "2 min"
 ---
 
 ## Pack Picker Memory
