@@ -1,17 +1,21 @@
 {% comment %} 
-  Translation Template
+  Translation Template - Default: false
   Parameter: full (true/false)
 {% endcomment %}
+
+{% assign is_full = include.full | default: false %}
 
 <section class="translations-notice" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--border-color);">
   <h2 style="margin-bottom: 10px; font-size: 1.4rem;">Translations</h2>
   
   <div style="font-size: 1rem; line-height: 1.5; color: var(--text-color);">
-    {% if include.full == true %}
+    {% if is_full == true %}
+      {% comment %} Text für VOLLSTÄNDIG übersetzte Mods {% endcomment %}
       <p style="margin-bottom: 12px;">
         This mod is <strong>fully translated</strong> into several languages. However, if you find any errors or have suggestions for improvements, I would love to hear from you!
       </p>
     {% else %}
+      {% comment %} Text für TEILWEISE übersetzte Mods (Standard) {% endcomment %}
       <p style="margin-bottom: 8px;">
         This mod is currently available in a few languages. For all other languages, the text will be displayed in <strong>English</strong>.
       </p>
@@ -20,6 +24,7 @@
       </p>
     {% endif %}
 
+    {% comment %} Discord Hinweis Box {% endcomment %}
     <div style="padding: 12px; background-color: #f8fafc; border-radius: 8px; font-size: 0.9rem; color: #475569; border: 1px solid #e2e8f0;">
       <i class="fab fa-discord" style="margin-right: 5px; color: #5865F2;"></i> 
       Want to contribute or report a translation error? Reach out to me on 
