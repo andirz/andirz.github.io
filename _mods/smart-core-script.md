@@ -5,7 +5,8 @@ icon: fas fa-microchip
 files: ["ts4script", "package"]
 categories: [Scripts, Injectors, Core Library]
 translations:
-   POR: Nymphieta
+   default: [ENG, GER, ESP, RUS]
+   BRA: Nymphieta
    ITA: vale93_games
    CHT: Orchard Team
    CHS: Orchard Team

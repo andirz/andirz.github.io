@@ -1,36 +1,54 @@
 <div id="translations">
   {% comment %} 
-    Die Prüfung prüft, ob zusätzliche Übersetzer vorhanden sind.
-    ENG, GER, SPA, RUS nutzen "myself" als Standardwert.
+    Wir holen uns die Liste der Standard-Sprachen (Default ist ENG).
+    Die Liste wird in einen String umgewandelt für die Suche.
   {% endcomment %}
+  {% assign default_list = include.default | default: "ENG" | upcase %}
+  
+  {% comment %} Prüfung, ob überhaupt Übersetzungen vorhanden sind {% endcomment %}
+  {% if include.default or include.ITA or include.BRA or include.CHS or include.CHT or include.FRE or include.POL or include.DUT or include.CZE or include.DAN or include.FIN or include.JPN or include.KOR or include.NOR or include.SWE or include.SPA or include.RUS or include.GER %}
 
-  {% if include.ITA or include.BRA or include.CHS or include.CHT or include.FRE or include.POL or include.DUT or include.CZE or include.DAN or include.FIN or include.JPN or include.KOR or include.NOR or include.SWE %}
-    
     <div style="font-size: 1.1rem; line-height: 1.7;">
       <p>The following translations are available:</p>
       <ul style="list-style-type: disc; margin-left: 20px;">
-        {% assign eng = include.ENG | default: "myself" %}
-        <li><strong>English, German, Spanish and Russian</strong> (by {{ eng }})</li>
+
+        {% comment %} Funktion für jede Sprache: Prüfe Default-Liste ODER expliziten Namen {% endcomment %}
+        
+        {% if default_list contains "ENG" or include.ENG %}
+          <li><strong>English</strong> (by {{ include.ENG | default: "myself" }})</li>
+        {% endif %}
+
+        {% if default_list contains "GER" or include.GER %}
+          <li><strong>German</strong> (by {{ include.GER | default: "myself" }})</li>
+        {% endif %}
+
+        {% if default_list contains "SPA" or include.SPA %}
+          <li><strong>Spanish</strong> (by {{ include.SPA | default: "myself" }})</li>
+        {% endif %}
+
+        {% if default_list contains "RUS" or include.RUS %}
+          <li><strong>Russian</strong> (by {{ include.RUS | default: "myself" }})</li>
+        {% endif %}
 
         {% if include.BRA %}<li><strong>Brazilian Portuguese</strong> (by {{ include.BRA }})</li>{% endif %}
 
         {% if include.CHS and include.CHT and include.CHS == include.CHT %}
-          <li><strong>Chinese and Simplified Chinese</strong> (by {{ include.CHS }})</li>
+          <li><strong>Chinese</strong> and <strong>Simplified Chinese</strong> (by {{ include.CHS }})</li>
         {% else %}
           {% if include.CHT %}<li><strong>Chinese</strong> (by {{ include.CHT }})</li>{% endif %}
           {% if include.CHS %}<li><strong>Simplified Chinese</strong> (by {{ include.CHS }})</li>{% endif %}
         {% endif %}
 
-        {% if include.ITA %}<li><strong>Italian</strong> (thanks to {{ include.ITA }})</li>{% endif %}
-        {% if include.FRE %}<li><strong>French</strong> (by {{ include.FRE }})</li>{% endif %}
-        {% if include.POL %}<li><strong>Polish</strong> (by {{ include.POL }})</li>{% endif %}
-        {% if include.DUT %}<li><strong>Dutch</strong> (by {{ include.DUT }})</li>{% endif %}
         {% if include.CZE %}<li><strong>Czech</strong> (by {{ include.CZE }})</li>{% endif %}
+        {% if include.DUT %}<li><strong>Dutch</strong> (by {{ include.DUT }})</li>{% endif %}
         {% if include.DAN %}<li><strong>Danish</strong> (by {{ include.DAN }})</li>{% endif %}
         {% if include.FIN %}<li><strong>Finnish</strong> (by {{ include.FIN }})</li>{% endif %}
+        {% if include.FRE %}<li><strong>French</strong> (by {{ include.FRE }})</li>{% endif %}
+        {% if include.ITA %}<li><strong>Italian</strong> (by {{ include.ITA }})</li>{% endif %}
         {% if include.JPN %}<li><strong>Japanese</strong> (by {{ include.JPN }})</li>{% endif %}
         {% if include.KOR %}<li><strong>Korean</strong> (by {{ include.KOR }})</li>{% endif %}
         {% if include.NOR %}<li><strong>Norwegian</strong> (by {{ include.NOR }})</li>{% endif %}
+        {% if include.POL %}<li><strong>Polish</strong> (by {{ include.POL }})</li>{% endif %}
         {% if include.SWE %}<li><strong>Swedish</strong> (by {{ include.SWE }})</li>{% endif %}
       </ul>
 
