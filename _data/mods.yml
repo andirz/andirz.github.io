@@ -2,34 +2,34 @@
 
 # --- SCRIPTS & TOOLS ---
 
-- id: cleanup-script
+- id: cleanup_script
   version: "1.4.0"
   status: "compatible"
   updated: "2026-01-04"
   patreon: "https://www.patreon.com/posts/download-sims-4-112451234"
 
-- id: smart-core-script
+- id: smart_core_script
   version: "2.7.2"
   status: "updated"
   updated: "2026-01-12"
   patreon: "https://www.patreon.com/posts/smart-core-v-2-3-130504687"
 
-- id: trait-tracker-injector
+- id: trait_tracker_injector
   version: "2.0.1"
   status: "compatible"
   updated: "2025-07-02"
 
-- id: injection-tools
+- id: injection_tools
   version: "2.0.1"
   status: "compatible"
   updated: "2025-07-02"
 
-- id: autofill-personality-traits
+- id: autofill_personality_traits
   version: "1.0.0"
   status: "compatible"
   updated: "2024-08-06"
 
-- id: object-tuning-replacement
+- id: object_tuning_replacement
   version: "1.1.2"
   status: "compatible"
   updated: "2025-06-04"
