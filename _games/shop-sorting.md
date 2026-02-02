@@ -1,7 +1,7 @@
 ---
 layout: page
 title: SimSim Sorting Service
-icon: "fas fa-truck"
+icon: "fas fa-dolly"
 order: 4
 description: "Sort items into Sim-Nom-Nom, Pharmacy, or Trash categories."
 mode: Logic
@@ -11,9 +11,9 @@ time: 45s
 
 ## SimSim Sorting Service
 
-As a delivery assistant, sort incoming items into the correct Mod-Category. Don't mix up the medicine!
+As a delivery assistant, sort items into the correct Mod-Category. Don't mix up the medicine!
 
-{% include games/shop-sorting.html
+{% include games/shop.html
    food_count=37
    med_count=9
    shop_count=38
