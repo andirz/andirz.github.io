@@ -2,7 +2,7 @@
 
 smart_core:
   name: "Smart Core Script"
-  short_name: "SCS"
+  short_name: "Smart Core"
   author: "Andirz"
   icon: "fas fa-microchip"
   url: "/mods/smart-core-script/"
@@ -23,7 +23,7 @@ xml_injector:
 
 lot51_core:
   name: "Lot51 Core Library"
-  short_name: "Lot51"
+  short_name: "Lot51 Core"
   author: "Lot51"
   icon: "fas fa-layer-group"
   url: "https://lot51.cc/core"
