@@ -8,17 +8,24 @@ layout: default
 
   <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 50px;">
     
-    {% comment %} Linke Spalte: Hauptinhalt {% endcomment %}
     <main style="flex: 2; min-width: 320px;">
       <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color);">
         {{ content }}
       </article>
 
+      {% comment %} Sektion: Requirements {% endcomment %}
+      <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+        <h2 style="margin-bottom: 20px;">Requirements</h2>
+        {% include mod-requirements.html 
+          packs=page.requirements_packs
+          mods=page.requirements_mods
+        %}
+      </section>
+
+      {% comment %} Sektion: Translations {% endcomment %}
       {% unless page.disable_translations %}
         <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
-          {% comment %} Die Überschrift wird nun zentral hier im Layout verwaltet {% endcomment %}
           <h2 style="margin-bottom: 20px;">Translations</h2>
-
           {% include mod-translations.html 
             default=page.translations.default
             ENG=page.translations.ENG
@@ -47,12 +54,10 @@ layout: default
 
     </main>
 
-    {% comment %} Rechte Spalte: Metadaten und Anforderungen {% endcomment %}
     <aside style="flex: 1; min-width: 280px;">
       {% include mod-sidebar-info.html %}
     </aside>
   </div>
-
   {% include gallery-mods-related.html %}
   {% include policy.html %}
 </div>

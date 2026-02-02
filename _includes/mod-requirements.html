@@ -1,0 +1,40 @@
+<div id="requirements">
+  {% if include.packs or include.mods %}
+    <div style="font-size: 1.1rem; line-height: 1.7;">
+      <p>To use this mod, you will need the following:</p>
+      
+      {% comment %} Liste der benötigten Packs {% endcomment %}
+      {% if include.packs %}
+        <div style="margin-bottom: 10px;">
+          <strong>Required Packs:</strong>
+          <ul style="list-style-type: disc; margin-left: 20px;">
+            {% for pack in include.packs %}
+              <li>{{ pack }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% comment %} Liste der benötigten Mods {% endcomment %}
+      {% if include.mods %}
+        <div>
+          <strong>Required Mods:</strong>
+          <ul style="list-style-type: disc; margin-left: 20px;">
+            {% for mod in include.mods %}
+              <li>
+                {% if mod.url %}
+                  <a href="{{ mod.url }}" target="_blank" style="color: #2563eb; text-decoration: none;">{{ mod.name }}</a>
+                {% else %}
+                  {{ mod.name }}
+                {% endif %}
+                {% if mod.note %} — {{ mod.note }}{% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <p style="font-size: 1.1rem; line-height: 1.7;">This mod has no special requirements and works with the Sims 4 base game.</p>
+  {% endif %}
+</div>
