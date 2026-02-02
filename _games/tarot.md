@@ -1,16 +1,14 @@
 ---
 layout: page
-title: Tarot Trial
-description: Memorize a tarot sequence and click it back in order.
-icon: fas fa-brain
-order: 3
+title: Tarot Fortune Teller
+description: Sims-style tarot readings with moodlets and playful predictions.
+icon: "fas fa-moon"
+order: 4
 ---
 
-## Tarot Trial
+## Tarot Fortune Teller
 
-Memorize the shown tarot sequence.  
-Then click the cards back **in the exact correct order**.
-
-Wrong clicks cost a life and reset your input.
+A simplified tarot reading, but **Sims 4 style**: playful, chaotic, and full of moodlets.  
+Pick a spread, draw cards, and enjoy your prediction.
 
 {% include games/tarot.html %}

@@ -1,124 +1,220 @@
-{% assign tt_base = site.baseurl | append: "/assets/img/games/tarot/" %}
+{% assign tf_base = site.baseurl | append: "/assets/img/games/tarot/" %}
 
-<div class="tt-root" data-tt>
+<div class="tf-root" data-tf>
   <style>
-    .tt-wrap{
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background:#020617; color:#e5e7eb;
-      border-radius:24px; padding:2rem;
-      border:1px solid #1e293b;
-      box-shadow:0 30px 60px rgba(0,0,0,.35);
-      max-width:900px; margin:2rem auto;
-    }
-    .tt-head{display:flex; gap:1rem; flex-wrap:wrap; justify-content:space-between; align-items:flex-start;}
-    .tt-head h2{margin:0; font-weight:800;}
-    .tt-sub{color:#94a3b8; margin:.25rem 0 0 0;}
-    .tt-stats{display:flex; gap:.6rem; flex-wrap:wrap;}
-    .tt-badge{
-      background:#020617;
-      border:1px solid #1e293b;
-      border-radius:999px;
-      padding:.35rem .85rem;
-      font-weight:650;
-    }
-    .tt-prompt{margin:1.25rem 0; font-weight:650;}
-    .tt-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
-      gap:14px;
+    .tf-wrap{
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, #06111f, #020617);
+      color:#e5e7eb;
+      border-radius: 28px;
+      padding: 2rem;
+      border: 1px solid #1e293b;
+      box-shadow: 0 30px 60px rgba(0,0,0,.35);
+      max-width: 980px;
+      margin: 2rem auto;
+      position: relative;
+      overflow: hidden;
     }
 
-    .tt-card{
-      aspect-ratio:1/1.6;
-      border-radius:16px;
-      border:2px solid #1e293b;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    /* Sims-ish glow */
+    .tf-wrap::before{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(46,204,113,.22), transparent 50%),
+        radial-gradient(circle at 70% 35%, rgba(56,189,248,.20), transparent 55%),
+        radial-gradient(circle at 55% 80%, rgba(168,85,247,.14), transparent 60%);
+      filter: blur(12px);
+      pointer-events:none;
+    }
+
+    .tf-head{position:relative; display:flex; gap:1rem; flex-wrap:wrap; justify-content:space-between; align-items:flex-start;}
+    .tf-title h2{margin:0; font-weight:900; letter-spacing:.2px;}
+    .tf-sub{margin:.25rem 0 0 0; color:#94a3b8; max-width: 650px;}
+
+    .tf-controls{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center;}
+    .tf-pill{
+      background: rgba(2,6,23,.65);
+      border: 1px solid rgba(148,163,184,.25);
+      border-radius: 999px;
+      padding: .4rem .8rem;
+      font-weight: 700;
+      color:#e5e7eb;
       cursor:pointer;
-      transition:all .25s ease;
-      background:#0b1220;
-      position:relative;
-      overflow:hidden;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
       user-select:none;
     }
-    .tt-card:hover{transform:translateY(-4px); border-color:#38bdf8;}
-    .tt-card.disabled{
-      opacity:.25;
-      pointer-events:none;
-      transform:none;
-      border-color:#1e293b;
-    }
-    .tt-card img{
-      width:90%;
-      height:90%;
-      object-fit:contain;
-      display:block;
-    }
+    .tf-pill:hover{transform: translateY(-2px); border-color: rgba(56,189,248,.65);}
+    .tf-pill.active{border-color: rgba(46,204,113,.85); background: rgba(46,204,113,.10);}
 
-    /* Card back – CSS only, no back.png */
-    .tt-back{
-      background:
-        radial-gradient(circle at 20% 20%, rgba(56,189,248,.25), transparent 45%),
-        radial-gradient(circle at 80% 30%, rgba(46,204,113,.18), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    }
-    .tt-back::after{
-      content:"?";
-      font-size:2.2rem;
-      font-weight:900;
-      color:rgba(229,231,235,.85);
-      text-shadow:0 10px 20px rgba(0,0,0,.4);
-    }
-
-    .tt-btn{
-      margin-top:1.25rem;
-      background:#1e293b;
-      color:#e5e7eb;
-      border:none;
-      padding:.65rem 1.4rem;
-      border-radius:14px;
-      font-weight:800;
+    .tf-btn{
+      background:#1e293b; color:#e5e7eb;
+      border:none; padding:.65rem 1.2rem;
+      border-radius: 14px;
+      font-weight: 900;
       cursor:pointer;
+      transition: transform .15s ease, background .15s ease;
     }
-    .tt-btn:hover{background:#334155;}
-    .tt-note{
-      color:#94a3b8;
-      font-size:.95rem;
-      margin-top:.5rem;
+    .tf-btn:hover{background:#334155; transform: translateY(-2px);}
+
+    .tf-stage{position:relative; margin-top: 1.25rem; display:grid; grid-template-columns: 1.1fr .9fr; gap: 18px;}
+    @media (max-width: 920px){ .tf-stage{grid-template-columns: 1fr; } }
+
+    .tf-board{
+      position:relative;
+      background: rgba(2,6,23,.55);
+      border: 1px solid rgba(148,163,184,.20);
+      border-radius: 22px;
+      padding: 1.25rem;
     }
+
+    .tf-cards{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+    @media (max-width: 520px){ .tf-cards{grid-template-columns: repeat(2, 1fr);} }
+
+    .tf-card{
+      aspect-ratio: 1 / 1.55;
+      border-radius: 18px;
+      border: 2px solid rgba(148,163,184,.25);
+      background: rgba(11,18,32,.85);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+      position:relative;
+      transform: translateY(0);
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      cursor: pointer;
+      user-select:none;
+    }
+    .tf-card:hover{
+      transform: translateY(-4px);
+      border-color: rgba(56,189,248,.7);
+      box-shadow: 0 18px 30px rgba(0,0,0,.25);
+    }
+    .tf-card.disabled{opacity:.35; pointer-events:none; transform:none; box-shadow:none;}
+
+    /* Back (no file) */
+    .tf-back{
+      background:
+        radial-gradient(circle at 20% 20%, rgba(46,204,113,.24), transparent 45%),
+        radial-gradient(circle at 75% 35%, rgba(56,189,248,.20), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+    }
+    .tf-back::after{
+      content:"✦";
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: rgba(229,231,235,.85);
+      text-shadow: 0 12px 20px rgba(0,0,0,.35);
+    }
+
+    .tf-card img{width: 92%; height: 92%; object-fit: contain; display:block;}
+    .tf-tag{
+      position:absolute; left:10px; top:10px;
+      font-size: .78rem;
+      font-weight: 900;
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      background: rgba(2,6,23,.65);
+      border: 1px solid rgba(148,163,184,.25);
+      color:#e5e7eb;
+      letter-spacing: .2px;
+    }
+
+    .tf-panel{
+      background: rgba(2,6,23,.55);
+      border: 1px solid rgba(148,163,184,.20);
+      border-radius: 22px;
+      padding: 1.25rem;
+    }
+
+    .tf-prompt{
+      font-weight: 900;
+      margin: 0 0 .75rem 0;
+    }
+    .tf-muted{color:#94a3b8; margin: 0 0 .85rem 0;}
+
+    .tf-reading{
+      border-top: 1px dashed rgba(148,163,184,.22);
+      padding-top: .9rem;
+      margin-top: .9rem;
+    }
+    .tf-reading h3{
+      margin: 0 0 .35rem 0;
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+    .tf-reading p{margin:.35rem 0; color:#e5e7eb; line-height: 1.35;}
+    .tf-moodlets{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.65rem;}
+    .tf-moodlet{
+      background: rgba(46,204,113,.12);
+      border: 1px solid rgba(46,204,113,.28);
+      color:#eafff1;
+      font-weight: 800;
+      font-size: .82rem;
+      padding: .28rem .55rem;
+      border-radius: 999px;
+    }
+    .tf-moodlet.bad{
+      background: rgba(239,68,68,.12);
+      border-color: rgba(239,68,68,.30);
+      color:#ffecec;
+    }
+    .tf-moodlet.neutral{
+      background: rgba(56,189,248,.10);
+      border-color: rgba(56,189,248,.26);
+      color:#eaf7ff;
+    }
+
+    .tf-small{font-size:.92rem; color:#94a3b8;}
   </style>
 
-  <div class="tt-wrap">
-    <div class="tt-head">
-      <div>
-        <h2>Tarot Trial</h2>
-        <p class="tt-sub">
-          Memorize the sequence, then click the cards in the correct order.
-        </p>
+  <div class="tf-wrap">
+    <div class="tf-head">
+      <div class="tf-title">
+        <h2>Tarot Fortune Teller</h2>
+        <p class="tf-sub">Sims-style readings. Pick a spread, draw cards, and get a playful prediction. No realism, just vibes. Sul sul.</p>
       </div>
-      <div class="tt-stats">
-        <div class="tt-badge">Score: <span data-tt-score>0</span></div>
-        <div class="tt-badge">Lives: <span data-tt-lives>3</span></div>
-        <div class="tt-badge">Round: <span data-tt-round>1</span></div>
+
+      <div class="tf-controls">
+        <span class="tf-pill active" data-tf-spread="quick">Quick (1)</span>
+        <span class="tf-pill" data-tf-spread="three">Classic (3)</span>
+        <span class="tf-pill" data-tf-spread="mood">Moodlets (3)</span>
+        <button class="tf-btn" type="button" data-tf-draw>Draw</button>
       </div>
     </div>
 
-    <div class="tt-prompt" data-tt-prompt>Loading…</div>
-    <div class="tt-grid" data-tt-grid></div>
+    <div class="tf-stage">
+      <div class="tf-board">
+        <div class="tf-cards" data-tf-cards></div>
+        <div class="tf-small" style="margin-top:.85rem;">Tip: Click a card to reveal it. Draw again for new chaos.</div>
+      </div>
 
-    <button class="tt-btn" type="button" data-tt-restart>Restart</button>
-    <div class="tt-note" data-tt-note></div>
+      <div class="tf-panel">
+        <p class="tf-prompt" data-tf-prompt>Choose a spread and click “Draw”.</p>
+        <p class="tf-muted" data-tf-muted>We promise: 0% accuracy, 100% Sims energy.</p>
+
+        <div class="tf-reading" data-tf-reading style="display:none;">
+          <h3 data-tf-title>Reading</h3>
+          <p data-tf-text></p>
+          <div class="tf-moodlets" data-tf-moodlets></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
 (function(){
-  const roots = document.querySelectorAll('[data-tt]:not([data-tt-init])');
+  const roots = document.querySelectorAll('[data-tf]:not([data-tf-init])');
   if(!roots.length) return;
 
-  const basePath = "{{ tt_base }}";
+  const basePath = "{{ tf_base }}";
 
+  // Your tarot filenames
   const deck = [
     "advocate","chariot","coins","cups","death","emperor","empress","evil",
     "fool","hermit","high_spellcaster","judgment","justice","lovers","magician",
@@ -132,126 +228,342 @@
     const svg =
 `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="460">
   <rect width="100%" height="100%" rx="28" fill="#0b1220"/>
-  <text x="50%" y="48%" text-anchor="middle"
-        font-size="28" fill="#94a3b8"
-        font-family="system-ui" font-weight="700">${name}</text>
+  <text x="50%" y="50%" text-anchor="middle"
+        font-size="22" fill="#94a3b8"
+        font-family="system-ui" font-weight="800">${name}</text>
 </svg>`;
     return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
   }
 
+  // Sims-ish templates
+  const sims = {
+    quick: {
+      title: "Quick Fate Check",
+      intros: [
+        "Your Plumbob is vibrating. That usually means… something is about to happen.",
+        "The Universe rolled a D20 and got ‘Maybe’. Let’s interpret the vibes.",
+        "Someone in your save is about to make a very bold decision without permission."
+      ]
+    },
+    three: {
+      title: "Classic 3-Card Spread",
+      intros: [
+        "Past / Present / Future — or in Sims terms: ‘What you did’, ‘what you’re doing’, ‘what breaks next’.",
+        "This spread is basically a loading screen, but with destiny.",
+        "We asked the Watcher. The Watcher answered with chaos."
+      ]
+    },
+    mood: {
+      title: "Moodlets Forecast",
+      intros: [
+        "Today’s emotional buffet: pick your moodlets carefully.",
+        "Your Sim’s feelings are about to shift faster than autonomy on high.",
+        "We checked your emotional aura… it’s doing *that thing*."
+      ]
+    }
+  };
+
+  // Card meaning fragments (Sims-flavored)
+  const meaning = {
+    fool: {
+      good: "A spontaneous choice pays off — unless you flirt with the Grim Reaper again.",
+      bad: "Impulsive actions trigger unexpected drama. Avoid ‘Try for Baby’ during a tense moment.",
+      moods: ["✨ Inspired", "😬 Embarrassed"]
+    },
+    magician: {
+      good: "You can totally pull this off. Skill gain is strong today.",
+      bad: "You *think* you’re in control. The game disagrees.",
+      moods: ["⚡ Focused", "🌀 Confident"]
+    },
+    high_spellcaster: {
+      good: "Big ‘spell success’ energy. Perfect time to fix things… magically.",
+      bad: "Miscast vibes. Don’t experiment with cursed objects right now.",
+      moods: ["🔮 Energized", "💥 Dazed"]
+    },
+    empress: {
+      good: "Comfort, beauty, and ‘I deserve this’ purchases. Treat yourself.",
+      bad: "Too much indulgence. The bills are watching.",
+      moods: ["💚 Happy", "🛋️ Cozy"]
+    },
+    emperor: {
+      good: "Structure wins. Set rules, schedules, and boundaries (yes, even with neighbors).",
+      bad: "Control issues create conflict. Let autonomy breathe a little.",
+      moods: ["🧱 Confident", "😤 Tense"]
+    },
+    advocate: {
+      good: "A quiet but powerful ‘talk it out’ moment. Social gains without cringe.",
+      bad: "Overthinking blocks progress. Stop rehearsing the conversation in the mirror.",
+      moods: ["🧠 Focused", "😟 Anxious"]
+    },
+    lovers: {
+      good: "Romance is boosted. Flirty interactions land. Dates go well.",
+      bad: "Jealousy pop-up incoming. Clear the air before it escalates.",
+      moods: ["💖 Flirty", "🔥 Passionate"]
+    },
+    chariot: {
+      good: "Momentum! Push forward. Promotions, wins, and ‘just do it’ energy.",
+      bad: "You’re speeding. Don’t bulldoze relationships for progress.",
+      moods: ["🏁 Energized", "😤 Tense"]
+    },
+    strength: {
+      good: "Gentle confidence. You handle problems like a pro Sim with max charisma.",
+      bad: "Pride triggers stubbornness. Apologizing is a power move too.",
+      moods: ["🦁 Confident", "🧊 Calm"]
+    },
+    hermit: {
+      good: "Solo time heals. Cancel plans, recharge, and come back stronger.",
+      bad: "Isolation turns into gloom. Text someone you trust.",
+      moods: ["🌙 Reflective", "😔 Sad"]
+    },
+    wheel_of_fortune: {
+      good: "Random luck spike. You might find money in the couch (or in your household inventory).",
+      bad: "The RNG is feeling spicy. Backup your plans.",
+      moods: ["🎲 Lucky", "🫣 Uncertain"]
+    },
+    justice: {
+      good: "Fair outcomes. Receipts matter. You get what you earned.",
+      bad: "Consequences arrive. Maybe don’t ‘Swipe’ things today.",
+      moods: ["⚖️ Focused", "😐 Serious"]
+    },
+    suspension: {
+      good: "Pause and reset. A ‘do nothing’ day avoids bigger mistakes.",
+      bad: "Stuck energy. Don’t doomscroll the phone for 6 Sim hours.",
+      moods: ["⏸️ Calm", "😵 Confused"]
+    },
+    death: {
+      good: "A clean ending makes room for a better chapter. Transform the routine.",
+      bad: "Clinging to the old hurts. Let the storyline evolve.",
+      moods: ["🦋 Renewed", "🖤 Gloomy"]
+    },
+    temperance: {
+      good: "Balance. Tiny improvements stack. Your needs bars stay stable.",
+      bad: "Trying to please everyone drains you. Say no.",
+      moods: ["🧘 Calm", "🫧 Balanced"]
+    },
+    evil: {
+      good: "Use your villain arc wisely. Set boundaries, don’t start fires.",
+      bad: "Drama magnet day. Avoid mean socials and prank wars.",
+      moods: ["😈 Mischievous", "😡 Angry"]
+    },
+    tower: {
+      good: "A surprise shake-up clears what’s false. You rebuild better.",
+      bad: "Chaos event. Something breaks. Keep a repair kit ready.",
+      moods: ["⚡ Shocked", "😱 Panicked"]
+    },
+    star: {
+      good: "Hope buff. Things align. Your dream plan gets a green light.",
+      bad: "Don’t idealize. Keep expectations realistic.",
+      moods: ["⭐ Inspired", "💙 Hopeful"]
+    },
+    moon: {
+      good: "Intuition is strong. Trust subtle signals and vibe checks.",
+      bad: "Confusion and mixed messages. Double-check invites and texts.",
+      moods: ["🌕 Dreamy", "🌀 Uncertain"]
+    },
+    sun: {
+      good: "Massive positive energy. Socials succeed. Outdoor fun wins.",
+      bad: "Overconfidence. You can still embarrass yourself in public.",
+      moods: ["☀️ Happy", "🎉 Playful"]
+    },
+    judgment: {
+      good: "A big ‘level up’ moment. Forgive, learn, move on.",
+      bad: "Don’t self-critique endlessly. Past mistakes don’t define your save.",
+      moods: ["🔔 Inspired", "🧠 Reflective"]
+    },
+    world: {
+      good: "Completion. Goals achieved. Time to celebrate and set a new one.",
+      bad: "Post-achievement emptiness. Start a fresh storyline.",
+      moods: ["🏆 Confident", "✨ Fulfilled"]
+    },
+    coins: {
+      good: "Money and resources improve. Sell something. Invest wisely.",
+      bad: "Impulse spending. Avoid ‘Build/Buy’ rabbit holes today.",
+      moods: ["💰 Secure", "🛒 Tempted"]
+    },
+    cups: {
+      good: "Friendship and comfort. Deep talks go well. Soft day.",
+      bad: "Emotional overshare. Save the drama for the diary.",
+      moods: ["🥤 Warm", "🥺 Sensitive"]
+    },
+    swords: {
+      good: "Clarity. Cut distractions. Finish that task.",
+      bad: "Harsh words. Don’t ‘Argue’ when tired.",
+      moods: ["🗡️ Focused", "😠 Irritated"]
+    },
+    wands: {
+      good: "Creative burst. Start something fun. High success chance.",
+      bad: "Restlessness. Don’t start 5 projects at once.",
+      moods: ["🔥 Inspired", "🏃 Restless"]
+    }
+  };
+
+  function getMeaning(card){
+    return meaning[card] || {
+      good: "Something interesting is unfolding. Keep an eye on the neighborhood.",
+      bad: "Today feels a bit glitchy. Save often.",
+      moods: ["✨ Inspired","🌀 Uncertain"]
+    };
+  }
+
+  function makeCardEl(tag, name){
+    const el = document.createElement('div');
+    el.className = 'tf-card tf-back';
+    el.dataset.name = name;
+    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+    return el;
+  }
+
+  function reveal(el, name){
+    el.classList.remove('tf-back');
+    el.innerHTML = `<span class="tf-tag">${el.querySelector('.tf-tag')?.textContent || ""}</span>`;
+    const img = document.createElement('img');
+    img.src = basePath + name + ".png";
+    img.alt = name;
+    img.onerror = () => img.src = placeholder(name);
+    el.appendChild(img);
+  }
+
+  function moodletEl(text, kind){
+    const d = document.createElement('span');
+    d.className = 'tf-moodlet' + (kind ? ' ' + kind : '');
+    d.textContent = text;
+    return d;
+  }
+
+  function rollMoodlets(list){
+    // Pick 2, sometimes add a spicy one
+    const pool = shuffle(list);
+    const out = pool.slice(0,2);
+    if(Math.random() < 0.35) out.push(Math.random() < 0.5 ? "🫠 Awkward" : "🎯 Focused");
+    return out;
+  }
+
+  function buildReading(spread, cards){
+    const cfg = sims[spread];
+    const intro = shuffle(cfg.intros)[0];
+
+    // Combine meanings
+    const parts = cards.map(c => getMeaning(c));
+    const goodCount = parts.filter(_ => Math.random() < 0.55).length; // playful
+    const toneGood = goodCount >= Math.ceil(cards.length/2);
+
+    const main = toneGood
+      ? parts.map(p => p.good)
+      : parts.map(p => p.bad);
+
+    // Sims-ish “forecast”
+    let extra = "";
+    if(spread === "mood"){
+      extra = "Forecast: your emotional state may change faster than your Sim’s autonomy settings.";
+    } else if(spread === "three"){
+      extra = "Watcher’s note: if a neighbor shows up uninvited, it’s probably part of the prophecy.";
+    } else {
+      extra = "Quick tip: take a screenshot. Future-you will swear this was scripted.";
+    }
+
+    const moodsRaw = parts.flatMap(p => p.moods || []);
+    const moods = rollMoodlets(moodsRaw);
+
+    // Some negative tags
+    const moodlets = moods.map(m => ({text: m, kind: /Tense|Angry|Sad|Panicked|Irritated|Dazed|Embarrassed|Anxious/.test(m) ? "bad" : "neutral"}));
+
+    return {
+      title: cfg.title,
+      text: `${intro}\n\n${main.join(" ")}\n\n${extra}`,
+      moodlets
+    };
+  }
+
   roots.forEach(root => {
-    root.setAttribute('data-tt-init','1');
+    root.setAttribute('data-tf-init', '1');
 
-    const grid   = root.querySelector('[data-tt-grid]');
-    const prompt = root.querySelector('[data-tt-prompt]');
-    const scoreE = root.querySelector('[data-tt-score]');
-    const livesE = root.querySelector('[data-tt-lives]');
-    const roundE = root.querySelector('[data-tt-round]');
-    const note   = root.querySelector('[data-tt-note]');
-    const btn    = root.querySelector('[data-tt-restart]');
+    const pills = [...root.querySelectorAll('[data-tf-spread]')];
+    const btn = root.querySelector('[data-tf-draw]');
+    const cardsWrap = root.querySelector('[data-tf-cards]');
 
-    let score=0, lives=3, round=1;
-    let solution=[], index=0, locked=true, timer;
+    const elPrompt = root.querySelector('[data-tf-prompt]');
+    const elMuted = root.querySelector('[data-tf-muted]');
+    const elReading = root.querySelector('[data-tf-reading]');
+    const elTitle = root.querySelector('[data-tf-title]');
+    const elText = root.querySelector('[data-tf-text]');
+    const elMoodlets = root.querySelector('[data-tf-moodlets]');
 
-    function update(){
-      scoreE.textContent = score;
-      livesE.textContent = lives;
-      roundE.textContent = round;
+    let spread = "quick";
+    let drawn = [];
+    let revealed = 0;
+
+    function setSpread(s){
+      spread = s;
+      pills.forEach(p => p.classList.toggle('active', p.dataset.tfSpread === s));
+      elReading.style.display = "none";
+      elPrompt.textContent = "Click “Draw” to pull your cards.";
+      elMuted.textContent = "It’s Sims-style: fun, chaotic, not serious.";
+      cardsWrap.innerHTML = "";
     }
 
-    function card(name, clickable, back){
-      const el = document.createElement('div');
-      el.className = 'tt-card' + (back ? ' tt-back' : '');
-      if(!back){
-        const img = document.createElement('img');
-        img.src = basePath + name + ".png";
-        img.onerror = () => img.src = placeholder(name);
-        el.appendChild(img);
-      }
-      if(clickable) el.onclick = () => pick(name, el);
-      return el;
-    }
-
-    function reveal(el, name){
-      el.classList.remove('tt-back');
-      el.innerHTML = "";
-      const img = document.createElement('img');
-      img.src = basePath + name + ".png";
-      img.onerror = () => img.src = placeholder(name);
-      el.appendChild(img);
-    }
-
-    function roundStart(){
-      locked = true;
-      index = 0;
-      clearTimeout(timer);
-
-      const len = Math.min(3 + round, 6);
-      solution = shuffle(deck).slice(0, len);
-
-      grid.innerHTML = "";
-      prompt.textContent = "Memorize this sequence";
-      note.textContent = "Tip: lock in the first few cards.";
-
-      solution.forEach(n => grid.appendChild(card(n, false)));
-
-      timer = setTimeout(()=>{
-        grid.innerHTML = "";
-        prompt.textContent = "Now click the cards in the correct order";
-        shuffle(solution).forEach(n => grid.appendChild(card(n, true, true)));
-        locked = false;
-      }, 1500 + round * 250);
-    }
-
-    function pick(name, el){
-      if(locked) return;
-
-      if(el.classList.contains('tt-back')) reveal(el, name);
-
-      if(name === solution[index]){
-        score += 10;
-        el.classList.add('disabled');
-        index++;
-        update();
-
-        if(index === solution.length){
-          round++;
-          update();
-          locked = true;
-          prompt.textContent = "Nice! Next round…";
-          timer = setTimeout(roundStart, 700);
-        }
-      } else {
-        lives--;
-        index = 0;
-        update();
-
-        if(lives <= 0){
-          prompt.textContent = "Game Over";
-          note.textContent = "Hit Restart to try again.";
-          locked = true;
-          return;
-        }
-
-        prompt.textContent = "Wrong — input reset. Try again!";
-        [...grid.children].forEach(c=>{
-          c.classList.remove('disabled');
-          if(!c.classList.contains('tt-back')){
-            c.innerHTML = "";
-            c.classList.add('tt-back');
+    function layout(count, tags){
+      cardsWrap.innerHTML = "";
+      revealed = 0;
+      for(let i=0;i<count;i++){
+        const name = drawn[i];
+        const tag = tags[i];
+        const el = makeCardEl(tag, name);
+        el.addEventListener('click', () => {
+          if(el.classList.contains('tf-back')){
+            reveal(el, name);
+            revealed++;
+            if(revealed === count){
+              showReading();
+            }
           }
         });
+        cardsWrap.appendChild(el);
+      }
+      // If 1-card spread, make grid nicer (center)
+      if(count === 1){
+        cardsWrap.style.gridTemplateColumns = "minmax(140px, 220px)";
+        cardsWrap.style.justifyContent = "start";
+      } else {
+        cardsWrap.style.gridTemplateColumns = "";
+        cardsWrap.style.justifyContent = "";
       }
     }
 
-    btn.onclick = () => {
-      score=0; lives=3; round=1;
-      update();
-      roundStart();
-    };
+    function showReading(){
+      const reading = buildReading(spread, drawn);
+      elTitle.textContent = reading.title;
+      elText.textContent = reading.text;
+      elMoodlets.innerHTML = "";
+      reading.moodlets.forEach(m => elMoodlets.appendChild(moodletEl(m.text, m.kind)));
+      elReading.style.display = "block";
+      elPrompt.textContent = "Your reading is ready.";
+      elMuted.textContent = "Draw again if you want a different timeline.";
+    }
 
-    update();
-    roundStart();
+    function draw(){
+      if(spread === "quick"){
+        drawn = shuffle(deck).slice(0,1);
+        elPrompt.textContent = "Tap the card to reveal your fate.";
+        elMuted.textContent = "One card. One vibe. One questionable life choice.",
+        layout(1, ["FATE"]);
+      } else if(spread === "three"){
+        drawn = shuffle(deck).slice(0,3);
+        elPrompt.textContent = "Reveal the cards in any order.";
+        elMuted.textContent = "Past • Present • Future (but in Sims terms).";
+        layout(3, ["PAST", "PRESENT", "FUTURE"]);
+      } else {
+        drawn = shuffle(deck).slice(0,3);
+        elPrompt.textContent = "Reveal your moodlets forecast.";
+        elMuted.textContent = "Emotions may fluctuate. That’s normal. In Sims it’s a feature.";
+        layout(3, ["MIND", "HEART", "ENERGY"]);
+      }
+      elReading.style.display = "none";
+    }
+
+    pills.forEach(p => p.addEventListener('click', () => setSpread(p.dataset.tfSpread)));
+    btn.addEventListener('click', draw);
+
+    setSpread("quick");
   });
 })();
 </script>

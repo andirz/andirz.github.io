@@ -1,12 +1,5 @@
 <style>
-  :root {
-    --sims-green: #2ecc71;
-    --sims-blue: #1e293b;
-    --text-main: #0f172a;
-    --flip-ease: 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
-  }
-
-  .memory-game {
+  .mm-root {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
                  Roboto, Helvetica, Arial, sans-serif;
     background: #f8fafc;
@@ -18,7 +11,7 @@
     box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
   }
 
-  .memory-header {
+  .mm-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,52 +20,44 @@
     margin-bottom: 1.25rem;
   }
 
-  .memory-title h2 {
+  .mm-title h2 {
     margin: 0;
     font-size: 1.75rem;
     font-weight: 800;
-    color: var(--text-main);
   }
 
-  .memory-title p {
+  .mm-title p {
     margin: 0;
     color: #64748b;
   }
 
-  .memory-stats {
+  .mm-stats {
     display: flex;
     gap: 0.75rem;
     align-items: center;
     flex-wrap: wrap;
   }
 
-  .memory-badge {
+  .mm-badge {
     background: #fff;
     padding: 0.45rem 1rem;
     border-radius: 999px;
     border: 2px solid #e2e8f0;
     font-weight: 600;
-    color: var(--sims-blue);
     white-space: nowrap;
   }
 
-  .memory-btn {
-    background: var(--sims-blue);
+  .mm-btn {
+    background: #1e293b;
     color: #fff;
     border: none;
     padding: 0.55rem 1.2rem;
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
   }
 
-  .memory-btn:hover {
-    background: #334155;
-    transform: translateY(-2px);
-  }
-
-  .memory-grid {
+  .mm-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(80px, 1fr));
     gap: 12px;
@@ -80,19 +65,19 @@
     margin-top: 14px;
   }
 
-  .memory-card {
+  .mm-card {
     aspect-ratio: 1;
     position: relative;
     cursor: pointer;
     transform-style: preserve-3d;
-    transition: transform var(--flip-ease);
+    transition: transform 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
   }
 
-  .memory-card.is-flipped {
+  .mm-card.is-flipped {
     transform: rotateY(180deg);
   }
 
-  .memory-face {
+  .mm-face {
     position: absolute;
     inset: 0;
     backface-visibility: hidden;
@@ -103,93 +88,91 @@
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
   }
 
-  .memory-front {
-    background: var(--sims-blue);
+  .mm-front {
+    background: #1e293b;
     color: #fff;
     font-size: 1.5rem;
-    border: 2px solid rgba(255,255,255,0.1);
   }
 
-  .memory-back {
+  .mm-back {
     background: #fff;
     transform: rotateY(180deg);
     padding: 8px;
-    border: 3px solid var(--sims-green);
+    border: 3px solid #2ecc71;
   }
 
-  .memory-back img {
+  .mm-back img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
 </style>
 
-<div class="memory-game"
-     data-memory-root
+<div class="mm-root"
+     data-mm
      data-pack-base="{{ '/assets/img/packs/blue/' | relative_url }}">
 
-  <div class="memory-header">
-    <div class="memory-title">
+  <div class="mm-header">
+    <div class="mm-title">
       <h2>Pack Picker</h2>
       <p>Find all matching pairs.</p>
     </div>
 
-    <div class="memory-stats">
-      <div class="memory-badge" data-status>Matches: 0 / 8</div>
-      <div class="memory-badge" data-timer>Time: 00:00</div>
-      <button class="memory-btn" data-restart>Restart</button>
+    <div class="mm-stats">
+      <div class="mm-badge" data-mm-status>Matches: 0 / 8</div>
+      <div class="mm-badge" data-mm-timer>Time: 00:00</div>
+      <button class="mm-btn" data-mm-restart>Restart</button>
     </div>
   </div>
 
-  <div class="memory-grid" data-grid></div>
+  <div class="mm-grid" data-mm-grid></div>
 </div>
 
 <script>
 (function () {
-  function start() {
-    const root = document.querySelector('[data-memory-root]');
-    if (!root) return;
+  const roots = document.querySelectorAll('[data-mm]:not([data-mm-init])');
+  if (!roots.length) return;
 
-    const grid = root.querySelector('[data-grid]');
-    const statusEl = root.querySelector('[data-status]');
-    const timerEl = root.querySelector('[data-timer]');
-    const restartBtn = root.querySelector('[data-restart]');
+  roots.forEach(root => {
+    root.setAttribute('data-mm-init', '1');
 
-    const basePath = root.dataset.packBase; // Jekyll-safe
-    const PAIRS = 8; // 4x4
+    const grid   = root.querySelector('[data-mm-grid]');
+    const status = root.querySelector('[data-mm-status]');
+    const timer  = root.querySelector('[data-mm-timer]');
+    const btn    = root.querySelector('[data-mm-restart]');
+    const base   = root.dataset.packBase;
+
+    const PAIRS = 8;
 
     const ep = Array.from({ length: 18 }, (_, i) => `ep${String(i + 1).padStart(2,'0')}`);
     const gp = Array.from({ length: 12 }, (_, i) => `gp${String(i + 1).padStart(2,'0')}`);
-    const packs = [...ep, ...gp];
+    const pool = [...ep, ...gp];
 
     let opened = [];
     let locked = false;
     let matches = 0;
-
-    let timerId = null;
     let startTime = 0;
+    let timerId = null;
 
-    function formatTime(ms) {
+    function format(ms) {
       const t = Math.floor(ms / 1000);
-      const m = Math.floor(t / 60);
-      const s = t % 60;
-      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      return `${String(Math.floor(t / 60)).padStart(2,'0')}:${String(t % 60).padStart(2,'0')}`;
     }
 
     function startTimer() {
       clearInterval(timerId);
       startTime = Date.now();
-      timerEl.textContent = 'Time: 00:00';
+      timer.textContent = 'Time: 00:00';
       timerId = setInterval(() => {
-        timerEl.textContent = 'Time: ' + formatTime(Date.now() - startTime);
+        timer.textContent = 'Time: ' + format(Date.now() - startTime);
       }, 250);
     }
 
     function updateStatus() {
-      statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
+      status.textContent = `Matches: ${matches} / ${PAIRS}`;
     }
 
-    function resetGame() {
+    function reset() {
       grid.innerHTML = '';
       opened = [];
       locked = false;
@@ -197,18 +180,18 @@
       updateStatus();
       startTimer();
 
-      const chosen = [...packs].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
-      const deck = [...chosen, ...chosen].sort(() => 0.5 - Math.random());
+      const chosen = [...pool].sort(() => Math.random() - 0.5).slice(0, PAIRS);
+      const deck = [...chosen, ...chosen].sort(() => Math.random() - 0.5);
 
       deck.forEach(id => {
         const card = document.createElement('div');
-        card.className = 'memory-card';
+        card.className = 'mm-card';
         card.dataset.id = id;
 
         card.innerHTML = `
-          <div class="memory-face memory-front">?</div>
-          <div class="memory-face memory-back">
-            <img src="${basePath}${id}.png" alt="${id}">
+          <div class="mm-face mm-front">?</div>
+          <div class="mm-face mm-back">
+            <img src="${base}${id}.png" alt="${id}">
           </div>
         `;
 
@@ -240,7 +223,7 @@
         if (matches === PAIRS) {
           clearInterval(timerId);
           setTimeout(() => {
-            alert('Finished in ' + formatTime(Date.now() - startTime));
+            alert('Finished in ' + format(Date.now() - startTime));
           }, 300);
         }
       } else {
@@ -253,14 +236,8 @@
       }
     }
 
-    restartBtn.addEventListener('click', resetGame);
-    resetGame();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
-  } else {
-    start();
-  }
+    btn.addEventListener('click', reset);
+    reset();
+  });
 })();
 </script>
