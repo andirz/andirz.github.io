@@ -1,120 +1,61 @@
-{% comment %} Daten laden & Fallbacks {% endcomment %}
-{% assign mod = site.data.mods | where: "id", page.mod_id | first %}
-{% assign current_version = page.version | default: mod.version %}
-{% assign final_reqs = page.requirements | default: mod.requirements %}
-{% assign patreon_link = mod.patreon | default: site.data.globals.links.patreon %} 
-{% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: (page.mod_id | replace: '_', '-') %}
-
-{% comment %} Cover-Logik {% endcomment %}
-{% assign mod_cover = page.cover | default: mod.cover %}
-
-{% include mod-status-color.html %}
-
-<div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
-  
-  {% comment %} Mod Info Box {% endcomment %}
-  <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+{% comment %} Requirements Box {% endcomment %}
+{% if final_reqs.size > 0 or page.packs.size > 0 or page.optional_packs.size > 0 %}
+<div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
+  <div style="padding: 10px; background: #1e293b; border-bottom: 1px solid #e2e8f0; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 1px;">Requirements</div>
+  <div style="padding: 20px;">
     
-    <div style="width: 100%; background: #f8fafc; border-bottom: 2px solid #3b82f6; display: flex; justify-content: center; align-items: center; overflow: hidden;">
-      {% if mod_cover %}
-        <img src="{{ mod_cover }}" alt="{{ mod.name }}" style="width: 100%; height: auto; display: block; object-fit: cover;">
-      {% else %}
-        <div style="padding: 40px 0; font-size: 60px; color: #3b82f6;">
-           <i class="{{ page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
-        </div>
-      {% endif %}
-    </div>
+    {% comment %} Liste der Script-Abhängigkeiten (aus DB) {% endcomment %}
+    {% if final_reqs.size > 0 %}
+      <ul style="margin: 0 0 15px 0; padding: 0; list-style: none;">
+        {% for req_id in final_reqs %}
+          {% assign req_mod_data = site.data.mods | where: "id", req_id | first %}
+          {% assign dep_data = site.data.dependencies[req_id] %}
+          {% assign req_icon = req_mod_data.icon | default: dep_data.icon | default: "fas fa-puzzle-piece" %}
+          
+          <li style="margin-bottom: 12px; display: flex; align-items: center; font-size: 0.9rem;">
+            <i class="{{ req_icon }}" style="margin-right: 12px; color: #3b82f6; width: 20px; text-align: center;"></i>
+            <a href="{{ req_mod_data.url | default: dep_data.url | default: '#' }}" style="color: #2563eb; font-weight: 700; text-decoration: none;">
+              {{ req_mod_data.name | default: dep_data.name | default: req_id }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 
-    <div style="padding: 20px; text-align: center;">
-      <h3 style="font-size: 1.3rem; margin: 0; color: #0f172a; line-height: 1.2; font-weight: 800;">{{ mod.name | default: page.title }}</h3>
-      
-      {% comment %} Version & Status - Jetzt dezent {% endcomment %}
-      <div style="margin-top: 8px; font-size: 0.85rem; color: #64748b; font-weight: 600;">
-        Version {{ current_version }}
+    {% comment %} Zwingend erforderliche DLC Packs {% endcomment %}
+    {% if page.packs.size > 0 %}
+      <div style="border-top: 2px solid #f1f5f9; margin-top: 10px; padding-top: 15px;">
+         <div style="font-size: 0.65rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 10px;">Required DLC</div>
+         <div style="display: flex; flex-direction: column; gap: 8px;">
+           {% for pack_id in page.packs %}
+             {% assign pack_info = site.data.packs[pack_id] %}
+             <div style="background: #eff6ff; color: #1e40af; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border: 1px solid #dbeafe; display: flex; align-items: center; gap: 8px;">
+               <i class="fas fa-box-open" style="font-size: 0.7rem; color: #3b82f6;"></i>
+               <span style="background: #3b82f6; color: white; font-size: 0.6rem; padding: 2px 4px; border-radius: 3px; font-weight: 900;">{{ pack_id }}</span>
+               {{ pack_info.en | default: pack_id }}
+             </div>
+           {% endfor %}
+         </div>
       </div>
-      
-      {% if mod.status %}
-        <div style="margin-top: 12px;">
-          <span style="background: {{ status_color | default: '#3b82f6' }}; color: white; padding: 5px 14px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">
-            {{ mod.status }}
-          </span>
-        </div>
-      {% endif %}
-    </div>
+    {% endif %}
+
+    {% comment %} NEU: Optionale Packs zur Gameplay-Erweiterung {% endcomment %}
+    {% if page.optional_packs.size > 0 %}
+      <div style="border-top: 2px solid #f1f5f9; margin-top: 15px; padding-top: 15px;">
+         <div style="font-size: 0.65rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 10px;">Optional (Enhanced Gameplay)</div>
+         <div style="display: flex; flex-direction: column; gap: 8px;">
+           {% for pack_id in page.optional_packs %}
+             {% assign pack_info = site.data.packs[pack_id] %}
+             <div style="background: #f0fdf4; color: #166534; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border: 1px solid #dcfce7; display: flex; align-items: center; gap: 8px;">
+               <i class="fas fa-plus-circle" style="font-size: 0.7rem; color: #22c55e;"></i>
+               <span style="background: #22c55e; color: white; font-size: 0.6rem; padding: 2px 4px; border-radius: 3px; font-weight: 900;">{{ pack_id }}</span>
+               {{ pack_info.en | default: pack_id }}
+             </div>
+           {% endfor %}
+         </div>
+      </div>
+    {% endif %}
+
   </div>
-
-  {% comment %} Requirements Box {% endcomment %}
-  {% if final_reqs.size > 0 or page.packs.size > 0 %}
-  <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
-    <div style="padding: 10px; background: #1e293b; border-bottom: 1px solid #e2e8f0; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 1px;">Requirements</div>
-    <div style="padding: 20px;">
-      
-      {% if final_reqs.size > 0 %}
-        <ul style="margin: 0 0 15px 0; padding: 0; list-style: none;">
-          {% for req_id in final_reqs %}
-            {% assign req_mod_data = site.data.mods | where: "id", req_id | first %}
-            {% assign dep_data = site.data.dependencies[req_id] %}
-            
-            {% comment %} Icon aus der DB ziehen {% endcomment %}
-            {% assign req_icon = req_mod_data.icon | default: dep_data.icon | default: "fas fa-puzzle-piece" %}
-            
-            <li style="margin-bottom: 12px; display: flex; align-items: center; font-size: 0.9rem;">
-              <i class="{{ req_icon }}" style="margin-right: 12px; color: #3b82f6; width: 20px; text-align: center;"></i>
-              <a href="{{ req_mod_data.url | default: dep_data.url | default: '#' }}" style="color: #2563eb; font-weight: 700; text-decoration: none;">
-                {{ req_mod_data.name | default: dep_data.name | default: req_id }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-
-      {% if page.packs.size > 0 %}
-        <div style="border-top: 2px solid #f1f5f9; margin-top: 10px; padding-top: 15px;">
-           <div style="font-size: 0.65rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 10px;">Required DLC</div>
-           <div style="display: flex; flex-direction: column; gap: 8px;">
-             {% for pack_id in page.packs %}
-               {% assign pack_info = site.data.packs[pack_id] %}
-               <div style="background: #eff6ff; color: #1e40af; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border: 1px solid #dbeafe; display: flex; align-items: center; gap: 8px;">
-                 <i class="fas fa-box-open" style="font-size: 0.7rem; color: #3b82f6;"></i>
-                 <span style="background: #3b82f6; color: white; font-size: 0.6rem; padding: 2px 4px; border-radius: 3px; font-weight: 900;">{{ pack_id }}</span>
-                 {{ pack_info.en | default: pack_id }}
-               </div>
-             {% endfor %}
-           </div>
-        </div>
-      {% endif %}
-    </div>
-  </div>
-  {% endif %}
-
-  {% comment %} Download Box - KEIN ROSA MEHR {% endcomment %}
-  <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
-    <div style="padding: 15px; display: flex; flex-direction: column; gap: 10px;">
-      {% unless page.curseforge_ban %}
-        <a href="{{ cf_url }}" target="_blank" class="download-btn cf-btn">
-          <i class="fab fa-firefox-browser" style="color: white !important;"></i> CurseForge
-        </a>
-      {% endunless %}
-      {% if patreon_link %}
-        <a href="{{ patreon_link }}" target="_blank" class="download-btn patreon-btn">
-          <i class="fab fa-patreon" style="color: white !important;"></i> Patreon
-        </a>
-      {% endif %}
-    </div>
-  </div>
-
 </div>
-
-<style>
-  .download-btn {
-    display: flex; align-items: center; justify-content: center; gap: 10px; 
-    padding: 12px; border-radius: 12px; 
-    text-decoration: none; font-weight: 800; font-size: 0.95rem; transition: all 0.2s ease;
-    color: white !important;
-  }
-  .cf-btn { background: #f16436; border: 2px solid #f16436; }
-  .cf-btn:hover { background: #d34e26; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(241, 100, 54, 0.3); }
-  
-  .patreon-btn { background: #1e293b; border: 2px solid #1e293b; }
-  .patreon-btn:hover { background: #3b82f6; border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
-</style>
+{% endif %}
