@@ -23,10 +23,8 @@ Not all mods that use this tool use all three of these injectors. It's quite pos
 However, some older mods still use the original injection tools — and this fix ensures that these older mods continue to work. If you're using a mod that required the original injection tools, please ensure that they are still required and that the mod author hasn't replaced them with the Lot51 core library or another script.
 
 ## How To Use
-You only need to copy this one script file into your mod folder. 
+{% include notice-script.html %}
 
-**Placement:** Place it directly into the Mods folder, not inside any subfolders. Do not copy any files from the original post, as they are not required and may cause compatibility issues or unexpected behavior in your game.
-{% include script_notice.html %}
 ## For Modders
 The usage and syntax of this updated version of the script remain entirely unchanged. You can continue using it in new mods exactly as described in the original post, without any need to modify your code or adjust how it’s integrated.
 

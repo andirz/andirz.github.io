@@ -17,6 +17,9 @@ This mod will fill all of your Sims (active and NPCs) with **random personality 
 * **Conflict Prevention:** It ensures that conflicting traits (like *Loner* and *Outgoing*) are not assigned to the same Sim.
 * **Safety First:** If a Sim already has the maximum number of traits, the mod will do nothing.
 
+## How To Use
+{% include notice-script.html %}
+
 ## Translations
 The mod contains no text strings, so it is compatible with all game languages out of the box.
 

@@ -29,3 +29,6 @@ If you are here, it is likely because you want to use one of my gameplay mods. T
 
 ## Compatibility
 This is a standalone script library. It does not override any game files (tuning or internal code), so there are **no known compatibility issues** with other mods or game updates. The included package file contains only the translations for menus and system messages.
+
+## How To Use
+{% include notice-script.html %}
