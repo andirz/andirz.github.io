@@ -1,54 +1,78 @@
 {% assign current_id = page.mod_id %}
 {% assign current_cats = page.categories %}
-{% assign gallery_count = 0 %}
 {% assign max_items = 3 %}
+{% assign gallery_count = 0 %}
 
-{% comment %} Tracke IDs als String für sicheren Ausschluss der aktuellen Mod {% endcomment %}
-{% assign shown_ids = current_id | prepend: "," | append: "," %}
+{% comment %}
+Tracke IDs als String für sicheren Ausschluss (inkl. aktuelle Mod)
+Komma-Guard verhindert Teilstring-Treffer.
+{% endcomment %}
+{% assign shown_ids = "," | append: current_id | append: "," %}
 
 <section id="recommended-mods" class="gallery-wrapper gallery-related" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f5f9;">
-  
+
   <div style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
     <div>
-      <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0; ">
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0;">
         More from {{ current_cats | first }}
       </h2>
       <p style="color: #64748b; margin: 5px 0 0 0;">Recommended based on your interests:</p>
     </div>
-    
+
     <a href="{{ '/mods/' | relative_url }}" style="font-size: 0.85rem; font-weight: 700; color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #eff6ff; border-radius: 8px; transition: all 0.2s ease;">
       View all Mods <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
     </a>
   </div>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
-    
+
     {% assign all_mods = site.data.mods %}
 
-    {% comment %} STUFE 1: Kategorien nach Gewichtung abarbeiten {% endcomment %}
+    {% comment %}
+    STUFE A (Gewichtung): Kategorien in Reihenfolge abarbeiten.
+    Nächste Kategorie wird NUR benutzt, wenn es mit der vorherigen nicht für 3 reicht.
+    {% endcomment %}
+
     {% for cat in current_cats %}
-      {% assign target_cat = cat | strip %}
-      
-      {% for g_mod in all_mods %}
-        {% if gallery_count < max_items %}
-          {% assign check_id = g_mod.id | prepend: "," | append: "," %}
-          
-          {% unless shown_ids contains check_id %}
-            {% if g_mod.categories contains target_cat %}
-              {% assign gallery_count = gallery_count | plus: 1 %}
-              {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
-              {% include gallery-card-item.html mod_data=g_mod %}
-            {% endif %}
-          {% endunless %}
-        {% endif %}
-      {% endfor %}
+      {% if gallery_count < max_items %}
+        {% assign target_cat = cat | strip %}
+
+        {% for g_mod in all_mods %}
+          {% if gallery_count < max_items %}
+            {% assign check_id = "," | append: g_mod.id | append: "," %}
+
+            {% unless shown_ids contains check_id %}
+              {% comment %} Exakter Kategorie-Match (kein Teilstring-Match) {% endcomment %}
+              {% assign cat_match = false %}
+              {% if g_mod.categories and g_mod.categories.size > 0 %}
+                {% for mcat in g_mod.categories %}
+                  {% if mcat == target_cat %}
+                    {% assign cat_match = true %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+
+              {% if cat_match %}
+                {% assign gallery_count = gallery_count | plus: 1 %}
+                {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
+                {% include gallery-card-item.html mod_data=g_mod %}
+              {% endif %}
+            {% endunless %}
+          {% endif %}
+        {% endfor %}
+
+      {% endif %}
     {% endfor %}
 
-    {% comment %} STUFE 2: Auffüllen auf 3, falls Kategorien nicht reichen {% endcomment %}
+    {% comment %}
+    STUFE B (Fallback): Wenn trotz Gewichtung nicht genug gefunden wurde, auffüllen mit beliebigen Mods.
+    {% endcomment %}
+
     {% if gallery_count < max_items %}
       {% for g_mod in all_mods %}
         {% if gallery_count < max_items %}
-          {% assign check_id = g_mod.id | prepend: "," | append: "," %}
+          {% assign check_id = "," | append: g_mod.id | append: "," %}
+
           {% unless shown_ids contains check_id %}
             {% assign gallery_count = gallery_count | plus: 1 %}
             {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
