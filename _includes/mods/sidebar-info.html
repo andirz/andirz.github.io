@@ -14,9 +14,7 @@
 {% assign paypal_link = site.data.globals.links.paypal %}
 {% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: (current_id | replace: '_', '-') %}
 
-{% comment %} 
-  BILD-CHECK: Wie in skills.md prüfen wir die static_files
-{% endcomment %}
+{% comment %} BILD-CHECK {% endcomment %}
 {% assign expected_cover_path = "/assets/img/mods/" | append: current_id | append: "/cover.png" %}
 {% assign cover_exists = false %}
 {% for file in site.static_files %}
@@ -28,11 +26,9 @@
 
 <div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
   
-  {% comment %} 1. MOD INFO BOX {% endcomment %}
   <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 15px;">
     <div style="width: 100%; background: #f8fafc; border-bottom: 2px solid #3b82f6; display: flex; justify-content: center; align-items: center;">
       {% if cover_exists %}
-        {% comment %} Mod Titel als Alt-Text hinzugefügt {% endcomment %}
         <img src="{{ expected_cover_path }}" alt="{{ mod_full_name }}" style="width: 100%; height: auto; display: block;">
       {% else %}
         <div style="padding: 30px 0; font-size: 50px; color: #3b82f6;">
@@ -45,12 +41,20 @@
       <h3 style="font-size: 1.15rem; margin: 0; color: #0f172a; font-weight: 800; line-height: 1.2;">{{ mod_full_name }}</h3>
       <div style="margin-top: 6px; display: flex; justify-content: center; align-items: center; gap: 8px; color: #64748b; font-size: 0.8rem; font-weight: 600;">
         <span>v. {{ current_version }}</span>
+        
+        {% comment %} Dateityp-Icons mit Alt-Text (title) {% endcomment %}
         <div style="display: flex; gap: 6px; margin-left: 5px; border-left: 1px solid #e2e8f0; padding-left: 8px;">
           {% if page.files contains 'ts4script' %}
             <i class="fas {% if current_id == 'smart-core-script' %}fa-microchip{% else %}fa-code{% endif %}" title="Script Mod" style="color: #3b82f6;"></i>
           {% endif %}
-          {% if page.files contains 'package' %} <i class="fas fa-box" title="Package File" style="color: #6366f1;"></i> {% endif %}
-          {% if page.files contains 'bat' %} <i class="fas fa-terminal" title="Batch Tool" style="color: #1e293b;"></i> {% endif %}
+          
+          {% if page.files contains 'package' %}
+            <i class="fas fa-box" title="Package File" style="color: #6366f1;"></i>
+          {% endif %}
+          
+          {% if page.files contains 'bat' %}
+            <i class="fas fa-terminal" title="Batch Tool" style="color: #1e293b;"></i>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -111,7 +115,9 @@
     position: relative; display: flex; align-items: center; justify-content: center; 
     padding: 10px; border-radius: 10px; text-decoration: none; font-weight: 800; 
     font-size: 0.85rem; color: white !important;
+    transition: filter 0.2s ease;
   }
+  .download-btn:hover { filter: brightness(1.1); }
   .download-btn i { position: absolute; left: 15px; }
   .cf-btn { background: #f16436; }
   .patreon-btn { background: #1e293b; }
