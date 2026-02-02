@@ -35,22 +35,19 @@ Nothing is deleted automatically. Files are only removed when you **manually run
 **No other files will be deleted.**  
 Your **Saves**, **Mods**, **Tray files**, and all personal game data remain untouched.
 
-## Why you should delete cache files
+## Why you should delete cache files?
 Cache files are meant to be temporary. After patches, mod updates, or configuration changes, they can become outdated or corrupted.
 
 Deleting them forces the game to regenerate fresh data on the next start, which often resolves:
-- random UI issues  
-- long loading times  
-- visual glitches  
-- misleading error messages  
+- random UI issues;  
+- long loading times;  
+- visual glitches;  
+- misleading error messages.  
 
 ## Improved Permissions
-The script checks whether it is running with **Administrator rights**.  
-If not, it automatically restarts and asks for permission.
+The script checks whether it is running with **Administrator rights**. If not, it automatically restarts and asks for permission. This prevents situations where the script appears to “do nothing” because Windows blocks file access.
 
-This prevents situations where the script appears to “do nothing” because Windows blocks file access.
-
-## How to use this script
+## How to use this script?
 {% include notice-batch.html %}
 
 ## Language & Translations
@@ -61,7 +58,7 @@ This tool is a **Windows batch script** and contains **no in-game text strings**
 
 ## FAQ – Frequently Asked Questions
 
-**Does this script work on macOS or iMac?**
+**Does this script work on macOS or iMac?**  
 No. This is a Windows batch script (.bat) and cannot run on macOS or iMac systems.
 
 **Does this script delete save files or mod settings?**  
@@ -80,5 +77,5 @@ Typical use cases:
 **The script opens and closes very quickly – is that normal?**  
 Yes. If there is nothing to delete, the script may finish almost instantly.
 
-**Why does Windows warn me about file deletion?**
+**Why does Windows warn me about file deletion?**  
 No. That warning is expected and intentional. The entire purpose of this script is to delete temporary cache and log files. If you feel unsure, you can simply open the .bat file in any text editor (for example Notepad). You will see that it only deletes the explicitly listed cache folders and log files — nothing else.
