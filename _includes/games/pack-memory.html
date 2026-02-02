@@ -1,174 +1,139 @@
 <style>
-  :root{
-    --sims-green:#2ecc71;
-    --sims-blue:#1e293b;
-    --text-main:#0f172a;
-    --flip-ease:0.45s cubic-bezier(0.175,0.885,0.32,1.275);
+  :root {
+    --sims-green: #2ecc71;
+    --sims-blue: #1e293b;
+    --text-main: #0f172a;
+    --flip-ease: 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  .mm-root{
+  .mm-root {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background:#f8fafc;
-    border-radius:24px;
-    padding:1.6rem;
-    max-width:820px;
-    margin:1.6rem auto;
-    border:1px solid #e2e8f0;
-    box-shadow:0 16px 22px -8px rgba(0,0,0,0.06);
+    background: #f8fafc;
+    border-radius: 24px;
+    padding: 1.6rem;
+    max-width: 820px;
+    margin: 1.6rem auto;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 16px 22px -8px rgba(0,0,0,0.06);
   }
 
-  .mm-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:0.8rem;
-    margin-bottom:1rem;
+  .mm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
   }
 
-  .mm-title h2{
-    margin:0;
-    font-size:1.55rem;
-    font-weight:800;
-    color:var(--text-main);
+  .mm-title h2 { margin: 0; font-size: 1.55rem; font-weight: 800; color: var(--text-main); }
+  .mm-title p { margin: 0; color: #64748b; }
+
+  .mm-stats { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+  .mm-badge {
+    background: #fff;
+    padding: 0.38rem 0.85rem;
+    border-radius: 999px;
+    border: 2px solid #e2e8f0;
+    font-weight: 600;
+    color: var(--sims-blue);
+    font-size: 0.95rem;
   }
 
-  .mm-title p{ margin:0; color:#64748b; }
-
-  .mm-stats{
-    display:flex;
-    gap:0.6rem;
-    align-items:center;
-    flex-wrap:wrap;
+  .mm-btn {
+    background: var(--sims-blue);
+    color: #fff;
+    border: none;
+    padding: 0.48rem 1rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s;
   }
 
-  .mm-badge{
-    background:#fff;
-    padding:0.38rem 0.85rem;
-    border-radius:999px;
-    border:2px solid #e2e8f0;
-    font-weight:600;
-    color:var(--sims-blue);
-    white-space:nowrap;
-    font-size:0.95rem;
+  .mm-btn:hover { background: #334155; transform: translateY(-1px); }
+
+  .mm-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(68px, 1fr));
+    gap: 10px;
+    perspective: 1000px;
+    margin-top: 10px;
   }
 
-  .mm-btn{
-    background:var(--sims-blue);
-    color:#fff;
-    border:none;
-    padding:0.48rem 1rem;
-    border-radius:12px;
-    font-weight:700;
-    cursor:pointer;
-    transition:transform 0.15s, background 0.15s;
-    font-size:0.95rem;
+  .mm-card {
+    aspect-ratio: 1;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform var(--flip-ease);
   }
 
-  .mm-btn:hover{ background:#334155; transform:translateY(-1px); }
+  .mm-card.is-flipped { transform: rotateY(180deg); }
 
-  .mm-grid{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(68px, 1fr));
-    gap:10px;
-    perspective:1000px;
-    margin-top:10px;
+  .mm-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -2px rgba(0,0,0,0.12);
   }
 
-  .mm-card{
-    aspect-ratio:1;
-    position:relative;
-    cursor:pointer;
-    transform-style:preserve-3d;
-    transition:transform var(--flip-ease);
-  }
-
-  .mm-card.is-flipped{ transform:rotateY(180deg); }
-
-  .mm-face{
-    position:absolute;
-    inset:0;
-    backface-visibility:hidden;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 4px 6px -2px rgba(0,0,0,0.12);
-  }
-
-  .mm-front{
-    background:var(--sims-blue);
-    color:#fff;
-    font-size:1.35rem;
-    border:2px solid rgba(255,255,255,0.10);
-  }
-
-  .mm-back{
-    background:#fff;
-    transform:rotateY(180deg);
-    padding:7px;
-    border:3px solid var(--sims-green);
-  }
-
-  .mm-back img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-  }
+  .mm-front { background: var(--sims-blue); color: #fff; font-size: 1.35rem; border: 2px solid rgba(255,255,255,0.1); }
+  .mm-back { background: #fff; transform: rotateY(180deg); padding: 7px; border: 3px solid var(--sims-green); }
+  .mm-back img { width: 100%; height: 100%; object-fit: contain; display: block; }
 </style>
 
-{%- assign blue_folder = "/assets/img/packs/blue/" -%}
+{%- comment -%} Parameter aus dem Include oder Standardwerte {%- endcomment -%}
+{%- assign current_folder = include.folder | default: "/assets/img/packs/blue/" -%}
+{%- assign max_ep = include.ep_count | default: 18 -%}
+{%- assign max_gp = include.gp_count | default: 0 -%}
 
 <div class="mm-root" data-mm>
   <div class="mm-header">
     <div class="mm-title">
       <h2>Pack Picker</h2>
-      <p>Finde alle Paare.</p>
+      <p>Finde alle passenden Paare.</p>
     </div>
-
     <div class="mm-stats">
       <div class="mm-badge" data-mm-status>Matches: 0 / 8</div>
       <div class="mm-badge" data-mm-timer>Zeit: 00:00</div>
       <button class="mm-btn" type="button" data-mm-restart>Neu starten</button>
     </div>
   </div>
-
   <div class="mm-grid" data-mm-grid></div>
 </div>
 
 <script>
 (function () {
   const PACKS = [
-    {%- comment -%} Schleife für Expansion Packs (EP) {%- endcomment -%}
-    {%- for i in (1..21) -%}
+    {%- comment -%} Expansion Packs Check {%- endcomment -%}
+    {%- for i in (1..max_ep) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign pack_id = "ep" | append: id -%}
-      {%- assign full_path = blue_folder | append: pack_id | append: ".png" -%}
-
+      {%- assign full_path = current_folder | append: pack_id | append: ".png" -%}
       {%- assign exists = false -%}
       {%- for file in site.static_files -%}
-        {%- if file.path == full_path -%}
-          {%- assign exists = true -%}{%- break -%}{%- endif -%}
+        {%- if file.path == full_path -%}{%- assign exists = true -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
-
       {%- if exists -%}
         { id: "{{ pack_id }}", url: "{{ full_path | relative_url }}" },
       {%- endif -%}
     {%- endfor -%}
 
-    {%- comment -%} Schleife für Game Packs (GP) {%- endcomment -%}
-    {%- for i in (1..12) -%}
+    {%- comment -%} Game Packs Check {%- endcomment -%}
+    {%- for i in (1..max_gp) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign pack_id = "gp" | append: id -%}
-      {%- assign full_path = blue_folder | append: pack_id | append: ".png" -%}
-
+      {%- assign full_path = current_folder | append: pack_id | append: ".png" -%}
       {%- assign exists = false -%}
       {%- for file in site.static_files -%}
-        {%- if file.path == full_path -%}
-          {%- assign exists = true -%}{%- break -%}{%- endif -%}
+        {%- if file.path == full_path -%}{%- assign exists = true -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
-
       {%- if exists -%}
         { id: "{{ pack_id }}", url: "{{ full_path | relative_url }}" },
       {%- endif -%}
@@ -180,120 +145,66 @@
     const statusEl = root.querySelector('[data-mm-status]');
     const timerEl = root.querySelector('[data-mm-timer]');
     const restartBtn = root.querySelector('[data-mm-restart]');
-    if (!grid || !statusEl || !timerEl || !restartBtn) return;
-
     const PAIRS = 8;
+
     if (!PACKS || PACKS.length < PAIRS) {
-      statusEl.textContent = "Bilder fehlen in " + "{{ blue_folder }}";
+      statusEl.textContent = "Nicht genug Bilder in " + "{{ current_folder }}";
       return;
     }
 
-    let opened = [];
-    let locked = false;
-    let matches = 0;
-    let startMs = 0;
-    let timerId = null;
+    let opened = [], locked = false, matches = 0, startMs = 0, timerId = null;
 
     function format(ms) {
       const t = Math.floor(ms / 1000);
-      const m = Math.floor(t / 60);
-      const s = t % 60;
-      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    }
-
-    function startTimer() {
-      clearInterval(timerId);
-      startMs = Date.now();
-      timerEl.textContent = "Zeit: 00:00";
-      timerId = setInterval(() => {
-        timerEl.textContent = "Zeit: " + format(Date.now() - startMs);
-      }, 250);
-    }
-
-    function updateStatus() {
-      statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
-    }
-
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
+      return `${String(Math.floor(t / 60)).padStart(2,'0')}:${String(t % 60).padStart(2,'0')}`;
     }
 
     function resetGame() {
       grid.innerHTML = "";
-      opened = [];
-      locked = false;
-      matches = 0;
-      updateStatus();
-      startTimer();
+      opened = []; locked = false; matches = 0;
+      statusEl.textContent = `Matches: 0 / ${PAIRS}`;
+      clearInterval(timerId);
+      startMs = Date.now();
+      timerId = setInterval(() => timerEl.textContent = "Zeit: " + format(Date.now() - startMs), 250);
 
-      const chosen = shuffle([...PACKS]).slice(0, PAIRS);
-      const deck = shuffle([...chosen, ...chosen]);
+      const chosen = [...PACKS].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
+      const deck = [...chosen, ...chosen].sort(() => 0.5 - Math.random());
 
       deck.forEach(item => {
         const card = document.createElement("div");
         card.className = "mm-card";
         card.dataset.id = item.id;
-
-        card.innerHTML = `
-          <div class="mm-face mm-front">?</div>
-          <div class="mm-face mm-back">
-            <img src="${item.url}" alt="${item.id}" loading="lazy">
-          </div>
-        `;
-
-        card.addEventListener("click", () => flip(card));
+        card.innerHTML = `<div class="mm-face mm-front">?</div><div class="mm-face mm-back"><img src="${item.url}" alt="${item.id}"></div>`;
+        card.addEventListener("click", () => {
+          if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
+          card.classList.add("is-flipped");
+          opened.push(card);
+          if (opened.length === 2) {
+            locked = true;
+            if (opened[0].dataset.id === opened[1].dataset.id) {
+              matches++;
+              opened = []; locked = false;
+              statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
+              if (matches === PAIRS) clearInterval(timerId);
+            } else {
+              setTimeout(() => {
+                opened.forEach(c => c.classList.remove("is-flipped"));
+                opened = []; locked = false;
+              }, 800);
+            }
+          }
+        });
         grid.appendChild(card);
       });
-    }
-
-    function flip(card) {
-      if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
-      card.classList.add("is-flipped");
-      opened.push(card);
-      if (opened.length === 2) check();
-    }
-
-    function check() {
-      locked = true;
-      const [a, b] = opened;
-      if (a.dataset.id === b.dataset.id) {
-        matches++;
-        opened = [];
-        locked = false;
-        updateStatus();
-        if (matches === PAIRS) {
-          clearInterval(timerId);
-          setTimeout(() => alert("Fertig in " + format(Date.now() - startMs)), 250);
-        }
-      } else {
-        setTimeout(() => {
-          a.classList.remove("is-flipped");
-          b.classList.remove("is-flipped");
-          opened = [];
-          locked = false;
-        }, 800);
-      }
     }
 
     restartBtn.addEventListener("click", resetGame);
     resetGame();
   }
 
-  function boot() {
-    document.querySelectorAll('[data-mm]:not([data-mm-init])').forEach(root => {
-      root.setAttribute('data-mm-init', '1');
-      initOne(root);
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
+  document.querySelectorAll('[data-mm]:not([data-mm-init])').forEach(root => {
+    root.setAttribute('data-mm-init', '1');
+    initOne(root);
+  });
 })();
 </script>

@@ -13,4 +13,8 @@ time: 45s
 
 Match all Sims 4 packs before the timer runs out. A classic memory game for true fans.
 
-{% include games/pack-memory.html %}
+{% include games/pack-memory.html 
+   ep_count=18 
+   gp_count=12 
+   folder="/assets/img/packs/blue/" 
+%}
