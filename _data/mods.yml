@@ -92,7 +92,7 @@
   packs: ["GP01"]
   status: "compatible"
 
-- id: better-san_myshuno-festivals
+- id: better-san-myshuno-festivals
   name: "Better San Myshuno Festivals"
   icon: "fas fa-city"
   version: "1.0.1"
@@ -151,7 +151,7 @@
 
 # --- UNIVERSITY ---
 
-- id: custom_electives
+- id: custom-electives
   name: "Custom University Electives"
   icon: "fas fa-graduation-cap"
   version: "1.0.5"
@@ -161,7 +161,7 @@
   github: "https://github.com/Andirz/TS4-University-Electives"
   patreon: "https://www.patreon.com/andirz"
 
-- id: drama_degree_is_acting
+- id: drama-degree-is-acting
   version: "1.0.2"
   status: "compatible"
   updated: "2025-07-05"
@@ -173,32 +173,32 @@
 
 # --- SELVADORADIAN & DEATH ---
 
-- id: death_roulette
+- id: death-roulette
   version: "1.5.0"
   status: "compatible"
   updated: "2025-10-08"
 
-- id: urn_stone_overhaul
+- id: urn-stone-overhaul
   name: "Urn/Stone Overhaul"
   icon: "fas fa-cross"
   version: "2.3.1"
   status: "broken"
 
-- id: deadly_poisons
+- id: deadly-poisons
   name: "Deadly Poisons"
   icon: "fas fa-flask"
   version: "1.2.2"
   packs: ["EP01", "GP06"]
   status: "compatible"
 
-- id: poisoning_overhaul
+- id: poisoning-overhaul
   name: "Poisoning Overhaul"
   icon: "fas fa-biohazard"
   version: "1.1.0"
   packs: ["GP06"]
   status: "compatible"
 
-- id: selvadoradian_herbalism
+- id: selvadoradian-herbalism
   name: "Selvadoradian Herbalism"
   icon: "fas fa-leaf"
   version: "1.3.2"
@@ -207,7 +207,7 @@
 
 # --- REACTION & BEHAVIOR TWEAKS ---
 
-- id: holiday_drama
+- id: no-holiday-drama
   name: "No Holidays Failure Drama"
   icon: "fas fa-calendar-times"
   version: "1.0.2"
@@ -217,7 +217,7 @@
   github: "https://github.com/Andirz/TS4-No-Holidays-Failure-Drama"
   patreon: "https://www.patreon.com/andirz"
 
-- id: birthday_drama
+- id: no-birthday-drama
   name: "No Forgotten Birthday Drama"
   icon: "fas fa-birthday-cake"
   version: "1.0.0"
@@ -226,7 +226,7 @@
   github: "https://github.com/Andirz/TS4-No-Forgotten-Birthday-Drama"
   patreon: "https://www.patreon.com/andirz"
 
-- id: weather_preferences
+- id: weather-preferences
   name: "Visible Weather Preferences"
   icon: "fas fa-cloud-sun"
   version: "1.0.4"
@@ -234,7 +234,7 @@
   status: "compatible"
   updated: "2026-01-27"
 
-- id: favorite_movie
+- id: favorite-movie
   name: "Favorite Movie Genre"
   icon: "fas fa-video"
   version: "1.0.1"
@@ -244,7 +244,7 @@
   github: "https://github.com/Andirz/TS4-Favorite-Movie-Genre"
   patreon: "https://www.patreon.com/andirz"
 
-- id: visible_handedness
+- id: visible-handedness
   name: "Visible Handedness"
   icon: "fas fa-hand-paper"
   version: "1.0.1"
@@ -255,21 +255,21 @@
 
 # --- LAUNDRY ---
 
-- id: laundry_service
+- id: laundry-service
   name: "Laundry Service"
   icon: "fas fa-tshirt"
   version: "2.2.1"
   packs: ["SP13"]
   status: "compatible"
 
-- id: laundry_interactions
+- id: laundry-interactions
   name: "Laundry Interactions"
   icon: "fas fa-soap"
   version: "1.2.1"
   packs: ["SP13"]
   status: "compatible"
 
-- id: laundry_lot_trait
+- id: laundry-lot-trait
   name: "Laundry Lot Trait"
   icon: "fas fa-sync-alt"
   version: "1.0.3"
@@ -278,7 +278,7 @@
 
 # --- CAREERS & INDEPENDENT ---
 
-- id: auto_service
+- id: auto-service
   version: "2.2.3"
   status: "compatible"
   updated: "2025-07-05"
@@ -288,51 +288,51 @@
   status: "compatible"
   updated: "2025-07-06"
 
-- id: beach_yoga
+- id: beach-yoga
   version: "1.1.1"
   status: "compatible"
   updated: "2024-03-01"
 
-- id: take_it_off
+- id: take-it-off
   version: "4.2.3"
   status: "compatible"
   updated: "2025-03-15"
 
-- id: extended_private_journal
+- id: extended-private-journal
   version: "3.3.0"
   status: "compatible"
   updated: "2024-07-02"
 
-- id: write_skill_book
+- id: write-skill-book
   version: "1.2.0"
   status: "compatible"
   updated: "2025-10-07"
 
-- id: body_hair_replacement_luumia
+- id: body-hair-replacement-luumia
   name: "Body Hair Replacement: Luumia Edition"
   icon: "fas fa-cut"
   version: "1.0.1"
   status: "compatible"
 
-- id: no_war_fashion
+- id: no-war-fashion
   name: "#NoWar Fashion (CAS)"
   icon: "fas fa-peace"
   version: "1.0.0"
   status: "compatible"
 
-- id: medical_decorations_kit
+- id: medical-decorations-kit
   name: "Medical Decorations Kit"
   icon: "fas fa-briefcase-medical"
   version: "1.1.0"
   status: "compatible"
 
-- id: pharmacy_kiosk_object
+- id: pharmacy-kiosk-object
   name: "Pharmacy Kiosk Object"
   icon: "fas fa-staff-snake"
   version: "1.4.2"
   status: "compatible"
 
-- id: xmas_poster_painting_collection
+- id: xmas-collection
   name: "X-Mas Poster & Painting Collection"
   icon: "fas fa-image"
   version: "2.1.0"
