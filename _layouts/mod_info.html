@@ -15,39 +15,37 @@ layout: default
         {{ content }}
       </article>
 
-      {% comment %} Translations Section {% endcomment %}
-      <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
-        {% include mod-translations.html 
-          ENG=page.translations.ENG
-          GER=page.translations.GER
-          SPA=page.translations.SPA
-          RUS=page.translations.RUS
-          ITA=page.translations.ITA 
-          BRA=page.translations.BRA 
-          CHS=page.translations.CHS 
-          CHT=page.translations.CHT
-          FRE=page.translations.FRE
-          POL=page.translations.POL
-          DUT=page.translations.DUT
-          CZE=page.translations.CZE
-          DAN=page.translations.DAN
-          FIN=page.translations.FIN
-          JPN=page.translations.JPN
-          KOR=page.translations.KOR
-          NOR=page.translations.NOR
-          SWE=page.translations.SWE
-        %}
-      </section>
+      {% comment %} Translations Section – optional unterdrückbar {% endcomment %}
+      {% unless page.disable_translations %}
+        <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+          {% include mod-translations.html 
+            ENG=page.translations.ENG
+            GER=page.translations.GER
+            SPA=page.translations.SPA
+            RUS=page.translations.RUS
+            ITA=page.translations.ITA 
+            BRA=page.translations.BRA 
+            CHS=page.translations.CHS 
+            CHT=page.translations.CHT
+            FRE=page.translations.FRE
+            POL=page.translations.POL
+            DUT=page.translations.DUT
+            CZE=page.translations.CZE
+            DAN=page.translations.DAN
+            FIN=page.translations.FIN
+            JPN=page.translations.JPN
+            KOR=page.translations.KOR
+            NOR=page.translations.NOR
+            SWE=page.translations.SWE
+          %}
+        </section>
+      {% endunless %}
 
       <section id="download-zone" style="margin-top: 60px; padding: 35px; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--border-color);">
         <h2 style="margin-top: 0; display: flex; align-items: center; gap: 12px;">
           <i class="fas fa-download" style="color: #2563eb;"></i> Download & Installation
         </h2>
         {% include installation.html %}
-        
-        <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
-        
-        {% include policy.html %}
       </section>
     </main>
 
@@ -58,10 +56,9 @@ layout: default
 
   </div>
 
-  {% comment %} 
-    Die neue Gallery unter dem Hauptinhalt. 
-    Sie bekommt volle Breite für maximale visuelle Wirkung.
-  {% endcomment %}
+  {% comment %} Gallery unter dem Hauptinhalt {% endcomment %}
+  {% include policy.html %}
+  <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
   {% include gallery-mods-related.html %}
 
 </div>

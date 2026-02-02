@@ -5,6 +5,7 @@ icon: "fas fa-broom"
 files: ["bat"]
 categories: [Tools, Scripts]
 curseforge_ban: true
+disable_translations: true
 ---
 
 ## What does this tool do?
@@ -56,6 +57,10 @@ If not, it automatically restarts and asks for permission.
 This prevents situations where the script appears to “do nothing” because Windows blocks file access.
 
 {% include notice-batch.html %}
+
+## Language & Translations
+
+This tool is a **Windows batch script** and contains **no in-game text strings**. The script itself is written in **English only**.  Translations are **not possible and not required**, as the script does not interact with the game UI or use localized text.
 
 ---
 
