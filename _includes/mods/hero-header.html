@@ -3,98 +3,108 @@
 {% assign last_updated = page.updated | default: mod.updated %}
 {% include mod-status-color.html %}
 
-<header class="mod-header" style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9;">
-  
-  <h1 style="font-size: 2.5rem; font-weight: 400; letter-spacing: -0.5px; margin: 0 0 15px 0; color: #1e293b; line-height: 1.2;">
+{% comment %} Pack code → readable name {% endcomment %}
+{% assign pack_names = "
+EP01:Get to Work,
+EP02:Get Together,
+EP03:City Living,
+EP04:Cats & Dogs,
+EP05:Seasons,
+EP06:Get Famous,
+EP07:Island Living,
+EP08:Realm of Magic,
+EP09:Discover University,
+EP10:Snowy Escape,
+EP11:Cottage Living,
+EP12:High School Years
+" | strip | split: "," %}
+
+<header class="mod-header" style="margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9;">
+
+  <h1 style="font-size: 2.5rem; font-weight: 400; letter-spacing: -0.5px; margin: 0 0 14px 0; color: #1e293b; line-height: 1.2;">
     {{ mod.name | default: page.title }}
   </h1>
-  
-  <div class="mod-tags-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 25px;">
+
+  <div class="mod-tags-row" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:18px;">
     {% if mod.status %}
-      <span style="background: {{ status_color }}; color: white; padding: 5px 14px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
+      <span style="background:{{ status_color }}; color:#fff; padding:5px 14px; border-radius:6px; font-weight:700; font-size:.75rem; text-transform:uppercase; letter-spacing:.5px;">
         {{ mod.status }}
       </span>
     {% endif %}
 
     {% assign categories = page.categories | default: mod.categories %}
     {% for cat in categories %}
-      <span style="border: 1px solid #e2e8f0; color: #64748b; padding: 5px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; background: #f8fafc;">
+      <span style="border:1px solid #e2e8f0; color:#64748b; padding:5px 14px; border-radius:6px; font-size:.8rem; font-weight:600; background:#f8fafc;">
         {{ cat }}
       </span>
     {% endfor %}
   </div>
 
-  <div style="display: flex; align-items: center; gap: 20px; color: #64748b; font-size: 0.9rem; flex-wrap: wrap;">
-    
-    {% comment %} File Type Section {% endcomment %}
+  <div style="display:flex; align-items:center; gap:20px; color:#64748b; font-size:.9rem; flex-wrap:wrap; margin-top:-4px;">
+
     {% assign first_file = page.files | first %}
-    <div style="display: flex; align-items: center; gap: 14px;">
-      <div style="color: #cbd5e1; font-size: 1.2rem; width: 22px; text-align: center;">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div style="color:#cbd5e1; font-size:1.2rem; width:22px; text-align:center;">
         {% if first_file == "ts4script" %}
-          <i class="fas fa-file-code" title="Script Mod"></i>
+          <i class="fas fa-file-code"></i>
         {% elsif first_file == "bat" %}
-          <i class="fas fa-terminal" title="Batch File"></i>
+          <i class="fas fa-terminal"></i>
         {% else %}
-          <i class="fas fa-box-open" title="Package File"></i>
+          <i class="fas fa-box-open"></i>
         {% endif %}
       </div>
-      <div style="display: flex; flex-direction: column; line-height: 1.0;">
-        <span style="text-transform: uppercase; font-size: 0.6rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700; line-height: 1.0;">
+      <div style="display:flex; flex-direction:column;">
+        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:2px;">
           File Type
         </span>
-        <span style="font-weight: 600; color: #475569; font-size: 0.9rem; line-height: 1.0;">
-          {% if first_file %}
-            {{ first_file | replace: "ts4script", "Script" | replace: "bat", "Batch" | capitalize }}
-          {% else %}
-            Package
-          {% endif %}
+        <span style="font-weight:600; color:#475569; font-size:.9rem;">
+          {{ first_file | default: "package" | replace:"ts4script","Script" | replace:"bat","Batch" | capitalize }}
         </span>
       </div>
     </div>
 
-    {% comment %} Version Section {% endcomment %}
-    <div style="display: flex; align-items: center; gap: 14px; padding-left: 20px; border-left: 1px solid #f1f5f9;">
-      <i class="fas fa-code-branch" style="color: #cbd5e1; font-size: 1rem;"></i>
-      <div style="display: flex; flex-direction: column; line-height: 1.0;">
-        <span style="text-transform: uppercase; font-size: 0.6rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700; line-height: 1.0;">
+    <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
+      <i class="fas fa-code-branch" style="color:#cbd5e1;"></i>
+      <div style="display:flex; flex-direction:column;">
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:2px;">
           Current Version
         </span>
-        <span style="font-weight: 600; color: #475569; font-size: 0.9rem; line-height: 1.0;">
-          v. {{ current_version }}
-        </span>
+        <span style="font-weight:600; color:#475569;">v. {{ current_version }}</span>
       </div>
     </div>
-    
-    {% comment %} Updated Section {% endcomment %}
-    <div style="display: flex; align-items: center; gap: 14px; padding-left: 20px; border-left: 1px solid #f1f5f9;">
-      <i class="fas fa-calendar-alt" style="color: #cbd5e1; font-size: 1rem;"></i>
-      <div style="display: flex; flex-direction: column; line-height: 1.0;">
-        <span style="text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700; line-height: 1.0;">
+
+    <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
+      <i class="fas fa-calendar-alt" style="color:#cbd5e1;"></i>
+      <div style="display:flex; flex-direction:column;">
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:2px;">
           Last Update
         </span>
-        <span style="font-weight: 600; color: #475569; font-size: 0.9rem; line-height: 1.0;">
+        <span style="font-weight:600; color:#475569;">
           {{ last_updated | date: "%b %d, %Y" }}
         </span>
       </div>
     </div>
 
-    {% comment %} Pack Icons Section (only if truly required, and only if not BG) {% endcomment %}
     {% assign mod_packs_raw = page.packs | default: mod.packs %}
-    {% assign required_pack_codes = "" | split: "|" %}
-    {% if mod_packs_raw and mod_packs_raw.size > 0 %}
-      {% for p in mod_packs_raw %}
-        {% if p and p != "BG" %}
-          {% assign required_pack_codes = required_pack_codes | push: p %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+    {% assign required_pack_codes = "" | split:"|" %}
+    {% for p in mod_packs_raw %}
+      {% if p and p != "BG" %}
+        {% assign required_pack_codes = required_pack_codes | push:p %}
+      {% endif %}
+    {% endfor %}
 
     {% if required_pack_codes.size > 0 %}
-      <div style="display: flex; align-items: center; gap: 6px; padding-left: 20px; border-left: 1px solid #f1f5f9;">
+      <div style="display:flex; align-items:center; gap:8px; padding-left:20px; border-left:1px solid #f1f5f9;">
         {% for pack_code in required_pack_codes %}
-          {% assign icon_id = pack_code | downcase %}
-          {% assign icon_path = "/assets/img/packs/" | append: icon_id | append: ".png" %}
+          {% assign pack_name = pack_code %}
+          {% for entry in pack_names %}
+            {% assign pair = entry | split:":" %}
+            {% if pair[0] == pack_code %}
+              {% assign pack_name = pair[1] %}
+            {% endif %}
+          {% endfor %}
 
+          {% assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" %}
           {% assign icon_exists = false %}
           {% for file in site.static_files %}
             {% if file.path == icon_path %}
@@ -104,11 +114,12 @@
           {% endfor %}
 
           {% if icon_exists %}
-            <div style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;" title="{{ pack_code }}">
+            <div style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:#f8fafc; border-radius:7px; border:1px solid #e2e8f0;">
               <img
                 src="{{ site.baseurl }}{{ icon_path }}"
-                alt="{{ pack_code }}"
-                style="width: 20px; height: 20px; object-fit: contain;"
+                alt="{{ pack_name }} ({{ pack_code }})"
+                title="{{ pack_name }} ({{ pack_code }})"
+                style="width:24px; height:24px; object-fit:contain;"
               >
             </div>
           {% endif %}
