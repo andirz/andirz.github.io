@@ -34,8 +34,8 @@ Nothing is deleted automatically. Files are only removed when you **manually run
 **No other files will be deleted.**  
 Your **Saves**, **Mods**, **Tray files**, and all personal game data remain untouched.
 
-For a detailed explanation of Sims 4 user folder files, see:  
-https://sims4.crinrict.com/eng/2014/09/user-files-explained/
+For a detailed explanation of Sims 4 user folder files, see:
+[https://sims4.crinrict.com/eng/2014/09/user-files-explained/](https://sims4.crinrict.com/eng/2014/09/user-files-explained/)
 
 ## Why you should delete cache files
 Cache files are meant to be temporary. After patches, mod updates, or configuration changes, they can become outdated or corrupted.
@@ -46,8 +46,8 @@ Deleting them forces the game to regenerate fresh data on the next start, which 
 - visual glitches  
 - misleading error messages  
 
-More information:  
-https://sims4.crinrict.com/eng/2014/09/delete-cache-files/
+More information:
+[https://sims4.crinrict.com/eng/2014/09/delete-cache-files/](https://sims4.crinrict.com/eng/2014/09/delete-cache-files/)
 
 ## Improved Permissions
 The script checks whether it is running with **Administrator rights**.  
@@ -55,32 +55,18 @@ If not, it automatically restarts and asks for permission.
 
 This prevents situations where the script appears to “do nothing” because Windows blocks file access.
 
-## How to use this script
-
-1. **Placement:**  
-   Place the file directly into your **The Sims 4** main folder (where you see `Mods`, `Saves`, and `Tray`).
-
-2. **Execution:**  
-   Double-click the file to run it. A console window will show what was deleted.
-
 {% include notice-batch.html %}
 
 ---
 
 ## FAQ – Frequently Asked Questions
 
+**Does this script work on macOS or iMac?''
+No. This is a Windows batch script (.bat) and cannot run on macOS or iMac systems.
+
 **Does this script delete save files or mod settings?**  
-No.  
-The script does **not** delete save games, households, lots, or configuration files from other mods.  
+No. The script does **not** delete save games, households, lots, or configuration files from other mods.  
 It only removes **temporary cache data and diagnostic log files** that the game automatically recreates.
-
-**Can I keep error logs instead of deleting them?**  
-Yes. Simply do not run the script until you are done troubleshooting or sending logs to mod authors.  
-Files are only deleted when you manually start the script.
-
-**Does the script delete files that do not exist?**  
-No.  
-All files and folders are checked individually. If nothing is found, the script will simply report that nothing needed to be deleted.
 
 **Can this script break my game?**  
 No. Deleting cache files is safe and recommended after updates or mod changes.  
@@ -95,3 +81,9 @@ Typical use cases:
 
 **The script opens and closes very quickly – is that normal?**  
 Yes. If there is nothing to delete, the script may finish almost instantly.
+
+**Why does Windows warn me about file deletion?**
+No. That warning is expected and intentional.
+The entire purpose of this script is to delete temporary cache and log files.
+If you feel unsure, you can simply open the .bat file in any text editor (for example Notepad).
+You will see that it only deletes the explicitly listed cache folders and log files — nothing else.
