@@ -1,5 +1,3 @@
-{% assign tarot_dir = "/assets/img/games/tarot/" %}
-
 <div class="tf-root" data-tf>
   <style>
     .tf-wrap{
@@ -107,12 +105,6 @@
     }
 
     .tf-card img{width: 92%; height: 92%; object-fit: contain; display:block;}
-
-    .tf-fallback{
-      font-size: 2rem;
-      opacity: .25;
-    }
-
     .tf-tag{
       position:absolute; left:10px; top:10px;
       font-size: .78rem;
@@ -123,6 +115,7 @@
       border: 1px solid rgba(148,163,184,.25);
       color:#e5e7eb;
       letter-spacing: .2px;
+      z-index: 2;
     }
 
     .tf-panel{
@@ -185,7 +178,7 @@
     <div class="tf-stage">
       <div class="tf-board">
         <div class="tf-cards" data-tf-cards></div>
-        <div class="tf-small">Cards show briefly (preload), then flip back. Click to reveal again.</div>
+        <div class="tf-small">Cards show briefly, then flip back. Click to reveal.</div>
       </div>
 
       <div class="tf-panel">
@@ -207,8 +200,6 @@
   const roots = document.querySelectorAll('[data-tf]:not([data-tf-init])');
   if(!roots.length) return;
 
-  const tarotDir = "{{ tarot_dir }}";
-
   const deck = [
     "advocate","chariot","coins","cups","death","emperor","empress","evil",
     "fool","hermit","high_spellcaster","judgment","justice","lovers","magician",
@@ -218,9 +209,14 @@
 
   function shuffle(a){ return [...a].sort(()=>Math.random()-0.5); }
 
+  function placeholder(name){
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="460"><rect width="100%" height="100%" rx="28" fill="#0b1220"/><text x="50%" y="50%" text-anchor="middle" font-size="22" fill="#94a3b8" font-family="system-ui" font-weight="900">${name}</text></svg>`;
+    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+  }
+
+  // Korrigierte Pfad-Funktion analog zu skills.md
   function imgSrc(name){
-    // EXACTLY like skills.md: root path string, no basePath const trickery
-    return tarotDir + name + ".png";
+    return "{{ site.baseurl }}/assets/img/tarot/" + name + ".png";
   }
 
   const meaning = {
@@ -253,19 +249,19 @@
   };
 
   function getMeaning(card){
-    return meaning[card] || {good:"Something interesting unfolds. Keep an eye on neighbors.", bad:"Today feels glitchy. Save often.", moods:["✨ Inspired","🌀 Uncertain"]};
+    return meaning[card] || {good:"Something interesting unfolds.", bad:"Today feels glitchy.", moods:["✨ Inspired","🌀 Uncertain"]};
   }
 
   const intros = {
     quick:[
       "Your Plumbob is vibrating. That usually means… something is about to happen.",
-      "The Universe rolled a D20 and got ‘Maybe’. Let’s interpret the vibes.",
-      "Someone in your save is about to make a bold decision without permission."
+      "The Universe rolled a D20 and got ‘Maybe’.",
+      "Someone in your save is about to make a bold decision."
     ],
     three:[
       "Past / Present / Future — or: ‘what you did’, ‘what you’re doing’, ‘what breaks next’.",
       "This spread is basically a loading screen, but with destiny.",
-      "We asked the Watcher. The Watcher answered with chaos."
+      "The Watcher answered with chaos."
     ],
     mood:[
       "Today’s emotional buffet: pick your moodlets carefully.",
@@ -279,13 +275,7 @@
     const parts = cards.map(getMeaning);
     const positive = Math.random() < 0.58;
     const main = positive ? parts.map(p=>p.good).join(" ") : parts.map(p=>p.bad).join(" ");
-
-    const extra = spread === "mood"
-      ? "Forecast: emotions may change faster than your Sim’s autonomy settings."
-      : spread === "three"
-        ? "Watcher’s note: if a neighbor shows up uninvited, it’s probably part of the prophecy."
-        : "Quick tip: take a screenshot. Future-you will swear this was scripted.";
-
+    const extra = spread === "mood" ? "Forecast: emotions change fast." : "Watcher’s note: chaos included.";
     const moods = shuffle(parts.flatMap(p=>p.moods || [])).slice(0,3);
 
     return {
@@ -303,54 +293,11 @@
     return s;
   }
 
-  function createFaceCard(tag, name){
-    const el = document.createElement('div');
-    el.className = "tf-card";
-    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-
-    const img = document.createElement('img');
-    img.src = imgSrc(name);
-    img.alt = name;
-
-    // fallback like skills.md would show an icon if missing
-    img.onerror = () => {
-      el.innerHTML = `<span class="tf-tag">${tag}</span><i class="fas fa-hat-wizard tf-fallback"></i>`;
-    };
-
-    el.appendChild(img);
-    return el;
-  }
-
-  function createBackCard(tag, name){
-    const el = document.createElement('div');
-    el.className = "tf-card tf-back";
-    el.dataset.name = name;
-    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-    return el;
-  }
-
-  function reveal(el){
-    const name = el.dataset.name;
-    const tag = el.querySelector('.tf-tag')?.textContent || "";
-    el.classList.remove('tf-back');
-    el.innerHTML = `<span class="tf-tag">${tag}</span>`;
-
-    const img = document.createElement('img');
-    img.src = imgSrc(name);
-    img.alt = name;
-    img.onerror = () => {
-      el.innerHTML = `<span class="tf-tag">${tag}</span><i class="fas fa-hat-wizard tf-fallback"></i>`;
-    };
-    el.appendChild(img);
-  }
-
   roots.forEach(root=>{
     root.setAttribute('data-tf-init','1');
-
     const pills = [...root.querySelectorAll('[data-tf-spread]')];
     const btn = root.querySelector('[data-tf-draw]');
     const cardsWrap = root.querySelector('[data-tf-cards]');
-
     const elPrompt = root.querySelector('[data-tf-prompt]');
     const elMuted = root.querySelector('[data-tf-muted]');
     const elReading = root.querySelector('[data-tf-reading]');
@@ -369,21 +316,49 @@
       pills.forEach(p => p.classList.toggle('active', p.dataset.tfSpread === s));
       elReading.style.display = "none";
       elPrompt.textContent = "Choose a spread and click “Draw”.";
-      elMuted.textContent = "Cards reveal briefly (preload), then flip back.";
       cardsWrap.innerHTML = "";
+    }
+
+    function createFaceCard(tag, name){
+      const el = document.createElement('div');
+      el.className = "tf-card";
+      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+      const img = document.createElement('img');
+      img.src = imgSrc(name);
+      img.alt = name;
+      img.onerror = () => { img.src = placeholder(name); console.error("Failed to load: " + img.src); };
+      el.appendChild(img);
+      return el;
+    }
+
+    function createBackCard(tag, name){
+      const el = document.createElement('div');
+      el.className = "tf-card tf-back";
+      el.dataset.name = name;
+      el.dataset.tag = tag;
+      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+      return el;
+    }
+
+    function reveal(el){
+      const name = el.dataset.name;
+      const tag = el.dataset.tag;
+      el.classList.remove('tf-back');
+      el.innerHTML = `<span class="tf-tag">${tag}</span>`;
+      const img = document.createElement('img');
+      img.src = imgSrc(name);
+      img.alt = name;
+      img.onerror = () => img.src = placeholder(name);
+      el.appendChild(img);
     }
 
     function showReading(){
       const reading = buildReading(spread, drawn);
       elTitle.textContent = reading.title;
       elText.textContent = reading.text;
-
       elMoodlets.innerHTML = "";
       reading.moods.forEach(m => elMoodlets.appendChild(moodletSpan(m)));
-
       elReading.style.display = "block";
-      elPrompt.textContent = "Your reading is ready.";
-      elMuted.textContent = "Draw again if you want a different timeline.";
     }
 
     function draw(){
@@ -391,24 +366,13 @@
       elReading.style.display = "none";
       lockClicks = true;
       revealCount = 0;
-
       const count = spread === "quick" ? 1 : 3;
       drawn = shuffle(deck).slice(0, count);
-
-      const tags = spread === "quick"
-        ? ["FATE"]
-        : spread === "three"
-          ? ["PAST","PRESENT","FUTURE"]
-          : ["MIND","HEART","ENERGY"];
-
-      // Step 1: show faces (preload)
+      const tags = spread === "quick" ? ["FATE"] : spread === "three" ? ["PAST","PRESENT","FUTURE"] : ["MIND","HEART","ENERGY"];
+      
       cardsWrap.innerHTML = "";
       drawn.forEach((name,i) => cardsWrap.appendChild(createFaceCard(tags[i], name)));
 
-      elPrompt.textContent = "Memorize the vibe…";
-      elMuted.textContent = "Flipping back in a moment…";
-
-      // Step 2: flip back
       timer = setTimeout(()=>{
         cardsWrap.innerHTML = "";
         drawn.forEach((name,i)=>{
@@ -423,16 +387,13 @@
           });
           cardsWrap.appendChild(el);
         });
-
         lockClicks = false;
         elPrompt.textContent = "Click each card to reveal your reading.";
-        elMuted.textContent = "Sims logic applies. Chaos included.";
       }, 1200);
     }
 
     pills.forEach(p => p.addEventListener('click', ()=>setSpread(p.dataset.tfSpread)));
     btn.addEventListener('click', draw);
-
     setSpread("quick");
   });
 })();
