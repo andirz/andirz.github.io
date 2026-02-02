@@ -21,7 +21,10 @@ description: >- # used by seo meta and the atom feed
   Official website of Andirz. Home of Smart Core Script, Smart Sim Cheats and Randomizer, 
   SimSim Online Store, Obscura Network and more enhancements for The Sims 4.
 
-url: 
+url: "https://andirz-mods.com"
+
+# Das muss leer sein, wenn die Seite nicht in einem Unterordner liegt
+baseurl: ""
 
 github:
   username: andirz
@@ -141,9 +144,6 @@ pwa:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
 paginate: 10
-
-# The base URL of your site
-baseurl: 
 
 # ------------ The following options are not recommended to be modified ------------------
 

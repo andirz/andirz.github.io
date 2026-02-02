@@ -67,13 +67,12 @@
 
   .mm-btn:hover{ background:#334155; transform:translateY(-1px); }
 
-  /* ~85% smaller feel */
   .mm-grid{
     display:grid;
     grid-template-columns:repeat(4, minmax(68px, 1fr));
     gap:10px;
     perspective:1000px;
-    margin-top:10px;
+    margin-top:100px;
   }
 
   .mm-card{
@@ -119,25 +118,19 @@
   }
 </style>
 
-{%- assign blue_prefix = "/assets/img/packs/blue/" -%}
-
-{%- comment -%}
-  Wir erzeugen eine JS-Liste mit fertigen URLs, exakt wie in skills.md:
-  - Wir bauen icon_path zusammen
-  - Prüfen mit site.static_files, ob es wirklich existiert
-{%- endcomment -%}
+{%- assign blue_folder = "/assets/img/packs/blue/" -%}
 
 <div class="mm-root" data-mm>
   <div class="mm-header">
     <div class="mm-title">
       <h2>Pack Picker</h2>
-      <p>Find all matching pairs.</p>
+      <p>Finde alle Paare.</p>
     </div>
 
     <div class="mm-stats">
       <div class="mm-badge" data-mm-status>Matches: 0 / 8</div>
-      <div class="mm-badge" data-mm-timer>Time: 00:00</div>
-      <button class="mm-btn" type="button" data-mm-restart>Restart</button>
+      <div class="mm-badge" data-mm-timer>Zeit: 00:00</div>
+      <button class="mm-btn" type="button" data-mm-restart>Neu starten</button>
     </div>
   </div>
 
@@ -146,41 +139,40 @@
 
 <script>
 (function () {
-  // Liste der verfügbaren Pack-Bilder (URL ist fix, wird von Jekyll gebaut)
   const PACKS = [
-    {%- comment -%} EP 01..18 {%- endcomment -%}
+    {%- comment -%} Expansion Packs 01 bis 18 {%- endcomment -%}
     {%- for i in (1..18) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign pack_id = "ep" | append: id -%}
-      {%- assign icon_path = blue_prefix | append: pack_id | append: ".png" -%}
+      {%- assign full_path = blue_folder | append: pack_id | append: ".png" -%}
 
       {%- assign exists = false -%}
       {%- for file in site.static_files -%}
-        {%- if file.path == icon_path -%}
+        {%- if file.path == full_path -%}
           {%- assign exists = true -%}{%- break -%}
         {%- endif -%}
       {%- endfor -%}
 
       {%- if exists -%}
-        { id: "{{ pack_id }}", url: "{{ icon_path }}" },
+        { id: "{{ pack_id }}", url: "{{ full_path | relative_url }}" },
       {%- endif -%}
     {%- endfor -%}
 
-    {%- comment -%} GP 01..12 {%- endcomment -%}
+    {%- comment -%} Game Packs 01 bis 12 {%- endcomment -%}
     {%- for i in (1..12) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign pack_id = "gp" | append: id -%}
-      {%- assign icon_path = blue_prefix | append: pack_id | append: ".png" -%}
+      {%- assign full_path = blue_folder | append: pack_id | append: ".png" -%}
 
       {%- assign exists = false -%}
       {%- for file in site.static_files -%}
-        {%- if file.path == icon_path -%}
+        {%- if file.path == full_path -%}
           {%- assign exists = true -%}{%- break -%}
         {%- endif -%}
       {%- endfor -%}
 
       {%- if exists -%}
-        { id: "{{ pack_id }}", url: "{{ icon_path }}" },
+        { id: "{{ pack_id }}", url: "{{ full_path | relative_url }}" },
       {%- endif -%}
     {%- endfor -%}
   ];
@@ -192,16 +184,15 @@
     const restartBtn = root.querySelector('[data-mm-restart]');
     if (!grid || !statusEl || !timerEl || !restartBtn) return;
 
-    const PAIRS = 8; // 4x4
+    const PAIRS = 8;
     if (!PACKS || PACKS.length < PAIRS) {
-      statusEl.textContent = "Missing pack images in /assets/img/packs/blue/";
+      statusEl.textContent = "Bilder fehlen in " + "{{ blue_folder }}";
       return;
     }
 
     let opened = [];
     let locked = false;
     let matches = 0;
-
     let startMs = 0;
     let timerId = null;
 
@@ -215,9 +206,9 @@
     function startTimer() {
       clearInterval(timerId);
       startMs = Date.now();
-      timerEl.textContent = "Time: 00:00";
+      timerEl.textContent = "Zeit: 00:00";
       timerId = setInterval(() => {
-        timerEl.textContent = "Time: " + format(Date.now() - startMs);
+        timerEl.textContent = "Zeit: " + format(Date.now() - startMs);
       }, 250);
     }
 
@@ -252,8 +243,7 @@
         card.innerHTML = `
           <div class="mm-face mm-front">?</div>
           <div class="mm-face mm-back">
-            <img src="${item.url}" alt="${item.id}" loading="lazy"
-                 onerror="this.src='https://placehold.co/120?text=Pack'">
+            <img src="${item.url}" alt="${item.id}" loading="lazy">
           </div>
         `;
 
@@ -263,29 +253,23 @@
     }
 
     function flip(card) {
-      if (locked) return;
-      if (card.classList.contains("is-flipped")) return;
-      if (opened[0] === card) return;
-
+      if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
       card.classList.add("is-flipped");
       opened.push(card);
-
       if (opened.length === 2) check();
     }
 
     function check() {
       locked = true;
       const [a, b] = opened;
-
       if (a.dataset.id === b.dataset.id) {
         matches++;
         opened = [];
         locked = false;
         updateStatus();
-
         if (matches === PAIRS) {
           clearInterval(timerId);
-          setTimeout(() => alert("Finished in " + format(Date.now() - startMs)), 250);
+          setTimeout(() => alert("Fertig in " + format(Date.now() - startMs)), 250);
         }
       } else {
         setTimeout(() => {
