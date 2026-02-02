@@ -15,7 +15,6 @@
   {% comment %} Mod Info Box {% endcomment %}
   <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
     
-    {% comment %} Header Bereich mit Cover oder Icon {% endcomment %}
     <div style="width: 100%; background: #f8fafc; border-bottom: 2px solid #3b82f6; display: flex; justify-content: center; align-items: center; overflow: hidden;">
       {% if mod_cover %}
         <img src="{{ mod_cover }}" alt="{{ mod.name }}" style="width: 100%; height: auto; display: block; object-fit: cover;">
@@ -29,42 +28,46 @@
     <div style="padding: 20px; text-align: center;">
       <h3 style="font-size: 1.3rem; margin: 0; color: #0f172a; line-height: 1.2; font-weight: 800;">{{ mod.name | default: page.title }}</h3>
       
-      <div style="margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
-        <div style="font-size: 0.85rem; color: #1e293b; font-weight: 700; background: #f1f5f9; display: inline-block; padding: 4px 12px; border-radius: 20px; border: 1px solid #e2e8f0;">
-          v. {{ current_version }}
-        </div>
-        
-        {% if mod.status %}
-          <span style="background: {{ status_color | default: '#3b82f6' }}; color: white; padding: 6px 16px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2);">
+      {% comment %} Version & Status - Jetzt dezent {% endcomment %}
+      <div style="margin-top: 8px; font-size: 0.85rem; color: #64748b; font-weight: 600;">
+        Version {{ current_version }}
+      </div>
+      
+      {% if mod.status %}
+        <div style="margin-top: 12px;">
+          <span style="background: {{ status_color | default: '#3b82f6' }}; color: white; padding: 5px 14px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">
             {{ mod.status }}
           </span>
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 
-  {% comment %} Requirements Box (Scripts & Packs) {% endcomment %}
+  {% comment %} Requirements Box {% endcomment %}
   {% if final_reqs.size > 0 or page.packs.size > 0 %}
   <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
     <div style="padding: 10px; background: #1e293b; border-bottom: 1px solid #e2e8f0; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 1px;">Requirements</div>
     <div style="padding: 20px;">
       
-      {% comment %} Required Scripts/Core Mods {% endcomment %}
       {% if final_reqs.size > 0 %}
         <ul style="margin: 0 0 15px 0; padding: 0; list-style: none;">
           {% for req_id in final_reqs %}
-            {% assign dep = site.data.dependencies[req_id] %}
-            <li style="margin-bottom: 10px; display: flex; align-items: center; font-size: 0.9rem;">
-              <i class="fas fa-terminal" style="margin-right: 10px; color: #3b82f6; font-size: 0.8rem;"></i>
-              <a href="{{ dep.url | default: '#' }}" style="color: #2563eb; font-weight: 700; text-decoration: none; border-bottom: 1px solid transparent;" onmouseover="this.style.borderBottom='1px solid #2563eb'" onmouseout="this.style.borderBottom='1px solid transparent'">
-                {{ dep.name | default: req_id }}
+            {% assign req_mod_data = site.data.mods | where: "id", req_id | first %}
+            {% assign dep_data = site.data.dependencies[req_id] %}
+            
+            {% comment %} Icon aus der DB ziehen {% endcomment %}
+            {% assign req_icon = req_mod_data.icon | default: dep_data.icon | default: "fas fa-puzzle-piece" %}
+            
+            <li style="margin-bottom: 12px; display: flex; align-items: center; font-size: 0.9rem;">
+              <i class="{{ req_icon }}" style="margin-right: 12px; color: #3b82f6; width: 20px; text-align: center;"></i>
+              <a href="{{ req_mod_data.url | default: dep_data.url | default: '#' }}" style="color: #2563eb; font-weight: 700; text-decoration: none;">
+                {{ req_mod_data.name | default: dep_data.name | default: req_id }}
               </a>
             </li>
           {% endfor %}
         </ul>
       {% endif %}
 
-      {% comment %} Required DLC Packs {% endcomment %}
       {% if page.packs.size > 0 %}
         <div style="border-top: 2px solid #f1f5f9; margin-top: 10px; padding-top: 15px;">
            <div style="font-size: 0.65rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 10px;">Required DLC</div>
@@ -72,7 +75,8 @@
              {% for pack_id in page.packs %}
                {% assign pack_info = site.data.packs[pack_id] %}
                <div style="background: #eff6ff; color: #1e40af; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border: 1px solid #dbeafe; display: flex; align-items: center; gap: 8px;">
-                 <span style="background: #3b82f6; color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 3px;">{{ pack_id }}</span>
+                 <i class="fas fa-box-open" style="font-size: 0.7rem; color: #3b82f6;"></i>
+                 <span style="background: #3b82f6; color: white; font-size: 0.6rem; padding: 2px 4px; border-radius: 3px; font-weight: 900;">{{ pack_id }}</span>
                  {{ pack_info.en | default: pack_id }}
                </div>
              {% endfor %}
@@ -83,18 +87,17 @@
   </div>
   {% endif %}
 
-  {% comment %} Download Box {% endcomment %}
+  {% comment %} Download Box - KEIN ROSA MEHR {% endcomment %}
   <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
-    <div style="padding: 10px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #1e293b; letter-spacing: 1px;">Downloads</div>
-    <div style="padding: 15px; display: flex; flex-direction: column; gap: 12px;">
+    <div style="padding: 15px; display: flex; flex-direction: column; gap: 10px;">
       {% unless page.curseforge_ban %}
         <a href="{{ cf_url }}" target="_blank" class="download-btn cf-btn">
-          <i class="fab fa-firefox-browser"></i> CurseForge
+          <i class="fab fa-firefox-browser" style="color: white !important;"></i> CurseForge
         </a>
       {% endunless %}
       {% if patreon_link %}
         <a href="{{ patreon_link }}" target="_blank" class="download-btn patreon-btn">
-          <i class="fab fa-patreon"></i> Patreon
+          <i class="fab fa-patreon" style="color: white !important;"></i> Patreon
         </a>
       {% endif %}
     </div>
@@ -106,13 +109,12 @@
   .download-btn {
     display: flex; align-items: center; justify-content: center; gap: 10px; 
     padding: 12px; border-radius: 12px; 
-    text-decoration: none; font-weight: 800; font-size: 0.95rem; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    text-decoration: none; font-weight: 800; font-size: 0.95rem; transition: all 0.2s ease;
+    color: white !important;
   }
+  .cf-btn { background: #f16436; border: 2px solid #f16436; }
+  .cf-btn:hover { background: #d34e26; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(241, 100, 54, 0.3); }
   
-  .cf-btn { color: #f16436; background: #fff7ed; border: 2px solid #ffedd5; }
-  .cf-btn:hover { background: #f16436; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(241, 100, 54, 0.3); }
-  
-  .patreon-btn { color: #f96854; background: #fff5f5; border: 2px solid #fee2e2; }
-  .patreon-btn:hover { background: #f96854; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(249, 104, 84, 0.3); }
+  .patreon-btn { background: #1e293b; border: 2px solid #1e293b; }
+  .patreon-btn:hover { background: #3b82f6; border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
 </style>

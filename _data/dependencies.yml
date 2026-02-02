@@ -16,10 +16,12 @@ xml_injector:
   name: "XML Injector"
   short_name: "XML Injector"
   author: "Scumbumbo"
+  icon: "fas fa-syringe"
   url: "https://scumbumbomods.com/xml-injector"
 
 lot51_core:
   name: "Lot51 Core Library"
   short_name: "Lot51"
   author: "Lot51"
+  icon: "fas fa-layer-group"
   url: "https://lot51.cc/core"
