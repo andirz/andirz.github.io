@@ -25,16 +25,6 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 
 <hr class="section-divider">
 
-{% capture table_header %}
-<tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary);">
-  <th style="padding: 12px; width: 60px; text-align: center;">Icon</th>
-  <th style="padding: 12px; cursor: pointer; width: 80px;">Code <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-  <th style="padding: 12px; cursor: pointer;">en <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-  <th style="padding: 12px; cursor: pointer;">de <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-  <th style="padding: 12px; cursor: pointer;">es <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
-</tr>
-{% endcapture %}
-
 <h2 id="expansion-packs">Expansion Packs</h2>
 <div class="content-wrapper">
   <div class="status-table-container">
@@ -51,10 +41,14 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       <tbody>
         {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "EP" %}
         {% assign icon_id = code | downcase %}
+        {% assign icon_path = "/assets/img/packs/" | append: icon_id | append: ".png" %}
+        {% assign icon_exists = false %}
+        {% for file in site.static_files %}{% if file.path == icon_path %}{% assign icon_exists = true %}{% break %}{% endif %}{% endfor %}
         <tr style="border-bottom: 1px solid var(--border-color);">
           <td style="padding: 8px; text-align: center;">
             <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-              <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="width: 32px; height: 32px; object-fit: contain;" onerror="this.style.display='none';">
+              {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+              {% else %}<i class="fas fa-box" style="opacity: 0.2;"></i>{% endif %}
             </div>
           </td>
           <td style="padding: 12px;"><strong>{{ code }}</strong></td>
@@ -84,10 +78,14 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       <tbody>
         {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "GP" %}
         {% assign icon_id = code | downcase %}
+        {% assign icon_path = "/assets/img/packs/" | append: icon_id | append: ".png" %}
+        {% assign icon_exists = false %}
+        {% for file in site.static_files %}{% if file.path == icon_path %}{% assign icon_exists = true %}{% break %}{% endif %}{% endfor %}
         <tr style="border-bottom: 1px solid var(--border-color);">
           <td style="padding: 8px; text-align: center;">
             <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-              <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="width: 32px; height: 32px; object-fit: contain;" onerror="this.style.display='none';">
+              {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+              {% else %}<i class="fas fa-box" style="opacity: 0.2;"></i>{% endif %}
             </div>
           </td>
           <td style="padding: 12px;"><strong>{{ code }}</strong></td>
@@ -117,10 +115,14 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       <tbody>
         {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% if sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
         {% assign icon_id = code | downcase %}
+        {% assign icon_path = "/assets/img/packs/" | append: icon_id | append: ".png" %}
+        {% assign icon_exists = false %}
+        {% for file in site.static_files %}{% if file.path == icon_path %}{% assign icon_exists = true %}{% break %}{% endif %}{% endfor %}
         <tr style="border-bottom: 1px solid var(--border-color);">
           <td style="padding: 8px; text-align: center;">
             <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-              <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="width: 32px; height: 32px; object-fit: contain;" onerror="this.style.display='none';">
+              {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+              {% else %}<i class="fas fa-box" style="opacity: 0.2;"></i>{% endif %}
             </div>
           </td>
           <td style="padding: 12px;"><strong>{{ code }}</strong></td>
@@ -150,10 +152,14 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
       <tbody>
         {% for pack in site.data.packs %}{% assign code = pack[0] %}{% assign info = pack[1] %}{% if code contains "SP" %}{% assign sp_num = code | remove: "SP" | plus: 0 %}{% unless sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
         {% assign icon_id = code | downcase %}
+        {% assign icon_path = "/assets/img/packs/" | append: icon_id | append: ".png" %}
+        {% assign icon_exists = false %}
+        {% for file in site.static_files %}{% if file.path == icon_path %}{% assign icon_exists = true %}{% break %}{% endif %}{% endfor %}
         <tr style="border-bottom: 1px solid var(--border-color);">
           <td style="padding: 8px; text-align: center;">
             <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
-              <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" alt="" style="width: 32px; height: 32px; object-fit: contain;" onerror="this.style.display='none';">
+              {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+              {% else %}<i class="fas fa-shapes" style="opacity: 0.2;"></i>{% endif %}
             </div>
           </td>
           <td style="padding: 12px;"><strong>{{ code }}</strong></td>
@@ -174,7 +180,6 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
   .intro-toc ul { margin: 5px 0 0 0; padding-left: 20px; }
   .section-divider { margin: 1rem 0; opacity: 0.5; }
   h2 { margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.5rem; }
-  .table-wrapper { overflow-x: auto; }
   @media (max-width: 600px) { .intro-container { flex-direction: column; } .intro-toc { width: 100%; } }
 </style>
 
