@@ -36,6 +36,8 @@
 (function(){
   const roots = document.querySelectorAll('[data-tf]:not([data-tf-init])');
   if(!roots.length) return;
+
+  // 2. Audio-Engine & 3. Spiellogik laden
   {% include games/tarot/audio.js %}
   {% include games/tarot/logic.js %}
 })();

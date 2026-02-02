@@ -8,11 +8,11 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 {% include table_styles.html %}
 
 <div class="intro-container">
-  <div class="intro-text" style="font-size: 1.1rem;">
+  <div class="intro-text" style="font-size: 1.1rem; flex: 1;">
     This list provides an overview of all official abbreviations and codes for <strong>The Sims 4</strong> Packs. 
     It is a helpful resource for modders and players to identify packs across different languages.
   </div>
-  <div class="intro-toc">
+  <div class="intro-toc" style="flex: 1.5;">
     <strong>Contents</strong>
     <ul>
       <li><a href="#expansion-packs">Expansion Packs</a></li>
@@ -29,10 +29,10 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 <thead>
   <tr style="border-bottom: 2px solid var(--border-color); text-align: left; background: var(--bg-secondary); font-size: 1.05rem;">
     <th style="padding: 12px; width: 65px; text-align: center;">Icon</th>
-    <th onclick="sortTable(1, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer; width: 90px;">Code <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
-    <th onclick="sortTable(2, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer;">en <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
-    <th onclick="sortTable(3, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer;">de <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
-    <th onclick="sortTable(4, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer;">es <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
+    <th onclick="inlineSort(1, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer; width: 90px;">Code <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
+    <th onclick="inlineSort(2, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer;">en <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
+    <th onclick="inlineSort(3, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer;">de <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
+    <th onclick="inlineSort(4, '{{ current_table_id }}')" style="padding: 12px; cursor: pointer;">es <i class="fas fa-sort" style="font-size: 0.8rem; opacity: 0.3;"></i></th>
   </tr>
 </thead>
 {% endcapture %}
@@ -50,7 +50,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
                 {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
-                {% else %}<i class="fas fa-box-open" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
+                {% else %}<i class="fas fa-box" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
             <td style="padding: 14px;"><strong>{{ code }}</strong></td>
@@ -77,7 +77,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
                 {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
-                {% else %}<i class="fas fa-box-open" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
+                {% else %}<i class="fas fa-box" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
             <td style="padding: 14px;"><strong>{{ code }}</strong></td>
@@ -104,7 +104,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
                 {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
-                {% else %}<i class="fas fa-box-open" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
+                {% else %}<i class="fas fa-box" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
             <td style="padding: 14px;"><strong>{{ code }}</strong></td>
@@ -131,7 +131,7 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
             <td style="padding: 10px; text-align: center;">
               <div style="width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); margin: 0 auto;">
                 {% if icon_exists %}<img src="{{ site.baseurl }}{{ icon_path }}" alt="{{ code }}" style="width: 34px; height: 34px; object-fit: contain;">
-                {% else %}<i class="fas fa-shirt" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
+                {% else %}<i class="fas fa-box" style="opacity: 0.2; font-size: 1.2rem;"></i>{% endif %}
               </div>
             </td>
             <td style="padding: 14px;"><strong>{{ code }}</strong></td>
@@ -147,9 +147,33 @@ description: "A reference guide to the abbreviations used for The Sims 4 Expansi
 
 <style>
   .intro-container { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 1.5rem; }
-  .intro-toc { flex: 1; background: var(--bg-secondary); padding: 12px 18px; border-radius: 8px; border-left: 4px solid var(--border-color); font-size: 0.95rem; }
+  .intro-toc { background: var(--bg-secondary); padding: 12px 18px; border-radius: 8px; border-left: 4px solid var(--border-color); font-size: 0.95rem; }
   .intro-toc ul { margin: 8px 0 0 0; padding-left: 20px; }
   h2 { margin-top: 2rem; margin-bottom: 0.8rem; font-size: 1.7rem; }
 </style>
 
-{% include table_sorting_script.html %}
+<script>
+/**
+ * Neue Sortierfunktion direkt auf der Seite
+ */
+function inlineSort(colIndex, tableId) {
+  const table = document.getElementById(tableId);
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.rows);
+  const isAscending = table.dataset.sortDir !== 'asc';
+  
+  rows.sort((a, b) => {
+    const aText = a.cells[colIndex].innerText.trim().toLowerCase();
+    const bText = b.cells[colIndex].innerText.trim().toLowerCase();
+    
+    // Natürliche Sortierung (erkennt Zahlen im Text wie SP1, SP10)
+    return isAscending 
+      ? aText.localeCompare(bText, undefined, {numeric: true})
+      : bText.localeCompare(aText, undefined, {numeric: true});
+  });
+  
+  // Zeilen neu einfügen
+  tbody.append(...rows);
+  table.dataset.sortDir = isAscending ? 'asc' : 'desc';
+}
+</script>

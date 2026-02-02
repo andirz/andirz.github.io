@@ -102,8 +102,9 @@
   .mm-front { background: var(--sims-blue); color: #fff; font-size: 1.5rem; border: 2px solid rgba(255,255,255,0.1); }
   .mm-back { background: #fff; transform: rotateY(180deg); padding: 8px; border: 3px solid var(--sims-green); }
   .mm-back img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .mm-back i { font-size: 2.5rem; color: var(--sims-blue); opacity: 0.5; }
 
-  /* Victory Theme Anpassung */
+  /* Victory Theme für das Game Over Fenster */
   .is-victory .game-over-card { border-color: var(--sims-green); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 30px rgba(46, 204, 113, 0.2); }
   .is-victory .skull-icon { background: rgba(46, 204, 113, 0.12); border-color: rgba(46, 204, 113, 0.4); }
   .is-victory .skull-icon i { color: var(--sims-green); }
@@ -111,22 +112,22 @@
 </style>
 
 {%- assign current_folder = include.folder | default: "/assets/img/packs/blue/" -%}
-{%- assign max_ep = include.ep_count | default: 18 -%}
+{%- assign max_ep = include.ep_count | default: 21 -%}
 {%- assign max_gp = include.gp_count | default: 12 -%}
 {%- assign pairs_to_match = include.pairs | default: 8 -%}
-{%- assign time_limit = include.time_limit | default: 60 -%}
+{%- assign time_limit = include.time_limit | default: 45 -%}
 
 <div class="mm-root" data-mm>
   <div class="mm-header">
     <div class="mm-title">
       <h2>Pack Picker</h2>
-      <p>Find all matching pairs.</p>
+      <p>Finde alle Paare.</p>
     </div>
     <div class="mm-stats">
-      <div class="mm-badge" data-mm-status title="Found Pairs">Matches: 0 / {{ pairs_to_match }}</div>
-      <div class="mm-badge" data-mm-misses title="Wrong Pairs">Misses: 0</div>
-      <div class="mm-badge" data-mm-timer title="Remaining Time">Time: 00:00</div>
-      <button class="mm-btn" type="button" data-mm-restart>Restart Game</button>
+      <div class="mm-badge" data-mm-status title="Gefundene Paare">Matches: 0 / {{ pairs_to_match }}</div>
+      <div class="mm-badge" data-mm-misses title="Fehlversuche">Misses: 0</div>
+      <div class="mm-badge" data-mm-timer title="Verbleibende Zeit">Zeit: 00:00</div>
+      <button class="mm-btn" type="button" data-mm-restart>Neu starten</button>
     </div>
   </div>
   <div class="mm-grid" data-mm-grid></div>
@@ -144,7 +145,6 @@
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.connect(gain); gain.connect(audioCtx.destination);
-
       if (type === 'flip') {
         osc.frequency.setValueAtTime(440, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
@@ -173,14 +173,13 @@
     const lifeValue = overlay.querySelector('.game-over-stats div:last-child .age-badge');
     const icon = overlay.querySelector('.skull-icon i');
 
-    // Wir nutzen das zweite Stats-Feld für die Misses
     lifeLabel.textContent = "Misses";
     lifeValue.textContent = misses;
 
     if (isVictory) {
       overlay.classList.add('is-victory');
       title.textContent = "VICTORY";
-      desc.textContent = `Excellent memory! You finished with only ${misses} errors.`;
+      desc.textContent = `Hervorragendes Gedächtnis! Du hast alle Paare mit ${misses} Fehlern gefunden.`;
       statusBadge.textContent = "SUCCESS";
       statusBadge.style.color = "#2ecc71";
       statusBadge.style.borderColor = "#2ecc71";
@@ -188,13 +187,12 @@
     } else {
       overlay.classList.remove('is-victory');
       title.textContent = "GAME OVER";
-      desc.textContent = "Your Sims journey has ended.";
+      desc.textContent = "Deine Sims-Reise ist zu Ende.";
       statusBadge.textContent = "FAILED";
       statusBadge.style.color = "#ff4d4d";
       statusBadge.style.borderColor = "#ff4d4d";
       icon.className = "fas fa-skull-crossbones";
     }
-
     overlay.style.display = 'flex';
   }
 
@@ -202,18 +200,22 @@
     {%- for i in (1..max_ep) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign p_id = "ep" | append: id -%}
-      {%- assign f_path = current_folder | append: p_id | append: ".png" -%}
-      {%- assign found = false -%}
-      {%- for file in site.static_files -%}{%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
-      {%- if found -%}{ id: "{{ p_id }}", url: "{{ f_path | absolute_url }}" },{%- endif -%}
+      {%- assign icon_path = current_folder | append: p_id | append: ".png" -%}
+      {%- assign icon_exists = false -%}
+      {%- for file in site.static_files -%}
+        {%- if file.path == icon_path -%}{%- assign icon_exists = true -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+      { id: "{{ p_id }}", url: "{{ icon_path | relative_url }}", exists: {{ icon_exists }}, fallback: "fas fa-box-open" },
     {%- endfor -%}
     {%- for i in (1..max_gp) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign p_id = "gp" | append: id -%}
-      {%- assign f_path = current_folder | append: p_id | append: ".png" -%}
-      {%- assign found = false -%}
-      {%- for file in site.static_files -%}{%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
-      {%- if found -%}{ id: "{{ p_id }}", url: "{{ f_path | absolute_url }}" },{%- endif -%}
+      {%- assign icon_path = current_folder | append: p_id | append: ".png" -%}
+      {%- assign icon_exists = false -%}
+      {%- for file in site.static_files -%}
+        {%- if file.path == icon_path -%}{%- assign icon_exists = true -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+      { id: "{{ p_id }}", url: "{{ icon_path | relative_url }}", exists: {{ icon_exists }}, fallback: "fas fa-gamepad" },
     {%- endfor -%}
   ];
 
@@ -223,10 +225,8 @@
     const missesEl = root.querySelector('[data-mm-misses]');
     const timerEl = root.querySelector('[data-mm-timer]');
     const restartBtn = root.querySelector('[data-mm-restart]');
-    
     const PAIRS = {{ pairs_to_match }};
     const TIME_LIMIT = {{ time_limit }}; 
-
     let opened = [], locked = false, matches = 0, startMs = 0, timerId = null;
 
     function format(s) {
@@ -237,14 +237,12 @@
     function resetGame() {
       const overlay = document.getElementById('gameOverOverlay');
       if (overlay) overlay.style.display = 'none';
-      
       grid.innerHTML = "";
       opened = []; locked = false; matches = 0; misses = 0;
       statusEl.textContent = `Matches: 0 / ${PAIRS}`;
       missesEl.textContent = `Misses: 0`;
       timerEl.classList.remove('is-warning');
       clearInterval(timerId);
-      
       startMs = Date.now();
       timerId = setInterval(() => {
         const elapsed = Math.floor((Date.now() - startMs) / 1000);
@@ -252,12 +250,12 @@
         if (remaining <= 10) timerEl.classList.add('is-warning');
         if (remaining <= 0) {
           clearInterval(timerId);
-          timerEl.textContent = "Time: 00:00";
+          timerEl.textContent = "Zeit: 00:00";
           locked = true; playSound('error');
           triggerEndGame(false);
           return;
         }
-        timerEl.textContent = "Time: " + format(remaining);
+        timerEl.textContent = "Zeit: " + format(remaining);
       }, 500);
 
       const chosen = [...PACKS].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
@@ -267,7 +265,8 @@
         const card = document.createElement("div");
         card.className = "mm-card";
         card.dataset.id = item.id;
-        card.innerHTML = `<div class="mm-face mm-front">?</div><div class="mm-face mm-back"><img src="${item.url}" alt="${item.id}"></div>`;
+        const content = item.exists ? `<img src="${item.url}" alt="${item.id}">` : `<i class="${item.fallback}"></i>`;
+        card.innerHTML = `<div class="mm-face mm-front">?</div><div class="mm-face mm-back">${content}</div>`;
         card.addEventListener("click", () => {
           if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
           playSound('flip');
@@ -279,24 +278,16 @@
               matches++; opened = []; locked = false;
               statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
               playSound('match');
-              if (matches === PAIRS) {
-                clearInterval(timerId);
-                setTimeout(() => triggerEndGame(true), 500);
-              }
+              if (matches === PAIRS) { clearInterval(timerId); setTimeout(() => triggerEndGame(true), 500); }
             } else {
-              misses++;
-              missesEl.textContent = `Misses: ${misses}`;
-              setTimeout(() => {
-                opened.forEach(c => c.classList.remove("is-flipped"));
-                opened = []; locked = false;
-              }, 800);
+              misses++; missesEl.textContent = `Misses: ${misses}`;
+              setTimeout(() => { opened.forEach(c => c.classList.remove("is-flipped")); opened = []; locked = false; }, 800);
             }
           }
         });
         grid.appendChild(card);
       });
     }
-
     restartBtn.addEventListener("click", resetGame);
     resetGame();
   }
