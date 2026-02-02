@@ -22,25 +22,32 @@
         {{ cat }}
       </span>
     {% endfor %}
-
-    {% comment %} File Type Icon Logic based on first entry of files array {% endcomment %}
-    {% assign first_file = page.files | first %}
-    <span style="margin-left: 5px; color: #94a3b8; font-size: 1.1rem;" title="Primary File Type">
-      {% if first_file == "ts4script" %}
-        <i class="fas fa-file-code" title="Script Mod"></i>
-      {% elsif first_file == "bat" %}
-        <i class="fas fa-terminal" title="Batch File"></i>
-      {% else %}
-        {% comment %} Default fallback to package icon {% endcomment %}
-        <i class="fas fa-box-open" title="Package File"></i>
-      {% endif %}
-    </span>
   </div>
 
   <div style="display: flex; align-items: flex-start; gap: 30px; color: #64748b; font-size: 0.9rem; flex-wrap: wrap;">
     
-    {% comment %} Version Section {% endcomment %}
+    {% comment %} File Type Section (Primary Icon) {% endcomment %}
+    {% assign first_file = page.files | first %}
     <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="color: #cbd5e1; font-size: 1.4rem; width: 24px; text-align: center;">
+        {% if first_file == "ts4script" %}
+          <i class="fas fa-file-code" title="Script Mod"></i>
+        {% elsif first_file == "bat" %}
+          <i class="fas fa-terminal" title="Batch File"></i>
+        {% else %}
+          <i class="fas fa-box-open" title="Package File"></i>
+        {% endif %}
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <span style="text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">File Type</span>
+        <span style="font-weight: 600; color: #475569; font-size: 1rem;">
+          {% if first_file %}{{ first_file | replace: "ts4script", "Script" | replace: "bat", "Batch" | capitalize }}{% else %}Package{% endif %}
+        </span>
+      </div>
+    </div>
+
+    {% comment %} Version Section {% endcomment %}
+    <div style="display: flex; align-items: center; gap: 12px; padding-left: 30px; border-left: 1px solid #f1f5f9;">
       <i class="fas fa-code-branch" style="color: #cbd5e1; font-size: 1.2rem;"></i>
       <div style="display: flex; flex-direction: column; gap: 2px;">
         <span style="text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Current Version</span>
