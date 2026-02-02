@@ -1,5 +1,5 @@
 ---
-mod_id: take-it-off
+mod_id: take_it_off
 title: "Take It Off: No Shoes! No Accessories!"
 parent: "Mods"
 icon: "fas fa-socks"
