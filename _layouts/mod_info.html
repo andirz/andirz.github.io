@@ -4,18 +4,16 @@ layout: default
 
 <div class="mod-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
   
-  {% comment %} Der große Header mit Titel, Version und Status {% endcomment %}
   {% include mod-hero-header.html %}
 
   <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 50px;">
     
-    {% comment %} Linke Spalte: Beschreibung, Translations und Downloads {% endcomment %}
+    {% comment %} Linke Spalte {% endcomment %}
     <main style="flex: 2; min-width: 320px;">
       <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color);">
         {{ content }}
       </article>
 
-      {% comment %} Translations Section – optional unterdrückbar {% endcomment %}
       {% unless page.disable_translations %}
         <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
           {% include mod-translations.html 
@@ -41,12 +39,8 @@ layout: default
         </section>
       {% endunless %}
 
-      <section id="download-zone" style="margin-top: 60px; padding: 35px; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--border-color);">
-        <h2 style="margin-top: 0; display: flex; align-items: center; gap: 12px;">
-          <i class="fas fa-download" style="color: #2563eb;"></i> Download & Installation
-        </h2>
-        {% include installation.html %}
-      </section>
+      {% include installation.html %}
+
     </main>
 
     {% comment %} Rechte Spalte: Metadaten, Anforderungen und direkte Links {% endcomment %}
@@ -56,9 +50,7 @@ layout: default
 
   </div>
 
-  {% comment %} Gallery unter dem Hauptinhalt {% endcomment %}
   {% include policy.html %}
-  <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
   {% include gallery-mods-related.html %}
 
 </div>

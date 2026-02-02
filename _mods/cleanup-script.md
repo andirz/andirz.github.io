@@ -26,7 +26,7 @@ Nothing is deleted automatically. Files are only removed when you **manually run
 * **UserData.lock**
 * **notify.glob**
 * **ConnectionStatus.txt**
-* **GPU Benchmark / Score result** files (`.txt`)
+* **GPU Benchmark** / **Score result** files (`.txt`)
 * **lastCrash**, **lastException** & **lastUIException** (all matching `.txt` files)
 * **BE-ExceptionReport** & **BE-UIExceptionReport** (all matching `.html` files)
 * **WickedWhims** & **WhimsInfo** logs (`.log` / `.txt`)
@@ -34,9 +34,6 @@ Nothing is deleted automatically. Files are only removed when you **manually run
 
 **No other files will be deleted.**  
 Your **Saves**, **Mods**, **Tray files**, and all personal game data remain untouched.
-
-For a detailed explanation of Sims 4 user folder files, see:
-[https://sims4.crinrict.com/eng/2014/09/user-files-explained/](https://sims4.crinrict.com/eng/2014/09/user-files-explained/)
 
 ## Why you should delete cache files
 Cache files are meant to be temporary. After patches, mod updates, or configuration changes, they can become outdated or corrupted.
@@ -47,15 +44,13 @@ Deleting them forces the game to regenerate fresh data on the next start, which 
 - visual glitches  
 - misleading error messages  
 
-More information:
-[https://sims4.crinrict.com/eng/2014/09/delete-cache-files/](https://sims4.crinrict.com/eng/2014/09/delete-cache-files/)
-
 ## Improved Permissions
 The script checks whether it is running with **Administrator rights**.  
 If not, it automatically restarts and asks for permission.
 
 This prevents situations where the script appears to “do nothing” because Windows blocks file access.
 
+## How to use this script
 {% include notice-batch.html %}
 
 ## Language & Translations
@@ -66,16 +61,14 @@ This tool is a **Windows batch script** and contains **no in-game text strings**
 
 ## FAQ – Frequently Asked Questions
 
-**Does this script work on macOS or iMac?''
+**Does this script work on macOS or iMac?**
 No. This is a Windows batch script (.bat) and cannot run on macOS or iMac systems.
 
 **Does this script delete save files or mod settings?**  
-No. The script does **not** delete save games, households, lots, or configuration files from other mods.  
-It only removes **temporary cache data and diagnostic log files** that the game automatically recreates.
+No. The script does **not** delete save games, households, lots, or configuration files from other mods. It only removes **temporary cache data and diagnostic log files** that the game automatically recreates.
 
 **Can this script break my game?**  
-No. Deleting cache files is safe and recommended after updates or mod changes.  
-The game will automatically regenerate everything it needs on the next launch.
+No. Deleting cache files is safe and recommended after updates or mod changes. The game will automatically regenerate everything it needs on the next launch.
 
 **When should I run this script?**  
 Typical use cases:
@@ -88,7 +81,4 @@ Typical use cases:
 Yes. If there is nothing to delete, the script may finish almost instantly.
 
 **Why does Windows warn me about file deletion?**
-No. That warning is expected and intentional.
-The entire purpose of this script is to delete temporary cache and log files.
-If you feel unsure, you can simply open the .bat file in any text editor (for example Notepad).
-You will see that it only deletes the explicitly listed cache folders and log files — nothing else.
+No. That warning is expected and intentional. The entire purpose of this script is to delete temporary cache and log files. If you feel unsure, you can simply open the .bat file in any text editor (for example Notepad). You will see that it only deletes the explicitly listed cache folders and log files — nothing else.
