@@ -4,6 +4,9 @@ title: "Obscura Network"
 icon: "fas fa-user-secret"
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Game Play Mods, Skill Mods, Custom Skill]
+translations:
+   default: [ENG, GER, RUS]
+   FRA: 𝓢ღ
 ---
 
 ## What does this mod do?
@@ -13,8 +16,6 @@ Sims with a low **Obscura Skill** level are at the mercy of the network’s puni
 
 **The Network is Watching:** The previous *Dark Web Skill* and *Rough Area* items from SimSim Online Store have been completely reworked and moved here. Obscura is now a standalone experience with its own perils and rewards.
 
----
-
 ## Main Features
 
 * **The Black Market:** Buy forbidden and rare goods that you won't find anywhere else.
@@ -22,24 +23,13 @@ Sims with a low **Obscura Skill** level are at the mercy of the network’s puni
 * **New Minor Skill:** Obscura Network Skill (5 levels) to master the dangers.
 * **New Fear:** Fear of Obscura—a psychological toll for those who fail.
 
----
+## Compatibility
+This mod does not overwrite any game files, so no compatibility issues are to be expected.
 
-## Early Access & Feedback
+## Feedback
 Many features are still in their early stages of development. I would love to hear from you:
 * Do negative effects occur too often or too rarely?
 * Which specific effects have you observed in your game?
 * Have you encountered any bugs or police interactions?
 
 Please share your feedback and suggestions on Discord!
-
----
-
-## Compatibility
-This mod does not overwrite any game files, so no compatibility issues are to be expected.
-
-## Translations
-* **English, German, Russian** (by myself)
-* **French** (thanks to 𝓢ღ)
-* *I would be grateful for any additional translations!*
-
----
