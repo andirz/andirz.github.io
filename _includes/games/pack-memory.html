@@ -2,6 +2,7 @@
   :root {
     --sims-green: #2ecc71;
     --sims-blue: #1e293b;
+    --sims-red: #e74c3c;
     --text-main: #0f172a;
     --flip-ease: 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
@@ -40,6 +41,8 @@
     color: var(--sims-blue);
     font-size: 0.95rem;
   }
+
+  .mm-badge.is-warning { color: var(--sims-red); border-color: var(--sims-red); }
 
   .mm-btn {
     background: var(--sims-blue);
@@ -85,22 +88,22 @@
   .mm-back img { width: 100%; height: 100%; object-fit: contain; display: block; }
 </style>
 
-{%- comment -%} Parameter-Logik {%- endcomment -%}
 {%- assign current_folder = include.folder | default: "/assets/img/packs/blue/" -%}
 {%- assign max_ep = include.ep_count | default: 18 -%}
 {%- assign max_gp = include.gp_count | default: 12 -%}
 {%- assign pairs_to_match = include.pairs | default: 8 -%}
+{%- assign time_limit = include.time_limit | default: 0 -%}
 
 <div class="mm-root" data-mm>
   <div class="mm-header">
     <div class="mm-title">
       <h2>Pack Picker</h2>
-      <p>Finde alle Paare.</p>
+      <p>Find all matching pairs.</p>
     </div>
     <div class="mm-stats">
       <div class="mm-badge" data-mm-status>Matches: 0 / {{ pairs_to_match }}</div>
-      <div class="mm-badge" data-mm-timer>Zeit: 00:00</div>
-      <button class="mm-btn" type="button" data-mm-restart>Neu starten</button>
+      <div class="mm-badge" data-mm-timer>Time: 00:00</div>
+      <button class="mm-btn" type="button" data-mm-restart>Restart Game</button>
     </div>
   </div>
   <div class="mm-grid" data-mm-grid></div>
@@ -108,34 +111,16 @@
 
 <script>
 (function () {
-  // Wir bauen die Liste der verfügbaren Bilder sicher zusammen
   const PACKS = [
-    {%- comment -%} Suche Expansion Packs {%- endcomment -%}
     {%- for i in (1..max_ep) -%}
-      {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
-      {%- assign p_id = "ep" | append: id -%}
-      {%- assign f_path = current_folder | append: p_id | append: ".png" -%}
-      {%- assign found = false -%}
-      {%- for file in site.static_files -%}
-        {%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}
-      {%- endfor -%}
-      {%- if found -%}
-        { id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },
-      {%- endif -%}
+      {%- assign id = i | prepend: "00" | slice: -2, 2 -%}{%- assign p_id = "ep" | append: id -%}{%- assign f_path = current_folder | append: p_id | append: ".png" -%}
+      {%- assign found = false -%}{%- for file in site.static_files -%}{%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+      {%- if found -%}{ id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },{%- endif -%}
     {%- endfor -%}
-
-    {%- comment -%} Suche Game Packs {%- endcomment -%}
     {%- for i in (1..max_gp) -%}
-      {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
-      {%- assign p_id = "gp" | append: id -%}
-      {%- assign f_path = current_folder | append: p_id | append: ".png" -%}
-      {%- assign found = false -%}
-      {%- for file in site.static_files -%}
-        {%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}
-      {%- endfor -%}
-      {%- if found -%}
-        { id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },
-      {%- endif -%}
+      {%- assign id = i | prepend: "00" | slice: -2, 2 -%}{%- assign p_id = "gp" | append: id -%}{%- assign f_path = current_folder | append: p_id | append: ".png" -%}
+      {%- assign found = false -%}{%- for file in site.static_files -%}{%- if file.path == f_path -%}{%- assign found = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+      {%- if found -%}{ id: "{{ p_id }}", url: "{{ site.url }}{{ f_path }}" },{%- endif -%}
     {%- endfor -%}
   ];
 
@@ -144,30 +129,53 @@
     const statusEl = root.querySelector('[data-mm-status]');
     const timerEl = root.querySelector('[data-mm-timer]');
     const restartBtn = root.querySelector('[data-mm-restart]');
+    
     const PAIRS = {{ pairs_to_match }};
+    const TIME_LIMIT = {{ time_limit }}; // in seconds
 
     if (PACKS.length < PAIRS) {
-      statusEl.textContent = "Fehler: Zu wenige Bilder!";
-      console.error("Memory Error: Nur " + PACKS.length + " Bilder gefunden. Benötigt: " + PAIRS);
+      statusEl.textContent = "Error: Assets missing!";
       return;
     }
 
     let opened = [], locked = false, matches = 0, startMs = 0, timerId = null;
 
     function format(ms) {
-      const t = Math.floor(ms / 1000);
-      return `${String(Math.floor(t / 60)).padStart(2,'0')}:${String(t % 60).padStart(2,'0')}`;
+      const t = Math.max(0, Math.floor(ms / 1000));
+      const m = Math.floor(t / 60);
+      const s = t % 60;
+      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     }
 
     function resetGame() {
       grid.innerHTML = "";
       opened = []; locked = false; matches = 0;
       statusEl.textContent = `Matches: 0 / ${PAIRS}`;
+      timerEl.classList.remove('is-warning');
       clearInterval(timerId);
+      
       startMs = Date.now();
-      timerId = setInterval(() => timerEl.textContent = "Zeit: " + format(Date.now() - startMs), 250);
+      
+      timerId = setInterval(() => {
+        let elapsed = Date.now() - startMs;
+        let displayTime = 0;
 
-      // Zufällige Auswahl der Bilder
+        if (TIME_LIMIT > 0) {
+          displayTime = (TIME_LIMIT * 1000) - elapsed;
+          if (displayTime <= 10000) timerEl.classList.add('is-warning');
+          if (displayTime <= 0) {
+            clearInterval(timerId);
+            locked = true;
+            timerEl.textContent = "Time: 00:00";
+            setTimeout(() => alert("Game Over! Time is up."), 100);
+            return;
+          }
+        } else {
+          displayTime = elapsed;
+        }
+        timerEl.textContent = "Time: " + format(displayTime);
+      }, 250);
+
       const chosen = [...PACKS].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
       const deck = [...chosen, ...chosen].sort(() => 0.5 - Math.random());
 
@@ -175,25 +183,21 @@
         const card = document.createElement("div");
         card.className = "mm-card";
         card.dataset.id = item.id;
-        card.innerHTML = `
-          <div class="mm-face mm-front">?</div>
-          <div class="mm-face mm-back">
-            <img src="${item.url}" alt="${item.id}" loading="lazy">
-          </div>
-        `;
-
+        card.innerHTML = `<div class="mm-face mm-front">?</div><div class="mm-face mm-back"><img src="${item.url}" alt="${item.id}"></div>`;
         card.addEventListener("click", () => {
           if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
           card.classList.add("is-flipped");
           opened.push(card);
-
           if (opened.length === 2) {
             locked = true;
             if (opened[0].dataset.id === opened[1].dataset.id) {
               matches++;
               opened = []; locked = false;
               statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
-              if (matches === PAIRS) clearInterval(timerId);
+              if (matches === PAIRS) {
+                clearInterval(timerId);
+                setTimeout(() => alert("Victory! Well done."), 250);
+              }
             } else {
               setTimeout(() => {
                 opened.forEach(c => c.classList.remove("is-flipped"));
