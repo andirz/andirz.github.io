@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Tarot Fortune Teller
-description: Sims-style tarot readings with moodlets and playful predictions.
+title: Obscura Fortune Teller
 icon: "fas fa-moon"
-order: 4
+order: 5
+description: Connect to the Obscura Network for a Sims-style tarot reading full of playful moodlets.
 ---
 
-## Tarot Fortune Teller
+## Obscura Fortune Teller
 
 A simplified tarot reading, but **Sims 4 style**: playful, chaotic, and full of moodlets.  
 Pick a spread, draw cards, and enjoy your prediction.

@@ -1,9 +1,9 @@
 ---
 layout: page
 title: SimSim Sorting Service
-icon: "fas fa-dolly"
+icon: "fas fa-boxes"
 order: 4
-description: Sort items into SimSim, Nom-Nom or Pharmacy.
+description: Help SimSim Online Store! Sort incoming items into Sim-Nom-Nom, Pharmacy, or Trash categories.
 mode: Logic
 difficulty: Easy
 time: 45s

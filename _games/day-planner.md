@@ -1,9 +1,9 @@
 ---
 layout: page
 title: Sim Day Planner
-icon: "fas fa-calendar-day"
+icon: "fas fa-calendar-alt"
 order: 3
-description: Plan a Sim's day and keep all needs balanced.
+description: Strategic planning: balance energy, hunger, fun, and money to maximize your Sim's happiness.
 mode: Strategy
 difficulty: Easy
 time: Untimed
