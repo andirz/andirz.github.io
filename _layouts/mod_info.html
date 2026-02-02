@@ -59,47 +59,54 @@ layout: default
         <section style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color);">
           <h2 style="margin-bottom: 20px;">Language & Translations</h2>
           <div id="translations" style="font-size: 1.1rem; line-height: 1.7;">
-            {% assign default_list = page.translations.default | default: "ENG" | upcase %}
+            {% assign trans = page.translations %}
             
-            {% if page.translations %}
+            {% if trans %}
+              {% assign default_list = trans.default | default: "ENG" | upcase %}
               <p>The following translations are available:</p>
               <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 1rem;">
-                {% if default_list contains "ENG" or page.translations.ENG %}
-                  <li><strong>English</strong> (by {{ page.translations.ENG | default: "myself" }})</li>
-                {% endif %}
-                {% if default_list contains "GER" or page.translations.GER %}
-                  <li><strong>German</strong> (by {{ page.translations.GER | default: "myself" }})</li>
-                {% endif %}
-                {% if default_list contains "SPA" or page.translations.SPA %}
-                  <li><strong>Spanish</strong> (by {{ page.translations.SPA | default: "myself" }})</li>
-                {% endif %}
-                {% if default_list contains "RUS" or page.translations.RUS %}
-                  <li><strong>Russian</strong> (by {{ page.translations.RUS | default: "myself" }})</li>
+                
+                {% comment %} Gruppierung deiner eigenen Übersetzungen (Standard-Sprachen) {% endcomment %}
+                {% assign my_langs = "" | split: "," %}
+                {% if default_list contains "ENG" %}{% assign my_langs = my_langs | push: "English" %}{% endif %}
+                {% if default_list contains "GER" %}{% assign my_langs = my_langs | push: "German" %}{% endif %}
+                {% if default_list contains "SPA" %}{% assign my_langs = my_langs | push: "Spanish" %}{% endif %}
+                {% if default_list contains "RUS" %}{% assign my_langs = my_langs | push: "Russian" %}{% endif %}
+
+                {% if my_langs.size > 0 %}
+                  <li><strong>{{ my_langs | join: ", " | replace_last: ", ", " and " }}</strong> (by myself)</li>
                 {% endif %}
 
-                {% if page.translations.BRA %}<li><strong>Brazilian Portuguese</strong> (by {{ page.translations.BRA }})</li>{% endif %}
-                {% if page.translations.CHS and page.translations.CHT and page.translations.CHS == page.translations.CHT %}
-                  <li><strong>Chinese</strong> and <strong>Simplified Chinese</strong> (by {{ page.translations.CHS }})</li>
+                {% comment %} Externe Übersetzer für Standard-Sprachen (falls nicht in deiner 'default' Liste) {% endcomment %}
+                {% unless default_list contains "ENG" %}{% if trans.ENG %}<li><strong>English</strong> (by {{ trans.ENG }})</li>{% endif %}{% endunless %}
+                {% unless default_list contains "GER" %}{% if trans.GER %}<li><strong>German</strong> (by {{ trans.GER }})</li>{% endif %}{% endunless %}
+                {% unless default_list contains "SPA" %}{% if trans.SPA %}<li><strong>Spanish</strong> (by {{ trans.SPA }})</li>{% endif %}{% endunless %}
+                {% unless default_list contains "RUS" %}{% if trans.RUS %}<li><strong>Russian</strong> (by {{ trans.RUS }})</li>{% endif %}{% endunless %}
+
+                {% comment %} Alle weiteren Sprachen {% endcomment %}
+                {% if trans.BRA %}<li><strong>Brazilian Portuguese</strong> (by {{ trans.BRA }})</li>{% endif %}
+                {% if trans.CHS and trans.CHT and trans.CHS == trans.CHT %}
+                  <li><strong>Chinese</strong> and <strong>Simplified Chinese</strong> (by {{ trans.CHS }})</li>
                 {% else %}
-                  {% if page.translations.CHT %}<li><strong>Chinese</strong> (by {{ page.translations.CHT }})</li>{% endif %}
-                  {% if page.translations.CHS %}<li><strong>Simplified Chinese</strong> (by {{ page.translations.CHS }})</li>{% endif %}
+                  {% if trans.CHT %}<li><strong>Chinese</strong> (by {{ trans.CHT }})</li>{% endif %}
+                  {% if trans.CHS %}<li><strong>Simplified Chinese</strong> (by {{ trans.CHS }})</li>{% endif %}
                 {% endif %}
-                {% if page.translations.CZE %}<li><strong>Czech</strong> (by {{ page.translations.CZE }})</li>{% endif %}
-                {% if page.translations.DUT %}<li><strong>Dutch</strong> (by {{ page.translations.DUT }})</li>{% endif %}
-                {% if page.translations.DAN %}<li><strong>Danish</strong> (by {{ page.translations.DAN }})</li>{% endif %}
-                {% if page.translations.FIN %}<li><strong>Finnish</strong> (by {{ page.translations.FIN }})</li>{% endif %}
-                {% if page.translations.FRE %}<li><strong>French</strong> (by {{ page.translations.FRE }})</li>{% endif %}
-                {% if page.translations.ITA %}<li><strong>Italian</strong> (by {{ page.translations.ITA }})</li>{% endif %}
-                {% if page.translations.JPN %}<li><strong>Japanese</strong> (by {{ page.translations.JPN }})</li>{% endif %}
-                {% if page.translations.KOR %}<li><strong>Korean</strong> (by {{ page.translations.KOR }})</li>{% endif %}
-                {% if page.translations.NOR %}<li><strong>Norwegian</strong> (by {{ page.translations.NOR }})</li>{% endif %}
-                {% if page.translations.POL %}<li><strong>Polish</strong> (by {{ page.translations.POL }})</li>{% endif %}
-                {% if page.translations.SWE %}<li><strong>Swedish</strong> (by {{ page.translations.SWE }})</li>{% endif %}
+                {% if trans.CZE %}<li><strong>Czech</strong> (by {{ trans.CZE }})</li>{% endif %}
+                {% if trans.DUT %}<li><strong>Dutch</strong> (by {{ trans.DUT }})</li>{% endif %}
+                {% if trans.DAN %}<li><strong>Danish</strong> (by {{ trans.DAN }})</li>{% endif %}
+                {% if trans.FIN %}<li><strong>Finnish</strong> (by {{ trans.FIN }})</li>{% endif %}
+                {% if trans.FRE %}<li><strong>French</strong> (by {{ trans.FRE }})</li>{% endif %}
+                {% if trans.ITA %}<li><strong>Italian</strong> (by {{ trans.ITA }})</li>{% endif %}
+                {% if trans.JPN %}<li><strong>Japanese</strong> (by {{ page.translations.JPN }})</li>{% endif %}
+                {% if trans.KOR %}<li><strong>Korean</strong> (by {{ trans.KOR }})</li>{% endif %}
+                {% if trans.NOR %}<li><strong>Norwegian</strong> (by {{ trans.NOR }})</li>{% endif %}
+                {% if trans.POL %}<li><strong>Polish</strong> (by {{ trans.POL }})</li>{% endif %}
+                {% if trans.SWE %}<li><strong>Swedish</strong> (by {{ trans.SWE }})</li>{% endif %}
               </ul>
               <p>All other languages will be displayed in English.</p>
 
               <div style="margin-top: 1.5rem; padding: 15px; background-color: #f8fafc; border-radius: 8px; font-size: 0.95rem; color: #475569; line-height: 1.5;">
-                I am always looking for corrections, improvements, or new translations! I am open to collaborations and can even offer a free Patreon membership to active translators as a thank you. If you want to help, please contact me on my <a href="{{ site.data.globals.links.discord }}" target="_blank" style="color: #2563eb; font-weight: 600; text-decoration: none;"><i class="fab fa-discord"></i> Discord</a>.
+                I am always looking for corrections, improvements, or new translations! I am open to collaborations and can even offer a free Patreon membership to active translators as a thank you. If you want to help, please contact me on my <a href="{{ site.data.globals.links.discord }}" target="_blank" style="color: #2563eb; font-weight: 600; text-decoration: none;"><i class=\"fab fa-discord\"></i> Discord</a>.
               </div>
             {% else %}
               <p>The mod contains no text strings or uses only internal game strings, so it is compatible with all game languages out of the box.</p>
