@@ -3,7 +3,7 @@ mod_id: "purchase_medicine"
 title: Purchase Medicine
 icon: "fas fa-pills"
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Gameplay Mods]
+categories: [Purchasing System, Gameplay Mods, Medicine]
 ---
 
 ## What does this mod do?

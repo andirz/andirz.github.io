@@ -3,7 +3,7 @@ mod_id: obscura_network
 title: "Obscura Network"
 icon: "fas fa-user-secret"
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Game Play Mods, Skill Mods, Custom Skill]
+categories: [Purchasing System, Game Play Mods, Skills, Custom Skill]
 ---
 
 ## What does this mod do?

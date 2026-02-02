@@ -2,7 +2,7 @@
 mod_id: drama_degree_is_acting
 title: "Drama Degree is Acting"
 icon: "fas fa-theater-masks"
-categories: ["University", "Skill Mods"]
+categories: [University, Skills, Overrides]
 packs: ["EP08", "EP06"] 
 overrides: true
 ---

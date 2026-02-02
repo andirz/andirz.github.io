@@ -2,7 +2,7 @@
 mod_id: skill_class_reloaded
 title: "Skill Class Reloaded"
 icon: "fas fa-pen-nib"
-categories: ["University", "Tweaks", Skill Mods]
+categories: [University, Skills, Tweaks]
 requirements: ["smart_core"]
 packs: ["EP08"]
 ---

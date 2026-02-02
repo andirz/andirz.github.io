@@ -3,7 +3,7 @@ mod_id: smart_sim_randomizer
 title: "Smart Sim Randomizer"
 icon: "fas fa-dice"
 requirements: ["smart_core"]
-categories: [Sim Personalization, Cheats]
+categories: [Sim Personalization, Cheats, Custom Config]
 ---
 
 ## Mod Description

@@ -3,7 +3,7 @@ mod_id: object_tuning_replacement
 title: Object Tuning Replacement
 icon: fas fa-chair
 files: ["ts4script"]
-categories: [Scripts, Object Tweaks, Replacement]
+categories: [Scripts, Tweaks, Replacement]
 ---
 
 Many EA objects—especially "outdoor" items like folding chairs, camping lamps, and meditation pillows—look like they should be portable but aren't. This mod dynamically fixes that without overriding a single game file.

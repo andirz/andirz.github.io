@@ -3,7 +3,7 @@ mod_id: smart_sim_cheats
 title: "Smart Sim Cheats"
 icon: "fas fa-user-edit"
 requirements: ["smart_core"]
-categories: [Cheats, Debuggung, Sim Personalization]
+categories: [Sim Personalization, Cheats, Debuggung]
 ---
 
 ## Mod Description

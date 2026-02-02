@@ -3,7 +3,7 @@ mod_id: better_pie_menu
 title: "Better Pie Menu"
 icon: "fas fa-list-ul"
 requirements: ["lot51_core"]
-categories: [UI Tweaks, Optimization, Tuning Overrides]
+categories: [UI Tweaks, Optimization, Overrides]
 ---
 
 ## Mod Description
