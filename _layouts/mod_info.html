@@ -7,13 +7,10 @@ layout: default
   <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
     
     <main style="flex: 2; min-width: 320px;">
-      {% comment %} Der Header ist jetzt innerhalb der Hauptspalte {% endcomment %}
       {% include mods/hero-header.html %}
-
       <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color);">
         {{ content }}
       </article>
-
       {% include mods/translations.html %}
       {% include mods/installation.html %}
     </main>
@@ -23,7 +20,8 @@ layout: default
     </aside>
     
   </div>
-  
+ 
+  {% include mods/related-mods.html %}
   {% include mods/policy.html %}
-  {% include mods/gallery-related.html %}
+
 </div>
