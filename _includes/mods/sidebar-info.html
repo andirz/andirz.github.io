@@ -4,6 +4,7 @@
 {% assign final_reqs = page.requirements | default: mod.requirements %}
 {% assign patreon_link = mod.patreon | default: site.data.globals.links.patreon %} 
 {% assign kofi_link = site.data.globals.links.kofi %}
+{% assign paypal_link = site.data.globals.links.paypal %}
 {% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: (page.mod_id | replace: '_', '-') %}
 
 <div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
@@ -46,7 +47,7 @@
     </div>
   </div>
 
-  {% comment %} 2. REQUIREMENTS BOX (Wieder mit Packs!) {% endcomment %}
+  {% comment %} 2. REQUIREMENTS BOX {% endcomment %}
   {% if final_reqs.size > 0 or page.packs.size > 0 or page.optional_packs.size > 0 %}
   <div class="sidebar-box" style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
     <div style="padding: 10px; background: #1e293b; border-bottom: 1px solid #e2e8f0; text-align: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 1px;">Requirements</div>
@@ -75,24 +76,7 @@
              {% for pack_id in page.packs %}
                {% assign pack_info = site.data.packs[pack_id] %}
                <div style="background: #eff6ff; color: #1e40af; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border: 1px solid #dbeafe; display: flex; align-items: center; gap: 8px;">
-                 <i class="fas fa-box-open" style="font-size: 0.7rem; color: #3b82f6;"></i>
                  <span style="background: #3b82f6; color: white; font-size: 0.6rem; padding: 2px 4px; border-radius: 3px;">{{ pack_id }}</span>
-                 {{ pack_info.en | default: pack_id }}
-               </div>
-             {% endfor %}
-           </div>
-        </div>
-      {% endif %}
-
-      {% if page.optional_packs.size > 0 %}
-        <div style="border-top: 2px solid #f1f5f9; margin-top: 15px; padding-top: 15px;">
-           <div style="font-size: 0.65rem; font-weight: 900; color: #64748b; text-transform: uppercase; margin-bottom: 10px;">Optional (Gameplay)</div>
-           <div style="display: flex; flex-direction: column; gap: 8px;">
-             {% for pack_id in page.optional_packs %}
-               {% assign pack_info = site.data.packs[pack_id] %}
-               <div style="background: #f0fdf4; color: #166534; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border: 1px solid #dcfce7; display: flex; align-items: center; gap: 8px;">
-                 <i class="fas fa-plus-circle" style="font-size: 0.7rem; color: #22c55e;"></i>
-                 <span style="background: #22c55e; color: white; font-size: 0.6rem; padding: 2px 4px; border-radius: 3px;">{{ pack_id }}</span>
                  {{ pack_info.en | default: pack_id }}
                </div>
              {% endfor %}
@@ -119,8 +103,9 @@
       <div style="margin-top: 10px; padding-top: 15px; border-top: 1px solid #f1f5f9; text-align: center;">
         <div style="font-size: 0.65rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.5px;">Support me</div>
         <div style="display: flex; justify-content: center; gap: 20px;">
-          <a href="{{ patreon_link }}" target="_blank" style="color: #f96854; font-size: 1.2rem;"><i class="fab fa-patreon"></i></a>
-          <a href="{{ kofi_link }}" target="_blank" style="color: #29abe0; font-size: 1.2rem;"><i class="fas fa-coffee"></i></a>
+          <a href="{{ patreon_link }}" target="_blank" title="Patreon" style="color: #f96854; font-size: 1.2rem;"><i class="fab fa-patreon"></i></a>
+          <a href="{{ kofi_link }}" target="_blank" title="Ko-fi" style="color: #29abe0; font-size: 1.2rem;"><i class="fas fa-coffee"></i></a>
+          <a href="{{ paypal_link }}" target="_blank" title="PayPal" style="color: #003087; font-size: 1.2rem;"><i class="fab fa-paypal"></i></a>
         </div>
       </div>
     </div>
@@ -132,10 +117,9 @@
   .download-btn {
     position: relative; display: flex; align-items: center; justify-content: center; 
     padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 800; 
-    font-size: 0.95rem; color: white !important; transition: transform 0.2s ease;
+    font-size: 0.95rem; color: white !important;
   }
   .download-btn i { position: absolute; left: 20px; font-size: 1.1rem; }
   .cf-btn { background: #f16436; }
   .patreon-btn { background: #1e293b; }
-  .download-btn:hover { transform: translateY(-2px); }
 </style>
