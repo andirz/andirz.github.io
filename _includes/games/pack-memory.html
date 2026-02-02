@@ -1,5 +1,13 @@
 {% include games/ui/game_over.html %}
 
+{%- comment -%} Parameter aus dem Include holen {%- endcomment -%}
+{%- assign icon_size = include.icon_size | default: 70 | plus: 0 -%}
+{%- assign time_limit = include.time_limit | default: 45 | plus: 0 -%}
+{%- assign pairs_to_match = include.pairs | default: 8 | plus: 0 -%}
+{%- assign current_folder = include.folder | default: "/assets/img/packs/blue/" -%}
+{%- assign max_ep = include.ep_count | default: 21 | plus: 0 -%}
+{%- assign max_gp = include.gp_count | default: 12 | plus: 0 -%}
+
 <style>
   :root {
     --sims-green: #2ecc71;
@@ -7,14 +15,17 @@
     --sims-red: #e74c3c;
     --text-main: #0f172a;
     --flip-ease: 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Die Kachel ist etwas größer als das Icon (Padding) */
+    --card-size: {{ icon_size | plus: 16 }}px; 
   }
 
   .mm-root {
     font-family: system-ui, -apple-system, sans-serif;
     background: #f8fafc;
     border-radius: 24px;
-    padding: 1.6rem;
-    max-width: 720px; /* Reduziert von 820px auf ca. 80% */
+    padding: 1.5rem;
+    /* Automatische Breite basierend auf Kachelgröße (4 Spalten + Gaps) */
+    max-width: calc((var(--card-size) * 4) + (10px * 3) + 3rem);
     margin: 1.6rem auto;
     border: 1px solid #e2e8f0;
     box-shadow: 0 16px 22px -8px rgba(0,0,0,0.06);
@@ -22,71 +33,63 @@
 
   .mm-header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-bottom: 1rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
   }
 
-  .mm-title h2 { margin: 0; font-size: 1.55rem; font-weight: 800; color: var(--text-main); }
-  .mm-title p { margin: 0; color: #64748b; }
+  .mm-title h2 { margin: 0; font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
+  .mm-title p { margin: 0; color: #64748b; font-size: 0.85rem; }
 
-  .mm-stats { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+  .mm-stats { 
+    display: flex; 
+    gap: 0.5rem; 
+    justify-content: center;
+    flex-wrap: wrap; 
+  }
 
   .mm-badge {
     background: #fff;
-    padding: 0.38rem 0.85rem;
+    padding: 0.4rem 0.7rem;
     border-radius: 999px;
     border: 2px solid #e2e8f0;
     font-weight: 700;
     color: var(--sims-blue);
-    font-size: 0.95rem;
-    min-width: 90px;
-    text-align: center;
-    transition: all 0.3s;
+    font-size: 0.8rem;
+    min-width: 80px;
   }
 
   .mm-badge.is-warning {
     color: #fff;
     background: var(--sims-red);
     border-color: #c0392b;
-    animation: mm-pulse 1s infinite;
-  }
-
-  @keyframes mm-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
   }
 
   .mm-btn {
     background: var(--sims-blue);
     color: #fff;
     border: none;
-    padding: 0.48rem 1rem;
-    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
     font-weight: 700;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: transform 0.15s, background 0.15s;
+    transition: all 0.2s;
   }
-
-  .mm-btn:hover { background: #334155; transform: translateY(-1px); }
 
   .mm-grid {
     display: grid;
-    /* Grid-Kacheln auf ca. 80% (68px -> 54px) */
-    grid-template-columns: repeat(4, minmax(54px, 1fr)); 
-    gap: 12px;
+    grid-template-columns: repeat(4, var(--card-size));
+    gap: 10px;
     perspective: 1000px;
-    margin-top: 10px;
-    max-width: 500px; /* Zentriert das Grid kompakter */
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: center;
   }
 
   .mm-card {
-    aspect-ratio: 1;
+    width: var(--card-size);
+    height: var(--card-size);
     position: relative;
     cursor: pointer;
     transform-style: preserve-3d;
@@ -98,28 +101,26 @@
   .mm-face {
     position: absolute; inset: 0;
     backface-visibility: hidden;
-    border-radius: 14px;
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 6px -2px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 6px -2px rgba(0,0,0,0.1);
   }
 
   .mm-front { background: var(--sims-blue); color: #fff; font-size: 1.2rem; border: 2px solid rgba(255,255,255,0.1); }
-  .mm-back { background: #fff; transform: rotateY(180deg); padding: 8px; border: 3px solid var(--sims-green); }
-  .mm-back img { width: 100%; height: 100%; object-fit: contain; display: block; }
-  .mm-back i { font-size: 2rem; color: var(--sims-blue); opacity: 0.55; } /* Icon verkleinert */
+  .mm-back { background: #fff; transform: rotateY(180deg); padding: 8px; border: 2px solid var(--sims-green); }
 
-  /* Victory Theme für das Game Over Fenster */
-  .is-victory .game-over-card { border-color: var(--sims-green); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 30px rgba(46, 204, 113, 0.2); }
-  .is-victory .skull-icon { background: rgba(46, 204, 113, 0.12); border-color: rgba(46, 204, 113, 0.4); }
-  .is-victory .skull-icon i { color: var(--sims-green); }
+  .mm-back img { 
+    width: {{ icon_size }}px; 
+    height: {{ icon_size }}px; 
+    object-fit: contain; 
+  }
+
+  .mm-back i { font-size: calc({{ icon_size }}px * 0.6); color: var(--sims-blue); opacity: 0.4; }
+
+  /* Victory Fenster Farben */
+  .is-victory .game-over-card { border-color: var(--sims-green); }
   .is-victory .btn-retry { background: var(--sims-green); }
 </style>
-
-{%- assign current_folder = include.folder | default: "/assets/img/packs/blue/" -%}
-{%- assign max_ep = include.ep_count | default: 21 | plus: 0 -%}
-{%- assign max_gp = include.gp_count | default: 12 | plus: 0 -%}
-{%- assign pairs_to_match = include.pairs | default: 8 | plus: 0 -%}
-{%- assign time_limit = include.time_limit | default: 45 | plus: 0 -%}
 
 <div class="mm-root" data-mm>
   <div class="mm-header">
@@ -128,10 +129,10 @@
       <p>Find all matching pairs.</p>
     </div>
     <div class="mm-stats">
-      <div class="mm-badge" data-mm-status title="Pairs found">Matches: 0 / {{ pairs_to_match }}</div>
-      <div class="mm-badge" data-mm-misses title="Wrong pairs">Misses: 0</div>
-      <div class="mm-badge" data-mm-timer title="Time left">Time: 00:00</div>
-      <button class="mm-btn" type="button" data-mm-restart>Restart Game</button>
+      <div class="mm-badge" data-mm-status>Matches: 0 / {{ pairs_to_match }}</div>
+      <div class="mm-badge" data-mm-misses>Misses: 0</div>
+      <div class="mm-badge" data-mm-timer>Time: 00:00</div>
+      <button class="mm-btn" type="button" data-mm-restart>Restart</button>
     </div>
   </div>
   <div class="mm-grid" data-mm-grid></div>
@@ -149,56 +150,29 @@
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.connect(gain); gain.connect(audioCtx.destination);
-
-      if (type === 'flip') {
-        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-      } else if (type === 'match') {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(523, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1046, audioCtx.currentTime + 0.2);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
-      } else if (type === 'error') {
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(220, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.4);
-      }
-    } catch (e) { console.warn(e); }
+      if (type === 'flip') { osc.frequency.setValueAtTime(440, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1); osc.start(); osc.stop(audioCtx.currentTime + 0.1); }
+      else if (type === 'match') { osc.type = 'triangle'; osc.frequency.setValueAtTime(523, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(1046, audioCtx.currentTime + 0.2); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3); osc.start(); osc.stop(audioCtx.currentTime + 0.3); }
+      else if (type === 'error') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(220, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4); osc.start(); osc.stop(audioCtx.currentTime + 0.4); }
+    } catch (e) {}
   }
 
   function triggerEndGame(isVictory) {
     const overlay = document.getElementById('gameOverOverlay');
     if (!overlay) return;
-
-    const title = overlay.querySelector('h1');
-    const desc = overlay.querySelector('.game-over-content p');
-    const statusBadge = overlay.querySelector('.game-over-stats div:first-child .age-badge');
-    const lifeLabel = overlay.querySelector('.game-over-stats div:last-child span:first-child');
-    const lifeValue = overlay.querySelector('.game-over-stats div:last-child .age-badge');
-    const icon = overlay.querySelector('.skull-icon i');
-
-    lifeLabel.textContent = "Misses";
-    lifeValue.textContent = misses;
+    
+    overlay.querySelector('.game-over-stats div:last-child span:first-child').textContent = "Misses";
+    overlay.querySelector('.game-over-stats div:last-child .age-badge').textContent = misses;
 
     if (isVictory) {
       overlay.classList.add('is-victory');
-      title.textContent = "VICTORY";
-      desc.textContent = `Perfect memory! You found all pairs with ${misses} misses.`;
-      statusBadge.textContent = "SUCCESS";
-      statusBadge.style.color = "#2ecc71";
-      statusBadge.style.borderColor = "#2ecc71";
-      icon.className = "fas fa-trophy";
+      overlay.querySelector('h1').textContent = "VICTORY";
+      overlay.querySelector('.game-over-content p').textContent = `Perfect memory! You had ${misses} misses.`;
+      overlay.querySelector('.skull-icon i').className = "fas fa-trophy";
     } else {
       overlay.classList.remove('is-victory');
-      title.textContent = "GAME OVER";
-      desc.textContent = "Time’s up. Your Sims journey ends here.";
-      statusBadge.textContent = "FAILED";
-      statusBadge.style.color = "#ff4d4d";
-      statusBadge.style.borderColor = "#ff4d4d";
-      icon.className = "fas fa-skull-crossbones";
+      overlay.querySelector('h1').textContent = "GAME OVER";
+      overlay.querySelector('.game-over-content p').textContent = "Time is up!";
+      overlay.querySelector('.skull-icon i').className = "fas fa-skull-crossbones";
     }
     overlay.style.display = 'flex';
   }
@@ -207,15 +181,12 @@
     {%- for i in (1..max_ep) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign p_id = "ep" | append: id -%}
-      {%- assign icon_path = current_folder | append: p_id | append: ".png" -%}
-      { id: "{{ p_id }}", url: "{{ icon_path | relative_url }}", fallback: "fas fa-box-open" }{% unless forloop.last %},{% endunless %}
+      { id: "{{ p_id }}", url: "{{ current_folder | append: p_id | append: '.png' | relative_url }}", fallback: "fas fa-box-open" },
     {%- endfor -%}
-    {%- if max_gp > 0 -%},{%- endif -%}
     {%- for i in (1..max_gp) -%}
       {%- assign id = i | prepend: "00" | slice: -2, 2 -%}
       {%- assign p_id = "gp" | append: id -%}
-      {%- assign icon_path = current_folder | append: p_id | append: ".png" -%}
-      { id: "{{ p_id }}", url: "{{ icon_path | relative_url }}", fallback: "fas fa-gamepad" }{% unless forloop.last %},{% endunless %}
+      { id: "{{ p_id }}", url: "{{ current_folder | append: p_id | append: '.png' | relative_url }}", fallback: "fas fa-gamepad" },
     {%- endfor -%}
   ];
 
@@ -229,57 +200,33 @@
     const PAIRS = {{ pairs_to_match }};
     const TIME_LIMIT = {{ time_limit }};
 
-    let opened = [];
-    let locked = false;
-    let matches = 0;
-    let startMs = 0;
-    let timerId = null;
+    let opened = [], locked = false, matches = 0, startMs = 0, timerId = null;
 
     function format(s) {
-      const m = Math.floor(s / 60);
-      const sec = s % 60;
+      const m = Math.floor(s / 60); const sec = s % 60;
       return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-    }
-
-    function setTimerText(remaining) {
-      timerEl.textContent = "Time: " + format(Math.max(0, remaining));
     }
 
     function resetGame() {
       const overlay = document.getElementById('gameOverOverlay');
       if (overlay) overlay.style.display = 'none';
-
       grid.innerHTML = "";
-      opened = [];
-      locked = false;
-      matches = 0;
-      misses = 0;
-
+      opened = []; locked = false; matches = 0; misses = 0;
       statusEl.textContent = `Matches: 0 / ${PAIRS}`;
       missesEl.textContent = `Misses: 0`;
       timerEl.classList.remove('is-warning');
-
+      
       clearInterval(timerId);
-
       startMs = Date.now();
-      setTimerText(TIME_LIMIT);
-
       timerId = setInterval(() => {
-        const elapsed = Math.floor((Date.now() - startMs) / 1000);
-        const remaining = TIME_LIMIT - elapsed;
-
+        const remaining = TIME_LIMIT - Math.floor((Date.now() - startMs) / 1000);
         if (remaining <= 10) timerEl.classList.add('is-warning');
-        else timerEl.classList.remove('is-warning');
-
         if (remaining <= 0) {
           clearInterval(timerId);
-          setTimerText(0);
-          locked = true;
-          playSound('error');
-          triggerEndGame(false);
-          return;
+          timerEl.textContent = "Time: 00:00";
+          locked = true; triggerEndGame(false); return;
         }
-        setTimerText(remaining);
+        timerEl.textContent = "Time: " + format(remaining);
       }, 250);
 
       const chosen = [...PACKS].sort(() => 0.5 - Math.random()).slice(0, PAIRS);
@@ -289,66 +236,31 @@
         const card = document.createElement("div");
         card.className = "mm-card";
         card.dataset.id = item.id;
-
-        const back = document.createElement("div");
-        back.className = "mm-face mm-back";
-
-        const img = document.createElement("img");
-        img.src = item.url;
-        img.alt = item.id;
-
-        img.onerror = () => {
-          back.innerHTML = `<i class="${item.fallback}"></i>`;
-        };
-
-        back.appendChild(img);
-
-        const front = document.createElement("div");
-        front.className = "mm-face mm-front";
-        front.textContent = "?";
-
-        card.appendChild(front);
-        card.appendChild(back);
-
+        card.innerHTML = `
+          <div class="mm-face mm-front">?</div>
+          <div class="mm-face mm-back"><img src="${item.url}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><i class="${item.fallback}" style="display:none;"></i></div>
+        `;
         card.addEventListener("click", () => {
           if (locked || card.classList.contains("is-flipped") || opened[0] === card) return;
-
           playSound('flip');
           card.classList.add("is-flipped");
           opened.push(card);
-
           if (opened.length === 2) {
             locked = true;
-
             if (opened[0].dataset.id === opened[1].dataset.id) {
-              matches++;
-              opened = [];
-              locked = false;
-
+              matches++; opened = []; locked = false;
               statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
               playSound('match');
-
-              if (matches === PAIRS) {
-                clearInterval(timerId);
-                setTimeout(() => triggerEndGame(true), 500);
-              }
+              if (matches === PAIRS) { clearInterval(timerId); setTimeout(() => triggerEndGame(true), 500); }
             } else {
-              misses++;
-              missesEl.textContent = `Misses: ${misses}`;
-
-              setTimeout(() => {
-                opened.forEach(c => c.classList.remove("is-flipped"));
-                opened = [];
-                locked = false;
-              }, 800);
+              misses++; missesEl.textContent = `Misses: ${misses}`;
+              setTimeout(() => { opened.forEach(c => c.classList.remove("is-flipped")); opened = []; locked = false; }, 800);
             }
           }
         });
-
         grid.appendChild(card);
       });
     }
-
     restartBtn.addEventListener("click", resetGame);
     resetGame();
   }

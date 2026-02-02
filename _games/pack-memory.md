@@ -19,4 +19,5 @@ Match all Sims 4 packs before the timer runs out. A classic memory game for true
    pairs=8
    time_limit=20
    folder="/assets/img/packs/blue/" 
+   icon_size=70
 %}
