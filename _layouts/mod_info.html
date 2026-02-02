@@ -4,121 +4,25 @@ layout: default
 
 <div class="mod-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
   
-  {% include mod-hero-header.html %}
-
-  <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 50px;">
+  <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
     
     <main style="flex: 2; min-width: 320px;">
+      {% comment %} Der Header ist jetzt innerhalb der Hauptspalte {% endcomment %}
+      {% include mods/hero-header.html %}
+
       <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color);">
         {{ content }}
       </article>
 
-      {% comment %} Sektion: Requirements {% endcomment %}
-      <section style="margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--border-color);">
-        <h2 style="margin-bottom: 10px;">Requirements</h2>
-        <div id="requirements" style="font-size: 1.1rem; line-height: 1.5;">
-          {% if page.requirements_packs or page.requirements_mods %}
-            <p style="margin-bottom: 8px;">To use this mod, you will need the following:</p>
-            
-            {% if page.requirements_packs %}
-              <div style="margin-bottom: 5px;">
-                <strong>Required Packs:</strong>
-                <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 5px;">
-                  {% for pack in page.requirements_packs %}
-                    <li>{{ pack }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endif %}
-
-            {% if page.requirements_mods %}
-              <div>
-                <strong>Required Mods:</strong>
-                <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 5px;">
-                  {% for mod in page.requirements_mods %}
-                    <li>
-                      {% if mod.url %}
-                        <a href="{{ mod.url }}" target="_blank" style="color: #2563eb; text-decoration: none;">{{ mod.name }}</a>
-                      {% else %}
-                        {{ mod.name }}
-                      {% endif %}
-                      {% if mod.note %} — {{ mod.note }}{% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endif %}
-          {% else %}
-            <p style="margin: 0;">This mod has no special requirements and works with the Sims 4 base game.</p>
-          {% endif %}
-        </div>
-      </section>
-
-      {% comment %} Sektion: Language & Translations {% endcomment %}
-      {% unless page.disable_translations %}
-        <section style="margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--border-color);">
-          <h2 style="margin-bottom: 10px;">Language & Translations</h2>
-          <div id="translations" style="font-size: 1.1rem; line-height: 1.5;">
-            {% assign trans = page.translations %}
-            
-            {% if trans %}
-              {% assign default_list = trans.default | default: "ENG" | upcase %}
-              <p style="margin-bottom: 8px;">The following translations are available:</p>
-              <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 8px;">
-                
-                {% assign my_langs = "" | split: "," %}
-                {% if default_list contains "ENG" %}{% assign my_langs = my_langs | push: "English" %}{% endif %}
-                {% if default_list contains "GER" %}{% assign my_langs = my_langs | push: "German" %}{% endif %}
-                {% if default_list contains "SPA" %}{% assign my_langs = my_langs | push: "Spanish" %}{% endif %}
-                {% if default_list contains "RUS" %}{% assign my_langs = my_langs | push: "Russian" %}{% endif %}
-
-                {% if my_langs.size > 0 %}
-                  <li><strong>{{ my_langs | join: ", " | replace_last: ", ", " and " }}</strong> (by myself)</li>
-                {% endif %}
-
-                {% unless default_list contains "ENG" %}{% if trans.ENG %}<li><strong>English</strong> (by {{ trans.ENG }})</li>{% endif %}{% endunless %}
-                {% unless default_list contains "GER" %}{% if trans.GER %}<li><strong>German</strong> (by {{ trans.GER }})</li>{% endif %}{% endunless %}
-                {% unless default_list contains "SPA" %}{% if trans.SPA %}<li><strong>Spanish</strong> (by {{ trans.SPA }})</li>{% endif %}{% endunless %}
-                {% unless default_list contains "RUS" %}{% if trans.RUS %}<li><strong>Russian</strong> (by {{ trans.RUS }})</li>{% endif %}{% endunless %}
-
-                {% if trans.BRA %}<li><strong>Brazilian Portuguese</strong> (by {{ trans.BRA }})</li>{% endif %}
-                {% if trans.CHS and trans.CHT and trans.CHS == trans.CHT %}
-                  <li><strong>Chinese</strong> and <strong>Simplified Chinese</strong> (by {{ trans.CHS }})</li>
-                {% else %}
-                  {% if trans.CHT %}<li><strong>Chinese</strong> (by {{ trans.CHT }})</li>{% endif %}
-                  {% if trans.CHS %}<li><strong>Simplified Chinese</strong> (by {{ trans.CHS }})</li>{% endif %}
-                {% endif %}
-                {% if trans.CZE %}<li><strong>Czech</strong> (by {{ trans.CZE }})</li>{% endif %}
-                {% if trans.DUT %}<li><strong>Dutch</strong> (by {{ trans.DUT }})</li>{% endif %}
-                {% if trans.DAN %}<li><strong>Danish</strong> (by {{ trans.DAN }})</li>{% endif %}
-                {% if trans.FIN %}<li><strong>Finnish</strong> (by {{ trans.FIN }})</li>{% endif %}
-                {% if trans.FRE %}<li><strong>French</strong> (by {{ trans.FRE }})</li>{% endif %}
-                {% if trans.ITA %}<li><strong>Italian</strong> (by {{ trans.ITA }})</li>{% endif %}
-                {% if trans.JPN %}<li><strong>Japanese</strong> (by {{ trans.JPN }})</li>{% endif %}
-                {% if trans.KOR %}<li><strong>Korean</strong> (by {{ trans.KOR }})</li>{% endif %}
-                {% if trans.NOR %}<li><strong>Norwegian</strong> (by {{ trans.NOR }})</li>{% endif %}
-                {% if trans.POL %}<li><strong>Polish</strong> (by {{ trans.POL }})</li>{% endif %}
-                {% if trans.SWE %}<li><strong>Swedish</strong> (by {{ trans.SWE }})</li>{% endif %}
-              </ul>
-              <p style="margin-bottom: 10px;">All other languages will be displayed in English.</p>
-
-              <div style="margin-top: 10px; padding: 12px; background-color: #f8fafc; border-radius: 8px; font-size: 0.95rem; color: #475569; line-height: 1.4;">
-                I am always looking for corrections, improvements, or new translations! If you want to help, contact me on <a href="{{ site.data.globals.links.discord }}" target="_blank" style="color: #2563eb; font-weight: 600; text-decoration: none;">Discord</a>.
-              </div>
-            {% else %}
-              <p style="margin: 0;">The mod is compatible with all game languages out of the box.</p>
-            {% endif %}
-          </div>
-        </section>
-      {% endunless %}
-
       {% include installation.html %}
     </main>
 
-    <aside style="flex: 1; min-width: 280px;">
+    <aside style="flex: 1; min-width: 280px; position: sticky; top: 20px;">
       {% include mod-sidebar-info.html %}
     </aside>
+    
   </div>
+  
   {% include policy.html %}
   {% include gallery-mods-related.html %}
 </div>
