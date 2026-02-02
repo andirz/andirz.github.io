@@ -1,81 +1,129 @@
-{% assign mod = site.data.mods | where: "id", page.mod_id | first %}
+{% comment %} 
+  ID aus dem Dateinamen extrahieren
+{% endcomment %}
+{% assign filename = page.path | split: "/" | last | replace: ".md", "" %}
+{% assign current_id = page.mod_id | default: filename %}
+
+{% comment %} Daten laden {% endcomment %}
+{% assign mod = site.data.mods | where: "id", current_id | first %}
+{% assign mod_full_name = mod.name | default: page.title %}
 {% assign current_version = page.version | default: mod.version %}
-{% assign last_updated = page.updated | default: mod.updated %}
-{% include mod-status-color.html %}
+{% assign final_reqs = page.requirements | default: mod.requirements %}
+{% assign patreon_link = mod.patreon | default: site.data.globals.links.patreon %}
+{% assign kofi_link = site.data.globals.links.kofi %}
+{% assign paypal_link = site.data.globals.links.paypal %}
+{% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: (current_id | replace: '_', '-') %}
 
-<header class="mod-header" style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9;">
+{% comment %} BILD-CHECK {% endcomment %}
+{% assign expected_cover_path = "/assets/img/mods/" | append: current_id | append: "/cover.png" %}
+{% assign cover_exists = false %}
+{% for file in site.static_files %}
+  {% if file.path == expected_cover_path %}
+    {% assign cover_exists = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<div class="sticky-sidebar-wrapper" style="position: sticky; top: 20px;">
   
-  <h1 style="font-size: 2.5rem; font-weight: 400; letter-spacing: -0.5px; margin: 0 0 15px 0; color: #1e293b; line-height: 1.2;">
-    {{ mod.name | default: page.title }}
-  </h1>
-  
-  <div class="mod-tags-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 25px;">
-    {% if mod.status %}
-      <span style="background: {{ status_color }}; color: white; padding: 5px 14px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
-        {{ mod.status }}
-      </span>
-    {% endif %}
-
-    {% assign categories = page.categories | default: mod.categories %}
-    {% for cat in categories %}
-      <span style="border: 1px solid #e2e8f0; color: #64748b; padding: 5px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; background: #f8fafc;">
-        {{ cat }}
-      </span>
-    {% endfor %}
-
-    {% comment %} File Type Icon Logic based on first entry of files array {% endcomment %}
-    {% assign first_file = page.files | first %}
-    <span style="margin-left: 5px; color: #94a3b8; font-size: 1.1rem;" title="Primary File Type">
-      {% if first_file == "ts4script" %}
-        <i class="fas fa-file-code" title="Script Mod"></i>
-      {% elif first_file == "bat" %}
-        <i class="fas fa-terminal" title="Batch File"></i>
+  {% comment %} 1. MOD INFO BOX {% endcomment %}
+  <div class="sidebar-box" style="background: white; border: 2px solid #000000; border-radius: 16px; overflow: hidden; margin-bottom: 15px;">
+    <div style="width: 100%; height: 180px; border-bottom: 2px solid #000000; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+      {% if cover_exists %}
+        <img src="{{ expected_cover_path }}" 
+             alt="{{ mod_full_name }}" 
+             style="width: 100%; height: 100%; object-fit: cover; display: block;">
       {% else %}
-        {% comment %} Default: package {% endcomment %}
-        <i class="fas fa-box-open" title="Package File"></i>
+        <div style="font-size: 50px; color: #3b82f6;">
+           <i class="{{ page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
+        </div>
       {% endif %}
-    </span>
+    </div>
+
+    <div style="padding: 15px; text-align: center;">
+      <h3 style="font-size: 1.15rem; margin: 0; color: #0f172a; font-weight: 800; line-height: 1.2;">{{ mod_full_name }}</h3>
+      <div style="margin-top: 6px; display: flex; justify-content: center; align-items: center; gap: 8px; color: #64748b; font-size: 0.8rem; font-weight: 600;">
+        <span>v. {{ current_version }}</span>
+        <div style="display: flex; gap: 6px; margin-left: 5px; border-left: 1px solid #000000; padding-left: 8px;">
+          {% if page.files contains 'ts4script' %}
+            <i class="fas {% if current_id == 'smart-core-script' %}fa-microchip{% else %}fa-code{% endif %}" title="Script Mod" aria-label="Script Mod" style="color: #3b82f6;"></i>
+          {% endif %}
+          {% if page.files contains 'package' %}
+            <i class="fas fa-box" title="Package File" aria-label="Package File" style="color: #6366f1;"></i>
+          {% endif %}
+          {% if page.files contains 'bat' %}
+            <i class="fas fa-terminal" title="Batch Tool" aria-label="Batch Tool" style="color: #1e293b;"></i>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div style="display: flex; align-items: flex-start; gap: 30px; color: #64748b; font-size: 0.9rem; flex-wrap: wrap;">
-    
-    {% comment %} Version Section {% endcomment %}
-    <div style="display: flex; flex-direction: column; gap: 5px;">
-      <span style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Current Version</span>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-code-branch" style="color: #cbd5e1; font-size: 1rem;"></i>
-        <span style="font-weight: 600; color: #475569;">v. {{ current_version }}</span>
-      </div>
+  {% comment %} 2. REQUIREMENTS BOX {% endcomment %}
+  {% if final_reqs.size > 0 or page.packs.size > 0 %}
+  <div class="sidebar-box" style="background: white; border: 2px solid #000000; border-radius: 16px; overflow: hidden; margin-bottom: 15px;">
+    <div style="padding: 8px; background: #000000; text-align: center; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 1px;">Requirements</div>
+    <div style="padding: 12px 15px;">
+      {% if final_reqs.size > 0 %}
+        <ul style="margin: 0; padding: 0; list-style: none;">
+          {% for req_id in final_reqs %}
+            {% assign dep_data = site.data.dependencies[req_id] %}
+            <li style="margin-bottom: 8px; display: flex; align-items: center; font-size: 0.85rem;">
+              <i class="{{ dep_data.icon | default: 'fas fa-puzzle-piece' }}" style="margin-right: 10px; color: #3b82f6; width: 14px; font-size: 0.75rem;"></i>
+              <a href="{{ dep_data.url | default: '#' }}" style="color: #2563eb; font-weight: 700; text-decoration: none;">{{ dep_data.name | default: req_id }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% if page.packs.size > 0 %}
+        <div style="border-top: 1px solid #e2e8f0; margin-top: 8px; padding-top: 10px; display: flex; align-items: center; gap: 8px;">
+           <span style="font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Packs:</span>
+           <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+             {% for pack_id in page.packs %}
+               <span style="background: #eff6ff; color: #1e40af; border: 1px solid #dbeafe; padding: 2px 5px; border-radius: 4px; font-size: 0.65rem; font-weight: 800;" title="{{ pack_id }}">{{ pack_id }}</span>
+             {% endfor %}
+           </div>
+        </div>
+      {% endif %}
     </div>
-    
-    {% comment %} Updated Section {% endcomment %}
-    <div style="display: flex; flex-direction: column; gap: 5px; padding-left: 30px; border-left: 1px solid #f1f5f9;">
-      <span style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Last Update</span>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-calendar-alt" style="color: #cbd5e1; font-size: 1rem;"></i>
-        <span style="font-weight: 600; color: #475569;">{{ last_updated | date: "%b %d, %Y" }}</span>
-      </div>
-    </div>
-
-    {% comment %} Pack Icons Section {% endcomment %}
-    {% assign mod_packs = page.requirements_packs | default: mod.packs %}
-    {% if mod_packs.size > 0 %}
-    <div style="display: flex; flex-direction: column; gap: 5px; padding-left: 30px; border-left: 1px solid #f1f5f9;">
-      <span style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Required Packs</span>
-      <div style="display: flex; align-items: center; gap: 6px;">
-        {% for pack_code in mod_packs %}
-          {% assign icon_id = pack_code | downcase %}
-          <div style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;" title="{{ pack_code }}">
-            <img src="{{ site.baseurl }}/assets/img/packs/{{ icon_id }}.png" 
-                 alt="{{ pack_code }}" 
-                 style="width: 26px; height: 26px; object-fit: contain;"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <i class="fas fa-box" style="display: none; font-size: 14px; opacity: 0.3;"></i>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
   </div>
-</header>
+  {% endif %}
+
+  {% comment %} 3. DOWNLOAD BOX {% endcomment %}
+  <div class="sidebar-box" style="background: white; border: 2px solid #000000; border-radius: 16px; overflow: hidden; margin-bottom: 20px;">
+    <div style="padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+      {% unless page.curseforge_ban %}
+        <a href="{{ cf_url }}" target="_blank" class="download-btn cf-btn"><i class="fab fa-firefox-browser"></i> <span>CurseForge</span></a>
+      {% endunless %}
+      <a href="{{ patreon_link }}" target="_blank" class="download-btn patreon-btn"><i class="fab fa-patreon"></i> <span>Patreon</span></a>
+    </div>
+  </div>
+
+  {% comment %} 4. FREE FLOATING SUPPORT ICONS {% endcomment %}
+  <div style="display: flex; justify-content: center; gap: 25px; padding: 10px 0;">
+      <a href="{{ patreon_link }}" target="_blank" class="support-icon-link" style="color: #000000;" title="Patreon"><i class="fab fa-patreon"></i></a>
+      <a href="{{ kofi_link }}" target="_blank" class="support-icon-link" style="color: #29abe0;" title="Ko-fi"><i class="fas fa-coffee"></i></a>
+      <a href="{{ paypal_link }}" target="_blank" class="support-icon-link" style="color: #0070ba;" title="PayPal"><i class="fab fa-paypal"></i></a>
+  </div>
+</div>
+
+<style>
+  .download-btn {
+    position: relative; display: flex; align-items: center; justify-content: center; 
+    padding: 10px; border-radius: 10px; text-decoration: none; font-weight: 800; 
+    font-size: 0.85rem; color: white !important;
+    transition: filter 0.2s ease;
+  }
+  .download-btn:hover { filter: brightness(1.2); }
+  .download-btn i { position: absolute; left: 15px; }
+  .cf-btn { background: #f16436; }
+  .patreon-btn { background: #1e293b; }
+
+  .support-icon-link { 
+    font-size: 1.3rem; 
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    display: inline-block; 
+    text-decoration: none;
+  }
+  .support-icon-link:hover { transform: scale(1.3); }
+</style>
