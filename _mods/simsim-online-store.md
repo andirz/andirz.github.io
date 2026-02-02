@@ -6,6 +6,14 @@ requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay Mods]
 translations:
   default: [ENG, GER, ESP, RUS]
+  BRA: Thamis4 and Nymphieta
+  CHT: Wanzi & Orchard Team
+  CHS: Wanzi & Orchard team
+  FRA: Mollory
+  FN: Muffin
+  ITA: vale93_games
+  JAP: Blackxxdahlia
+  POL: Iskierka and Aarathiel
 ---
 
 ## What does this mod do?
@@ -32,7 +40,3 @@ SimSim supports numerous CC objects from well-known mods, such as:
 
 #### Shopping Buff System
 Purchasing goods isn't just about the items; it affects your Sims' emotions! Depending on their personal traits, Sims can receive buffs ranging from **Enthusiasm** to **Boredom**.
-
-#### Call Center & Hotline
-The interactive Hotline brings the store to life. Sometimes annoying, sometimes rewarding—expect calls for special occasions and gifts! 
-*Note: This feature uses "Drama Node Tuning" and is currently in test mode.*
