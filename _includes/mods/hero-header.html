@@ -16,21 +16,38 @@
       </span>
     {% endif %}
 
-  {% assign categories = page.categories | default: mod.categories %}
-  {% for cat in categories %}
-    <a
-      href="{{ site.baseurl }}/category/?category={{ cat | url_encode }}"
-      style="border:1px solid #e2e8f0; color:#64748b; padding:5px 14px; border-radius:6px;
-             font-size:.8rem; font-weight:600; background:#f8fafc;
-             text-decoration:none; display:inline-block;
-             transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;"
-      title="Show all mods in category: {{ cat }}"
-      onmouseover="this.style.transform='translateY(-1px) scale(1.03)'; this.style.boxShadow='0 8px 18px rgba(0,0,0,.06)'; this.style.borderColor='rgba(0,0,0,.14)';"
-      onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='';"
-    >
-      {{ cat }}
-    </a>
-  {% endfor %}
+    {% assign categories = page.categories | default: mod.categories %}
+    {% for cat in categories %}
+      <a
+        href="{{ site.baseurl }}/category/?category={{ cat | url_encode }}"
+        title="Browse category: {{ cat }}"
+        style="
+          border:1px solid #e2e8f0;
+          color:#64748b;
+          padding:5px 14px;
+          border-radius:6px;
+          font-size:.8rem;
+          font-weight:600;
+          background:#f8fafc;
+          text-decoration:none;
+          display:inline-block;
+          transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+          will-change: transform;
+        "
+        onmouseover="
+          this.style.transform='translateY(-2px) scale(1.04)';
+          this.style.boxShadow='0 10px 22px rgba(0,0,0,.08)';
+          this.style.borderColor='rgba(0,0,0,.18)';
+        "
+        onmouseout="
+          this.style.transform='';
+          this.style.boxShadow='';
+          this.style.borderColor='';
+        "
+      >
+        {{ cat }}
+      </a>
+    {% endfor %}
 
   </div>
 
