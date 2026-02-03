@@ -7,6 +7,7 @@ categories: [Scripts, Tweaks, Replacement]
 tagline: "Fixes hundreds of EA objects on the fly, making chairs, lamps, and gear portable and live-drag compatible without overrides."
 ---
 
+## About This Mod
 Many EA objects—especially "outdoor" items like folding chairs, camping lamps, and meditation pillows—look like they should be portable but aren't. This mod dynamically fixes that without overriding a single game file.
 
 > **Note:** This mod officially replaces the discontinued *Outdoor Tweaks*. You can safely delete the old version.

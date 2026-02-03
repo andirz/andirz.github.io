@@ -8,7 +8,7 @@ categories: [UI Tweaks, Traits, Overrides]
 tagline: "Bring hidden preferences to light by making your Sim’s favorite movie genres visible and customizable in the UI."
 ---
 
-## What does this mod do?
+## About This Mod
 
 Normally, your Sims' favorite movie genres are hidden as "hidden traits." This mod overwrites these traits to make them visible gameplay traits in the UI. 
 

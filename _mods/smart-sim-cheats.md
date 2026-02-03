@@ -6,7 +6,7 @@ requirements: ["smart_core"]
 categories: [Sim Personalization, Cheats, Debugging]
 ---
 
-## Mod Description
+## About This Mod
 **Smart Sim Cheats** provides the fastest and most efficient way to manage your Sims' data. Whether you want to fix a single Sim or perform mass-actions on an entire neighborhood, this mod gives you full control via the **Shift-Click Cheat Menu**.
 
 ### 👥 Pick & Choose (Mass Management)

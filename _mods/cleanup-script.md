@@ -10,7 +10,7 @@ disable_translations: true
 tagline: "Keep your game running smoothly by removing temporary cache and diagnostic logs with one simple tool."
 ---
 
-## What does this tool do?
+## About This Tool
 The **Cleanup Script for Windows** is a small utility designed to keep your *The Sims 4* user folder clean and healthy. It removes **temporary cache folders and diagnostic log files** that can build up over time and may cause lag, UI glitches, or confusing error reports — especially after game updates or frequent mod changes.
 
 > **Important:** Nothing is deleted automatically. Files are only removed when you **manually run** the script. This gives you full control and allows you to keep logs for troubleshooting if needed.

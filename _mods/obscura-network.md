@@ -6,7 +6,7 @@ requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Crime, Gameplay Mods, Skills, Custom Skill]
 ---
 
-## What does this mod do?
+## About This Mod
 **Obscura Network** is not just a dark web—it’s a mystical world governed by its own rules. To access it, your Sims will need to dig deep into the internet, uncover hidden information, and unlock the gateway. But beware: Obscura does not tolerate recklessness.
 
 Sims with a low **Obscura Skill** level are at the mercy of the network’s punishments. Carelessness may lead to more than just viruses or computer breakdowns—it could result in something far more sinister. Rumor has it that the network can drain a Sim’s energy or plunge them into a deep slumber. 

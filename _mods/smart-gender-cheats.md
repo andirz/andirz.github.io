@@ -6,7 +6,7 @@ requirements: ["smart_core"]
 categories: [Sim Personalization, Cheats, Debugging]
 ---
 
-## Mod Description
+## About This Mod
 Originally part of the *Smart Sim Randomizer*, **Smart Gender Cheats** is now a standalone tool. It allows you to modify all Gender-related CAS settings for any Sim (Active or NPC) directly in Live Mode—no need to enter Create-A-Sim!
 
 All interactions are easily accessible via the **Cheat Menu** (Shift-Click on a Sim).

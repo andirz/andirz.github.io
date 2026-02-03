@@ -7,7 +7,7 @@ categories: [Scripts, Injectors, Core Library]
 tagline: "Script Core, required for many of my mods."
 ---
 
-## The Engine Behind the Magic
+## About This Mod
 **Smart Core Script** is a dedicated technical library for **The Sims 4**. It is not a standalone gameplay mod and does not add any visible features on its own. Instead, it acts as a shared foundation — the internal “engine” that many of my other mods rely on. By moving complex and reusable functionality into this core library, I can keep individual mods lighter, more stable, and easier to maintain. It also ensures better compatibility between my projects, since they all operate on the same underlying systems.
 
 This download consists of a standalone script library. The included package file contains only localization data for menus and system messages.

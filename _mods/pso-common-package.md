@@ -7,7 +7,7 @@ categories: [Purchasing System, Library, Shared Tuning]
 strings: false
 ---
 
-## What is this?
+## About This Mod
 This library contains **shared resources** such as icons, images, test conditions, and global configuration data that are used across the Purchasing System Overhaul (P.S.O.) mod series. It does not add gameplay features by itself. The P.S.O. Common Package functions as a centralized resource hub for all PSO-based mods. Instead of duplicating assets and settings across multiple downloads, these shared elements are bundled here to improve consistency, reduce redundancy, and simplify future updates.
 
 > **Note:** You only need to install this package if another mod — for example *SimSim Online Store* — explicitly lists it as a required dependency. On its own, this package has no visible effect in the game.

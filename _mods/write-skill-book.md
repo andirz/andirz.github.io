@@ -8,7 +8,7 @@ requirements: ["smart_core"]
 categories: [Gameplay Mods, Skills, Writing]
 ---
 
-## What does this mod do?
+## About This Mod
 
 **Write Skill Book** allows any Sim to write skill books once they meet the required skill levels — without being forced to complete a specific aspiration or permanently override game interactions.
 

@@ -6,7 +6,7 @@ requirements: ["smart_core"]
 categories: [Sim Personalization, Townie Fixes, Cheats, Custom Config]
 ---
 
-## Mod Description
+## About This Mod
 The **Smart Sim Randomizer** brings life to your world by automatically and intelligently assigning preferences and traits to both active Sims and NPCs. Unlike basic randomizers, this mod uses "intelligent filling" to ensure that assigned traits make sense based on a Sim's existing personality.
 
 ### 🧠 Smart Logic

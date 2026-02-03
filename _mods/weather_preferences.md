@@ -8,7 +8,7 @@ categories: [UI Tweaks, Traits, Preferences, Overrides]
 overrides: true
 ---
 
-## What does this mod do?
+## About This Mod
 
 Normally, your Sims' weather preferences (for sun, rain, snow, and wind) are hidden from you as "hidden traits." This mod makes those existing preferences visible by visualizing them as **Likes** and **Dislikes** traits in the UI.
 

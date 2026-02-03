@@ -7,7 +7,7 @@ requirements: ["smart_core"]
 categories: [Gameplay Mods, Skills, Activities, Recipes, Medical]
 ---
 
-## What does this mod do?
+## About This Mod
 
 The **Selvadoradian Herbalism** mod unlocks the ancient secrets of Omiscan herbal medicine. By combining the **Herbalism** skill with **Selvadoradian Local Culture** knowledge, your Sims can discover and brew powerful magical potions, including the famous poison antidote.
 

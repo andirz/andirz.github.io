@@ -7,7 +7,7 @@ categories: [Global Tweaks, Traits, Sim Personalization]
 tagline: "Fixes the 'unromantic NPC' bug and restores global pansexual preferences to ensure your world stays romantic and active."
 ---
 
-## What does this mod do?
+## About This Mod
 
 After a specific game patch, Sim sexual preferences became more complex, but a bug was introduced: many newly generated NPCs were created as "unromantic" (no interest in men or women), making flirting impossible.
 

@@ -8,7 +8,7 @@ categories: [Darker Gameplay, Crime, Medical, Survival, Food & Drinks, Storytell
 tagline: "Master the art of the underground with a dangerous new system of toxic substances and medical countermeasures."
 ---
 
-## What does this mod do?
+## About This Mod
 
 The **Deadly Poisons** mod introduces a dangerous new system of toxic substances and medical countermeasures to *The Sims 4*. Your Sims can now acquire various poisons to commit suicide or, more nefariously, to eliminate other Sims by spiking their drinks.
 

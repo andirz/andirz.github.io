@@ -6,12 +6,10 @@ requirements: ["lot51_core"]
 categories: [Gameplay Mods, Tweaks, Overrides]
 ---
 
-"fas fa-cross"
-
 > ### ⚠️ Mod Status: Broken
 > This mod is currently **broken** after Patch 1.110 (Life & Death Preparation). Use with caution or wait for an update, as it overrides core urn and ghost interactions that were heavily changed by EA.
 
-## What does this mod do?
+## About This Mod
 
 The **Urn/Stone Overhaul** simplifies the management of deceased Sims and adds much-needed depth and realism to the process of releasing spirits. It removes unnecessary confirmation dialogs and introduces variety to how Sims react emotionally to death.
 

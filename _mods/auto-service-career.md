@@ -8,7 +8,7 @@ categories: [Careers, Gameplay, Skills, Adopted Mods]
 tagline: "Climb the ladder from the workshop floor to department head in this fully modernized automotive career."
 ---
 
-## What does this mod do?
+## About This Mod
 
 **Auto Service Career** is a full remake and modernization of the original *Auto Service Career* by **YouLie**, originally published on ModTheSims. The original mod had not been updated since mid-2019 and was no longer functional. It also missed many gameplay systems introduced with later expansions such as **Discover University**, **High School Years**, **Growing Together**, lifestyles, and other modern mechanics.
 

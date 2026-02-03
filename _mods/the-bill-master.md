@@ -6,7 +6,7 @@ requirements: ["lot51_core"]
 categories: [Gameplay Mods, Money, Adopted Mods]
 ---
 
-## What does this mod do?
+## About This Mod
 
 **The Bill Master** gives Sims alternative (and sometimes questionable) ways to deal with unpaid bills — for those moments when Simoleons are short or morals are flexible.
 

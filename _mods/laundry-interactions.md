@@ -9,7 +9,7 @@ categories: [Gameplay Mods, Laundry, Activities, Realism]
 tagline: "Add realism to your chores with brand new interactions like smelling fresh laundry, folding piles, and fixing broken machines."
 ---
 
-## What does this mod do?
+## About This Mod
 
 The **Laundry Interactions** mod expands the gameplay of *Laundry Day Stuff* by adding a variety of new, realistic, and sometimes humorous interactions to laundry objects. Originally part of the *Laundry Service* mod, these features have been separated and significantly expanded to provide more depth for clean-obsessed Sims and storytelling.
 

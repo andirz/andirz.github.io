@@ -7,7 +7,7 @@ categories: [Scripts, Injectors, Adopted Mods]
 tagline: "A critical script library update that restores functionality to numerous community mods after game version 1.110."
 ---
 
-## What is that?
+## About This Mod
 After patch 1.110, several popular mods stopped working. To help the community stay afloat after numerous calls for help, I have updated the **Injection Tools** (originally created by *BrainBlasted*). 
 
 Since the original author hasn’t fixed it yet, I fixed the bugs introduced by patch 1.110 and completely reworked the script. All mods using the Injection Tools should now function correctly without requiring any changes from you.

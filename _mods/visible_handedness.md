@@ -6,9 +6,7 @@ categories: [UI Tweaks, Traits, Overrides]
 overrides: true
 ---
 
-icon: "fas fa-hand-paper"
-
-## What does this mod do?
+## About This Mod
 
 This override mod makes the hidden handedness of your Sims visible! Technically, it overrides the corresponding hidden traits and converts them into gameplay traits that appear in the Sim's UI.
 

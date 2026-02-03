@@ -8,7 +8,7 @@ categories: [University, Gameplay Mods, Education, Mod Integration]
 tagline: "Bridge the gap between academics and passion with over 35 new elective courses for your students."
 ---
 
-## What does this mod do?
+## About This Mod
 
 I believe different mods shouldn't stay isolated but should be integrated into the common gameplay. This mod adds various new elective courses to both universities, including forgotten EA skills and custom skills from popular community mods.
 

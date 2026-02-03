@@ -8,7 +8,7 @@ categories: [Sim Personalization, Emotion Tweaks, Gameplay Mods]
 tagline: "End robotic household-wide sadness by introducing diverse emotional outcomes for holidays based on Sim personality."
 ---
 
-## What does this mod do?
+## About This Mod
 
 Tired of your Sims all starting to cry at the same time after an unsuccessful holiday, only to stop at the exact same moment as if they were miraculously cured? **No Holidays Failure Drama** puts an end to this robotic behavior!
 

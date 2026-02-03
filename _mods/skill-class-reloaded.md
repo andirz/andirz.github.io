@@ -7,6 +7,7 @@ requirements: ["smart_core"]
 packs: ["EP08"]
 ---
 
+## About This Mod
 A complete rework of the standard skill classes in *The Sims 4*. This mod adds personality to the learning experience, fixes long-standing bugs, and improves the overall interaction.
 
 ### Key Features

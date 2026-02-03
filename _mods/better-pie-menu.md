@@ -7,9 +7,9 @@ categories: [UI Tweaks, Optimization, Overrides]
 tagline: "End the clutter and find your favorite interactions faster with a beautifully reorganized and color-coded UI."
 ---
 
-## Mod Description
+## About This Mod
 The **Better Pie Menu (BPM)** mod is designed to bring order to the chaos of the Sims 4 interaction menus. By restructuring the pie menu and adding intuitive icons, you can find the interactions you need much faster.
-> 📦 **Modular Installation:** The archive contains several modules. You can delete any module you don't want to use in your game.
+> **Modular Installation:** The archive contains several modules. You can delete any module you don't want to use in your game.
 
 ### Key Improvements:
 * **Visual Clarity:** Custom icons for major categories (Computer, TV, Stereo, Fridge, etc.).

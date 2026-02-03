@@ -7,7 +7,7 @@ requirements: ["lot51_core"]
 categories: [Sim Personalization, Gameplay Mods, Tweaks, Adopted Mods]
 ---
 
-## What does this mod do?
+## About This Mod
 
 **Take It Off: No Shoes! No Accessories!** automatically removes shoes, socks, glasses, and hats from Sims in situations where wearing them looks unrealistic.
 

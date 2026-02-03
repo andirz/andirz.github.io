@@ -8,6 +8,8 @@ overrides: true
 tagline: "Make University worth the effort by adding the Acting skill to the official Drama degree curriculum."
 ---
 
+## About This Mod
+
 Tired of your Sims dreaming of stardom, enrolling in university for a Drama degree, and learning absolutely nothing about **Acting**? In the original game, the curriculum focuses heavily on Charisma and Comedy, forcing actors to take elective courses just to get basic experience.
 
 This mod overrides four core courses from *Discover University's* Drama Degree and replaces the original skills with the **Acting Skill**. Now, your degree actually prepares you for the stage!

@@ -9,7 +9,7 @@ categories: [Gameplay, Storytelling, Skills, Adopted Mods]
 tagline: "Transform the diary into a powerful storytelling tool with new skill activities and deep emotional reflections for all ages."
 ---
 
-## What does this mod do?
+## About This Mod
 
 **Extended Private Journal** expands the diary journal with new interaction groups focused on
 skill development, emotional reflection, and storytelling.

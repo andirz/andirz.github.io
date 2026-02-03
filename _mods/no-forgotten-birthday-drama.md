@@ -7,7 +7,7 @@ categories: [Emotion Tweaks, Emotion Tweaks, Gameplay Mods]
 tagline: "Stop the uniform crying and give your Sims individual reactions to forgotten birthdays based on their unique traits."
 ---
 
-## What does this mod do?
+## About This Mod
 
 Why do all Sims have to want to celebrate their birthday? Why do they always cry when they haven't thrown a birthday party and invited guests? Finally, stop the uniform drama!
 

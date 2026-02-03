@@ -6,7 +6,7 @@ requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay Mods, Food & Drinks]
 ---
 
-## What does this mod do?
+## About This Mod
 Introducing the brand-new food delivery app: **Sim-Nom-Nom Food Delivery!** With this mod, you can have your Sims’ favorite food, drinks, and ready-made dishes from bakeries, pastry shops, pizzerias, and restaurants delivered instantly to their inventory. Say goodbye to waiting for couriers or postmen—everything is delivered immediately upon purchase!
 
 Sim-Nom-Nom Food Delivery is available on all devices: **computers, tablets, cell phones**, and even through the **mailbox**. It’s just like the *SimSim Online Store*, but specialized for all your culinary needs. 

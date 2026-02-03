@@ -7,7 +7,7 @@ categories: [Cheats, Debugging]
 tagline: "Populate your world instantly with a powerful utility to spawn humans, occults, and animals in a single click."
 ---
 
-## Mod Description
+## About This Mod
 The **Create New Sim** mod unlocks and reorganizes hidden debug interactions, allowing you to spawn new Sims and animals instantly. Originally developed as a testing tool, it is now a powerful utility for players who want to populate their world without going through the CAS process.
 
 Simply **Shift-Click on the floor** in Live Mode to access the new menu.

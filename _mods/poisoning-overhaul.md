@@ -6,7 +6,7 @@ requirements: ["lot51_core"]
 categories: [Gameplay, Medical, Realism, Overrides]
 ---
 
-## What does this mod do?
+## About This Mod
 
 The **Poisoning Overhaul** makes the poisoning and antidote mechanics from *Jungle Adventure* more challenging and realistic. It introduces quality levels for antidotes and increases the danger of temple traps.
 

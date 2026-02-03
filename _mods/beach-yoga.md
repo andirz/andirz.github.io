@@ -9,7 +9,7 @@ categories: [Gameplay, Activities, Wellness, Skills]
 tagline: "Find your inner peace on the sand with the ability to practice yoga directly on beach towels."
 ---
 
-## What does this mod do?
+## About This Mod
 
 **Beach Yoga** allows Sims to practice yoga directly on the beach using beach towels.  
 As a side effect, yoga mats can also be used as beach towels.

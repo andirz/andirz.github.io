@@ -8,7 +8,7 @@ categories: [Scripts, Sim Personalization, Optimization, Townie Fixes]
 tagline: "Breathe life back into your world by instantly restoring missing personality traits to your Sims and NPCs."
 ---
 
-## What does this mod do?
+## About This Mod
 
 You played with a lot of custom personality traits and then deleted the corresponding mods, and now all of your 500 NPC Sims are empty? If this has happened to you, then this mod is for you! This mod will fill all of your Sims (active and NPCs) with **random personality traits** up to the maximum allowed (e.g., three for adults, two for teens). 
 

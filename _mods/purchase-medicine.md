@@ -6,7 +6,7 @@ requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay, Medical]
 ---
 
-## What does this mod do?
+## About This Mod
 The Pharmacy is a one-stop shop for your Sims' health needs. It integrates seamlessly into the game via various devices and ensures that you don't have to hunt for specific items across different menus or venues. The Pharmacy (automatically available on all mobile phones,  all computers, tablets, and mail boxes) lets you conveniently order all medicines and care products in one place and add them directly to your inventory! All items can be ordered on the mobile phone without prescription.
 
 ## Included Content

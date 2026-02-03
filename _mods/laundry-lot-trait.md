@@ -8,7 +8,7 @@ categories: [Gameplay Mods, Lot Traits, Laundry, Realism, Money]
 tagline: "Create functional public laundromats or rental businesses by requiring a fee for every wash and dry cycle."
 ---
 
-## What does this mod do?
+## About This Mod
 
 The **Laundromat Service** mod introduces the "Self-Service Paid Laundry" lot trait (found under Lot Challenges), which makes all washing machines and dryers on the lot require a fee to operate.
 

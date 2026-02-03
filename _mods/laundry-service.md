@@ -8,7 +8,7 @@ categories: [Gameplay Mods, Laundry, Activities, Realism, Adopted Mods]
 tagline: "Save time by sending your laundry to the 'Soapy Llama' professional cleaners for a quick and fragrant turnaround."
 ---
 
-## What does this mod do?
+## About This Mod
 
 Too busy to do the laundry? Does washing and drying take up too much time? The **Soapy Llama Laundry Service** mod has you covered! 
 

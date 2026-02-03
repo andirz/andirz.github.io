@@ -8,7 +8,7 @@ categories: [Darker Gameplay, Survival, Challenges, Cheats]
 tagline: "Leave survival to fate with a high-stakes mechanic designed for dystopian storytelling and disaster scenarios."
 ---
 
-## What does this mod do?
+## About This Mod
 
 **Death Roulette Challenge** is a scenario-focused gameplay mod that introduces a fast, random survival-or-death mechanic for Sims.
 
