@@ -22,9 +22,19 @@ layout: default
       </article>
 
       {% if page.mod_id %}
-        {% capture faq_file %}faq/{{ page.mod_id }}.md{% endcapture %}
+        {% capture faq_path %}_includes/faq/{{ page.mod_id }}.md{% endcapture %}
+        
+        {% assign faq_exists = false %}
+        {% for file in site.static_files %}
+          {% if file.path == faq_path %}
+            {% assign faq_exists = true %}
+          {% endif %}
+        {% endfor %}
+      
         <section class="mod-faq-container" style="margin-top: 30px;">
-          {% include {{ faq_file }} ignore_missing %}
+          {% capture faq_file %}faq/{{ page.mod_id }}.md{% endcapture %}
+          
+          {% include {{ faq_file }} %} 
         </section>
       {% endif %}
 
