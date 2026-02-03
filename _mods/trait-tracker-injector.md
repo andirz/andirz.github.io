@@ -19,9 +19,5 @@ A similar injector is now included in the **Lot51 Core Library**, which many mod
 * **Check your mods:** If a mod you use recently updated to require the *Lot51 Core Library*, you may no longer need this standalone injector.
 * **Legacy support:** This fix is primarily for older or specific mods that still strictly rely on the original MAL22 syntax.
 
-## How To Use
-Please pay close attention to the following instructions.
-{% include notice-script.html %}
-
 ## For Modders
 The usage and syntax of this updated version remain **entirely unchanged**. You can continue to use it in your new projects exactly as described in the original documentation by MAL22, without having to modify your code or integration methods.
