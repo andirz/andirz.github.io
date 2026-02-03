@@ -1,54 +1,130 @@
-<div class="mod-policy" style="
-  margin: 0;
-  padding: 14px;
-  background: rgba(0,0,0,0.02);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  font-size: 0.88rem;
-  color: var(--text-color);
-">
-  <h3 style="margin: 0 0 6px 0;">
-    <i class="fas fa-gavel"></i> General Policy
-  </h3>
+<div class="mod-policy-box">
+  <div class="mod-policy-header">
+    <i class="fas fa-gavel"></i>
+    <span>General Policy</span>
+  </div>
 
-  <p style="margin: 0 0 10px 0;">
+  <p class="mod-policy-lead">
     Development and maintenance of mods take time and energy.
     If you enjoy my work, feel free to <strong>support me on Patreon</strong>.
   </p>
 
-  <div style="
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  ">
-    <div>
-      <h4 style="margin: 0 0 2px 0; font-size: 0.9rem;">
-        <i class="fas fa-language"></i> Translations
-      </h4>
-      <p style="margin: 0;">
+  <div class="mod-policy-grid">
+    <div class="mod-policy-item">
+      <div class="mod-policy-item-title">
+        <i class="fas fa-language"></i>
+        <span>Translations</span>
+      </div>
+      <p class="mod-policy-text">
         Translations and fixes (including English) are welcome.
       </p>
     </div>
 
-    <div>
-      <h4 style="margin: 0 0 2px 0; font-size: 0.9rem;">
-        <i class="fas fa-ban"></i> Re-uploads
-      </h4>
-      <p style="margin: 0;">
-        <strong>Do not upload</strong> my mods to other sites.
-        Link directly to this page.
+    <div class="mod-policy-item">
+      <div class="mod-policy-item-title">
+        <i class="fas fa-ban"></i>
+        <span>Re-uploads</span>
+      </div>
+      <p class="mod-policy-text">
+        <strong>Do not upload</strong> my mods to other sites. Link directly to this page.
       </p>
     </div>
   </div>
 
-  <div style="
-    margin: 8px 0 0 0;
-    padding-top: 6px;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.8rem;
-    color: #dc3545;
-  ">
+  <div class="mod-policy-warning">
     <i class="fas fa-exclamation-triangle"></i>
-    Avoid third-party websites. Use official download links only.
+    <span>Avoid third-party websites. Use official download links only.</span>
   </div>
 </div>
+
+<style>
+  .mod-policy-box{
+    margin: 18px 0 0;
+    padding: 14px 16px;
+    background: rgba(0,0,0,0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    color: var(--text-color);
+  }
+
+  .mod-policy-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight: 900;
+    font-size: 0.95rem;
+    margin: 0 0 10px;
+    color: var(--text-color);
+  }
+
+  .mod-policy-header i{
+    opacity: 0.85;
+  }
+
+  .mod-policy-lead{
+    margin: 0 0 12px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--text-color);
+  }
+
+  .mod-policy-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0 0 10px;
+  }
+
+  .mod-policy-item{
+    padding: 10px 12px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.65);
+  }
+
+  .mod-policy-item-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight: 900;
+    font-size: 0.88rem;
+    margin: 0 0 4px;
+  }
+
+  .mod-policy-item-title i{
+    opacity: 0.85;
+  }
+
+  .mod-policy-text{
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: var(--text-color);
+    opacity: 0.92;
+  }
+
+  .mod-policy-warning{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(220,53,69,0.25);
+    background: rgba(220,53,69,0.06);
+    color: #b4232d;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    font-weight: 800;
+  }
+
+  .mod-policy-warning i{
+    margin-top: 2px;
+  }
+
+  @media (max-width: 700px){
+    .mod-policy-grid{
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
