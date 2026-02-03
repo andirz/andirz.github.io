@@ -1,21 +1,23 @@
-{% if site.data.globals.patch_alert.active %}
-<div class="patch-alert-container">
+<div class="patch-alert-container critical-mode">
   <div class="patch-alert-header">
     <i class="fas fa-exclamation-triangle"></i>
     <span>{{ site.data.globals.patch_alert.title }}</span>
   </div>
   
   <div class="patch-alert-body">
-    <p>A new game patch (<strong>{{ site.data.globals.latest_patch }}</strong>) was released on <strong>{{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}</strong>.</p>
+    <p>
+      A game update (<strong>{{ site.data.globals.latest_patch }}</strong>) is scheduled or was recently released on 
+      <strong>{{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}</strong>.
+    </p>
     
     <ul class="patch-list">
-      <li><strong>Preparation:</strong> Disable automatic updates in EA App/Steam and play offline.</li>
-      <li><strong>Safety:</strong> Backup your <code>Saves</code> and <code>Tray</code> folders before updating.</li>
-      <li><strong>Caution:</strong> All mods are considered <strong>BROKEN</strong> until verified. Do not report issues yet.</li>
+      <li><strong>Safety First:</strong> Backup your <code>Saves</code> & <code>Tray</code> folders and play offline until you have updated your mods.</li>
+      <li><strong>Individual Status:</strong> Please check the <strong>Status</strong> column in the table below for each specific mod.</li>
+      <li><strong>Unknown Risk:</strong> Mods not yet marked as 'Compatible' or 'Updated' should be used at your own risk.</li>
     </ul>
 
     <div class="patch-status-footer">
-      Status as of: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}
+      Table last updated: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}
     </div>
   </div>
 </div>
@@ -27,7 +29,6 @@
     border-radius: 8px;
     overflow: hidden;
     background: var(--bg-primary);
-    font-family: inherit;
   }
   .patch-alert-header {
     background: #b30000;
@@ -38,29 +39,20 @@
     align-items: center;
     gap: 10px;
     text-transform: uppercase;
-    font-size: 0.95rem;
   }
   .patch-alert-body {
     padding: 15px;
     color: var(--text-color);
     font-size: 0.9rem;
-    line-height: 1.5;
   }
-  .patch-alert-body p { margin: 0 0 10px 0; }
-  .patch-list {
-    margin: 0;
-    padding-left: 20px;
-    list-style-type: square;
-  }
+  .patch-list { margin: 10px 0; padding-left: 20px; list-style-type: disc; }
   .patch-list li { margin-bottom: 5px; }
   .patch-status-footer {
-    margin-top: 12px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-    font-style: italic;
+    margin-top: 10px;
     font-size: 0.8rem;
     color: var(--text-muted);
     text-align: right;
+    border-top: 1px solid rgba(128,128,128,0.1);
+    padding: 5px 15px;
   }
 </style>
-{% endif %}
