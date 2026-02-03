@@ -12,7 +12,7 @@ layout: default
       {% comment %} 
         SPLIT LOGIK: Zerlegt den Content an den IDs der H2-Überschriften.
       {% endcomment %}
-      {% assign part_faq = content | split: '<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>' %}
+      {% assign part_faq = content | split: '<h2 id="frequently-asked-questions">FAQ</h2>' %}
       {% assign part_inst = part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' %}
       {% assign part_lang = part_inst[0] | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
 
