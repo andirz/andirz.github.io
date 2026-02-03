@@ -22,12 +22,12 @@ layout: default
         <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Language &amp; Translations</h2>
         
         {% if content_parts[0] contains 'id="language--translations"' %}
-          <div class="custom-translation-text" style="margin-bottom: 15px; line-height: 1.6;">
+          <div class="custom-translation-text" style="margin-bottom: 15px; line-height: 1.6; font-size: 1rem;">
             {{ description_parts[1] }}
           </div>
         {% endif %}
-
-        <div class="translation-template-content" style="line-height: 1.6; opacity: 0.9; ">
+      
+        <div class="translation-template-content" style="line-height: 1.6; font-size: 1rem;">
           {% if page.disable_translations == true or page.strings == false %}
             {% include translation/no_strings.md %}
           {% elsif page.files contains "bat" %}
@@ -42,14 +42,16 @@ layout: default
 
       <section class="mod-installation-section" style="margin-top: 40px;">
         <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Installation Guide</h2>
-        <p style="margin-top: 8px; ">Please note the following information:</p>
-        {% if page.files contains "bat" %}
-          {% include installation/bat_script.html %}
-        {% elsif page.files contains "ts4script" %}
-          {% include installation/python_script.html %}
-        {% else %}
-          {% include installation/package.html %}
-        {% endif %}
+        <p style="margin-top: 12px; font-weight: 600; font-size: 1rem; line-height: 1.6;">Please note the following information:</p>
+        <div style="font-size: 1rem; line-height: 1.6;">
+          {% if page.files contains "bat" %}
+            {% include installation/bat_script.html %}
+          {% elsif page.files contains "ts4script" %}
+            {% include installation/python_script.html %}
+          {% else %}
+            {% include installation/package.html %}
+          {% endif %}
+        </div>
       </section>
 
       {% if content contains 'id="frequently-asked-questions"' %}
