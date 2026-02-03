@@ -3,7 +3,7 @@ mod_id: simsim_online_store
 title: SimSim Online Store
 icon: "fas fa-shopping-cart"
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Gameplay, Phone App, Custom Config]
+categories: [Purchasing System, Gameplay, Phone App]
 faq: true
 ---
 
