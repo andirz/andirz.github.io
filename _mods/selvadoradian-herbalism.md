@@ -4,7 +4,7 @@ title: "Selvadoradian Herbalism"
 icon: "fas fa-leaf"
 packs: ["GP01", "GP06"]
 requirements: ["smart_core"]
-categories: [Gameplay Mods, Skills, Activities, Recipes, Medicine]
+categories: [Gameplay Mods, Skills, Activities, Recipes, Medical]
 ---
 
 ## What does this mod do?
