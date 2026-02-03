@@ -8,30 +8,58 @@ mode: Memory
 difficulty: Medium
 ---
 
-<div class="pm-wrap"
-     id="pack-memory"
+<div class="pm-shell" id="pm-root"
      data-ep-count="18"
      data-gp-count="12"
      data-pairs="8"
      data-time-limit="90"
-     data-folder="{{ site.baseurl }}/assets/img/packs/mono/"
-     data-icon-size="128">
+     data-folder="{{ site.baseurl }}/assets/img/packs/mono/">
+  <div class="pm-top">
+    <div class="pm-title">
+      <h2>Pack Picker Memory</h2>
+      <p>Match all Sims 4 packs before time runs out.</p>
+    </div>
+
+    <div class="pm-stats">
+      <div class="pm-pill" id="pm-status">Matches: 0 / 0</div>
+      <div class="pm-pill" id="pm-misses">Misses: 0</div>
+      <div class="pm-pill" id="pm-timer">Time: 00:00</div>
+      <button class="pm-btn" id="pm-restart" type="button">Restart</button>
+    </div>
+  </div>
+
+  <div class="pm-grid" id="pm-grid" aria-label="Memory grid"></div>
+
+  <div class="pm-note">Tip: Works best with mouse. Mobile also ok.</div>
+</div>
+
+<div class="pm-overlay" id="pm-overlay" aria-hidden="true">
+  <div class="pm-modal" id="pm-modal">
+    <h3 id="pm-modal-title">GAME OVER</h3>
+    <p id="pm-modal-text">Time is up!</p>
+    <div class="pm-modal-row">
+      <div class="pm-pill" id="pm-final-matches">Matches: 0 / 0</div>
+      <div class="pm-pill" id="pm-final-misses">Misses: 0</div>
+    </div>
+    <button class="pm-btn" id="pm-play-again" type="button">Play again</button>
+  </div>
 </div>
 
 <style>
   :root{
-    --pm-bg: #f8fafc;
-    --pm-card: #ffffff;
-    --pm-ink: #0f172a;
-    --pm-muted: #64748b;
-    --pm-border: #e2e8f0;
-    --pm-blue: #1e293b;
-    --pm-green: #2ecc71;
-    --pm-red: #e74c3c;
-    --pm-shadow: 0 16px 22px -8px rgba(0,0,0,0.06);
-    --pm-radius: 22px;
-    --pm-gap: 10px;
-    --pm-flip: 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.22);
+    --pm-bg:#f8fafc;
+    --pm-card:#fff;
+    --pm-ink:#0f172a;
+    --pm-muted:#64748b;
+    --pm-border:#e2e8f0;
+    --pm-blue:#1e293b;
+    --pm-green:#2ecc71;
+    --pm-red:#e74c3c;
+    --pm-shadow:0 16px 22px -8px rgba(0,0,0,.06);
+    --pm-radius:22px;
+    --pm-gap:10px;
+    --pm-flip:0.42s cubic-bezier(.175,.885,.32,1.22);
+    --pm-size:146px;
   }
 
   .pm-shell{
@@ -41,39 +69,36 @@ difficulty: Medium
     border: 1px solid var(--pm-border);
     border-radius: var(--pm-radius);
     box-shadow: var(--pm-shadow);
-    padding: 1.2rem 1.2rem 1.3rem;
+    padding: 1.1rem 1.1rem 1.2rem;
   }
 
   .pm-top{
     display:flex;
-    align-items:flex-start;
     justify-content:space-between;
+    align-items:flex-start;
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 1rem;
   }
 
-  .pm-title{
-    min-width: 240px;
-  }
   .pm-title h2{
     margin:0;
-    font-size: 1.3rem;
-    font-weight: 850;
-    color: var(--pm-ink);
-    letter-spacing: -0.01em;
+    font-size:1.3rem;
+    font-weight:850;
+    color:var(--pm-ink);
+    letter-spacing:-.01em;
   }
   .pm-title p{
     margin:.25rem 0 0;
-    color: var(--pm-muted);
-    font-size: .9rem;
+    color:var(--pm-muted);
+    font-size:.9rem;
   }
 
   .pm-stats{
     display:flex;
     gap:.5rem;
     align-items:center;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
     justify-content:flex-end;
   }
 
@@ -85,13 +110,13 @@ difficulty: Medium
     font-weight: 800;
     color: var(--pm-blue);
     font-size: .85rem;
-    min-width: 108px;
+    min-width: 120px;
     text-align:center;
   }
   .pm-pill.is-warn{
     background: var(--pm-red);
-    border-color: #c0392b;
-    color: #fff;
+    border-color:#c0392b;
+    color:#fff;
   }
 
   .pm-btn{
@@ -115,25 +140,24 @@ difficulty: Medium
     perspective: 1100px;
   }
 
-  /* responsive columns */
-  @media (min-width: 900px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-card-size)); } }
-  @media (min-width: 620px) and (max-width: 899px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-card-size)); } }
-  @media (max-width: 619px){ .pm-grid{ grid-template-columns: repeat(3, var(--pm-card-size)); } }
+  @media (min-width: 900px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-size)); } }
+  @media (min-width: 620px) and (max-width: 899px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-size)); } }
+  @media (max-width: 619px){ .pm-grid{ grid-template-columns: repeat(3, var(--pm-size)); } }
 
   .pm-card{
-    width: var(--pm-card-size);
-    height: var(--pm-card-size);
-    position: relative;
-    transform-style: preserve-3d;
+    width: var(--pm-size);
+    height: var(--pm-size);
+    position:relative;
+    transform-style:preserve-3d;
     transition: transform var(--pm-flip);
-    cursor: pointer;
+    cursor:pointer;
     border-radius: 14px;
-    outline: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
   }
-
   .pm-card.is-flipped{ transform: rotateY(180deg); }
-  .pm-card.is-matched{ cursor: default; opacity: 0.96; }
-  .pm-card:focus-visible{ box-shadow: 0 0 0 3px rgba(46,204,113,.25); }
+  .pm-card.is-matched{ cursor: default; opacity: .96; }
 
   .pm-face{
     position:absolute;
@@ -147,13 +171,13 @@ difficulty: Medium
   }
 
   .pm-front{
-    background: linear-gradient(180deg, #22314a, #152033);
-    border: 2px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg,#22314a,#152033);
+    border: 2px solid rgba(255,255,255,.08);
     color:#fff;
     font-weight: 900;
     letter-spacing: .06em;
     font-size: 1.1rem;
-    user-select: none;
+    user-select:none;
   }
 
   .pm-back{
@@ -164,23 +188,23 @@ difficulty: Medium
   }
 
   .pm-back img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    width:100%;
+    height:100%;
+    object-fit:contain;
     display:block;
   }
 
   .pm-fallback{
     display:none;
-    width: 100%;
-    height: 100%;
+    width:100%;
+    height:100%;
     border-radius: 10px;
-    background: #f1f5f9;
-    color: #334155;
+    background:#f1f5f9;
+    color:#334155;
     font-weight: 900;
     align-items:center;
     justify-content:center;
-    font-size: .95rem;
+    font-size:.95rem;
   }
 
   .pm-note{
@@ -190,7 +214,6 @@ difficulty: Medium
     text-align:center;
   }
 
-  /* overlay */
   .pm-overlay{
     position: fixed;
     inset: 0;
@@ -220,137 +243,111 @@ difficulty: Medium
     margin: 0 0 .9rem;
     color: var(--pm-muted);
   }
-  .pm-modal .pm-modal-row{
+  .pm-modal-row{
     display:flex;
     gap:.5rem;
     justify-content:center;
     flex-wrap: wrap;
     margin-bottom: .9rem;
   }
-  .pm-modal .pm-pill{ min-width: 120px; }
-  .pm-modal .pm-btn{ min-width: 140px; }
   .pm-modal.is-win .pm-btn{ background: var(--pm-green); }
 </style>
 
 <script>
 (function(){
-  const host = document.getElementById("pack-memory");
-  if(!host) return;
+  var root = document.getElementById("pm-root");
+  if(!root) return;
 
-  // config
-  const EP = +host.dataset.epCount || 18;
-  const GP = +host.dataset.gpCount || 12;
-  const PAIRS = +host.dataset.pairs || 8;
-  const TIME = +host.dataset.timeLimit || 90;
-  const ICON = +host.dataset.iconSize || 128;
+  var grid = document.getElementById("pm-grid");
+  var statusEl = document.getElementById("pm-status");
+  var missesEl = document.getElementById("pm-misses");
+  var timerEl  = document.getElementById("pm-timer");
+  var restartBtn = document.getElementById("pm-restart");
 
-  let FOLDER = host.dataset.folder || "";
-  if (FOLDER && !FOLDER.endsWith("/")) FOLDER += "/";
+  var overlay = document.getElementById("pm-overlay");
+  var modal = document.getElementById("pm-modal");
+  var modalTitle = document.getElementById("pm-modal-title");
+  var modalText  = document.getElementById("pm-modal-text");
+  var finalMatches = document.getElementById("pm-final-matches");
+  var finalMisses  = document.getElementById("pm-final-misses");
+  var playAgainBtn = document.getElementById("pm-play-again");
 
-  // derive card size: icon + padding
-  const CARD = Math.max(ICON + 18, 92);
+  var EP = parseInt(root.dataset.epCount || "18", 10);
+  var GP = parseInt(root.dataset.gpCount || "12", 10);
+  var PAIRS = parseInt(root.dataset.pairs || "8", 10);
+  var TIME = parseInt(root.dataset.timeLimit || "90", 10);
 
-  host.innerHTML = `
-    <div class="pm-shell" style="--pm-card-size:${CARD}px">
-      <div class="pm-top">
-        <div class="pm-title">
-          <h2>Pack Picker Memory</h2>
-          <p>Match all Sims 4 packs before time runs out.</p>
-        </div>
+  var folder = root.dataset.folder || "";
+  if(folder && folder.charAt(folder.length-1) !== "/") folder += "/";
 
-        <div class="pm-stats">
-          <div class="pm-pill" data-pm-status>Matches: 0 / ${PAIRS}</div>
-          <div class="pm-pill" data-pm-misses>Misses: 0</div>
-          <div class="pm-pill" data-pm-timer>Time: 00:00</div>
-          <button class="pm-btn" type="button" data-pm-restart>Restart</button>
-        </div>
-      </div>
+  // show correct initial badge
+  statusEl.textContent = "Matches: 0 / " + PAIRS;
 
-      <div class="pm-grid" data-pm-grid></div>
+  var opened = [];
+  var locked = false;
+  var matches = 0;
+  var misses = 0;
+  var timerId = null;
+  var startMs = 0;
 
-      <div class="pm-note">Tip: You can play with mouse or keyboard (Tab + Enter).</div>
-    </div>
+  var packs = [];
+  for (var i=1;i<=EP;i++){
+    packs.push("ep" + String(i).padStart(2,"0"));
+  }
+  for (var j=1;j<=GP;j++){
+    packs.push("gp" + String(j).padStart(2,"0"));
+  }
 
-    <div class="pm-overlay" data-pm-overlay>
-      <div class="pm-modal" data-pm-modal>
-        <h3 data-pm-modal-title>GAME OVER</h3>
-        <p data-pm-modal-text>Time is up!</p>
-        <div class="pm-modal-row">
-          <div class="pm-pill" data-pm-final-matches>Matches: 0 / ${PAIRS}</div>
-          <div class="pm-pill" data-pm-final-misses>Misses: 0</div>
-        </div>
-        <button class="pm-btn" type="button" data-pm-play-again>Play again</button>
-      </div>
-    </div>
-  `;
+  function shuffle(arr){
+    return arr.sort(function(){ return Math.random() - 0.5; });
+  }
 
-  const grid = host.querySelector("[data-pm-grid]");
-  const statusEl = host.querySelector("[data-pm-status]");
-  const missesEl = host.querySelector("[data-pm-misses]");
-  const timerEl  = host.querySelector("[data-pm-timer]");
-  const restartBtn = host.querySelector("[data-pm-restart]");
+  function format(sec){
+    var m = Math.floor(sec/60);
+    var s = sec % 60;
+    return String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+  }
 
-  const overlay = host.querySelector("[data-pm-overlay]");
-  const modal   = host.querySelector("[data-pm-modal]");
-  const modalTitle = host.querySelector("[data-pm-modal-title]");
-  const modalText  = host.querySelector("[data-pm-modal-text]");
-  const finalMatches = host.querySelector("[data-pm-final-matches]");
-  const finalMisses  = host.querySelector("[data-pm-final-misses]");
-  const playAgainBtn = host.querySelector("[data-pm-play-again]");
+  function setTimer(left){
+    if(left < 0) left = 0;
+    timerEl.textContent = "Time: " + format(left);
+    if(left <= 10 && left > 0) timerEl.classList.add("is-warn");
+    else timerEl.classList.remove("is-warn");
+  }
 
-  let opened = [];
-  let locked = false;
-  let matches = 0;
-  let misses = 0;
-  let timerId = null;
-  let startMs = 0;
-
-  const packs = [];
-  for (let i=1;i<=EP;i++) packs.push(`ep${String(i).padStart(2,"0")}`);
-  for (let i=1;i<=GP;i++) packs.push(`gp${String(i).padStart(2,"0")}`);
-
-  function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
-
-  function format(s){
-    const m = Math.floor(s/60);
-    const sec = s%60;
-    return String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
+  function hideOverlay(){
+    overlay.style.display = "none";
+    overlay.setAttribute("aria-hidden","true");
   }
 
   function showOverlay(isWin){
-    finalMatches.textContent = `Matches: ${matches} / ${PAIRS}`;
-    finalMisses.textContent = `Misses: ${misses}`;
-
-    modal.classList.toggle("is-win", !!isWin);
+    finalMatches.textContent = "Matches: " + matches + " / " + PAIRS;
+    finalMisses.textContent = "Misses: " + misses;
 
     if(isWin){
+      modal.classList.add("is-win");
       modalTitle.textContent = "VICTORY";
-      modalText.textContent = `Perfect memory! You had ${misses} misses.`;
+      modalText.textContent = "Perfect memory! You had " + misses + " misses.";
       playAgainBtn.textContent = "Play again";
     } else {
+      modal.classList.remove("is-win");
       modalTitle.textContent = "GAME OVER";
       modalText.textContent = "Time is up!";
       playAgainBtn.textContent = "Try again";
     }
 
     overlay.style.display = "flex";
-  }
-
-  function hideOverlay(){
-    overlay.style.display = "none";
-  }
-
-  function setTimer(left){
-    timerEl.textContent = "Time: " + format(Math.max(left,0));
-    timerEl.classList.toggle("is-warn", left <= 10 && left > 0);
+    overlay.setAttribute("aria-hidden","false");
   }
 
   function flipBack(){
-    opened.forEach(c => c.classList.remove("is-flipped"));
+    for(var k=0;k<opened.length;k++){
+      opened[k].classList.remove("is-flipped");
+    }
     opened = [];
   }
 
-  function onCardClick(card){
+  function onCard(card){
     if(locked) return;
     if(card.classList.contains("is-matched")) return;
     if(card.classList.contains("is-flipped")) return;
@@ -361,8 +358,8 @@ difficulty: Medium
     if(opened.length < 2) return;
 
     locked = true;
-    const a = opened[0].dataset.id;
-    const b = opened[1].dataset.id;
+    var a = opened[0].dataset.id;
+    var b = opened[1].dataset.id;
 
     if(a === b){
       matches++;
@@ -371,25 +368,64 @@ difficulty: Medium
       opened = [];
       locked = false;
 
-      statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
+      statusEl.textContent = "Matches: " + matches + " / " + PAIRS;
 
       if(matches === PAIRS){
         clearInterval(timerId);
-        setTimeout(()=>showOverlay(true), 350);
+        setTimeout(function(){ showOverlay(true); }, 250);
       }
     } else {
       misses++;
-      missesEl.textContent = `Misses: ${misses}`;
-      setTimeout(()=>{
+      missesEl.textContent = "Misses: " + misses;
+      setTimeout(function(){
         flipBack();
         locked = false;
-      }, 820);
+      }, 800);
     }
   }
 
   function buildDeck(){
-    const chosen = shuffle([...packs]).slice(0, PAIRS);
-    return shuffle([...chosen, ...chosen]);
+    var chosen = shuffle(packs.slice()).slice(0, PAIRS);
+    var deck = chosen.concat(chosen);
+    return shuffle(deck);
+  }
+
+  function makeCard(id){
+    var card = document.createElement("button");
+    card.type = "button";
+    card.className = "pm-card";
+    card.dataset.id = id;
+
+    var front = document.createElement("div");
+    front.className = "pm-face pm-front";
+    front.textContent = "?";
+
+    var back = document.createElement("div");
+    back.className = "pm-face pm-back";
+
+    var img = document.createElement("img");
+    img.alt = "";
+    img.loading = "lazy";
+    img.src = folder + id + ".png";
+
+    var fb = document.createElement("div");
+    fb.className = "pm-fallback";
+    fb.textContent = id.toUpperCase();
+
+    img.addEventListener("error", function(){
+      img.style.display = "none";
+      fb.style.display = "flex";
+    });
+
+    back.appendChild(img);
+    back.appendChild(fb);
+
+    card.appendChild(front);
+    card.appendChild(back);
+
+    card.addEventListener("click", function(){ onCard(card); });
+
+    return card;
   }
 
   function reset(){
@@ -401,7 +437,7 @@ difficulty: Medium
     matches = 0;
     misses = 0;
 
-    statusEl.textContent = `Matches: 0 / ${PAIRS}`;
+    statusEl.textContent = "Matches: 0 / " + PAIRS;
     missesEl.textContent = "Misses: 0";
     timerEl.classList.remove("is-warn");
 
@@ -409,53 +445,27 @@ difficulty: Medium
     startMs = Date.now();
     setTimer(TIME);
 
-    timerId = setInterval(()=>{
-      const left = TIME - Math.floor((Date.now() - startMs)/1000);
+    timerId = setInterval(function(){
+      var left = TIME - Math.floor((Date.now() - startMs) / 1000);
       setTimer(left);
 
       if(left <= 0){
         clearInterval(timerId);
         locked = true;
-        // falls zwei offen sind, damit nix "halb" stehen bleibt
         flipBack();
         showOverlay(false);
       }
     }, 250);
 
-    const deck = buildDeck();
-
-    deck.forEach(id=>{
-      const card = document.createElement("button");
-      card.type = "button";
-      card.className = "pm-card";
-      card.dataset.id = id;
-      card.setAttribute("aria-label", "Card");
-
-      const imgSrc = `${FOLDER}${id}.png`;
-
-      card.innerHTML = `
-        <div class="pm-face pm-front">?</div>
-        <div class="pm-face pm-back">
-          <img src="${imgSrc}" alt="" loading="lazy">
-          <div class="pm-fallback">${id.toUpperCase()}</div>
-        </div>
-      `;
-
-      const img = card.querySelector("img");
-      const fb  = card.querySelector(".pm-fallback");
-      img.addEventListener("error", ()=>{
-        img.style.display = "none";
-        fb.style.display = "flex";
-      });
-
-      card.addEventListener("click", ()=>onCardClick(card));
-      grid.appendChild(card);
-    });
+    var deck = buildDeck();
+    for(var i=0;i<deck.length;i++){
+      grid.appendChild(makeCard(deck[i]));
+    }
   }
 
   restartBtn.addEventListener("click", reset);
   playAgainBtn.addEventListener("click", reset);
-  overlay.addEventListener("click", (e)=>{
+  overlay.addEventListener("click", function(e){
     if(e.target === overlay) hideOverlay();
   });
 
