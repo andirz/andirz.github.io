@@ -4,6 +4,7 @@ title: Smart Core Script
 icon: fas fa-microchip
 files: [ts4script, package]
 categories: [Scripts, Injectors, Core Library]
+tagline: "Script Core, required for many of my mods."
 ---
 
 ## The Engine Behind the Magic
