@@ -1,5 +1,16 @@
 # _data/globals.yml
 
+# PATCH STATUS
+latest_patch: "1.120.140"
+patch_release_date: "2026-02-03"
+
+last_checked: "2026-02-03"
+patch_alert:
+  active: true
+  type: "critical" # options: info, warning, critical
+  title: "URGENT: GAME PATCH INCOMING"
+  last_updated: "2026-02-03"
+
 # LINKS
 links:
   discord: "https://discord.gg/f7EM7SNXtz"
@@ -7,8 +18,3 @@ links:
   curseforge: "https://sims4andirz.my.curseforge.com"
   kofi: "https://ko-fi.com/andirz"
   paypal: "https://www.paypal.com/paypalme/ARaaz"
-
-# PATCH STATUS
-latest_patch: "1.111.102"
-patch_release_date: "2026-02-03"
-last_checked: "2024-10-22"
