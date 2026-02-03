@@ -36,20 +36,15 @@
 
   <div class="mod-policy-warning">
     <i class="fas fa-exclamation-triangle"></i>
-    <span>Avoid third-party websites. Use official download links only.</span>
-  </div>
-
-  <div class="mod-policy-warning">
-    <i class="fas fa-exclamation-triangle"></i>
     <span>
       Avoid third-party websites. Use official download links only. Downloading from unauthorized sites not only risks viruses and broken mods but also supports intellectual property theft (mod piracy).
     </span>
   </div>
 
-</div
+</div>
 
 <style>
-  .mod-policy-box{
+  .mod-policy-box {
     margin: 18px 0 0;
     padding: 14px 16px;
     background: rgba(0,0,0,0.02);
@@ -58,55 +53,53 @@
     color: var(--text-color);
   }
 
-  .mod-policy-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
+  .mod-policy-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-weight: 900;
     font-size: 0.95rem;
     margin: 0 0 10px;
     color: var(--text-color);
   }
 
-  .mod-policy-header i{
+  /* Hammer-Icon etwas größer */
+  .mod-policy-header i {
+    font-size: 1.2rem; 
     opacity: 0.85;
   }
 
-  .mod-policy-lead{
+  .mod-policy-lead {
     margin: 0 0 12px;
     font-size: 0.92rem;
     line-height: 1.55;
     color: var(--text-color);
   }
 
-  .mod-policy-grid{
-    display:grid;
+  .mod-policy-grid {
+    display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     margin: 0 0 10px;
   }
 
-  .mod-policy-item{
+  .mod-policy-item {
     padding: 10px 12px;
     border: 1px solid rgba(0,0,0,0.08);
     border-radius: 12px;
     background: rgba(255,255,255,0.65);
   }
 
-  .mod-policy-item-title{
-    display:flex;
-    align-items:center;
-    gap:8px;
+  .mod-policy-item-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-weight: 900;
     font-size: 0.88rem;
     margin: 0 0 4px;
   }
 
-  .mod-policy-item-title i{
-    opacity: 0.85;
-  }
-
-  .mod-policy-text{
+  .mod-policy-text {
     margin: 0;
     font-size: 0.86rem;
     line-height: 1.45;
@@ -114,10 +107,10 @@
     opacity: 0.92;
   }
 
-  .mod-policy-warning{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
+  .mod-policy-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
     margin: 10px 0 0;
     padding: 10px 12px;
     border-radius: 12px;
@@ -129,12 +122,8 @@
     font-weight: 800;
   }
 
-  .mod-policy-warning i{
-    margin-top: 2px;
-  }
-
-  @media (max-width: 700px){
-    .mod-policy-grid{
+  @media (max-width: 700px) {
+    .mod-policy-grid {
       grid-template-columns: 1fr;
     }
   }
