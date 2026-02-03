@@ -6,6 +6,7 @@ files: ["bat"]
 categories: [Tools, Scripts]
 curseforge_ban: true
 disable_translations: true
+timeline: "Remove all unnecessary files, cache and reports from the Sims 4 folder in one click!"
 ---
 
 ## What does this tool do?
