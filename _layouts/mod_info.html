@@ -48,8 +48,8 @@ layout: default
       </section>
 
       <section class="mod-installation-section" style="margin-top: 40px;">
-        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Installation Guide</h2>
-        
+        <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Installation Guide</h2>
+        <p style="margin-top: 12px; font-weight: 600;">Please note the following information:</p>
         {% if page.files contains "bat" %}
           {% include installation/bat_script.html %}
         {% elsif page.files contains "ts4script" %}
