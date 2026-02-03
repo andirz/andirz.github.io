@@ -21,6 +21,14 @@ layout: default
         {{ content }}
       </article>
 
+      {% if page.files contains "bat" %}
+        {% include translation/bat_script.md %}
+      {% elif page.files contains "ts4script" and page.files.size == 1 %}
+        {% include translation/python_script.md %}
+      {% else %}
+        {% include translation/package.md %}
+      {% endif %}
+
       {% include mods/installation.html %}
 
     </main>
