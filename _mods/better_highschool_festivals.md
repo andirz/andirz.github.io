@@ -4,7 +4,7 @@ title: "Better HighSchool Festivals"
 icon: "fas fa-school"
 packs: ["EP12"]
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Kiosk, Festival, Education, Gameplay]
+categories: [Purchasing System, Kiosk, Festival, Education, Gameplay, Food & Drinks]
 strings: false
 ---
 
