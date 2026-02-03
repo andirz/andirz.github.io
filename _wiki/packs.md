@@ -32,7 +32,7 @@ It is a helpful resource for modders and players to identify packs across differ
 </thead>
 {% endcapture %}
 
-{% assign tables = 
+{% assign tables =
   "EP|Expansion Packs,
    GP|Game Packs,
    SP_MAIN|Stuff Packs,
@@ -44,27 +44,47 @@ It is a helpful resource for modders and players to identify packs across differ
 {% assign ttitle = tdata[1] %}
 
 <h2 id="{{ ttitle | downcase | replace: ' ', '-' }}">{{ ttitle }}</h2>
+
 <div class="content-wrapper">
   <div class="status-table-container">
     <table class="custom-wiki-table packs-table">
       {{ table_header }}
       <tbody>
+
         {% for pack in site.data.packs %}
         {% assign code = pack[0] %}
         {% assign info = pack[1] %}
         {% assign sp_num = code | remove: "SP" | plus: 0 %}
 
-        {% if
-          (tkey == "EP" and code contains "EP") or
-          (tkey == "GP" and code contains "GP") or
-          (tkey == "SP_MAIN" and code contains "SP" and sp_num <= 18 or sp_num == 46 or sp_num == 49) or
-          (tkey == "SP_KITS" and code contains "SP" and sp_num > 18 and sp_num != 46 and sp_num != 49)
+        {% if tkey == "EP" and code contains "EP" %}
+
+        {% elsif tkey == "GP" and code contains "GP" %}
+
+        {% elsif tkey == "SP_MAIN"
+           and code contains "SP"
+           and (sp_num <= 18 or sp_num == 46 or sp_num == 49)
         %}
+
+        {% elsif tkey == "SP_KITS"
+           and code contains "SP"
+           and sp_num > 18
+           and sp_num != 46
+           and sp_num != 49
+        %}
+
+        {% else %}
+          {% continue %}
+        {% endif %}
+
           {% assign icon_id = code | downcase %}
           {% assign icon_path = "/assets/img/packs/" | append: icon_id | append: ".png" %}
           {% assign icon_exists = false %}
+
           {% for file in site.static_files %}
-            {% if file.path == icon_path %}{% assign icon_exists = true %}{% break %}{% endif %}
+            {% if file.path == icon_path %}
+              {% assign icon_exists = true %}
+              {% break %}
+            {% endif %}
           {% endfor %}
 
           <tr>
@@ -77,13 +97,15 @@ It is a helpful resource for modders and players to identify packs across differ
                 {% endif %}
               </div>
             </td>
+
             <td class="packs-td-code"><strong>{{ code }}</strong></td>
             <td class="packs-td-text">{{ info.en }}</td>
             <td class="packs-td-text packs-muted">{{ info.de }}</td>
             <td class="packs-td-text packs-muted">{{ info.es }}</td>
           </tr>
-        {% endif %}
+
         {% endfor %}
+
       </tbody>
     </table>
   </div>
@@ -92,7 +114,11 @@ It is a helpful resource for modders and players to identify packs across differ
 {% endfor %}
 
 <style>
-h2 { margin-top: 1.6rem; margin-bottom: 0.5rem; font-size: 1.55rem; }
+h2 {
+  margin-top: 1.6rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.55rem;
+}
 
 .packs-table {
   width: 100%;
@@ -107,18 +133,42 @@ h2 { margin-top: 1.6rem; margin-bottom: 0.5rem; font-size: 1.55rem; }
   border-bottom: 2px solid var(--border-color);
 }
 
-.packs-th-icon { width: 60px; text-align: center; padding: 6px; }
-.packs-th-sort { padding: 6px; cursor: pointer; user-select: none; }
-.packs-sort-icon { font-size: 0.75rem; opacity: 0.3; margin-left: 4px; }
+.packs-th-icon {
+  width: 60px;
+  text-align: center;
+  padding: 6px;
+}
+
+.packs-th-sort {
+  padding: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.packs-sort-icon {
+  font-size: 0.75rem;
+  opacity: 0.3;
+  margin-left: 4px;
+}
 
 .packs-table th,
-.packs-table td { line-height: 1.1; }
+.packs-table td {
+  line-height: 1.1;
+}
 
-.packs-td-icon { padding: 5px; text-align: center; }
+.packs-td-icon {
+  padding: 5px;
+  text-align: center;
+}
+
 .packs-td-code,
-.packs-td-text { padding: 6px; }
+.packs-td-text {
+  padding: 6px;
+}
 
-.packs-muted { color: var(--text-muted); }
+.packs-muted {
+  color: var(--text-muted);
+}
 
 .packs-icon-box {
   width: 38px;
@@ -131,8 +181,15 @@ h2 { margin-top: 1.6rem; margin-bottom: 0.5rem; font-size: 1.55rem; }
   border: 1px solid var(--border-color);
 }
 
-.packs-icon-img { width: 28px; height: 28px; object-fit: contain; }
-.packs-icon-fallback { opacity: 0.25; }
+.packs-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.packs-icon-fallback {
+  opacity: 0.25;
+}
 </style>
 
 <script>
