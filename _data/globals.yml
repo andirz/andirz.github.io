@@ -5,11 +5,12 @@ latest_patch: "1.120.140"
 patch_release_date: "2026-02-03"
 last_checked: "2026-02-03"
 
-patch_alert:
+new_patch_alert:
   active: true
+  patch = "1.121"
+  release_date: "2026-02-03"
   type: "critical" # options: info, warning, critical
   title: "URGENT: GAME PATCH INCOMING"
-  last_updated: "2026-02-03"
 
 # LINKS
 links:
