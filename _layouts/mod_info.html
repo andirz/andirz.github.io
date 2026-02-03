@@ -21,13 +21,6 @@ layout: default
         {{ content }}
       </article>
 
-      {% if page.faq == true %}
-        <section class="mod-faq-container" style="margin-top: 30px;">
-          {% capture faq_file %}faq/{{ page.mod_id }}.md{% endcapture %}
-          {% include {{ faq_file }} %}
-        </section>
-      {% endif %}
-
       {% if page.strings == false or page.disable_translations == true %}
         {% include translation/no_strings.md %}
       {% elsif page.files contains "bat" %}
