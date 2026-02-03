@@ -2,7 +2,7 @@
 {% assign current_version = page.version | default: mod.version %}
 {% assign last_updated = page.updated | default: mod.updated %}
 {% assign status_text = page.status | default: mod.status | default: "Unknown" %}
-{% include mod/status-color.html status=status_text %}
+{% include mods/status-color.html status=status_text %}
 
 <header class="mod-header" style="margin-bottom:26px; padding-bottom:20px; border-bottom:1px solid #f1f5f9;">
 
