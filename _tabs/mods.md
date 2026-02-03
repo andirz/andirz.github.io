@@ -39,7 +39,7 @@ order: 2
 
 <div class="content-wrapper">
   {% assign patch_date = site.data.globals.patch_release_date | date: "%s" %}
-  {% assign alert_date = site.data.globals.patch_alert.last_updated | date: "%s" %}
+  {% assign alert_date = site.data.globals.new_patch_alert.release_date | date: "%s" %}
 
   {% if site.data.globals.patch_alert.active %}
     {% include patch-alert.html %}
@@ -73,7 +73,7 @@ order: 2
           <th onclick="sortTable(3)" title="Status" style="padding: 12px; cursor: pointer; width: 50px; text-align: center;">Status <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
           <th onclick="sortTable(4)" title="Last Update" style="padding: 12px; cursor: pointer; width: 110px;">Updated <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
           <th style="padding: 12px; width: 130px;">Requirements</th>
-          <th onclick="sortTable(6)" style="padding: 12px; cursor: pointer; width: 120px;">Category <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
+          <th onclick="sortTable(6)" style="padding: 12px; cursor: pointer; width: 120px;">Main Category <i class="fas fa-sort" style="font-size: 0.7rem; opacity: 0.3;"></i></th>
         </tr>
       </thead>
       <tbody>
