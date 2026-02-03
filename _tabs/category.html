@@ -1,18 +1,98 @@
 ---
-title: "Categories"
-permalink: /category/
 layout: page
+title: Mod Categories
+permalink: /category/
+icon: fas fa-tags
+order: 3
 ---
 
 <style>
-  .cat-cloud{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
-  .cat-pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--border-color);
-    background:var(--bg-secondary);color:var(--text-muted);font-weight:650;font-size:.88rem;text-decoration:none}
-  .cat-pill.is-active{color:var(--link-color);border-color:rgba(0,0,0,.18);background:rgba(0,0,0,.03)}
-  .cat-selected{display:none;margin:6px 0 10px;color:var(--text-muted)}
-  .mods-grid{display:none;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:14px}
-  .mod-card{background:var(--bg-primary);border:1px solid var(--border-color);border-radius:14px;padding:14px 14px 12px;
-    box-shadow:0 4px 12px rgba(0,0,0,.04)}
+  .mods-grid{
+    display:none;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .mod-card{
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 16px 16px 14px;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+    transition: box-shadow .14s ease, border-color .14s ease, transform .14s ease;
+  }
+
+  .mod-card:hover{
+    border-color: rgba(0,0,0,.18);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.09);
+  }
+
+  .mod-head{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .mod-icon{
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
+    flex: 0 0 auto;
+  }
+
+  .mod-title{
+    min-width: 0;
+    line-height: 1.1;
+  }
+
+  .mod-title a{
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.12rem;
+    display:inline-block;
+  }
+
+  .mod-tagline{
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: .93rem;
+    line-height: 1.42;
+  }
+
+  .mod-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .chip{
+    display:inline-block;
+    padding: 3px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    font-weight: 700;
+    font-size: .75rem;
+    line-height: 1.2;
+    color: var(--text-muted);
+  }
+
+  .chip-pack{
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    background: rgba(128,128,128,0.10);
+    border: 1px solid rgba(128,128,128,0.18);
+  }
 </style>
 
 <h1 style="display:flex;align-items:center;gap:10px;margin-top:0;">
@@ -52,23 +132,63 @@ layout: page
 </div>
 
 <div class="mods-grid" id="modsGrid">
-  {% for mod_entry in site.data.mods %}
-    {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
-    {% assign name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
-    {% assign url = mod_page.url | relative_url %}
-    {% assign cats = mod_page.categories | default: mod_entry.categories | default: "" %}
+{% for mod_entry in site.data.mods %}
+  {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
 
-    <div class="mod-card" data-categories="{{ cats | join: '|' | escape }}">
-      <div style="font-weight:800;">
-        {% if mod_page %}<a href="{{ url }}" style="text-decoration:none;color:var(--link-color)">{{ name }}</a>{% else %}{{ name }}{% endif %}
+  {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
+  {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
+  {% assign url = mod_page.url | relative_url %}
+
+  {% assign cats = mod_page.categories | default: mod_entry.categories | default: "" %}
+
+  {%- comment -%} Tagline-Priorität: Page -> Data -> Excerpt -> Content-Fallback {%- endcomment -%}
+  {% assign tagline = mod_page.tagline | default: mod_entry.tagline %}
+  {% if tagline == nil or tagline == "" %}
+    {% if mod_page and mod_page.excerpt %}
+      {% assign tagline = mod_page.excerpt | strip_html | strip | truncate: 120 %}
+    {% elsif mod_page and mod_page.content %}
+      {% assign tagline = mod_page.content | strip_html | strip | truncate: 120 %}
+    {% else %}
+      {% assign tagline = "Explore this mod and its features." %}
+    {% endif %}
+  {% endif %}
+
+  {% assign current_version = mod_page.version | default: mod_entry.version %}
+  {% assign final_packs = mod_page.packs | default: mod_entry.packs %}
+
+  <div class="mod-card" data-categories="{{ cats | join:'|' | escape }}">
+    <div class="mod-head">
+      <div class="mod-icon" aria-hidden="true">
+        <i class="{{ display_icon }}" style="font-size:1.35rem;"></i>
       </div>
-      {% if mod_page and mod_page.excerpt %}
-        <div style="margin-top:6px;color:var(--text-muted);font-size:.9rem;line-height:1.45;">
-          {{ mod_page.excerpt | strip_html | truncate: 140 }}
-        </div>
+
+      <div class="mod-title">
+        {% if mod_page %}
+          <a href="{{ url }}">{{ display_name }}</a>
+        {% else %}
+          <span style="font-weight:900; opacity:.75;">{{ display_name }}</span>
+        {% endif %}
+
+        <div class="mod-tagline">{{ tagline }}</div>
+      </div>
+    </div>
+
+    <div class="mod-meta">
+      {% if current_version %}
+        <span class="chip" title="Version">v{{ current_version }}</span>
+      {% endif %}
+
+      {% if final_packs and final_packs.size > 0 %}
+        {% for p in final_packs %}
+          {% if p != "BG" %}
+            <span class="chip chip-pack" title="{{ site.data.packs[p].en | default: p }}">{{ p }}</span>
+          {% endif %}
+        {% endfor %}
       {% endif %}
     </div>
-  {% endfor %}
+  </div>
+{% endfor %}
+
 </div>
 
 <script>
