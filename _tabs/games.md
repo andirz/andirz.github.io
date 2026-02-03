@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Game Center1
+title: Game Center
 icon: "fas fa-puzzle-piece"
 order: 9
 description: Sims 4 themed mini games — reflex challenges and thinking puzzles.
