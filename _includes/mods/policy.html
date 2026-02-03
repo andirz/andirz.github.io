@@ -23,7 +23,7 @@
         I welcome help with translations or improvements of existing ones.
         If you want to collaborate, please join my
         <a href="{{ site.data.globals.links.discord }}" target="_blank" rel="noopener"><strong>Discord server</strong></a>.
-        Direct collaboration allows proper quality control and coordination.
+        Direct collaboration allows proper coordination and quality control.
       </p>
     </div>
 
@@ -45,7 +45,93 @@
     <i class="fas fa-exclamation-triangle"></i>
     <span>
       Downloads from third-party sites may contain outdated files, malware, or modified content.
-      For your own safety and correct functionality, use official download links only.
+      For safety and correct functionality, use official download links only.
     </span>
   </div>
 </div>
+
+<style>
+.mod-policy-box {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+}
+
+.mod-policy-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  font-size: 0.9rem;
+  margin: 0 0 8px;
+}
+
+.mod-policy-header i {
+  font-size: 1.3rem;
+  color: var(--accent-color);
+}
+
+.mod-policy-lead {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.mod-policy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 0 8px;
+}
+
+.mod-policy-item {
+  padding: 9px 11px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.6);
+}
+
+.mod-policy-item-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 900;
+  font-size: 0.85rem;
+  margin: 0 0 3px;
+}
+
+.mod-policy-text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.42;
+  opacity: 0.9;
+}
+
+.mod-policy-text a {
+  color: #5865F2;
+  text-decoration: none;
+}
+
+.mod-policy-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 9px 11px;
+  border-radius: 12px;
+  border: 1px solid rgba(220,53,69,0.25);
+  background: rgba(220,53,69,0.06);
+  color: #b4232d;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+@media (max-width: 700px) {
+  .mod-policy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

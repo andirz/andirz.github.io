@@ -4,7 +4,7 @@ title: "Better University Kiosk"
 icon: "fas fa-university"
 packs: ["EP08"]
 requirements: ["smart_core", "pso_common"]
-categories: [Gameplay Mods, Purchasing System Overhaul, University]
+categories: [Purchasing System, Kiosk, University, Gameplay]
 ---
 
 ## What does this mod do?
@@ -28,8 +28,3 @@ For full functionality, you **must** have the following libraries installed:
 * This mod does not use new strings, so it is compatible with all game languages.
 * Fully compatible with other mods in the **P.S.O. Series**.
 
----
-
-## Developer's Note
-> "University life is about more than just books. I wanted the kiosks to reflect that by offering a better variety of items that Sims actually need or want for their dorm rooms and campus activities."
-> — *Andirz*
