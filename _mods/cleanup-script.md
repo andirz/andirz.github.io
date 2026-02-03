@@ -52,9 +52,7 @@ Please pay close attention to the following instructions.
 ## Language & Translations
 This tool is a **Windows batch script** and contains **no in-game text strings**. The script itself is written in **English only**.  Translations are **not possible and not required**, as the script does not interact with the game UI or use localized text.
 
----
-
-## FAQ – Frequently Asked Questions
+## Frequently Asked Questions
 
 **Does this script work on macOS or iMac?**  
 No. This is a Windows batch script (.bat) and cannot run on macOS or iMac systems.
