@@ -23,15 +23,8 @@ For this mod to function correctly, you **must** have the following libraries in
 1.  **Smart Core Script** – The technical foundation for script-based features.
 2.  **P.S.O. Common Package** – Contains the shared resources (icons, images, and settings) used across the Purchasing System Overhaul series.
 
-{% include notice-script.html %}
-
 ## Compatibility
 * **The Sims 4 StrangerVille (GP07)** is strictly required.
 * This mod does not use new strings, so it is compatible with all game languages.
 * Part of the **P.S.O. Series**, designed to work seamlessly with mods like *SimSim Online Store* and *Obscura Network*.
 
----
-
-## Developer's Note
-> "StrangerVille is such a unique world, but the original Curio Shop felt a bit limited once you finished the mystery. This mod turns it into a true marketplace for the strange and unusual."
-> — *Andirz*
