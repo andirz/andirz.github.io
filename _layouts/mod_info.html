@@ -34,7 +34,7 @@ layout: default
         {% comment %} 
            Danach: Der Standard-Text aus dem Template (Allgemeine Infos)
         {% endcomment %}
-        <div class="translation-template-content" style="line-height: 1.6; opacity: 0.9; font-size: 0.95rem;">
+        <div class="translation-template-content" style="line-height: 1.6; opacity: 0.9; font-size: 1.1rem;">
           {% if page.disable_translations == true or page.strings == false %}
             {% include translation/no_strings.md %}
           {% elsif page.files contains "bat" %}
@@ -48,7 +48,7 @@ layout: default
       </section>
 
       <section class="mod-installation-section" style="margin-top: 40px;">
-        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Installation Guide</h2>
+        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Installation Guide</h2>
         
         {% if page.files contains "bat" %}
           {% include installation/bat_script.html %}
