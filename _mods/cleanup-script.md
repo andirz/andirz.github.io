@@ -5,10 +5,8 @@ icon: "fas fa-broom"
 files: ["bat"]
 categories: [Utility, Tools, Scripts]
 curseforge_ban: true
-disable_installation_guide: true
-disable_translations: true
-faq: true
 tagline: "Keep your game running smoothly by removing temporary cache and diagnostic logs with one simple tool."
+faq: true
 ---
 
 ## About This Tool
