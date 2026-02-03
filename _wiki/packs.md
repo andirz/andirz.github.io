@@ -205,8 +205,8 @@ h2 {
     const dir = (String(lastCol) === String(col) && lastDir === 'asc') ? 'desc' : 'asc';
 
     rows.sort((a, b) => {
-      const A = (a.cells[col]?.textContent || '').trim().toLowerCase();
-      const B = (b.cells[col]?.textContent || '').trim().toLowerCase();
+      const A = (a.cells[col]?.innerText || '').trim().toLowerCase();
+      const B = (b.cells[col]?.innerText || '').trim().toLowerCase();
       const r = A.localeCompare(B, undefined, { numeric: true, sensitivity: 'base' });
       return dir === 'asc' ? r : -r;
     });
