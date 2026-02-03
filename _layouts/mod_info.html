@@ -3,41 +3,46 @@ layout: default
 ---
 
 <div class="mod-page-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-
-  <div class="mod-layout-grid"
-       style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+  <div class="mod-layout-grid" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
 
     <main style="flex: 2; min-width: 320px;">
-
       {% include mods/hero-header.html %}
+      <h1 class="mod-page-title">{{ page.title }}</h1>
 
-      <!-- Mobile-visible page title (fixes "mod_info") -->
-      <h1 class="mod-page-title">
-        {{ page.title }}
-      </h1>
+      {% comment %} 
+        SPLIT LOGIK: Wir zerlegen den Content an den IDs der H2-Überschriften.
+      {% endcomment %}
+      {% assign part_faq = content | split: '<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>' %}
+      {% assign part_inst = part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' %}
+      {% assign part_lang = part_inst[0] | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
 
-      <article class="mod-description"
-               style="font-size: 1.1rem; line-height: 1.7; color: var(--text-color);">
-        {{ content }}
+      <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px;">
+        {{ part_lang[0] }}
       </article>
 
-      {% if page.strings == false or page.disable_translations == true %}
-        {% include translation/no_strings.md %}
-      {% elsif page.files contains "bat" %}
-        {% include translation/bat_script.md %}
-      {% elsif page.files contains "ts4script" and page.files.size == 1 %}
-        {% include translation/python_script.md %}
-      {% else %}
-        {% include translation/package.md %}
+      <section class="mod-translation-section" style="margin-top: 30px;">
+        {% if page.disable_translations == true or page.strings == false %}
+          {% include translation/no_strings.md %}
+        {% else %}
+          {% include translation/package.md %}
+          {{ part_inst[0] | split: '<h2 id="language--translations">Language &amp; Translations</h2>' | last }}
+        {% endif %}
+      </section>
+
+      {% if content contains 'id="frequently-asked-questions"' %}
+        <section class="mod-faq-container" style="margin-top: 40px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
+          <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
+          {{ part_faq[1] }}
+        </section>
       {% endif %}
 
-      {% include mods/installation.html %}
-
-      {% capture faq_path %}faq/{{ page.mod_id }}.md{% endcapture %}
-      {% if page.mod_id %}
-        <div class="mod-faq-section" style="margin-top: 30px;">
-          {% include_relative {{ faq_path }} ignore_missing %}
-        </div>
+      {% if content contains 'id="installation-guide"' %}
+        <section class="mod-installation-box" style="margin-top: 40px; padding: 20px; border-top: 2px solid var(--border-color);">
+          <h2 style="margin-top: 0;">Installation Guide</h2>
+          {{ part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' | last }}
+        </section>
+      {% else %}
+        {% include mods/installation.html %}
       {% endif %}
 
     </main>
@@ -47,23 +52,5 @@ layout: default
     </aside>
 
   </div>
-
   {% include mods/policy.html %}
-
 </div>
-
-<style>
-/* Mobile-only visible H1 (semantic + SEO fix) */
-.mod-page-title{
-  margin: 6px 0 14px;
-  font-size: 1.6rem;
-  line-height: 1.2;
-  font-weight: 900;
-}
-
-@media (min-width: 900px){
-  .mod-page-title{
-    display: none;
-  }
-}
-</style>
