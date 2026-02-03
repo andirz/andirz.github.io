@@ -1,7 +1,7 @@
 ---
 mod_id: better_curio_shop
 title: "Better Curio Shop"
-icon: "fas fa-mask"
+icon: "fas fa-eye"
 packs: ["GP07"]
 requirements: ["smart_core", "pso_common"]
 categories: [Gameplay Mods, Purchasing System Overhaul, StrangerVille]

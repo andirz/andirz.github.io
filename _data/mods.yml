@@ -72,41 +72,30 @@
   updated: "2025-10-07"
 
 - id: better_curio_shop
-  name: "Better Curio Shop"
-  icon: "fas fa-eye"
   version: "1.0.0"
-  packs: ["GP07"]
   status: "compatible"
 
 - id: better_highschool_festivals
-  name: "Better HighSchool Festivals"
-  icon: "fas fa-school"
   version: "1.0.0"
-  packs: ["EP12"]
   status: "compatible"
 
 - id: better_ranger_station
-  name: "Better Ranger Station"
   icon: "fas fa-tree"
   version: "1.0.0"
-  packs: ["GP01"]
   status: "compatible"
 
-- id: better_san-myshuno_festivals
+- id: better_san_myshuno_festivals
   name: "Better San Myshuno Festivals"
   icon: "fas fa-city"
   version: "1.0.1"
   packs: ["EP03"]
   status: "compatible"
 
-- id: better-sulani-kiosk
-  name: "Better Sulani Kiosk"
-  icon: "fas fa-umbrella-beach"
+- id: better_sulani_kiosk
   version: "1.0.1"
-  packs: ["EP07"]
   status: "compatible"
 
-- id: better-university-kiosk
+- id: better_university_kiosk
   name: "Better University Kiosk"
   icon: "fas fa-university"
   version: "1.0.1"
