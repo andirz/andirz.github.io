@@ -25,7 +25,7 @@ If you’re viewing this page, chances are you’re installing one of my gamepla
 * **Centralized Logging:** Provides a unified error reporting system, making it easier to diagnose and fix conflicts.
 
 ## Language & Translations
-* **English**, **German**, **Spanisch, and **Russian** by me
+* **English**, **German**, **Spanisch**, and **Russian** by me
 * **Brazilian Portuguese** by Nymphieta
 * **Italian** by vale93_games
 * **Chinese** and **Simplified Chinese** by Orchard Team
