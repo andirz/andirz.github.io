@@ -5,6 +5,7 @@ icon: "fas fa-broom"
 files: ["bat"]
 categories: [Utility, Tools, Scripts]
 curseforge_ban: true
+disable_installation_guide: true
 disable_translations: true
 tagline: "Keep your game running smoothly by removing temporary cache and diagnostic logs with one simple tool."
 ---
@@ -12,8 +13,7 @@ tagline: "Keep your game running smoothly by removing temporary cache and diagno
 ## What does this tool do?
 The **Cleanup Script for Windows** is a small utility designed to keep your *The Sims 4* user folder clean and healthy. It removes **temporary cache folders and diagnostic log files** that can build up over time and may cause lag, UI glitches, or confusing error reports — especially after game updates or frequent mod changes.
 
-**Important:**  
-Nothing is deleted automatically. Files are only removed when you **manually run** the script. This gives you full control and allows you to keep logs for troubleshooting if needed.
+> **Important:** Nothing is deleted automatically. Files are only removed when you **manually run** the script. This gives you full control and allows you to keep logs for troubleshooting if needed.
 
 ### This script deletes the following data:
 * **onlinethumbnailcache** (folder and all files)
@@ -35,9 +35,7 @@ Nothing is deleted automatically. Files are only removed when you **manually run
 Your **Saves**, **Mods**, **Tray files**, and all personal game data remain untouched.
 
 ## Why you should delete cache files?
-Cache files are meant to be temporary. After patches, mod updates, or configuration changes, they can become outdated or corrupted.
-
-Deleting them forces the game to regenerate fresh data on the next start, which often resolves:
+Cache files are meant to be temporary. After patches, mod updates, or configuration changes, they can become outdated or corrupted. Deleting them forces the game to regenerate fresh data on the next start, which often resolves:
 - random UI issues;  
 - long loading times;  
 - visual glitches;  
@@ -47,6 +45,7 @@ Deleting them forces the game to regenerate fresh data on the next start, which 
 The script checks whether it is running with **Administrator rights**. If not, it automatically restarts and asks for permission. This prevents situations where the script appears to “do nothing” because Windows blocks file access.
 
 ## How to use this script?
+This is not a game mod, but a specialized tool. Please pay close attention to the following instructions.
 {% include notice-batch.html %}
 
 ## Language & Translations

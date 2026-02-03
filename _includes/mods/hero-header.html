@@ -1,7 +1,8 @@
 {% assign mod = site.data.mods | where: "id", page.mod_id | first %}
 {% assign current_version = page.version | default: mod.version %}
 {% assign last_updated = page.updated | default: mod.updated %}
-{% include mod-status-color.html %}
+{% assign status_text = page.status | default: mod.status | default: "Unknown" %}
+{% include mods/status-color.html status=status_text %}
 
 <header class="mod-header" style="margin-bottom:26px; padding-bottom:20px; border-bottom:1px solid #f1f5f9;">
 
@@ -10,12 +11,12 @@
   </h1>
 
   <div class="mod-tags-row" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:18px;">
-    {% if mod.status %}
+    {% if status_text %}
       <span style="background:{{ status_color }}; color:#fff; padding:5px 14px; border-radius:6px; font-weight:700; font-size:.75rem; text-transform:uppercase; letter-spacing:.5px;">
-        {{ mod.status }}
+        {{ status_text }}
       </span>
     {% endif %}
-
+    
     {% assign categories = page.categories | default: mod.categories %}
     {% for cat in categories %}
       <a
@@ -82,7 +83,7 @@
       </div>
     </div>
 
-    <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid #f1f5f9;">
+    
       <i class="fas fa-code-branch" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
         <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0px;">
@@ -92,7 +93,7 @@
       </div>
     </div>
 
-    <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid #f1f5f9;">
+    <div style="display:flex; align-items:center; gap:16px;">
       <i class="fas fa-calendar-alt" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
         <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0px;">
@@ -122,7 +123,7 @@
 {% endfor %}
 
 {% if required_pack_codes.size > 0 %}
-  <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid #f1f5f9;">
+  <div style="display:flex; align-items:center; gap:16px;">
     {% for pack_code in required_pack_codes %}
 
       {% assign pack_data = site.data.packs[pack_code] %}

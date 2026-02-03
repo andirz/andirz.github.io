@@ -13,7 +13,7 @@ difficulty: Medium
      data-gp-count="12"
      data-pairs="8"
      data-time-limit="90"
-     data-folder="{{ site.baseurl }}/assets/img/packs/mono/">
+     data-folder="{{ '/assets/img/packs/mono/' | relative_url }}">
   <div class="pm-top">
     <div class="pm-title">
       <h2>Pack Picker Memory</h2>
@@ -274,7 +274,7 @@ difficulty: Medium
 
   var EP = parseInt(root.dataset.epCount || "18", 10);
   var GP = parseInt(root.dataset.gpCount || "12", 10);
-  var PAIRS = parseInt(root.dataset.pairs || "8", 10);
+  var PAIRS = parseInt(root.dataset.pairsCount || "8", 10);
   var TIME = parseInt(root.dataset.timeLimit || "90", 10);
 
   var folder = root.dataset.folder || "";
