@@ -21,6 +21,15 @@ layout: default
         {{ content }}
       </article>
 
+      {% unless page.gallery == false %}
+        <div class="mod-gallery-wrapper" style="margin-top: 18px;">
+          {% include mods/images-gallery.html
+            exclude_cover=true
+            columns=3
+          %}
+        </div>
+      {% endunless %}
+
       {% include mods/translations.html %}
       {% include mods/installation.html %}
 
