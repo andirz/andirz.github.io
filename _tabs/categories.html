@@ -28,8 +28,26 @@ order: 3
     max-width: 72ch;
   }
 
-  .cat-panel{
+  .cat-layout{
+    display:grid;
+    grid-template-columns: 360px 1fr;
+    gap: 18px;
+    align-items:start;
     margin-top: 14px;
+  }
+
+  .cat-left{
+    position: sticky;
+    top: 92px;
+  }
+
+  @media (max-width: 980px){
+    .cat-layout{ grid-template-columns: 1fr; }
+    .cat-left{ position: static; }
+  }
+
+  .cat-panel{
+    margin-top: 0;
     padding: 14px 14px 12px;
     border: 1px solid var(--border-color);
     border-radius: 18px;
@@ -95,11 +113,13 @@ order: 3
     background: rgba(0,0,0,.03);
   }
 
+  .cat-hint{
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
   .cat-section{
-    margin-top: 18px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(0,0,0,.08);
-    display:none; /* wird nur bei aktivem Filter angezeigt */
+    display:none;
   }
 
   .cat-section h2{
@@ -111,6 +131,8 @@ order: 3
     flex-wrap:wrap;
     letter-spacing:-0.2px;
     font-size: 1.25rem;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0,0,0,.08);
   }
 
   .cat-clear{
@@ -214,6 +236,33 @@ order: 3
     background: rgba(128,128,128,0.10);
     border: 1px solid rgba(128,128,128,0.18);
   }
+
+  .chip-status{
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: .35px;
+  }
+
+  .status-ok{
+    background: rgba(34,197,94,.12);
+    border-color: rgba(34,197,94,.28);
+    color: rgba(22,101,52,1);
+  }
+  .status-updated{
+    background: rgba(59,130,246,.12);
+    border-color: rgba(59,130,246,.28);
+    color: rgba(30,64,175,1);
+  }
+  .status-broken{
+    background: rgba(239,68,68,.12);
+    border-color: rgba(239,68,68,.28);
+    color: rgba(153,27,27,1);
+  }
+  .status-unknown{
+    background: rgba(148,163,184,.18);
+    border-color: rgba(148,163,184,.28);
+    color: rgba(71,85,105,1);
+  }
 </style>
 
 <div class="cat-hero">
@@ -222,112 +271,140 @@ order: 3
       <i class="fas fa-tags" style="color:var(--accent-color);"></i>
       Mod Categories
     </h1>
-    <p>Browse my mods by category. Click a badge to instantly view matching mods as cards.</p>
+    <p>Browse my mods by category. Click a badge on the left to instantly view matching mods as cards.</p>
   </div>
 </div>
 
-<div class="cat-panel">
-  {% assign all_cats = "" | split: "|" %}
-  {% for m in site.mods %}
-    {% if m.categories %}
-      {% for c in m.categories %}
-        {% assign all_cats = all_cats | push: c %}
-      {% endfor %}
-    {% endif %}
-  {% endfor %}
-
-  {% assign unique_cats = "" | split: "|" %}
-  {% for c in all_cats %}
-    {% assign c_clean = c | strip %}
-    {% unless unique_cats contains c_clean %}
-      {% assign unique_cats = unique_cats | push: c_clean %}
-    {% endunless %}
-  {% endfor %}
-  {% assign unique_cats = unique_cats | sort %}
-
-  <div class="cat-cloud" id="catCloud">
-    {% for c in unique_cats %}
-      {% assign c_count = 0 %}
-      {% for mm in site.mods %}
-        {% if mm.categories and mm.categories contains c %}
-          {% assign c_count = c_count | plus: 1 %}
-        {% endif %}
-      {% endfor %}
-
-      <a class="cat-pill"
-         href="{{ site.baseurl }}/categories/?cat={{ c | url_encode }}"
-         data-cat="{{ c | escape }}">
-        {{ c }}
-        <span class="cat-count" title="Mods in this category">{{ c_count }}</span>
-      </a>
+{% assign all_cats = "" | split: "|" %}
+{% for m in site.mods %}
+  {% if m.categories %}
+    {% for c in m.categories %}
+      {% assign all_cats = all_cats | push: c %}
     {% endfor %}
-  </div>
+  {% endif %}
+{% endfor %}
 
-  <div class="cat-section" id="catSelected">
-    <h2>
-      <span>Showing: <strong id="catSelectedName"></strong></span>
-      <a class="cat-clear" href="{{ site.baseurl }}/categories/">Clear</a>
-    </h2>
+{% assign unique_cats = "" | split: "|" %}
+{% for c in all_cats %}
+  {% assign c_clean = c | strip %}
+  {% unless unique_cats contains c_clean %}
+    {% assign unique_cats = unique_cats | push: c_clean %}
+  {% endunless %}
+{% endfor %}
+{% assign unique_cats = unique_cats | sort %}
 
-    <div class="mods-grid" id="modsGrid">
-      {% for mod_entry in site.data.mods %}
-        {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
+<div class="cat-layout">
 
-        {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
-        {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
-        {% assign url = mod_page.url | relative_url %}
-
-        {% assign cats = mod_page.categories | default: mod_entry.categories | default: "" %}
-
-        {%- comment -%} Tagline-Priorität: Page -> Data -> Excerpt -> Content-Fallback {%- endcomment -%}
-        {% assign tagline = mod_page.tagline | default: mod_entry.tagline %}
-        {% if tagline == nil or tagline == "" %}
-          {% if mod_page and mod_page.excerpt %}
-            {% assign tagline = mod_page.excerpt | strip_html | strip | truncate: 120 %}
-          {% elsif mod_page and mod_page.content %}
-            {% assign tagline = mod_page.content | strip_html | strip | truncate: 120 %}
-          {% else %}
-            {% assign tagline = "Explore this mod and its features." %}
-          {% endif %}
-        {% endif %}
-
-        {% assign current_version = mod_page.version | default: mod_entry.version %}
-        {% assign final_packs = mod_page.packs | default: mod_entry.packs %}
-
-        <div class="mod-card" data-categories="{{ cats | join:'|' | escape }}">
-          <div class="mod-head">
-            <div class="mod-icon" aria-hidden="true">
-              <i class="{{ display_icon }}" style="font-size:1.45rem;"></i>
-            </div>
-
-            <div class="mod-title">
-              {% if mod_page %}
-                <a href="{{ url }}">{{ display_name }}</a>
-              {% else %}
-                <span style="font-weight:950; opacity:.75;">{{ display_name }}</span>
-              {% endif %}
-
-              <div class="mod-tagline">{{ tagline }}</div>
-            </div>
-          </div>
-
-          <div class="mod-meta">
-            {% if current_version %}
-              <span class="chip" title="Version">v{{ current_version }}</span>
+  <div class="cat-left">
+    <div class="cat-panel">
+      <div class="cat-cloud" id="catCloud">
+        {% for c in unique_cats %}
+          {% assign c_count = 0 %}
+          {% for mm in site.mods %}
+            {% if mm.categories and mm.categories contains c %}
+              {% assign c_count = c_count | plus: 1 %}
             {% endif %}
+          {% endfor %}
 
-            {% if final_packs and final_packs.size > 0 %}
-              {% for p in final_packs %}
-                {% if p != "BG" %}
-                  <span class="chip chip-pack" title="{{ site.data.packs[p].en | default: p }}">{{ p }}</span>
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-          </div>
-        </div>
-      {% endfor %}
+          <a class="cat-pill"
+             href="{{ site.baseurl }}/categories/?cat={{ c | url_encode }}"
+             data-cat="{{ c | escape }}">
+            {{ c }}
+            <span class="cat-count" title="Mods in this category">{{ c_count }}</span>
+          </a>
+        {% endfor %}
+      </div>
     </div>
   </div>
+
+  <div class="cat-right">
+    <div class="cat-panel">
+
+      <div id="catHint" class="cat-hint">
+        Pick a category on the left to see matching mods.
+      </div>
+
+      <div class="cat-section" id="catSelected">
+        <h2>
+          <span>Showing: <strong id="catSelectedName"></strong></span>
+          <a class="cat-clear" href="{{ site.baseurl }}/categories/">Clear</a>
+        </h2>
+
+        <div class="mods-grid" id="modsGrid">
+          {% for mod_entry in site.data.mods %}
+            {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
+
+            {% assign display_name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
+            {% assign display_icon = mod_page.icon | default: mod_entry.icon | default: 'fas fa-box' %}
+            {% assign url = mod_page.url | relative_url %}
+            {% assign cats = mod_page.categories | default: mod_entry.categories | default: "" %}
+
+            {%- comment -%} Tagline-Priorität: Page -> Data -> Excerpt -> Content-Fallback {%- endcomment -%}
+            {% assign tagline = mod_page.tagline | default: mod_entry.tagline %}
+            {% if tagline == nil or tagline == "" %}
+              {% if mod_page and mod_page.excerpt %}
+                {% assign tagline = mod_page.excerpt | strip_html | strip | truncate: 120 %}
+              {% elsif mod_page and mod_page.content %}
+                {% assign tagline = mod_page.content | strip_html | strip | truncate: 120 %}
+              {% else %}
+                {% assign tagline = "Explore this mod and its features." %}
+              {% endif %}
+            {% endif %}
+
+            {% assign current_version = mod_page.version | default: mod_entry.version %}
+            {% assign final_packs = mod_page.packs | default: mod_entry.packs %}
+
+            {% assign status_raw = mod_page.status | default: mod_entry.status | default: "unknown" %}
+            {% assign status_key = status_raw | downcase %}
+
+            <div class="mod-card" data-categories="{{ cats | join:'|' | escape }}">
+              <div class="mod-head">
+                <div class="mod-icon" aria-hidden="true">
+                  <i class="{{ display_icon }}" style="font-size:1.45rem;"></i>
+                </div>
+
+                <div class="mod-title">
+                  {% if mod_page %}
+                    <a href="{{ url }}">{{ display_name }}</a>
+                  {% else %}
+                    <span style="font-weight:950; opacity:.75;">{{ display_name }}</span>
+                  {% endif %}
+
+                  <div class="mod-tagline">{{ tagline }}</div>
+                </div>
+              </div>
+
+              <div class="mod-meta">
+                {% if status_key == "broken" %}
+                  <span class="chip chip-status status-broken" title="Status">{{ status_raw }}</span>
+                {% elsif status_key == "updated" %}
+                  <span class="chip chip-status status-updated" title="Status">{{ status_raw }}</span>
+                {% elsif status_key == "compatible" %}
+                  <span class="chip chip-status status-ok" title="Status">{{ status_raw }}</span>
+                {% else %}
+                  <span class="chip chip-status status-unknown" title="Status">{{ status_raw }}</span>
+                {% endif %}
+
+                {% if current_version %}
+                  <span class="chip" title="Version">v{{ current_version }}</span>
+                {% endif %}
+
+                {% if final_packs and final_packs.size > 0 %}
+                  {% for p in final_packs %}
+                    {% if p != "BG" %}
+                      <span class="chip chip-pack" title="{{ site.data.packs[p].en | default: p }}">{{ p }}</span>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -335,6 +412,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const params = new URLSearchParams(window.location.search);
   const cat = params.get('cat');
   if (!cat) return;
+
+  const hint = document.getElementById('catHint');
+  if (hint) hint.style.display = 'none';
 
   const selected = document.getElementById('catSelected');
   const selectedName = document.getElementById('catSelectedName');
