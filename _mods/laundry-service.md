@@ -1,11 +1,10 @@
 ---
 mod_id: laundry_service
-title: "Laundry Service (Soapy Llama)"
-parent: "Mods"
+title: "Laundry Service"
 icon: "fas fa-tshirt"
 packs: ["SP13"]
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Activities, Adopted Mods]
+categories: [Gameplay Mods, Laudry, Activities, Realism, Adopted Mods]
 ---
 
 ## What does this mod do?

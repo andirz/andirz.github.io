@@ -1,8 +1,7 @@
 ---
 mod_id: deadly_poisons
 title: "Deadly Poisons"
-parent: "Mods"
-icon: "fas fa-skull-crossbones"
+icon: "fas fa-flask"
 packs: ["GP06", "EP01"]
 requirements: ["xml_injector"]
 categories: [Gameplay Mods, Crime, Storytelling]

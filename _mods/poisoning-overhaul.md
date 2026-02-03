@@ -1,8 +1,7 @@
 ---
 mod_id: poisoning_overhaul
 title: "Poisoning Overhaul"
-parent: "Mods"
-icon: "fas fa-skull-crossbones"
+icon: "fas fa-biohazard"
 requirements: ["lot51_core"]
 categories: [Gameplay Mods, Overrides, Realism]
 ---

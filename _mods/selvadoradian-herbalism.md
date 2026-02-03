@@ -1,11 +1,10 @@
 ---
 mod_id: selvadoradian_herbalism
 title: "Selvadoradian Herbalism"
-parent: "Mods"
 icon: "fas fa-leaf"
 packs: ["GP01", "GP06"]
-requirements: ["smart_core", "lot51_core"]
-categories: [Gameplay Mods, Skills, Activities]
+requirements: ["smart_core"]
+categories: [Gameplay Mods, Skills, Activities, Recipes, Medicine]
 ---
 
 ## What does this mod do?

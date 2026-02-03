@@ -5,7 +5,7 @@ parent: "Mods"
 icon: "fas fa-hands-wash"
 packs: ["SP13"]
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Activities, Realism]
+categories: [Gameplay Mods, Laundry, Activities, Realism]
 ---
 
 ## What does this mod do?
