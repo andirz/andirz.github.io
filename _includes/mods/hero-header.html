@@ -3,25 +3,9 @@
 {% assign last_updated = page.updated | default: mod.updated %}
 {% include mod-status-color.html %}
 
-{% comment %} Pack code → readable name {% endcomment %}
-{% assign pack_names = "
-EP01:Get to Work,
-EP02:Get Together,
-EP03:City Living,
-EP04:Cats & Dogs,
-EP05:Seasons,
-EP06:Get Famous,
-EP07:Island Living,
-EP08:Realm of Magic,
-EP09:Discover University,
-EP10:Snowy Escape,
-EP11:Cottage Living,
-EP12:High School Years
-" | strip | split: "," %}
+<header class="mod-header" style="margin-bottom:26px; padding-bottom:20px; border-bottom:1px solid #f1f5f9;">
 
-<header class="mod-header" style="margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9;">
-
-  <h1 style="font-size: 2.5rem; font-weight: 400; letter-spacing: -0.5px; margin: 0 0 14px 0; color: #1e293b; line-height: 1.2;">
+  <h1 style="font-size:2.5rem; font-weight:400; letter-spacing:-0.5px; margin:0 0 14px 0; color:#1e293b; line-height:1.2;">
     {{ mod.name | default: page.title }}
   </h1>
 
@@ -54,7 +38,7 @@ EP12:High School Years
         {% endif %}
       </div>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:2px;">
+        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:1px;">
           File Type
         </span>
         <span style="font-weight:600; color:#475569; font-size:.9rem;">
@@ -66,7 +50,7 @@ EP12:High School Years
     <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-code-branch" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:2px;">
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:1px;">
           Current Version
         </span>
         <span style="font-weight:600; color:#475569;">v. {{ current_version }}</span>
@@ -76,7 +60,7 @@ EP12:High School Years
     <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-calendar-alt" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:2px;">
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:1px;">
           Last Update
         </span>
         <span style="font-weight:600; color:#475569;">
@@ -94,15 +78,11 @@ EP12:High School Years
     {% endfor %}
 
     {% if required_pack_codes.size > 0 %}
-      <div style="display:flex; align-items:center; gap:8px; padding-left:20px; border-left:1px solid #f1f5f9;">
+      <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid #f1f5f9;">
         {% for pack_code in required_pack_codes %}
-          {% assign pack_name = pack_code %}
-          {% for entry in pack_names %}
-            {% assign pair = entry | split:":" %}
-            {% if pair[0] == pack_code %}
-              {% assign pack_name = pair[1] %}
-            {% endif %}
-          {% endfor %}
+
+          {% assign pack_data = site.data.packs | where: "code", pack_code | first %}
+          {% assign pack_name = pack_data.name | default: pack_code %}
 
           {% assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" %}
           {% assign icon_exists = false %}
@@ -114,15 +94,19 @@ EP12:High School Years
           {% endfor %}
 
           {% if icon_exists %}
-            <div style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:#f8fafc; border-radius:7px; border:1px solid #e2e8f0;">
+            <div
+              style="width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+                     background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;"
+              title="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' }})"
+            >
               <img
                 src="{{ site.baseurl }}{{ icon_path }}"
-                alt="{{ pack_name }} ({{ pack_code }})"
-                title="{{ pack_name }} ({{ pack_code }})"
-                style="width:24px; height:24px; object-fit:contain;"
+                alt="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' }})"
+                style="width:28px; height:28px; object-fit:contain;"
               >
             </div>
           {% endif %}
+
         {% endfor %}
       </div>
     {% endif %}

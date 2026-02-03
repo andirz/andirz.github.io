@@ -37,20 +37,16 @@ order: 2
   }
 </style>
 
-div class="content-wrapper">
+<div class="content-wrapper">
   {% if site.data.globals.patch_alert.active %}
     {% include patch-alert.html %}
-    
-    <div style="text-align: center; margin-bottom: 20px; font-weight: bold; color: #dc3545;">
-      <i class="fas fa-exclamation-circle"></i> Mod statuses below may be outdated until the patch is fully verified!
-    </div>
-
   {% else %}
     <div style="display: flex; align-items: center; gap: 12px; background: rgba(40, 167, 69, 0.05); border: 1px solid rgba(40, 167, 69, 0.15); padding: 14px 20px; border-radius: 10px; margin-bottom: 25px;">
       <i class="fas fa-check-shield" style="color: #28a745; font-size: 1.1rem;"></i>
       <span style="font-size: 1rem; color: var(--text-color); line-height: 1.5;">
-        The following overview refers to Patch <strong>{{ latest_patch }}</strong> from {{ patch_release_date | date: "%B %d, %Y" }}.<br /> 
-        All mods are verified for this version; specific statuses can be found in the table below.
+        Verified for Patch <strong>{{ site.data.globals.latest_patch }}</strong>, released on <strong>{{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}</strong>. <br />
+        Please refer to the table below for the specific status of each mod. <br />
+        <small style="opacity: 0.7;">The table was last checked on: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}</small>
       </span>
     </div>
   {% endif %}
