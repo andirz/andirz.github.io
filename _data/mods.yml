@@ -179,10 +179,9 @@
   updated: "2025-10-08"
 
 - id: urn_stone_overhaul
-  name: "Urn/Stone Overhaul"
-  icon: "fas fa-cross"
   version: "2.3.1"
   status: "broken"
+  updated: "2024-06-06"
 
 - id: deadly_poisons
   name: "Deadly Poisons"
@@ -207,24 +206,16 @@
 
 # --- REACTION & BEHAVIOR TWEAKS ---
 
-- id: no_holiday_drama
-  name: "No Holidays Failure Drama"
-  icon: "fas fa-calendar-times"
-  version: "1.0.2"
-  packs: ["EP05"]
-  status: "stable"
-  updated: "2025-11-10"
-  github: "https://github.com/Andirz/TS4-No-Holidays-Failure-Drama"
-  patreon: "https://www.patreon.com/andirz"
+- id: no_holidays_failure_drama
+  version: "1.8.0"
+  status: "compatible"
+  updated: "2025-10-07"
 
-- id: no_birthday_drama
+- id: no_forgotten_birthday_drama
   name: "No Forgotten Birthday Drama"
-  icon: "fas fa-birthday-cake"
-  version: "1.0.0"
-  status: "stable"
-  updated: "2025-07-10"
-  github: "https://github.com/Andirz/TS4-No-Forgotten-Birthday-Drama"
-  patreon: "https://www.patreon.com/andirz"
+  version: "1.8.1"
+  status: "compatible"
+  updated: "2025-11-06"
 
 - id: weather_preferences
   name: "Visible Weather Preferences"
