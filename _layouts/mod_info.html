@@ -23,9 +23,9 @@ layout: default
 
       {% if page.disable_translations == true %}
         {% include translation/no_strings.md %}
-      {% elif page.files contains "bat" %}
+      {% elsif page.files contains "bat" %}
         {% include translation/bat_script.md %}
-      {% elif page.files contains "ts4script" and page.files.size == 1 %}
+      {% elsif page.files contains "ts4script" and page.files.size == 1 %}
         {% include translation/python_script.md %}
       {% else %}
         {% include translation/package.md %}
