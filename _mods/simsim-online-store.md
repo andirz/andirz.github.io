@@ -4,6 +4,7 @@ title: SimSim Online Store
 icon: "fas fa-shopping-cart"
 requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Gameplay, Phone App, Custom Config]
+faq: true
 ---
 
 ## About This Mod
