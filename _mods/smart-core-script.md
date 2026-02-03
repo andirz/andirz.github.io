@@ -24,12 +24,8 @@ If you’re viewing this page, chances are you’re installing one of my gamepla
 * **Config System:** Allows you to save your own settings in dedicated config files. Your preferences remain safe even after mod updates.
 * **Centralized Logging:** Provides a unified error reporting system, making it easier to diagnose and fix conflicts.
 
-## How To Use
-Please pay close attention to the following instructions.
-{% include notice-script.html %}
-
 ## Language & Translations
-* English, German, Spanisch and Russian – by me
-* Brazilian Portuguese – by Nymphieta
-* Italian – by vale93_games
-* Traditional Simplified Chinese – by Orchard Team
+* **English**, **German**, **Spanisch, and **Russian** by me
+* **Brazilian Portuguese** by Nymphieta
+* **Italian** by vale93_games
+* **Chinese** and **Simplified Chinese** by Orchard Team
