@@ -7,7 +7,7 @@ last_checked: "2026-02-03"
 
 new_patch_alert:
   active: true
-  patch = "1.121"
+  patch: "1.121"
   release_date: "2026-02-03"
   type: "critical" # options: info, warning, critical
   title: "URGENT: GAME PATCH INCOMING"

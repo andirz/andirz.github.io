@@ -205,8 +205,8 @@ h2 {
     const dir = (String(lastCol) === String(col) && lastDir === 'asc') ? 'desc' : 'asc';
 
     rows.sort((a, b) => {
-      const A = (a.cells[col]?.textContent || '').trim().toLowerCase();
-      const B = (b.cells[col]?.textContent || '').trim().toLowerCase();
+      const A = (a.cells[col]?.innerText || '').trim().toLowerCase();
+      const B = (b.cells[col]?.innerText || '').trim().toLowerCase();
       const r = A.localeCompare(B, undefined, { numeric: true, sensitivity: 'base' });
       return dir === 'asc' ? r : -r;
     });
@@ -218,7 +218,11 @@ h2 {
 
   function init() {
     document.querySelectorAll('th.js-sort').forEach(th => {
-      th.addEventListener('click', () => {
+      // verhindert mehrfaches Binden (z.B. durch pageshow / PJAX / Cache)
+      if (th.dataset.sortBound === '1') return;
+      th.dataset.sortBound = '1';
+
+      th.addEventListener('click', (e) => {
         const table = th.closest('table');
         if (!table) return;
         sortTable(table, parseInt(th.dataset.col, 10));

@@ -44,11 +44,11 @@ order: 2
   {% if site.data.globals.patch_alert.active %}
     {% include patch-alert.html %}
 
-    {% if alert_date < patch_date %}
+    {% if alert_date <= patch_date %}
       <div style="display: flex; align-items: center; gap: 12px; background: rgba(128, 128, 128, 0.05); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 10px; margin-bottom: 25px;">
-        <i class="fas fa-clock" style="color: var(--text-muted);"></i>
+        <i class="fas fa-info-circle" style="color: var(--text-muted);"></i>
         <span style="font-size: 0.9rem; color: var(--text-color);">
-          <strong>Note:</strong> An update is approaching. The statuses in the table below currently refer to the <strong>pre-patch</strong> version.
+          <strong>Note:</strong> A game update is incoming or live. Please refer to the <strong>Status</strong> column in the table below for the most current information on each mod.
         </span>
       </div>
     {% endif %}
@@ -57,8 +57,8 @@ order: 2
     <div style="display: flex; align-items: center; gap: 12px; background: rgba(40, 167, 69, 0.05); border: 1px solid rgba(40, 167, 69, 0.15); padding: 14px 20px; border-radius: 10px; margin-bottom: 25px;">
       <i class="fas fa-check-shield" style="color: #28a745; font-size: 1.1rem;"></i>
       <span style="font-size: 1rem; color: var(--text-color); line-height: 1.5;">
-        Verified for Patch <strong>{{ site.data.globals.latest_patch }}</strong> ({{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}).<br />
-        Check the table below for the specific status of each mod.
+        Verified for Patch <strong>{{ site.data.globals.latest_patch }}</strong> ({{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}). <br />
+        All specific mod statuses are listed in the table below.
       </span>
     </div>
   {% endif %}
