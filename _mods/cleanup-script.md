@@ -4,9 +4,8 @@ title: "Cleanup Script for Windows"
 icon: "fas fa-broom"
 files: ["bat"]
 categories: [Utility, Tools, Scripts]
-curseforge_ban: true
 tagline: "Keep your game running smoothly by removing temporary cache and diagnostic logs with one simple tool."
-faq: true
+curseforge_ban: true
 ---
 
 ## About This Tool
@@ -30,8 +29,7 @@ The **Cleanup Script for Windows** is a small utility designed to keep your *The
 * **WickedWhims** & **WhimsInfo** logs (`.log` / `.txt`)
 * **Andirz_*.log** (logs created by my own mods only)
 
-**No other files will be deleted.**  
-Your **Saves**, **Mods**, **Tray files**, and all personal game data remain untouched.
+No other files will be deleted. Your **Saves**, **Mods**, **Tray files**, and all personal game data remain untouched.
 
 ## Why you should delete cache files?
 Cache files are meant to be temporary. After patches, mod updates, or configuration changes, they can become outdated or corrupted. Deleting them forces the game to regenerate fresh data on the next start, which often resolves:

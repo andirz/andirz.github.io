@@ -10,28 +10,45 @@ layout: default
       <h1 class="mod-page-title">{{ page.title }}</h1>
 
       {% comment %} 
-        SPLIT LOGIK: Zerlegt den Content an den IDs der H2-Überschriften.
+        SPLIT LOGIK: Zerlegung an den H2-IDs.
       {% endcomment %}
-      {% assign part_faq = content | split: '<h2 id="frequently-asked-questions">FAQ</h2>' %}
-      {% assign part_inst = part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' %}
-      {% assign part_lang = part_inst[0] | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
+      {% assign content_parts = content | split: '<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>' %}
+      {% assign description_parts = content_parts[0] | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
 
       <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px;">
-        {{ part_lang[0] }}
+        {{ description_parts[0] }}
       </article>
 
       <section class="mod-translation-section" style="margin-top: 30px;">
-        {% if page.disable_translations == true or page.strings == false %}
-          {% include translation/no_strings.md %}
-        {% else %}
-          {% include translation/package.md %}
-          {% comment %} Zeigt zusätzlichen Text an, der im Markdown unter der Überschrift steht {% endcomment %}
-          {{ part_inst[0] | split: '<h2 id="language--translations">Language &amp; Translations</h2>' | last }}
+        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Language &amp; Translations</h2>
+        
+        {% comment %} 
+           Zuerst: Der individuelle Text aus deiner Markdown-Datei (z.B. Übersetzer-Namen)
+        {% endcomment %}
+        {% if content_parts[0] contains 'id="language--translations"' %}
+          <div class="custom-translation-text" style="margin-bottom: 15px; line-height: 1.6;">
+            {{ description_parts[1] }}
+          </div>
         {% endif %}
+
+        {% comment %} 
+           Danach: Der Standard-Text aus dem Template (Allgemeine Infos)
+        {% endcomment %}
+        <div class="translation-template-content" style="line-height: 1.6; opacity: 0.9; font-size: 0.95rem;">
+          {% if page.disable_translations == true or page.strings == false %}
+            {% include translation/no_strings.md %}
+          {% elsif page.files contains "bat" %}
+            {% include translation/bat_script.md %}
+          {% elsif page.files contains "ts4script" and page.files.size == 1 %}
+            {% include translation/python_script.md %}
+          {% else %}
+            {% include translation/package.md %}
+          {% endif %}
+        </div>
       </section>
 
       <section class="mod-installation-section" style="margin-top: 40px;">
-        <h2 id="installation-guide" style="margin-bottom: 20px;">Installation Guide</h2>
+        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Installation Guide</h2>
         
         {% if page.files contains "bat" %}
           {% include installation/bat_script.html %}
@@ -40,20 +57,13 @@ layout: default
         {% else %}
           {% include installation/package.html %}
         {% endif %}
-
-        {% comment %} Erlaubt manuellen Zusatz-Text unter der automatischen Box {% endcomment %}
-        {% if content contains 'id="installation-guide"' %}
-          <div class="custom-installation-notes" style="margin-top: 15px;">
-            {{ part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' | last }}
-          </div>
-        {% endif %}
       </section>
 
       {% if content contains 'id="frequently-asked-questions"' %}
         <section class="mod-faq-container" style="margin-top: 50px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
           <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
           <div class="faq-content">
-            {{ part_faq[1] }}
+            {{ content_parts[1] }}
           </div>
         </section>
       {% endif %}
@@ -69,13 +79,9 @@ layout: default
 </div>
 
 <style>
-  .mod-page-title { margin: 6px 0 14px; font-size: 1.6rem; font-weight: 900; }
-  @media (min-width: 900px) { .mod-page-title { display: none; } }
-  
-  /* Einheitliches Styling für die Installations-Boxen */
-  .install-box { 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+  /* Versteckt Überschriften innerhalb der geladenen Markdown-Templates */
+  .translation-template-content h2, 
+  .translation-template-content h3 { 
+    display: none !important; 
   }
-  .install-box ul { margin: 0; padding-left: 20px; }
-  .install-box li { margin-bottom: 8px; }
 </style>
