@@ -3,8 +3,8 @@
 # PATCH STATUS
 latest_patch: "1.120.140"
 patch_release_date: "2026-02-03"
-
 last_checked: "2026-02-03"
+
 patch_alert:
   active: true
   type: "critical" # options: info, warning, critical
