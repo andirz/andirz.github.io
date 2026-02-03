@@ -1,0 +1,246 @@
+---
+layout: page
+title: Pack Picker Memory
+icon: "fas fa-brain"
+order: 2
+description: "Match all Sims 4 Expansion and Game Packs before time runs out."
+mode: Memory
+difficulty: Medium
+---
+
+<div id="pack-memory"
+     data-ep-count="18"
+     data-gp-count="12"
+     data-pairs="8"
+     data-time-limit="90"
+     data-folder="/assets/img/packs/mono/"
+     data-icon-size="128">
+</div>
+
+<style>
+  :root {
+    --sims-green: #2ecc71;
+    --sims-blue: #1e293b;
+    --sims-red: #e74c3c;
+    --text-main: #0f172a;
+    --flip-ease: 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .mm-root {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #f8fafc;
+    border-radius: 24px;
+    padding: 1.5rem;
+    margin: 1.6rem auto;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 16px 22px -8px rgba(0,0,0,0.06);
+    max-width: 760px;
+  }
+
+  .mm-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .mm-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+
+  .mm-header p {
+    margin: 0.2rem 0 0;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .mm-stats {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+  }
+
+  .mm-badge {
+    background: #fff;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    border: 2px solid #e2e8f0;
+    font-weight: 700;
+    font-size: 0.8rem;
+    min-width: 90px;
+  }
+
+  .mm-badge.warning {
+    background: var(--sims-red);
+    color: #fff;
+    border-color: #c0392b;
+  }
+
+  .mm-btn {
+    background: var(--sims-blue);
+    color: #fff;
+    border: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .mm-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 1.2rem;
+    justify-items: center;
+  }
+
+  .mm-card {
+    width: 144px;
+    height: 144px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform var(--flip-ease);
+    cursor: pointer;
+  }
+
+  .mm-card.is-flipped {
+    transform: rotateY(180deg);
+  }
+
+  .mm-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mm-front {
+    background: var(--sims-blue);
+    color: #fff;
+    font-size: 1.2rem;
+  }
+
+  .mm-back {
+    background: #fff;
+    transform: rotateY(180deg);
+    border: 2px solid var(--sims-green);
+    padding: 8px;
+  }
+
+  .mm-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+</style>
+
+<div class="mm-root">
+  <div class="mm-header">
+    <h2>Pack Picker Memory</h2>
+    <p>Match all Sims 4 packs before time runs out.</p>
+
+    <div class="mm-stats">
+      <div class="mm-badge" id="mm-status">Matches: 0</div>
+      <div class="mm-badge" id="mm-misses">Misses: 0</div>
+      <div class="mm-badge" id="mm-timer">Time: 00:00</div>
+      <button class="mm-btn" id="mm-restart">Restart</button>
+    </div>
+  </div>
+
+  <div class="mm-grid" id="mm-grid"></div>
+</div>
+
+<script>
+(function () {
+  const root = document.getElementById("pack-memory");
+  const grid = document.getElementById("mm-grid");
+
+  const EP = +root.dataset.epCount;
+  const GP = +root.dataset.gpCount;
+  const PAIRS = +root.dataset.pairs;
+  const TIME = +root.dataset.timeLimit;
+  const FOLDER = root.dataset.folder;
+
+  const status = document.getElementById("mm-status");
+  const missesEl = document.getElementById("mm-misses");
+  const timerEl = document.getElementById("mm-timer");
+  const restartBtn = document.getElementById("mm-restart");
+
+  let opened = [];
+  let locked = false;
+  let matches = 0;
+  let misses = 0;
+  let timerId = null;
+  let start = 0;
+
+  const packs = [];
+  for (let i = 1; i <= EP; i++) packs.push(`ep${String(i).padStart(2,"0")}`);
+  for (let i = 1; i <= GP; i++) packs.push(`gp${String(i).padStart(2,"0")}`);
+
+  function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
+  function format(s){
+    return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+  }
+
+  function reset(){
+    grid.innerHTML="";
+    opened=[]; locked=false;
+    matches=0; misses=0;
+    status.textContent=`Matches: 0 / ${PAIRS}`;
+    missesEl.textContent="Misses: 0";
+
+    clearInterval(timerId);
+    start=Date.now();
+    timerId=setInterval(()=>{
+      const left = TIME - Math.floor((Date.now()-start)/1000);
+      timerEl.textContent="Time: "+format(Math.max(left,0));
+      if(left<=10) timerEl.classList.add("warning");
+      if(left<=0){ clearInterval(timerId); locked=true; }
+    },300);
+
+    const chosen = shuffle([...packs]).slice(0,PAIRS);
+    const deck = shuffle([...chosen,...chosen]);
+
+    deck.forEach(id=>{
+      const card=document.createElement("div");
+      card.className="mm-card";
+      card.innerHTML=`
+        <div class="mm-face mm-front">?</div>
+        <div class="mm-face mm-back">
+          <img src="${FOLDER}${id}.png" alt="">
+        </div>`;
+      card.onclick=()=>{
+        if(locked||card.classList.contains("is-flipped")||opened[0]===card)return;
+        card.classList.add("is-flipped");
+        opened.push(card);
+        if(opened.length===2){
+          locked=true;
+          if(opened[0].innerHTML===opened[1].innerHTML){
+            matches++;
+            status.textContent=\`Matches: ${matches} / ${PAIRS}\`;
+            opened=[]; locked=false;
+          } else {
+            misses++;
+            missesEl.textContent=\`Misses: ${misses}\`;
+            setTimeout(()=>{
+              opened.forEach(c=>c.classList.remove("is-flipped"));
+              opened=[]; locked=false;
+            },800);
+          }
+        }
+      };
+      grid.appendChild(card);
+    });
+  }
+
+  restartBtn.onclick=reset;
+  reset();
+})();
+</script>
