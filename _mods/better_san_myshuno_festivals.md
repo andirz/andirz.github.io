@@ -23,8 +23,6 @@ For full functionality, you **must** have the following separate downloads insta
 1.  **Smart Core Script** – The technical foundation for script-based features.
 2.  **P.S.O. Common Package** – Part of the *Purchasing System Overhaul* series, containing shared assets and configurations.
 
-{% include notice-script.html %}
-
 ## Compatibility
 * **The Sims 4 City Living (EP03)** is strictly required.
 * This mod does not use new strings, so it is compatible with all game languages.
