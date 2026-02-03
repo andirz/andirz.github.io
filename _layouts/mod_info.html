@@ -7,7 +7,6 @@ layout: default
 
     <main style="flex: 2; min-width: 320px;">
       {% include mods/hero-header.html %}
-      <h1 class="mod-page-title">{{ page.title }}</h1>
 
       {% comment %} 
         SPLIT LOGIK: Zerlegung an den H2-IDs.
@@ -20,21 +19,15 @@ layout: default
       </article>
 
       <section class="mod-translation-section" style="margin-top: 30px;">
-        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Language &amp; Translations</h2>
+        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Language &amp; Translations</h2>
         
-        {% comment %} 
-           Zuerst: Der individuelle Text aus deiner Markdown-Datei (z.B. Übersetzer-Namen)
-        {% endcomment %}
         {% if content_parts[0] contains 'id="language--translations"' %}
           <div class="custom-translation-text" style="margin-bottom: 15px; line-height: 1.6;">
             {{ description_parts[1] }}
           </div>
         {% endif %}
 
-        {% comment %} 
-           Danach: Der Standard-Text aus dem Template (Allgemeine Infos)
-        {% endcomment %}
-        <div class="translation-template-content" style="line-height: 1.6; opacity: 0.9; font-size: 1.1rem;">
+        <div class="translation-template-content" style="line-height: 1.6; opacity: 0.9; ">
           {% if page.disable_translations == true or page.strings == false %}
             {% include translation/no_strings.md %}
           {% elsif page.files contains "bat" %}
@@ -49,7 +42,7 @@ layout: default
 
       <section class="mod-installation-section" style="margin-top: 40px;">
         <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Installation Guide</h2>
-        <p style="margin-top: 12px; font-weight: 600;">Please note the following information:</p>
+        <p style="margin-top: 8px; ">Please note the following information:</p>
         {% if page.files contains "bat" %}
           {% include installation/bat_script.html %}
         {% elsif page.files contains "ts4script" %}
