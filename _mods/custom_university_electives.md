@@ -4,7 +4,7 @@ title: "Custom University Electives"
 icon: "fas fa-graduation-cap"
 packs: ["EP08"]
 requirements: ["lot51_core"]
-categories: [University, Gameplay Mods, Education]
+categories: [University, Gameplay Mods, Education, Mod Integration]
 ---
 
 ## What does this mod do?

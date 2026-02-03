@@ -145,21 +145,17 @@
   version: "1.8.1"
   updated: "2026-01-14"
 
-- id: pansexual
-  name: "Make Sims Pansexual Again"
-  icon: "fas fa-heart"
+- id: make_sims_pansexual_again
+  version: "1.1.0"
+  status: "compatible"
+  updated: "2024-03-21"
 
 # --- UNIVERSITY ---
 
-- id: custom_electives
-  name: "Custom University Electives"
-  icon: "fas fa-graduation-cap"
-  version: "1.0.5"
-  status: "stable"
-  updated: "2025-12-15"
-  packs: ["EP08"]
-  github: "https://github.com/Andirz/TS4-University-Electives"
-  patreon: "https://www.patreon.com/andirz"
+- id: custom_university_electives
+  version: "1.12.5"
+  status: "compatible"
+  updated: "2025-07-02"
 
 - id: drama_degree_is_acting
   version: "1.0.2"

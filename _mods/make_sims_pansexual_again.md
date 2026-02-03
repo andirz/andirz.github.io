@@ -1,9 +1,9 @@
 ---
-mod_id: make_all_sims_pansexual
+mod_id: make_sims_pansexual_again
 title: "Make All Sims Pansexual Again"
-icon: "fas fa-transgender-alt"
+icon: "fas fa-heart"
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Scripts, Social]
+categories: [Global Tweaks, Traits, Sim Personalization]
 ---
 
 ## What does this mod do?
