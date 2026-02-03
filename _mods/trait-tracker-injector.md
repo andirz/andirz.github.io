@@ -9,7 +9,7 @@ categories: [Scripts, Injectors, Adopted Mods]
 ## What is this?
 The **Trait Tracker Injector** (originally created by **MAL22**) is a specialized tool that enables the inheritance of custom traits across Sim generations. It allows traits to be passed from parents to offspring, making it possible to create unique family lines with inherited abilities, such as dormant occult traits or special skills.
 
-**Note:** If you are not using any mods that specifically depend on this injector, you do not need to install it!
+> **Note:** If you are not using any mods that specifically depend on this injector, you do not need to install it!
 
 ## Why this version?
 After **Patch 1.110**, many mods—including the original Trait Tracker Injector—stopped working. Since the original version was no longer maintained, I stepped in to provide a fix for the community. I have completely reworked the script to resolve bugs introduced by the patch. All mods relying on this injector should now function correctly again without any extra steps from you.
@@ -20,6 +20,7 @@ A similar injector is now included in the **Lot51 Core Library**, which many mod
 * **Legacy support:** This fix is primarily for older or specific mods that still strictly rely on the original MAL22 syntax.
 
 ## How To Use
+Please pay close attention to the following instructions.
 {% include notice-script.html %}
 
 ## For Modders
