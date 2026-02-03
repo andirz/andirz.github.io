@@ -26,6 +26,28 @@ layout: default
             {{ description_parts[1] }}
           </div>
         {% endif %}
+
+        <section class="mod-translation-section" style="margin-top: 30px;">
+          <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Language &amp; Translations</h2>
+          
+          <div class="translation-content-wrapper">
+            {% capture table_html %}
+              {{ content | split: '<h2 id="language--translations">Language &amp; Translations</h2>' | last | split: '<h2' | first }}
+            {% endcapture %}
+        
+            {% comment %} Hier werden die Flaggen automatisch hinzugefügt {% endcomment %}
+            {{ table_html 
+              | replace: 'English', '🇺🇸 English' 
+              | replace: 'German', '🇩🇪 German' 
+              | replace: 'Spanish', '🇪🇸 Spanish' 
+              | replace: 'Spanisch', '🇪🇸 Spanish' 
+              | replace: 'Russian', '🇷🇺 Russian' 
+              | replace: 'Brazilian Portuguese', '🇧🇷 Brazilian Portuguese' 
+              | replace: 'Italian', '🇮🇹 Italian' 
+              | replace: 'Chinese', '🇨🇳 Chinese' 
+            }}
+          </div>
+        </section>
       
         <div class="translation-template-content" style="line-height: 1.6; font-size: 1rem;">
           {% if page.disable_translations == true or page.strings == false %}
