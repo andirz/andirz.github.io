@@ -31,18 +31,26 @@
           background:#f8fafc;
           text-decoration:none;
           display:inline-block;
-          transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-          will-change: transform;
+          outline:none;
+          transition: border-color .12s ease, box-shadow .12s ease, background-color .12s ease;
         "
         onmouseover="
-          this.style.transform='translateY(-2px) scale(1.04)';
-          this.style.boxShadow='0 10px 22px rgba(0,0,0,.08)';
-          this.style.borderColor='rgba(0,0,0,.18)';
+          this.style.borderColor='rgba(0,0,0,.22)';
+          this.style.boxShadow='0 0 0 3px rgba(0,0,0,.05)';
         "
         onmouseout="
-          this.style.transform='';
-          this.style.boxShadow='';
           this.style.borderColor='';
+          this.style.boxShadow='';
+          this.style.backgroundColor='';
+        "
+        onmousedown="
+          this.style.borderColor='rgba(0,0,0,.35)';
+          this.style.boxShadow='0 0 0 4px rgba(0,0,0,.09)';
+          this.style.backgroundColor='rgba(0,0,0,.03)';
+        "
+        onmouseup="
+          this.style.borderColor='rgba(0,0,0,.22)';
+          this.style.boxShadow='0 0 0 3px rgba(0,0,0,.05)';
         "
       >
         {{ cat }}
