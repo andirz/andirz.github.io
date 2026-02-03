@@ -99,7 +99,8 @@
 
         <div class="packs-list">
           {% for pack in page.packs %}
-            <span>{{ pack }}</span>
+            {% assign pack_en = site.data.packs[pack].en | default: pack %}
+            <span class="pack-pill" title="{{ pack_en }}" aria-label="{{ pack_en }}">{{ pack }}</span>
           {% endfor %}
         </div>
       </div>
@@ -111,30 +112,36 @@
 
   <!-- DOWNLOAD -->
   <div class="sidebar-box">
+    <div class="sidebar-box-header">Download</div>
+
     <div class="download-wrap">
       {% unless page.curseforge_ban %}
       <a href="{{ cf_url }}" target="_blank" rel="noopener noreferrer" class="download-btn cf-btn">
-        <i class="fab fa-firefox-browser"></i> CurseForge
+        <i class="fab fa-firefox-browser" aria-hidden="true"></i>
+        <span>CurseForge</span>
       </a>
       {% endunless %}
+
       <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" class="download-btn patreon-btn">
-        <i class="fab fa-patreon"></i> Patreon
+        <i class="fab fa-patreon" aria-hidden="true"></i>
+        <span>Patreon</span>
       </a>
     </div>
   </div>
 
   <!-- SUPPORT -->
   <div class="support-icons">
-    <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" title="Patreon">
-      <i class="fab fa-patreon"></i>
+    <a class="support-link patreon" href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" aria-label="Patreon">
+      <i class="fab fa-patreon" aria-hidden="true"></i>
     </a>
-    <a href="{{ kofi_link }}" target="_blank" rel="noopener noreferrer" title="Ko-fi">
-      <i class="fas fa-coffee"></i>
+    <a class="support-link kofi" href="{{ kofi_link }}" target="_blank" rel="noopener noreferrer" aria-label="Ko-fi">
+      <i class="fas fa-coffee" aria-hidden="true"></i>
     </a>
-    <a href="{{ paypal_link }}" target="_blank" rel="noopener noreferrer" title="PayPal">
-      <i class="fab fa-paypal"></i>
+    <a class="support-link paypal" href="{{ paypal_link }}" target="_blank" rel="noopener noreferrer" aria-label="PayPal">
+      <i class="fab fa-paypal" aria-hidden="true"></i>
     </a>
   </div>
+
 </div>
 
 <style>
@@ -152,15 +159,17 @@
   margin-bottom:14px;
 }
 
+/* HEADER – ohne Hintergrund, nur “schön” unterstrichen */
 .sidebar-box-header{
-  background:var(--soft-black);
-  color:#fff;
-  font-size:0.65rem;
-  font-weight:800;
+  background:transparent;
+  color:var(--soft-black);
+  font-size:0.7rem;
+  font-weight:900;
   text-align:center;
-  padding:7px;
+  padding:10px 14px 7px;
   text-transform:uppercase;
-  letter-spacing:1px;
+  letter-spacing:1.2px;
+  border-bottom:2px solid var(--soft-black);
 }
 
 .sidebar-box-content{ padding:12px 14px; }
@@ -235,7 +244,20 @@
   font-size:0.85rem;
   margin-bottom:8px;
 }
-.requirements-list a{ font-weight:700; text-decoration:none; }
+
+.requirements-list a{
+  font-weight:800;
+  text-decoration:none;
+  color:var(--soft-black);
+  transition:color .15s ease, text-decoration-color .15s ease;
+}
+
+.requirements-list a:hover{
+  color:#2563eb;
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+  text-underline-offset:3px;
+}
 
 .packs-block{
   border-top:1px solid #e5e7eb;
@@ -251,12 +273,13 @@
   flex-wrap:wrap;
   gap:6px;
 }
-.packs-list span{
+.pack-pill{
   background:#eff6ff;
   border:1px solid #dbeafe;
   border-radius:4px;
   padding:2px 6px;
-  font-weight:700;
+  font-weight:800;
+  cursor: help; 
 }
 
 /* DOWNLOAD */
@@ -266,26 +289,61 @@
   flex-direction:column;
   gap:8px;
 }
+
+/* Button: Text mittig, Icon links am Anfang */
 .download-btn{
-  padding:10px;
+  position:relative;
+  display:block;
+  padding:10px 12px;
   border-radius:9px;
-  font-weight:800;
+  font-weight:900;
   font-size:0.85rem;
   color:#fff !important;
   text-decoration:none;
+  text-align:center;
+  transition:filter .2s ease, transform .15s ease;
 }
+
+.download-btn i{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1rem;
+  opacity:0.95;
+}
+
+.download-btn:hover{
+  filter:brightness(1.12);
+  transform:translateY(-1px);
+}
+
 .cf-btn{ background:#f16436; }
 .patreon-btn{ background:#1e293b; }
 
-/* SUPPORT */
+/* SUPPORT ICONS – Brand-Farben + Hover-Zoom */
 .support-icons{
   display:flex;
   justify-content:center;
   gap:22px;
-  padding:6px 0 2px;
+  padding:8px 0 4px;
 }
-.support-icons a{
-  font-size:1.35rem;
+
+.support-link{
+  font-size:1.45rem;
   text-decoration:none;
+  transition:transform .18s cubic-bezier(0.175,0.885,0.32,1.275), filter .18s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
+
+.support-link:hover{
+  transform:scale(1.35);
+  filter:brightness(1.05);
+}
+
+.support-link.patreon{ color:#ff424d; } /* Patreon */
+.support-link.kofi{ color:#ff5e5b; }    /* Ko-fi */
+.support-link.paypal{ color:#003087; }  /* PayPal */
 </style>
