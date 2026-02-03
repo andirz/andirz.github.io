@@ -1,7 +1,8 @@
 ---
+layout: page
 title: "Categories"
 permalink: /category/
-layout: page
+icon: "fas fa-tags"
 ---
 
 <style>
@@ -216,7 +217,7 @@ layout: page
 </div>
 
 <script>
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   const params = new URLSearchParams(window.location.search);
   const category = params.get('category');
 
@@ -225,35 +226,46 @@ layout: page
   const selectedName = document.getElementById('catSelectedName');
   const pills = document.querySelectorAll('.cat-pill');
 
-  // Wenn ohne category aus Menü: nur Wolke anzeigen (Grid bleibt display:none)
+  // Wenn diese Elemente nicht existieren, kann nichts passieren.
+  if (!grid || !selected || !selectedName) {
+    console.warn('Category page: missing required elements (#modsGrid / #catSelected / #catSelectedName).');
+    return;
+  }
+
+  // Menü-Klick ohne Query => nur Wolke
   if (!category) return;
 
-  // UI: aktive Pill markieren + “Showing …” einblenden
+  // Sichtbar machen
   selected.style.display = 'block';
   selectedName.textContent = category;
+  grid.style.display = 'grid';
+
+  // aktive Pill markieren
   pills.forEach(p => {
-    if (p.getAttribute('data-cat') === category) p.classList.add('is-active');
+    if ((p.getAttribute('data-cat') || '').trim() === category.trim()) {
+      p.classList.add('is-active');
+    }
   });
 
-  // Grid aktivieren und filtern
-  grid.style.display = 'grid';
+  // filtern
   const cards = grid.querySelectorAll('[data-categories]');
   let shown = 0;
 
   cards.forEach(card => {
-    const cats = (card.dataset.categories || '').split('|').map(s => s.trim());
-    const ok = cats.includes(category);
+    const catsRaw = (card.getAttribute('data-categories') || '');
+    const cats = catsRaw.split('|').map(s => s.trim()).filter(Boolean);
+    const ok = cats.includes(category.trim());
     card.style.display = ok ? '' : 'none';
     if (ok) shown++;
   });
 
-  // Wenn nix gefunden: kurzen Hinweis rein
   if (shown === 0) {
     const msg = document.createElement('div');
     msg.style.color = 'var(--text-muted)';
     msg.style.marginTop = '10px';
     msg.textContent = 'No mods found in this category.';
-    grid.parentNode.insertBefore(msg, grid.nextSibling);
+    grid.insertAdjacentElement('afterend', msg);
   }
-})();
+});
 </script>
+
