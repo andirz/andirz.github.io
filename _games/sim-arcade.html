@@ -1,0 +1,171 @@
+---
+layout: page
+title: Sim-Arcade
+icon: "fas fa-gamepad"
+order: 1
+---
+
+<div class="arcade-container">
+  <div class="arcade-tabs">
+    <button class="arc-btn active" onclick="openGame(event, 'memory-tab')">
+      <i class="fas fa-brain"></i> Pack Memory
+    </button>
+    <button class="arc-btn" onclick="openGame(event, 'shoot-tab')">
+      <i class="fas fa-crosshairs"></i> Quickdraw
+    </button>
+  </div>
+
+  <div id="memory-tab" class="arc-content active">
+    {% include games/pack-memory.html %}
+  </div>
+
+  <div id="shoot-tab" class="arc-content">
+    <section class="shoot-section text-center">
+      <h2 class="fw-800">Quickdraw Challenge</h2>
+      <p>Hit the <span style="color:var(--pm-red)">Evil Sims</span>, avoid the <span style="color:var(--pm-green)">Good</span> ones!</p>
+      
+      <div class="mb-2">
+        <div class="shoot-badge">Score: <span id="s-score">0</span></div>
+        <div class="shoot-badge">Time: <span id="s-time">30</span>s</div>
+      </div>
+      
+      <button class="pm-btn" style="background:var(--pm-red); margin-bottom:15px;" onclick="window.qdStart()">Start Game</button>
+      <div class="shoot-stage" id="s-stage"></div>
+    </section>
+  </div>
+</div>
+
+<style>
+  :root {
+    --arc-primary: #1e293b;
+    --arc-active: #3b82f6;
+  }
+
+  .arcade-container { max-width: 1000px; margin: 0 auto; font-family: 'Inter', sans-serif; }
+  
+  /* Tab Buttons */
+  .arcade-tabs { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 20px; 
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 10px;
+  }
+  
+  .arc-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 800;
+    color: #64748b;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1.1rem;
+  }
+  
+  .arc-btn i { margin-right: 8px; }
+  
+  .arc-btn.active {
+    color: var(--arc-active);
+    border-bottom: 3px solid var(--arc-active);
+  }
+
+  .arc-content { display: none; animation: fadeIn 0.4s ease; }
+  .arc-content.active { display: block; }
+
+  /* Shooting Game Specific Adjustments */
+  .shoot-section { 
+    background: var(--pm-bg); 
+    border-radius: var(--pm-radius); 
+    padding: 30px; 
+    border: 1px solid var(--pm-border); 
+    text-align: center; 
+  }
+  .shoot-stage { 
+    position: relative; 
+    width: 100%; 
+    max-width: 500px; 
+    aspect-ratio: 1/1; 
+    background: #0f172a; 
+    border-radius: 18px; 
+    margin: 0 auto; 
+    overflow: hidden; 
+    cursor: crosshair;
+    border: 4px solid #1e293b;
+  }
+  .target-img { position: absolute; width: 70px; cursor: pointer; }
+  .evil { filter: brightness(0.4) sepia(1) hue-rotate(-50deg) drop-shadow(0 0 5px red); }
+  .good { filter: brightness(1.2) drop-shadow(0 0 10px #2ecc71); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+<script>
+function openGame(evt, gameName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("arc-content");
+  for (i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
+  tablinks = document.getElementsByClassName("arc-btn");
+  for (i = 0; i < tablinks.length; i++) { tablinks[i].className = tablinks[i].className.replace(" active", ""); }
+  document.getElementById(gameName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Shooting Game Logic (Quickdraw)
+(function() {
+  const basePath = "{{ '/assets/img/packs/mono/' | relative_url }}";
+  let score = 0, timeLeft = 30, running = false, combo = 1;
+  const stage = document.getElementById('s-stage');
+
+  window.qdStart = function() {
+    if(running) return;
+    score = 0; timeLeft = 30; running = true; combo = 1;
+    document.getElementById('s-score').innerText = score;
+    document.getElementById('s-time').innerText = timeLeft;
+    stage.innerHTML = '';
+    
+    const loop = setInterval(() => { if(running) spawn(); else clearInterval(loop); }, 900);
+    const clock = setInterval(() => {
+      timeLeft--;
+      document.getElementById('s-time').innerText = timeLeft;
+      if(timeLeft <= 0) { 
+        running = false; 
+        clearInterval(clock); 
+        alert('Game Over! Your Score: ' + score); 
+      }
+    }, 1000);
+  };
+
+  function spawn() {
+    const isEvil = Math.random() > 0.4;
+    const img = document.createElement('img');
+    // Nutzt zufällige Pack-Icons
+    const packId = (Math.random() > 0.5 ? 'ep' : 'gp') + String(Math.floor(Math.random() * 10) + 1).padStart(2, '0');
+    img.src = basePath + packId + ".png";
+    img.className = 'target-img ' + (isEvil ? 'evil' : 'good');
+    
+    // Positionierung innerhalb des Containers
+    img.style.left = Math.random() * (stage.offsetWidth - 80) + 'px';
+    img.style.top = Math.random() * (stage.offsetHeight - 80) + 'px';
+    
+    img.onclick = (e) => {
+      e.stopPropagation();
+      if(isEvil) { 
+        score += 10 * combo; 
+        combo++; 
+        img.style.transform = "scale(0)";
+      } else { 
+        score -= 50; 
+        timeLeft -= 3; 
+        combo = 1; 
+        stage.style.borderColor = "red";
+        setTimeout(() => stage.style.borderColor = "#1e293b", 200);
+      }
+      document.getElementById('s-score').innerText = score;
+      img.remove();
+    };
+    stage.appendChild(img);
+    setTimeout(() => { if(img.parentNode) img.remove(); }, 1100);
+  }
+})();
+</script>
