@@ -1,0 +1,99 @@
+---
+title: "Categories"
+permalink: /category/
+layout: page
+---
+
+<style>
+  .cat-cloud{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+  .cat-pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--border-color);
+    background:var(--bg-secondary);color:var(--text-muted);font-weight:650;font-size:.88rem;text-decoration:none}
+  .cat-pill.is-active{color:var(--link-color);border-color:rgba(0,0,0,.18);background:rgba(0,0,0,.03)}
+  .cat-selected{display:none;margin:6px 0 10px;color:var(--text-muted)}
+  .mods-grid{display:none;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:14px}
+  .mod-card{background:var(--bg-primary);border:1px solid var(--border-color);border-radius:14px;padding:14px 14px 12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.04)}
+</style>
+
+<h1 style="display:flex;align-items:center;gap:10px;margin-top:0;">
+  <i class="fas fa-tags" style="color:var(--accent-color);"></i>
+  Categories
+</h1>
+
+<p style="margin-top:0;color:var(--text-muted);">Pick a category to see matching mods.</p>
+
+{% assign all_cats = "" | split: "|" %}
+{% for m in site.mods %}
+  {% if m.categories %}
+    {% for c in m.categories %}
+      {% assign all_cats = all_cats | push: c %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+{% assign unique_cats = "" | split: "|" %}
+{% for c in all_cats %}
+  {% assign c_clean = c | strip %}
+  {% unless unique_cats contains c_clean %}
+    {% assign unique_cats = unique_cats | push: c_clean %}
+  {% endunless %}
+{% endfor %}
+{% assign unique_cats = unique_cats | sort %}
+
+<div class="cat-cloud" id="catCloud">
+  {% for c in unique_cats %}
+    <a class="cat-pill" href="{{ site.baseurl }}/category/?category={{ c | url_encode }}" data-cat="{{ c | escape }}">{{ c }}</a>
+  {% endfor %}
+</div>
+
+<div class="cat-selected" id="catSelected">
+  Showing category: <strong id="catSelectedName"></strong>
+  · <a href="{{ site.baseurl }}/category/">clear</a>
+</div>
+
+<div class="mods-grid" id="modsGrid">
+  {% for mod_entry in site.data.mods %}
+    {% assign mod_page = site.mods | where: "mod_id", mod_entry.id | first %}
+    {% assign name = mod_page.title | default: mod_entry.name | default: mod_entry.id %}
+    {% assign url = mod_page.url | relative_url %}
+    {% assign cats = mod_page.categories | default: mod_entry.categories | default: "" %}
+
+    <div class="mod-card" data-categories="{{ cats | join: '|' | escape }}">
+      <div style="font-weight:800;">
+        {% if mod_page %}<a href="{{ url }}" style="text-decoration:none;color:var(--link-color)">{{ name }}</a>{% else %}{{ name }}{% endif %}
+      </div>
+      {% if mod_page and mod_page.excerpt %}
+        <div style="margin-top:6px;color:var(--text-muted);font-size:.9rem;line-height:1.45;">
+          {{ mod_page.excerpt | strip_html | truncate: 140 }}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get('category');
+  if (!category) return;
+
+  const grid = document.getElementById('modsGrid');
+  const selected = document.getElementById('catSelected');
+  const selectedName = document.getElementById('catSelectedName');
+  const pills = document.querySelectorAll('.cat-pill');
+
+  selected.style.display = 'block';
+  selectedName.textContent = category;
+  grid.style.display = 'grid';
+
+  pills.forEach(p => {
+    if ((p.getAttribute('data-cat') || '').trim() === category.trim()) p.classList.add('is-active');
+  });
+
+  const cards = grid.querySelectorAll('[data-categories]');
+  cards.forEach(card => {
+    const cats = (card.getAttribute('data-categories') || '').split('|').map(s => s.trim());
+    card.style.display = cats.includes(category.trim()) ? '' : 'none';
+  });
+});
+</script>
