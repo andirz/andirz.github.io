@@ -9,22 +9,20 @@ Komma-Guard verhindert Teilstring-Treffer.
 {% endcomment %}
 {% assign shown_ids = "," | append: current_id | append: "," %}
 
-<section id="recommended-mods" class="gallery-wrapper gallery-related" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f5f9;">
-
-  <div style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
-    <div>
-      <h2 style="font-size: 1.6rem; font-weight: 800; color: #1e293b; margin: 0;">
-        More from {{ current_cats | first }}
-      </h2>
-      <p style="color: #64748b; margin: 5px 0 0 0;">Recommended based on your interests:</p>
+<section id="recommended-mods" class="related-mods">
+  <div class="related-mods-head">
+    <div class="related-mods-titlewrap">
+      <h2 class="related-mods-title">More from {{ current_cats | first }}</h2>
+      <p class="related-mods-sub">Recommended based on your interests:</p>
     </div>
 
-    <a href="{{ '/mods/' | relative_url }}" style="font-size: 0.85rem; font-weight: 700; color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #eff6ff; border-radius: 8px; transition: all 0.2s ease;">
-      View all Mods <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+    <a class="related-mods-link" href="{{ '/mods/' | relative_url }}">
+      <span>View all Mods</span>
+      <i class="fas fa-arrow-right"></i>
     </a>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;">
+  <div class="related-mods-grid">
 
     {% assign all_mods = site.data.mods %}
 
@@ -42,7 +40,6 @@ Komma-Guard verhindert Teilstring-Treffer.
             {% assign check_id = "," | append: g_mod.id | append: "," %}
 
             {% unless shown_ids contains check_id %}
-              {% comment %} Exakter Kategorie-Match (kein Teilstring-Match) {% endcomment %}
               {% assign cat_match = false %}
               {% if g_mod.categories and g_mod.categories.size > 0 %}
                 {% for mcat in g_mod.categories %}
@@ -84,3 +81,87 @@ Komma-Guard verhindert Teilstring-Treffer.
 
   </div>
 </section>
+
+<style>
+  .related-mods{
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .related-mods-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .related-mods-titlewrap{
+    display:flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .related-mods-title{
+    margin:0;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--text-color);
+  }
+
+  .related-mods-sub{
+    margin:0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.65;
+  }
+
+  .related-mods-link{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-decoration:none;
+    font-weight: 900;
+    font-size: 0.86rem;
+
+    color: var(--text-color);
+    background: rgba(0,0,0,0.02);
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease, background 140ms ease;
+  }
+
+  .related-mods-link i{
+    font-size: 0.72rem;
+    opacity: 0.8;
+  }
+
+  .related-mods-link:hover{
+    transform: translateY(-1px);
+    border-color: rgba(0,0,0,0.16);
+    background: rgba(0,0,0,0.03);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+  }
+
+  .related-mods-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+  }
+
+  @media (max-width: 700px){
+    .related-mods{
+      margin-top: 18px;
+      padding-top: 14px;
+    }
+    .related-mods-title{
+      font-size: 1.15rem;
+    }
+    .related-mods-grid{
+      gap: 14px;
+    }
+  }
+</style>
