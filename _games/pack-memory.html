@@ -274,16 +274,18 @@ difficulty: Medium
 
   var EP = parseInt(root.dataset.epCount || "18", 10);
   var GP = parseInt(root.dataset.gpCount || "12", 10);
-
-  // FIX: du hast data-pairs="8", also dataset.pairs lesen (nicht pairsCount)
   var PAIRS = parseInt(root.dataset.pairs || "8", 10);
-
   var TIME = parseInt(root.dataset.timeLimit || "90", 10);
 
+  // Verbesserte Pfad-Logik
   var folder = root.dataset.folder || "";
+  if (folder.includes("{{")) { 
+    // Falls Jekyll den Tag nicht rendert, Fallback auf Standardpfad
+    folder = "/assets/img/packs/mono/"; 
+  }
   if(folder && folder.charAt(folder.length-1) !== "/") folder += "/";
-
-  statusEl.textContent = "Matches: 0 / " + PAIRS;
+  
+  console.log("Memory Game: Bilder werden geladen aus: " + folder);
 
   var opened = [];
   var locked = false;
@@ -406,7 +408,7 @@ difficulty: Medium
     back.className = "pm-face pm-back";
 
     var img = document.createElement("img");
-    img.alt = "";
+    img.alt = id;
     img.loading = "lazy";
     img.src = folder + id + ".png";
 
@@ -415,13 +417,13 @@ difficulty: Medium
     fb.textContent = id.toUpperCase();
 
     img.addEventListener("error", function(){
+      console.warn("Bild nicht gefunden: " + img.src);
       img.style.display = "none";
       fb.style.display = "flex";
     });
 
     back.appendChild(img);
     back.appendChild(fb);
-
     card.appendChild(front);
     card.appendChild(back);
 
@@ -432,7 +434,6 @@ difficulty: Medium
 
   function reset(){
     hideOverlay();
-
     grid.innerHTML = "";
     opened = [];
     locked = false;
