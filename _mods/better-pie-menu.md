@@ -5,6 +5,7 @@ icon: "fas fa-list-ul"
 requirements: ["lot51_core"]
 categories: [UI Tweaks, Optimization, Overrides]
 tagline: "End the clutter and find your favorite interactions faster with a beautifully reorganized and color-coded UI."
+strings: false
 ---
 
 ## About This Mod
@@ -44,9 +45,3 @@ Diese Mods könnten einige visuelle Optimierungen von BPM überschreiben. Dein S
 * **Socials:** Kuttoe (Menu Cleanup), Carl (Gameplay Overhaul).
 * **Kitchen/Appliances:** LittleMsSam (Better Meal Time), Srslysims (Complete Cooking), Somik and Severinka (Realistic Cooking).
 * **Computers/Devices:** roBurky (Meaningful Stories), Arnie (Plumfruit).
-
----
-
-## Technical Information
-### Translations
-No translations are necessary! The mod almost exclusively uses existing game strings.

@@ -63,8 +63,6 @@ Because this is not an academic profession, no university degrees are required f
 - **Danish** – by Misling  
 - **Traditional Chinese** and **Simplified Chinese** – by WANZI
 
-{% include mods/translations.html %}
-
 ## Requirements
 
 - **Lot51 Core Library** – required for full functionality  
