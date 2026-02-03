@@ -1,0 +1,52 @@
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get('category');
+
+  const grid = document.getElementById('modsGrid');
+  const selected = document.getElementById('catSelected');
+  const selectedName = document.getElementById('catSelectedName');
+  const pills = document.querySelectorAll('.cat-pill');
+
+  // Wenn diese Elemente nicht existieren, kann nichts passieren.
+  if (!grid || !selected || !selectedName) {
+    console.warn('Category page: missing required elements (#modsGrid / #catSelected / #catSelectedName).');
+    return;
+  }
+
+  // Menü-Klick ohne Query => nur Wolke
+  if (!category) return;
+
+  // Sichtbar machen
+  selected.style.display = 'block';
+  selectedName.textContent = category;
+  grid.style.display = 'grid';
+
+  // aktive Pill markieren
+  pills.forEach(p => {
+    if ((p.getAttribute('data-cat') || '').trim() === category.trim()) {
+      p.classList.add('is-active');
+    }
+  });
+
+  // filtern
+  const cards = grid.querySelectorAll('[data-categories]');
+  let shown = 0;
+
+  cards.forEach(card => {
+    const catsRaw = (card.getAttribute('data-categories') || '');
+    const cats = catsRaw.split('|').map(s => s.trim()).filter(Boolean);
+    const ok = cats.includes(category.trim());
+    card.style.display = ok ? '' : 'none';
+    if (ok) shown++;
+  });
+
+  if (shown === 0) {
+    const msg = document.createElement('div');
+    msg.style.color = 'var(--text-muted)';
+    msg.style.marginTop = '10px';
+    msg.textContent = 'No mods found in this category.';
+    grid.insertAdjacentElement('afterend', msg);
+  }
+});
+</script>
