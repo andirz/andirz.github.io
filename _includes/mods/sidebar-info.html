@@ -11,7 +11,9 @@
 {% assign patreon_link = mod.patreon | default: site.data.globals.links.patreon %}
 {% assign kofi_link = site.data.globals.links.kofi %}
 {% assign paypal_link = site.data.globals.links.paypal %}
-{% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: (current_id | replace: '_', '-') %}
+{% assign cf_slug = current_id | replace: '_', '-' %}
+{% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: cf_slug | append: "/files/" %}
+
 
 {% assign expected_cover_path = "/assets/img/mods/" | append: current_id | append: "/cover.png" %}
 {% assign cover_exists = false %}

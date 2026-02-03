@@ -2,9 +2,11 @@
 mod_id: visible_handedness
 title: "Visible Handedness"
 icon: "fas fa-hands"
-categories: [UI Tweaks, Gameplay Mods, Overrides]
+categories: [UI Tweaks, Traits, Overrides]
 overrides: true
 ---
+
+icon: "fas fa-hand-paper"
 
 ## What does this mod do?
 

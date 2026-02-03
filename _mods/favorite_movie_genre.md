@@ -1,10 +1,10 @@
 ---
 mod_id: favorite_movie_genre
 title: "Favorite Movie Genre"
-icon: "fas fa-film"
+icon: "fas fa-video"
 packs: ["SP05"]
 requirements: ["lot51_core"]
-categories: [UI Tweaks, Gameplay Mods, Movie Hangout]
+categories: [UI Tweaks, Traits, Overrides]
 ---
 
 ## What does this mod do?

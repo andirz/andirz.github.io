@@ -1,10 +1,11 @@
 ---
-mod_id: visible_weather_preferences
+mod_id: weather_preferences
 title: "Visible Weather Preferences"
 icon: "fas fa-cloud-sun"
 packs: ["EP05"]
 requirements: ["custom_preferences_mod"]
-categories: [UI Tweaks, Gameplay Mods, Seasons]
+categories: [UI Tweaks, Traits, Preferences, Overrides]
+overrides: true
 ---
 
 ## What does this mod do?

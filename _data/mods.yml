@@ -202,37 +202,24 @@
   updated: "2025-10-07"
 
 - id: no_forgotten_birthday_drama
-  name: "No Forgotten Birthday Drama"
   version: "1.8.1"
   status: "compatible"
   updated: "2025-11-06"
 
 - id: weather_preferences
-  name: "Visible Weather Preferences"
-  icon: "fas fa-cloud-sun"
-  version: "1.0.4"
-  packs: ["EP05"]
+  version: "1.1.1"
   status: "compatible"
-  updated: "2026-01-27"
+  updated: "2024-11-26"
 
-- id: favorite_movie
-  name: "Favorite Movie Genre"
-  icon: "fas fa-video"
-  version: "1.0.1"
-  status: "stable"
-  updated: "2025-10-20"
-  packs: ["SP05"]
-  github: "https://github.com/Andirz/TS4-Favorite-Movie-Genre"
-  patreon: "https://www.patreon.com/andirz"
+- id: favorite_movie_genre
+  version: "1.1.2"
+  status: "compatible"
+  updated: "2024-10-06"
 
 - id: visible_handedness
-  name: "Visible Handedness"
-  icon: "fas fa-hand-paper"
-  version: "1.0.1"
-  status: "stable"
-  updated: "2025-06-05"
-  github: "https://github.com/Andirz/TS4-Visible-Handedness"
-  patreon: "https://www.patreon.com/andirz"
+  version: "1.0.2"
+  status: "compatible"
+  updated: "2024-10-06"
 
 # --- LAUNDRY ---
 
