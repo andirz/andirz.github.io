@@ -38,7 +38,7 @@
         {% endif %}
       </div>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:1px;">
+        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:0.5px;">
           File Type
         </span>
         <span style="font-weight:600; color:#475569; font-size:.9rem;">
@@ -50,8 +50,8 @@
     <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-code-branch" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:1px;">
-          Current Version
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0.5px;">
+          Last Version
         </span>
         <span style="font-weight:600; color:#475569;">v. {{ current_version }}</span>
       </div>
@@ -60,7 +60,7 @@
     <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-calendar-alt" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:1px;">
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0.5px;">
           Last Update
         </span>
         <span style="font-weight:600; color:#475569;">
@@ -69,47 +69,59 @@
       </div>
     </div>
 
-    {% assign mod_packs_raw = page.packs | default: mod.packs %}
-    {% assign required_pack_codes = "" | split:"|" %}
-    {% for p in mod_packs_raw %}
-      {% if p and p != "BG" %}
-        {% assign required_pack_codes = required_pack_codes | push:p %}
+{% assign mod_packs_raw = page.packs | default: mod.packs %}
+
+{%- comment -%}
+  Falls packs als String kommen (z.B. "EP01, GP08"), normalisieren wir auf Array.
+{%- endcomment -%}
+{% if mod_packs_raw and mod_packs_raw.size > 0 and mod_packs_raw.first == nil and mod_packs_raw contains "," %}
+  {% assign mod_packs_raw = mod_packs_raw | split: "," %}
+{% endif %}
+
+{% assign required_pack_codes = "" | split:"|" %}
+{% for p in mod_packs_raw %}
+  {% assign code = p | strip %}
+  {% if code and code != "" and code != "BG" %}
+    {% assign required_pack_codes = required_pack_codes | push: code %}
+  {% endif %}
+{% endfor %}
+
+{% if required_pack_codes.size > 0 %}
+  <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid #f1f5f9;">
+    {% for pack_code in required_pack_codes %}
+
+      {% assign pack_data = site.data.packs[pack_code] %}
+      {% assign pack_name = pack_code %}
+      {% if pack_data %}
+        {% assign pack_name = pack_data.en | default: pack_code %}
       {% endif %}
+
+      {% assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" %}
+      {% assign icon_exists = false %}
+      {% for file in site.static_files %}
+        {% if file.path == icon_path %}
+          {% assign icon_exists = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% if icon_exists %}
+        <div
+          style="width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+                 background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;"
+          title="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' | replace:'GP','GP ' | replace:'SP','SP ' }})"
+        >
+          <img
+            src="{{ site.baseurl }}{{ icon_path }}"
+            alt="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' | replace:'GP','GP ' | replace:'SP','SP ' }})"
+            style="width:28px; height:28px; object-fit:contain;"
+          >
+        </div>
+      {% endif %}
+
     {% endfor %}
-
-    {% if required_pack_codes.size > 0 %}
-      <div style="display:flex; align-items:center; gap:10px; padding-left:20px; border-left:1px solid #f1f5f9;">
-        {% for pack_code in required_pack_codes %}
-
-          {% assign pack_data = site.data.packs | where: "code", pack_code | first %}
-          {% assign pack_name = pack_data.name | default: pack_code %}
-
-          {% assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" %}
-          {% assign icon_exists = false %}
-          {% for file in site.static_files %}
-            {% if file.path == icon_path %}
-              {% assign icon_exists = true %}
-              {% break %}
-            {% endif %}
-          {% endfor %}
-
-          {% if icon_exists %}
-            <div
-              style="width:44px; height:44px; display:flex; align-items:center; justify-content:center;
-                     background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;"
-              title="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' }})"
-            >
-              <img
-                src="{{ site.baseurl }}{{ icon_path }}"
-                alt="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' }})"
-                style="width:28px; height:28px; object-fit:contain;"
-              >
-            </div>
-          {% endif %}
-
-        {% endfor %}
-      </div>
-    {% endif %}
+  </div>
+{% endif %}
 
   </div>
 </header>
