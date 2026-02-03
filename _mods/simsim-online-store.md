@@ -38,11 +38,11 @@ Other emotional responses depend on the situation or are partially randomized, m
 
 ## Language & Translations
 The following translations are available:
-* English, German, Spanish and Russian by me.
-* Brazilian Portuguese translation by Thamis4 and Nymphieta.
-* Chinese and Simplified Chinese translation by Wanzi & Orchard team.
-* French translation by Mollory.
-* Finnish transtlation by Muffin.
-* Italian translation by vale93_games.
-* Japanese translation by Blackxxdahlia.
-* Polish translation by Iskierka and Aarathiel.
+* **English**, **German**, **Spanish** and **Russian** by me
+* **Brazilian Portuguese** by Thamis4 and Nymphieta
+* **Chinese** and **Simplified Chinese** by Wanzi & Orchard team
+* **French** by Mollory
+* **Finnish** by Muffin
+* **Italian** by vale93_games
+* **Japanese** by Blackxxdahlia
+* **Polish** by Iskierka and Aarathiel
