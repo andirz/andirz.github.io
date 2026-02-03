@@ -218,7 +218,11 @@ h2 {
 
   function init() {
     document.querySelectorAll('th.js-sort').forEach(th => {
-      th.addEventListener('click', () => {
+      // verhindert mehrfaches Binden (z.B. durch pageshow / PJAX / Cache)
+      if (th.dataset.sortBound === '1') return;
+      th.dataset.sortBound = '1';
+
+      th.addEventListener('click', (e) => {
         const table = th.closest('table');
         if (!table) return;
         sortTable(table, parseInt(th.dataset.col, 10));
