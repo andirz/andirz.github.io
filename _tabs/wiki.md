@@ -2,7 +2,7 @@
 layout: page
 title: Sims 4 Wiki
 icon: "fas fa-book"
-order: 3
+order: 5
 ---
 
 ## <i class="fas fa-atlas"></i> Documentation & Wiki
