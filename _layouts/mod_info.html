@@ -21,11 +21,10 @@ layout: default
         {{ content }}
       </article>
 
-      {% if page.mod_id %}
-        {% capture faq_file %}faq/{{ page.mod_id }}.md{% endcapture %}
-        {% assign faq_path = faq_file | prepend: "_includes/" %}
+      {% if page.faq == true %}
         <section class="mod-faq-container" style="margin-top: 30px;">
-          {% include {{ faq_file }} %} 
+          {% capture faq_file %}faq/{{ page.mod_id }}.md{% endcapture %}
+          {% include {{ faq_file }} %}
         </section>
       {% endif %}
 
