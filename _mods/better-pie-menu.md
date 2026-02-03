@@ -4,7 +4,7 @@ title: "Better Pie Menu"
 icon: "fas fa-list-ul"
 requirements: ["lot51_core"]
 categories: [UI Tweaks, Optimization, Overrides]
-tagline: "Liven up the boring Sims 4 original pie menus with bright new colors and organization!"
+tagline: "End the clutter and find your favorite interactions faster with a beautifully reorganized and color-coded UI."
 ---
 
 ## Mod Description

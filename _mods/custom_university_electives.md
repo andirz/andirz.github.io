@@ -5,6 +5,7 @@ icon: "fas fa-graduation-cap"
 packs: ["EP08"]
 requirements: ["lot51_core"]
 categories: [University, Gameplay Mods, Education, Mod Integration]
+tagline: "Bridge the gap between academics and passion with over 35 new elective courses for your students."
 ---
 
 ## What does this mod do?

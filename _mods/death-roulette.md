@@ -4,7 +4,8 @@ title: "Death Roulette Challenge"
 parent: "Mods"
 icon: "fas fa-skull-crossbones"
 requirements: ["smart_core"]
-categories: [Gameplay Mods, Challenges, Cheats]
+categories: [Darker Gameplay, Challenges, Cheats]
+tagline: "Leave survival to fate with a high-stakes mechanic designed for dystopian storytelling and disaster scenarios."
 ---
 
 ## What does this mod do?

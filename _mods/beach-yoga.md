@@ -5,7 +5,8 @@ parent: "Mods"
 icon: "fas fa-spa"
 packs: ["EP07", "GP02"]
 requirements: ["xml_injector"]
-categories: [Gameplay Mods, Activities, Skills]
+categories: [Gameplay, Activities, Skills]
+tagline: "Find your inner peace on the sand with the ability to practice yoga directly on beach towels."
 ---
 
 ## What does this mod do?

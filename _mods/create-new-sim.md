@@ -4,6 +4,7 @@ title: "Create New Sim"
 icon: "fas fa-user-plus"
 requirements: ["lot51_core"]
 categories: [Cheats, Debugging]
+tagline: "Populate your world instantly with a powerful utility to spawn humans, occults, and animals in a single click."
 ---
 
 ## Mod Description

@@ -4,7 +4,7 @@ title: "Laundromat Service Lot Trait"
 icon: "fas fa-soap"
 packs: ["SP13"]
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Lot Traits, Landry, Realism, Money]
+categories: [Gameplay Mods, Lot Traits, Laundry, Realism, Money]
 ---
 
 ## What does this mod do?

@@ -5,6 +5,7 @@ icon: "fas fa-theater-masks"
 categories: [University, Skills, Overrides]
 packs: ["EP08", "EP06"] 
 overrides: true
+tagline: "Make University worth the effort by adding the Acting skill to the official Drama degree curriculum."
 ---
 
 Tired of your Sims dreaming of stardom, enrolling in university for a Drama degree, and learning absolutely nothing about **Acting**? In the original game, the curriculum focuses heavily on Charisma and Comedy, forcing actors to take elective courses just to get basic experience.
