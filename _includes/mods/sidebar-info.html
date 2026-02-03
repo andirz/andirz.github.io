@@ -27,29 +27,24 @@
 
 <div class="sticky-sidebar-wrapper">
 
-  <!-- MOD CARD -->
   <div class="sidebar-box">
-
-    <!-- COVER -->
     <div class="sidebar-cover">
       {% if cover_exists %}
         <a href="{{ expected_cover_path }}" target="_blank" rel="noopener noreferrer">
           <img src="{{ expected_cover_path }}" alt="{{ mod_full_name }}">
         </a>
       {% else %}
-        <div class="cover-fallback" aria-label="No cover image">
+        <div class="cover-fallback">
           <i class="{{ page.icon | default: mod.icon | default: 'fas fa-box' }}"></i>
         </div>
       {% endif %}
     </div>
 
-    <!-- CONTENT -->
     <div class="sidebar-content">
       <h3>{{ mod_full_name }}</h3>
 
       <div class="meta">
         <span>v. {{ current_version }}</span>
-
         <div class="files">
           {% if page.files contains 'ts4script' %}
             <i class="fas fa-code" title="Script Mod"></i>
@@ -65,14 +60,11 @@
     </div>
   </div>
 
-  <!-- REQUIREMENTS -->
   {% if has_reqs or has_packs %}
   <div class="sidebar-box">
-
     <div class="sidebar-box-header">Requirements</div>
 
     <div class="sidebar-box-content">
-
       {% if has_reqs %}
       <ul class="requirements-list">
         {% for req_id in final_reqs %}
@@ -90,13 +82,8 @@
       {% if has_packs %}
       <div class="packs-block{% unless has_reqs %} no-divider{% endunless %}">
         <strong>
-          {% if page.require_any_pack %}
-            Any of these packs:
-          {% else %}
-            Required packs:
-          {% endif %}
+          {% if page.require_any_pack %}Any of these packs:{% else %}Required packs:{% endif %}
         </strong>
-
         <div class="packs-list">
           {% for pack in page.packs %}
             {% assign pack_en = site.data.packs[pack].en | default: pack %}
@@ -105,245 +92,94 @@
         </div>
       </div>
       {% endif %}
-
     </div>
   </div>
   {% endif %}
 
-  <!-- DOWNLOAD -->
   <div class="sidebar-box">
     <div class="sidebar-box-header">Download</div>
-
     <div class="download-wrap">
       {% unless page.curseforge_ban %}
-      <a href="{{ cf_url }}" target="_blank" rel="noopener noreferrer" class="download-btn cf-btn">
-        <i class="fab fa-firefox-browser" aria-hidden="true"></i>
-        <span>CurseForge</span>
+      <a href="{{ cf_url }}" target="_blank" class="download-btn cf-btn">
+        <i class="fab fa-firefox-browser"></i><span>CurseForge</span>
       </a>
       {% endunless %}
-
-      <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" class="download-btn patreon-btn">
-        <i class="fab fa-patreon" aria-hidden="true"></i>
-        <span>Patreon</span>
+      <a href="{{ patreon_link }}" target="_blank" class="download-btn patreon-btn">
+        <i class="fab fa-patreon"></i><span>Patreon</span>
       </a>
     </div>
   </div>
 
-  <!-- SUPPORT -->
   <div class="support-icons">
-    <a class="support-link patreon" href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" aria-label="Patreon">
-      <i class="fab fa-patreon" aria-hidden="true"></i>
-    </a>
-    <a class="support-link kofi" href="{{ kofi_link }}" target="_blank" rel="noopener noreferrer" aria-label="Ko-fi">
-      <i class="fas fa-coffee" aria-hidden="true"></i>
-    </a>
-    <a class="support-link paypal" href="{{ paypal_link }}" target="_blank" rel="noopener noreferrer" aria-label="PayPal">
-      <i class="fab fa-paypal" aria-hidden="true"></i>
-    </a>
+    <a class="support-link patreon" href="{{ patreon_link }}" target="_blank"><i class="fab fa-patreon"></i></a>
+    <a class="support-link kofi" href="{{ kofi_link }}" target="_blank"><i class="fas fa-coffee"></i></a>
+    <a class="support-link paypal" href="{{ paypal_link }}" target="_blank"><i class="fab fa-paypal"></i></a>
   </div>
-
 </div>
 
 <style>
 :root{ --soft-black:#1f2937; }
 
-/* LAYOUT */
-.sticky-sidebar-wrapper{ position:sticky; top:20px; }
-
-/* BOX */
-.sidebar-box{
-  background:#fff;
-  border:1px solid var(--soft-black);
-  border-radius:14px;
-  overflow:hidden;
-  margin-bottom:14px;
-}
-
-/* HEADER – ohne Hintergrund, nur “schön” unterstrichen */
+/* Header – elegante kurze Linie */
 .sidebar-box-header{
-  background:transparent;
-  color:var(--soft-black);
+  background:none;
+  text-align:center;
   font-size:0.7rem;
   font-weight:900;
-  text-align:center;
-  padding:10px 14px 7px;
-  text-transform:uppercase;
   letter-spacing:1.2px;
-  border-bottom:2px solid var(--soft-black);
-}
-
-.sidebar-box-content{ padding:12px 14px; }
-
-/* COVER – größer & dominanter */
-.sidebar-cover{
+  padding:10px 0 6px;
   position:relative;
-  aspect-ratio:4/3;
-  overflow:hidden;
-  border-bottom:1px solid var(--soft-black);
+}
+.sidebar-box-header::after{
+  content:"";
+  display:block;
+  width:60%;
+  height:2px;
+  background:var(--soft-black);
+  margin:6px auto 0;
+  opacity:.7;
 }
 
-.sidebar-cover > a,
-.sidebar-cover > a > img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-}
-
-.sidebar-cover > a > img{ object-fit:cover; }
-
-.cover-fallback{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f3f4f6;
-  color:var(--soft-black);
-}
-
-.cover-fallback i{ font-size:56px; }
-
-/* CONTENT – kompakt */
-.sidebar-content{
-  padding:8px 14px 12px;
-  text-align:center;
-}
-
-.sidebar-content h3{
-  margin:2px 0 4px;
-  font-size:1.05rem;
-  line-height:1.2;
-}
-
-.meta{
-  margin-top:2px;
-  font-size:0.75rem;
-  color:#6b7280;
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  align-items:center;
-}
-
-.files{
-  display:flex;
-  gap:6px;
-  border-left:1px solid var(--soft-black);
-  padding-left:8px;
-}
-
-.files i{ font-size:0.8rem; }
-
-/* REQUIREMENTS */
-.requirements-list{ list-style:none; padding:0; margin:0; }
+/* Requirements enger */
 .requirements-list li{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:0.85rem;
-  margin-bottom:8px;
+  margin-bottom:4px;
+  font-size:0.83rem;
 }
+.requirements-list li:last-child{ margin-bottom:0; }
 
+/* Hover-Farbe bleibt */
 .requirements-list a{
   font-weight:800;
-  text-decoration:none;
   color:var(--soft-black);
-  transition:color .15s ease, text-decoration-color .15s ease;
+  text-decoration:none;
 }
-
 .requirements-list a:hover{
   color:#2563eb;
   text-decoration:underline;
-  text-decoration-thickness:2px;
-  text-underline-offset:3px;
 }
 
-.packs-block{
-  border-top:1px solid #e5e7eb;
-  margin-top:8px;
-  padding-top:6px;
-  font-size:0.7rem;
-}
-.packs-block.no-divider{ border-top:none; margin-top:0; padding-top:0; }
+/* Packs */
+.pack-pill{ cursor:help; }
 
-.packs-list{
-  margin-top:6px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-.pack-pill{
-  background:#eff6ff;
-  border:1px solid #dbeafe;
-  border-radius:4px;
-  padding:2px 6px;
-  font-weight:800;
-  cursor: help; 
-}
-
-/* DOWNLOAD */
-.download-wrap{
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-/* Button: Text mittig, Icon links am Anfang */
-.download-btn{
-  position:relative;
-  display:block;
-  padding:10px 12px;
-  border-radius:9px;
-  font-weight:900;
-  font-size:0.85rem;
-  color:#fff !important;
-  text-decoration:none;
-  text-align:center;
-  transition:filter .2s ease, transform .15s ease;
-}
-
-.download-btn i{
-  position:absolute;
-  left:12px;
-  top:50%;
-  transform:translateY(-50%);
-  font-size:1rem;
-  opacity:0.95;
-}
-
-.download-btn:hover{
-  filter:brightness(1.12);
-  transform:translateY(-1px);
-}
-
-.cf-btn{ background:#f16436; }
-.patreon-btn{ background:#1e293b; }
-
-/* SUPPORT ICONS – Brand-Farben + Hover-Zoom */
+/* Support Icons – Farben */
 .support-icons{
   display:flex;
   justify-content:center;
   gap:22px;
   padding:8px 0 4px;
 }
-
 .support-link{
   font-size:1.45rem;
-  text-decoration:none;
-  transition:transform .18s cubic-bezier(0.175,0.885,0.32,1.275), filter .18s ease;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  transition:transform .18s cubic-bezier(.175,.885,.32,1.275);
 }
+.support-link:hover{ transform:scale(1.35); }
 
-.support-link:hover{
-  transform:scale(1.35);
-  filter:brightness(1.05);
+.support-link.patreon{ color:#000; }
+.support-link.paypal{ color:#2563eb; }
+.support-link.kofi{
+  color:#ff5e5b;
+  border:1.5px solid #000;
+  border-radius:6px;
+  padding:4px 6px;
 }
-
-.support-link.patreon{ color:#ff424d; } /* Patreon */
-.support-link.kofi{ color:#ff5e5b; }    /* Ko-fi */
-.support-link.paypal{ color:#003087; }  /* PayPal */
 </style>
