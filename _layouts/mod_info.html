@@ -21,7 +21,9 @@ layout: default
         {{ content }}
       </article>
 
-      {% if page.files contains "bat" %}
+      {% if page.disable_translations == true %}
+        {% include translation/no_strings.md %}
+      {% elif page.files contains "bat" %}
         {% include translation/bat_script.md %}
       {% elif page.files contains "ts4script" and page.files.size == 1 %}
         {% include translation/python_script.md %}
