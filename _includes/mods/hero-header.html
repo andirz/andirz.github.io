@@ -106,17 +106,12 @@
       {% endfor %}
 
       {% if icon_exists %}
-        <div
-          style="width:44px; height:44px; display:flex; align-items:center; justify-content:center;
-                 background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;"
+        <img
+          src="{{ site.baseurl }}{{ icon_path }}"
+          alt="{{ pack_name }} ({{ pack_code }})"
           title="{{ pack_name }} ({{ pack_code }})"
+          style="width:36px; height:36px; object-fit:contain;"
         >
-          <img
-            src="{{ site.baseurl }}{{ icon_path }}"
-            alt="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' | replace:'GP','GP ' | replace:'SP','SP ' }})"
-            style="width:28px; height:28px; object-fit:contain;"
-          >
-        </div>
       {% endif %}
 
     {% endfor %}
