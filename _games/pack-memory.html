@@ -274,13 +274,15 @@ difficulty: Medium
 
   var EP = parseInt(root.dataset.epCount || "18", 10);
   var GP = parseInt(root.dataset.gpCount || "12", 10);
-  var PAIRS = parseInt(root.dataset.pairsCount || "8", 10);
+
+  // FIX: du hast data-pairs="8", also dataset.pairs lesen (nicht pairsCount)
+  var PAIRS = parseInt(root.dataset.pairs || "8", 10);
+
   var TIME = parseInt(root.dataset.timeLimit || "90", 10);
 
   var folder = root.dataset.folder || "";
   if(folder && folder.charAt(folder.length-1) !== "/") folder += "/";
 
-  // show correct initial badge
   statusEl.textContent = "Matches: 0 / " + PAIRS;
 
   var opened = [];
