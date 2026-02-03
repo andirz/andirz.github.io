@@ -29,11 +29,3 @@ If you’re viewing this page, chances are you’re installing one of my gamepla
 * **Brazilian Portuguese** by Nymphieta
 * **Italian** by vale93_games
 * **Chinese** and **Simplified Chinese** by Orchard Team
-
-## Language & Translations
-| Language | Translation by |
-| :--- | :--- |
-| English, German, Spanish, Russian | **Andirz** |
-| Brazilian Portuguese | Nymphieta |
-| Italian | vale93_games |
-| Chinese, Simplified Chinese | Orchard Team |
