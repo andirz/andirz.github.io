@@ -31,6 +31,9 @@ layout: default
       </section>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5fc6c5d0b2e4938304643f1ec3cba4eb4a4fff58
       <section class="mod-installation-section" style="margin-top: 40px;">
         <h2 id="installation-guide" style="margin-bottom: 20px;">Installation Guide</h2>
         
@@ -41,6 +44,7 @@ layout: default
         {% else %}
           {% include installation/package.html %}
         {% endif %}
+<<<<<<< HEAD
 
         {% comment %} Erlaubt manuellen Zusatz-Text unter der automatischen Box {% endcomment %}
         {% if content contains 'id="installation-guide"' %}
@@ -72,6 +76,26 @@ layout: default
         </section>
       {% endif %}
 
+=======
+
+        {% comment %} Erlaubt manuellen Zusatz-Text unter der automatischen Box {% endcomment %}
+        {% if content contains 'id="installation-guide"' %}
+          <div class="custom-installation-notes" style="margin-top: 15px;">
+            {{ part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' | last }}
+          </div>
+        {% endif %}
+      </section>
+
+      {% if content contains 'id="frequently-asked-questions"' %}
+        <section class="mod-faq-container" style="margin-top: 50px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
+          <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
+          <div class="faq-content">
+            {{ part_faq[1] }}
+          </div>
+        </section>
+      {% endif %}
+
+>>>>>>> 5fc6c5d0b2e4938304643f1ec3cba4eb4a4fff58
     </main>
 
     <aside style="flex: 1; min-width: 280px; position: sticky; top: 20px;">
@@ -92,4 +116,8 @@ layout: default
   }
   .install-box ul { margin: 0; padding-left: 20px; }
   .install-box li { margin-bottom: 8px; }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> 5fc6c5d0b2e4938304643f1ec3cba4eb4a4fff58
