@@ -16,22 +16,25 @@
       </span>
     {% endif %}
 
-    {% assign categories = page.categories | default: mod.categories %}
-    {% for cat in categories %}
-      <a
-        href="{{ site.baseurl }}/category/?category={{ cat | url_encode }}"
-        style="border:1px solid #e2e8f0; color:#64748b; padding:5px 14px; border-radius:6px;
-               font-size:.8rem; font-weight:600; background:#f8fafc;
-               text-decoration:none; display:inline-block;"
-        title="Show all mods in category: {{ cat }}"
-      >
-        {{ cat }}
-      </a>
-    {% endfor %}
-    
+  {% assign categories = page.categories | default: mod.categories %}
+  {% for cat in categories %}
+    <a
+      href="{{ site.baseurl }}/category/?category={{ cat | url_encode }}"
+      style="border:1px solid #e2e8f0; color:#64748b; padding:5px 14px; border-radius:6px;
+             font-size:.8rem; font-weight:600; background:#f8fafc;
+             text-decoration:none; display:inline-block;
+             transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;"
+      title="Show all mods in category: {{ cat }}"
+      onmouseover="this.style.transform='translateY(-1px) scale(1.03)'; this.style.boxShadow='0 8px 18px rgba(0,0,0,.06)'; this.style.borderColor='rgba(0,0,0,.14)';"
+      onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='';"
+    >
+      {{ cat }}
+    </a>
+  {% endfor %}
+
   </div>
 
-  <div style="display:flex; align-items:center; gap:20px; color:#64748b; font-size:.9rem; flex-wrap:wrap; margin-top:-4px;">
+  <div style="display:flex; align-items:center; gap:12px; color:#64748b; font-size:.9rem; flex-wrap:wrap; margin-top:-4px;">
 
     {% assign first_file = page.files | first %}
     <div style="display:flex; align-items:center; gap:16px;">
@@ -44,8 +47,8 @@
           <i class="fas fa-box-open"></i>
         {% endif %}
       </div>
-      <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:0px;">
+      <div style="display:flex; flex-direction:column; line-height:1.1;">
+        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700;">
           File Type
         </span>
         <span style="font-weight:600; color:#475569; font-size:.9rem;">
@@ -54,7 +57,7 @@
       </div>
     </div>
 
-    <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
+    <div style="display:flex; align-items:center; gap:12px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-code-branch" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
         <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0px;">
@@ -64,7 +67,7 @@
       </div>
     </div>
 
-    <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
+    <div style="display:flex; align-items:center; gap:12px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-calendar-alt" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
         <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0px;">
