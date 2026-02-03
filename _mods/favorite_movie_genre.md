@@ -5,6 +5,7 @@ icon: "fas fa-video"
 packs: ["SP05"]
 requirements: ["lot51_core"]
 categories: [UI Tweaks, Traits, Overrides]
+tagline: "Bring hidden preferences to light by making your Sim’s favorite movie genres visible and customizable in the UI."
 ---
 
 ## What does this mod do?

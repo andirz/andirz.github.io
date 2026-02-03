@@ -5,6 +5,7 @@ icon: "fas fa-calendar-times"
 requirements: ["smart_core"]
 packs: ["EP05"]
 categories: [Sim Personalization, Emotion Tweaks, Gameplay Mods]
+tagline: "End robotic household-wide sadness by introducing diverse emotional outcomes for holidays based on Sim personality."
 ---
 
 ## What does this mod do?

@@ -4,7 +4,7 @@ title: "Auto-Fill Personality Traits"
 parent: "Mods"
 icon: "fas fa-user-tag"
 files: ["ts4script"]
-categories: [Scripts, Sim Personalization]
+categories: [Scripts, Sim Personalization, Optimization, Townie Fixes]
 tagline: "Breathe life back into your world by instantly restoring missing personality traits to your Sims and NPCs."
 ---
 

@@ -4,6 +4,7 @@ title: "Make All Sims Pansexual Again"
 icon: "fas fa-heart"
 requirements: ["lot51_core"]
 categories: [Global Tweaks, Traits, Sim Personalization]
+tagline: "Fixes the 'unromantic NPC' bug and restores global pansexual preferences to ensure your world stays romantic and active."
 ---
 
 ## What does this mod do?

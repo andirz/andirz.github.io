@@ -4,6 +4,7 @@ title: "No Forgotten Birthday Drama"
 icon: "fas fa-birthday-cake"
 requirements: ["smart_core"]
 categories: [Emotion Tweaks, Emotion Tweaks, Gameplay Mods]
+tagline: "Stop the uniform crying and give your Sims individual reactions to forgotten birthdays based on their unique traits."
 ---
 
 ## What does this mod do?

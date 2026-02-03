@@ -5,6 +5,7 @@ icon: "fas fa-tshirt"
 packs: ["SP13"]
 requirements: ["lot51_core"]
 categories: [Gameplay Mods, Laudry, Activities, Realism, Adopted Mods]
+"Save time by sending your laundry to the 'Soapy Llama' professional cleaners for a quick and fragrant turnaround."
 ---
 
 ## What does this mod do?

@@ -2,7 +2,7 @@
 mod_id: drama_degree_is_acting
 title: "Drama Degree is Acting"
 icon: "fas fa-theater-masks"
-categories: [University, Skills, Overrides]
+categories: [University, Education, Skills, Integration, Overrides]
 packs: ["EP08", "EP06"] 
 overrides: true
 tagline: "Make University worth the effort by adding the Acting skill to the official Drama degree curriculum."

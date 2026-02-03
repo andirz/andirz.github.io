@@ -3,7 +3,7 @@ mod_id: poisoning_overhaul
 title: "Poisoning Overhaul"
 icon: "fas fa-biohazard"
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Overrides, Realism]
+categories: [Gameplay, Medical, Realism, Overrides]
 ---
 
 ## What does this mod do?
