@@ -13,7 +13,7 @@ difficulty: Medium
      data-gp-count="12"
      data-pairs="8"
      data-time-limit="90"
-     data-folder="/assets/img/packs/mono/"
+     data-folder="{{ site.baseurl }}/assets/img/packs/mono/"
      data-icon-size="128">
 </div>
 
@@ -165,7 +165,8 @@ difficulty: Medium
   const GP = +root.dataset.gpCount;
   const PAIRS = +root.dataset.pairs;
   const TIME = +root.dataset.timeLimit;
-  const FOLDER = root.dataset.folder;
+  let FOLDER = root.dataset.folder || "";
+  if (FOLDER && !FOLDER.endsWith("/")) FOLDER += "/";
 
   const status = document.getElementById("mm-status");
   const missesEl = document.getElementById("mm-misses");
@@ -193,8 +194,10 @@ difficulty: Medium
     grid.innerHTML="";
     opened=[]; locked=false;
     matches=0; misses=0;
+
     status.textContent=`Matches: 0 / ${PAIRS}`;
     missesEl.textContent="Misses: 0";
+    timerEl.classList.remove("warning");   // <- FIX 1
 
     clearInterval(timerId);
     start=Date.now();
@@ -211,24 +214,29 @@ difficulty: Medium
     deck.forEach(id=>{
       const card=document.createElement("div");
       card.className="mm-card";
+      card.dataset.id = id;               // <- FIX 2
       card.innerHTML=`
         <div class="mm-face mm-front">?</div>
         <div class="mm-face mm-back">
           <img src="${FOLDER}${id}.png" alt="">
         </div>`;
+
       card.onclick=()=>{
         if(locked||card.classList.contains("is-flipped")||opened[0]===card)return;
+
         card.classList.add("is-flipped");
         opened.push(card);
+
         if(opened.length===2){
           locked=true;
-          if(opened[0].innerHTML===opened[1].innerHTML){
+
+          if (opened[0].dataset.id === opened[1].dataset.id) {   // <- FIX 2
             matches++;
-            status.textContent=\`Matches: ${matches} / ${PAIRS}\`;
+            status.textContent=`Matches: ${matches} / ${PAIRS}`;
             opened=[]; locked=false;
           } else {
             misses++;
-            missesEl.textContent=\`Misses: ${misses}\`;
+            missesEl.textContent=`Misses: ${misses}`;
             setTimeout(()=>{
               opened.forEach(c=>c.classList.remove("is-flipped"));
               opened=[]; locked=false;
@@ -236,6 +244,7 @@ difficulty: Medium
           }
         }
       };
+
       grid.appendChild(card);
     });
   }
@@ -244,3 +253,4 @@ difficulty: Medium
   reset();
 })();
 </script>
+
