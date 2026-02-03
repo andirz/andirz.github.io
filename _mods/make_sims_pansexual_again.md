@@ -3,8 +3,9 @@ mod_id: make_sims_pansexual_again
 title: "Make All Sims Pansexual Again"
 icon: "fas fa-heart"
 requirements: ["lot51_core"]
-categories: [Global Tweaks, Traits, Sim Personalization]
+categories: [Sim Personalization, Townie Fixes, Traits]
 tagline: "Fixes the 'unromantic NPC' bug and restores global pansexual preferences to ensure your world stays romantic and active."
+strings: false
 ---
 
 ## About This Mod
@@ -25,18 +26,5 @@ The download archive contains two versions. **Please install only one!**
 * **Automatic Maintenance:** The mod checks Sim settings during every lot load and applies the pansexual configuration based on your chosen variant.
 * **Pure Scripting:** This mod is script-based and does not permanently overwrite internal game tunings.
 
-## Requirements & Installation
-
-- **Lot51 Core Library** – Strictly required for the script functionality.
-- **Script Mods** must be enabled in your game settings.
-
 > ⚠️ **Important:** Because this mod actively manages preferences, it should not be used alongside other mods that perform the same task to avoid logic conflicts.
 
-## Translations
-No separate translations are needed as the mod does not add any new strings or menu items to the game.
-
----
-
-## Developer's Note
-> "This mod was created to bring back the gameplay flexibility we had before the sexual orientation changes, while simultaneously fixing the bug that left worlds full of unresponsive NPCs."
-> — *Andirz*
