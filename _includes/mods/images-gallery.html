@@ -1,0 +1,366 @@
+{% comment %}
+  Usage:
+  {% include mods/mod-gallery.html %}
+
+  Optional params (defaults):
+  - title: "Screenshots"
+  - show_title: true
+  - exclude_cover: true
+  - columns: 3
+  - aspect: "4/3"  (also: "16/9", "1/1")
+  - min_items: 1
+{% endcomment %}
+
+{% assign filename = page.path | split: "/" | last | replace: ".md", "" %}
+{% assign current_id = page.mod_id | default: filename %}
+
+{% assign gallery_dir = "/assets/img/mods/" | append: current_id | append: "/" %}
+
+{% assign exclude_cover = include.exclude_cover %}
+{% if exclude_cover == nil %}{% assign exclude_cover = true %}{% endif %}
+
+{% assign show_title = include.show_title %}
+{% if show_title == nil %}{% assign show_title = true %}{% endif %}
+
+{% assign title = include.title | default: "Screenshots" %}
+{% assign columns = include.columns | default: 3 %}
+{% assign aspect = include.aspect | default: "4/3" %}
+{% assign min_items = include.min_items | default: 1 %}
+
+{% assign images = site.static_files
+  | where_exp: "f", "f.path contains gallery_dir"
+  | where_exp: "f", "f.extname == '.png' or f.extname == '.jpg' or f.extname == '.jpeg' or f.extname == '.webp' or f.extname == '.gif'"
+%}
+
+{% if exclude_cover %}
+  {% assign images = images | where_exp: "f", "f.name != 'cover.png'" %}
+{% endif %}
+
+{% if images and images.size >= min_items %}
+  {% assign gallery_uid = "g" | append: page.url | replace: "/", "-" | replace: ":", "-" | replace: ".", "-" %}
+
+  <section class="mod-gallery-section" aria-label="{{ title }}">
+    {% if show_title %}
+      <div class="mod-gallery-head">
+        <div class="mod-gallery-title">{{ title }}</div>
+        <div class="mod-gallery-count">{{ images.size }} image{% if images.size != 1 %}s{% endif %}</div>
+      </div>
+    {% endif %}
+
+    <div class="mod-gallery mod-gallery-cols-{{ columns }} mod-gallery-aspect-{{ aspect | replace: '/', '-' }}"
+         id="mod-gallery-{{ gallery_uid }}">
+      {% for img in images %}
+        <button
+          type="button"
+          class="mod-gallery-item"
+          data-full="{{ img.path }}"
+          data-alt="{{ img.name | replace: '-', ' ' | replace: '_', ' ' | replace: img.extname, '' }}"
+          aria-label="Open image: {{ img.name }}"
+        >
+          <img
+            src="{{ img.path }}"
+            alt="{{ img.name | replace: '-', ' ' | replace: '_', ' ' | replace: img.extname, '' }}"
+            loading="lazy"
+            onerror="this.closest('button').style.display='none';"
+          >
+        </button>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="mod-lightbox" id="mod-lightbox-{{ gallery_uid }}" aria-hidden="true">
+    <div class="mod-lightbox-backdrop" data-close="1"></div>
+
+    <div class="mod-lightbox-panel" role="dialog" aria-modal="true" aria-label="Image preview">
+      <button class="mod-lightbox-close" type="button" aria-label="Close" data-close="1">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <button class="mod-lightbox-nav prev" type="button" aria-label="Previous">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <img class="mod-lightbox-img" src="" alt="">
+
+      <button class="mod-lightbox-nav next" type="button" aria-label="Next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <div class="mod-lightbox-footer">
+        <div class="mod-lightbox-caption"></div>
+        <a class="mod-lightbox-opennew" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open in new tab">
+          Open in new tab
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .mod-gallery-section{
+      margin-top: 18px;
+      padding: 14px 14px 16px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 14px;
+      background: rgba(0,0,0,0.02);
+    }
+
+    .mod-gallery-head{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+      margin: 0 0 12px;
+    }
+
+    .mod-gallery-title{
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--text-color);
+    }
+
+    .mod-gallery-count{
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: var(--text-color);
+      opacity: 0.6;
+      white-space: nowrap;
+    }
+
+    .mod-gallery{
+      display:grid;
+      gap:10px;
+    }
+
+    .mod-gallery-cols-2{ grid-template-columns: repeat(2, 1fr); }
+    .mod-gallery-cols-3{ grid-template-columns: repeat(3, 1fr); }
+    .mod-gallery-cols-4{ grid-template-columns: repeat(4, 1fr); }
+    .mod-gallery-cols-5{ grid-template-columns: repeat(5, 1fr); }
+    .mod-gallery-cols-6{ grid-template-columns: repeat(6, 1fr); }
+
+    /* Kacheln: gleich groß, keine Animation */
+    .mod-gallery-item{
+      display:block;
+      padding:0;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(31,41,55,0.18);
+      background:#fff;
+      cursor:pointer;
+
+      /* WICHTIG: keinerlei Animation */
+      transition: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      filter: none !important;
+    }
+
+    .mod-gallery-item:hover,
+    .mod-gallery-item:focus{
+      outline: none;
+      box-shadow: none;
+      transform: none;
+      filter: none;
+    }
+
+    .mod-gallery-item img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .mod-gallery-aspect-4-3 .mod-gallery-item img{ aspect-ratio: 4 / 3; }
+    .mod-gallery-aspect-16-9 .mod-gallery-item img{ aspect-ratio: 16 / 9; }
+    .mod-gallery-aspect-1-1 .mod-gallery-item img{ aspect-ratio: 1 / 1; }
+
+    @media (max-width: 900px){
+      .mod-gallery-cols-5,
+      .mod-gallery-cols-6{ grid-template-columns: repeat(3, 1fr); }
+      .mod-gallery-cols-4{ grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 600px){
+      .mod-gallery{ grid-template-columns: repeat(2, 1fr) !important; }
+      .mod-gallery-section{ padding: 12px; }
+    }
+
+    /* Lightbox (Overlay) */
+    .mod-lightbox{
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 9999;
+    }
+
+    .mod-lightbox.is-open{
+      display:block;
+    }
+
+    .mod-lightbox-backdrop{
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,0.60);
+    }
+
+    .mod-lightbox-panel{
+      position:absolute;
+      inset: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 14px;
+      overflow:hidden;
+      border: 1px solid rgba(0,0,0,0.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    @media (max-width: 700px){
+      .mod-lightbox-panel{
+        inset: 14px;
+      }
+    }
+
+    .mod-lightbox-img{
+      max-width: 100%;
+      max-height: calc(100% - 48px);
+      display:block;
+      object-fit: contain;
+      background: #111;
+    }
+
+    .mod-lightbox-close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:36px;
+      height:36px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.15);
+      background:#fff;
+      color:#111;
+      cursor:pointer;
+    }
+
+    .mod-lightbox-nav{
+      position:absolute;
+      top:50%;
+      transform: translateY(-50%);
+      width:42px;
+      height:42px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.15);
+      background:#fff;
+      color:#111;
+      cursor:pointer;
+    }
+
+    .mod-lightbox-nav.prev{ left: 10px; }
+    .mod-lightbox-nav.next{ right: 10px; }
+
+    .mod-lightbox-footer{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.92);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      font-size: 0.85rem;
+      color: #111;
+    }
+
+    .mod-lightbox-caption{
+      font-weight: 800;
+      opacity: 0.85;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 70%;
+    }
+
+    .mod-lightbox-opennew{
+      font-weight: 900;
+      text-decoration: none;
+      border: 1px solid rgba(0,0,0,0.12);
+      padding: 6px 10px;
+      border-radius: 10px;
+      color:#111;
+      background:#fff;
+    }
+  </style>
+
+  <script>
+    (function(){
+      var gallery = document.getElementById("mod-gallery-{{ gallery_uid }}");
+      var lb = document.getElementById("mod-lightbox-{{ gallery_uid }}");
+      if(!gallery || !lb) return;
+
+      var items = Array.prototype.slice.call(gallery.querySelectorAll(".mod-gallery-item"));
+      var imgEl = lb.querySelector(".mod-lightbox-img");
+      var capEl = lb.querySelector(".mod-lightbox-caption");
+      var openNew = lb.querySelector(".mod-lightbox-opennew");
+      var btnPrev = lb.querySelector(".mod-lightbox-nav.prev");
+      var btnNext = lb.querySelector(".mod-lightbox-nav.next");
+
+      var index = 0;
+
+      function setImage(i){
+        index = (i + items.length) % items.length;
+        var full = items[index].getAttribute("data-full");
+        var alt = items[index].getAttribute("data-alt") || "";
+        imgEl.src = full;
+        imgEl.alt = alt;
+        capEl.textContent = alt;
+        openNew.href = full;
+      }
+
+      function open(i){
+        if(!items.length) return;
+        setImage(i);
+        lb.classList.add("is-open");
+        lb.setAttribute("aria-hidden","false");
+        document.documentElement.style.overflow = "hidden";
+      }
+
+      function close(){
+        lb.classList.remove("is-open");
+        lb.setAttribute("aria-hidden","true");
+        document.documentElement.style.overflow = "";
+        imgEl.src = "";
+      }
+
+      gallery.addEventListener("click", function(e){
+        var btn = e.target.closest(".mod-gallery-item");
+        if(!btn) return;
+        e.preventDefault();
+        var i = items.indexOf(btn);
+        open(i < 0 ? 0 : i);
+      });
+
+      lb.addEventListener("click", function(e){
+        if(e.target && e.target.getAttribute("data-close") === "1") close();
+      });
+
+      lb.querySelectorAll("[data-close='1']").forEach(function(el){
+        el.addEventListener("click", function(){ close(); });
+      });
+
+      btnPrev.addEventListener("click", function(e){ e.preventDefault(); setImage(index - 1); });
+      btnNext.addEventListener("click", function(e){ e.preventDefault(); setImage(index + 1); });
+
+      document.addEventListener("keydown", function(e){
+        if(!lb.classList.contains("is-open")) return;
+        if(e.key === "Escape") close();
+        if(e.key === "ArrowLeft") setImage(index - 1);
+        if(e.key === "ArrowRight") setImage(index + 1);
+      });
+    })();
+  </script>
+{% endif %}
