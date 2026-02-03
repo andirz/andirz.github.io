@@ -10,7 +10,7 @@ layout: default
       <h1 class="mod-page-title">{{ page.title }}</h1>
 
       {% comment %} 
-        SPLIT LOGIK: Wir zerlegen den Content an den IDs der H2-Überschriften.
+        SPLIT LOGIK: Zerlegt den Content an den IDs der H2-Überschriften.
       {% endcomment %}
       {% assign part_faq = content | split: '<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>' %}
       {% assign part_inst = part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' %}
@@ -25,24 +25,51 @@ layout: default
           {% include translation/no_strings.md %}
         {% else %}
           {% include translation/package.md %}
+          {% comment %} Zeigt zusätzlichen Text an, der im Markdown unter der Überschrift steht {% endcomment %}
           {{ part_inst[0] | split: '<h2 id="language--translations">Language &amp; Translations</h2>' | last }}
         {% endif %}
       </section>
+
+<<<<<<< HEAD
+      <section class="mod-installation-section" style="margin-top: 40px;">
+        <h2 id="installation-guide" style="margin-bottom: 20px;">Installation Guide</h2>
+        
+        {% if page.files contains "bat" %}
+          {% include installation/bat_script.html %}
+        {% elsif page.files contains "ts4script" %}
+          {% include installation/python_script.html %}
+        {% else %}
+          {% include installation/package.html %}
+        {% endif %}
+
+        {% comment %} Erlaubt manuellen Zusatz-Text unter der automatischen Box {% endcomment %}
+        {% if content contains 'id="installation-guide"' %}
+          <div class="custom-installation-notes" style="margin-top: 15px;">
+            {{ part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' | last }}
+          </div>
+        {% endif %}
+      </section>
+
+      {% if content contains 'id="frequently-asked-questions"' %}
+        <section class="mod-faq-container" style="margin-top: 50px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
+          <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
+          <div class="faq-content">
+            {{ part_faq[1] }}
+          </div>
+=======
+      {% if content contains 'id="installation-guide"' %}
+        <section class="mod-installation-box" style="margin-top: 40px; padding: 20px; border-top: 2px solid var(--border-color);">
+          <h2 style="margin-top: 0;">Installation Guide</h2>
+          {{ part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' | last }}
+>>>>>>> 925fb253b29c6b615d403384a5616a4f500ae9b8
+        </section>
+      {% endif %}
 
       {% if content contains 'id="frequently-asked-questions"' %}
         <section class="mod-faq-container" style="margin-top: 40px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
           <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
           {{ part_faq[1] }}
         </section>
-      {% endif %}
-
-      {% if content contains 'id="installation-guide"' %}
-        <section class="mod-installation-box" style="margin-top: 40px; padding: 20px; border-top: 2px solid var(--border-color);">
-          <h2 style="margin-top: 0;">Installation Guide</h2>
-          {{ part_faq[0] | split: '<h2 id="installation-guide">Installation Guide</h2>' | last }}
-        </section>
-      {% else %}
-        {% include mods/installation.html %}
       {% endif %}
 
     </main>
@@ -54,3 +81,15 @@ layout: default
   </div>
   {% include mods/policy.html %}
 </div>
+
+<style>
+  .mod-page-title { margin: 6px 0 14px; font-size: 1.6rem; font-weight: 900; }
+  @media (min-width: 900px) { .mod-page-title { display: none; } }
+  
+  /* Einheitliches Styling für die Installations-Boxen */
+  .install-box { 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+  }
+  .install-box ul { margin: 0; padding-left: 20px; }
+  .install-box li { margin-bottom: 8px; }
+</style>
