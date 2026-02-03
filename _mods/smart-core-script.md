@@ -8,10 +8,12 @@ tagline: "Script Core, required for many of my mods."
 ---
 
 ## The Engine Behind the Magic
-The **Smart Core Script** is a specialized technical library designed for **The Sims 4**. It is **NOT a standalone mod** that adds visible gameplay on its own. Instead, it serves as the essential “engine” or framework that powers many of my other projects. By centralizing complex functions into this core library, I can ensure that my mods are more stable, easier to update, and highly compatible with one another.
+**Smart Core Script** is a dedicated technical library for **The Sims 4**. It is not a standalone gameplay mod and does not add any visible features on its own. Instead, it acts as a shared foundation — the internal “engine” that many of my other mods rely on. By moving complex and reusable functionality into this core library, I can keep individual mods lighter, more stable, and easier to maintain. It also ensures better compatibility between my projects, since they all operate on the same underlying systems.
+
+This download consists of a standalone script library. The included package file contains only localization data for menus and system messages.
 
 ### Why is this required?
-If you are here, it is likely because you want to use one of my gameplay mods. These mods “borrow” code from this library to perform advanced tasks that the standard game engine doesn’t support out of the box. 
+If you’re viewing this page, chances are you’re installing one of my gameplay mods. Those mods depend on Smart Core Script to handle advanced features that the base game cannot provide on its own. Without this library installed, those mods will simply not function.
 
 > **Important:** You only need to install this library if a mod’s requirements specifically state that it is required! If you don’t use any of my core-dependent mods, you don’t need this file in your folder.
 
@@ -26,12 +28,8 @@ If you are here, it is likely because you want to use one of my gameplay mods. T
 Please pay close attention to the following instructions.
 {% include notice-script.html %}
 
-## Compatibility
-This is a standalone script library. It does not override any game files (tuning or internal code), so there are no known compatibility issues with other mods. The included package file contains only the translations for menus and system messages.
-
-## Translations
+## Language & Translations
 * English, German, Spanisch and Russian – by me
 * Brazilian Portuguese – by Nymphieta
 * Italian – by vale93_games
 * Traditional Simplified Chinese – by Orchard Team
-

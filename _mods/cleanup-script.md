@@ -45,11 +45,10 @@ Cache files are meant to be temporary. After patches, mod updates, or configurat
 The script checks whether it is running with **Administrator rights**. If not, it automatically restarts and asks for permission. This prevents situations where the script appears to “do nothing” because Windows blocks file access.
 
 ## How to use this script?
-This is not a game mod, but a specialized tool. Please pay close attention to the following instructions.
+Please pay close attention to the following instructions.
 {% include notice-batch.html %}
 
 ## Language & Translations
-
 This tool is a **Windows batch script** and contains **no in-game text strings**. The script itself is written in **English only**.  Translations are **not possible and not required**, as the script does not interact with the game UI or use localized text.
 
 ---
