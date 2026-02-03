@@ -18,9 +18,13 @@
 
     {% assign categories = page.categories | default: mod.categories %}
     {% for cat in categories %}
-      <a href="{{ site.baseurl }}/category/{{ cat | slugify }}/"
-         style="border:1px solid #e2e8f0; color:#64748b; padding:5px 14px; border-radius:6px; font-size:.8rem; font-weight:600; background:#f8fafc; text-decoration:none; display:inline-block;"
-         title="Show more mods in: {{ cat }}">
+      <a
+        href="{{ site.baseurl }}/category/?category={{ cat | url_encode }}"
+        style="border:1px solid #e2e8f0; color:#64748b; padding:5px 14px; border-radius:6px;
+               font-size:.8rem; font-weight:600; background:#f8fafc;
+               text-decoration:none; display:inline-block;"
+        title="Show all mods in category: {{ cat }}"
+      >
         {{ cat }}
       </a>
     {% endfor %}
