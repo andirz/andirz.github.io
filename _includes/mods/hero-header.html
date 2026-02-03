@@ -38,7 +38,7 @@
         {% endif %}
       </div>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:0.5px;">
+        <span style="text-transform:uppercase; font-size:.6rem; letter-spacing:.5px; color:#94a3b8; font-weight:700; margin-bottom:0px;">
           File Type
         </span>
         <span style="font-weight:600; color:#475569; font-size:.9rem;">
@@ -50,7 +50,7 @@
     <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-code-branch" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0.5px;">
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0px;">
           Last Version
         </span>
         <span style="font-weight:600; color:#475569;">v. {{ current_version }}</span>
@@ -60,7 +60,7 @@
     <div style="display:flex; align-items:center; gap:14px; padding-left:20px; border-left:1px solid #f1f5f9;">
       <i class="fas fa-calendar-alt" style="color:#cbd5e1;"></i>
       <div style="display:flex; flex-direction:column;">
-        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0.5px;">
+        <span style="text-transform:uppercase; font-size:.6rem; color:#94a3b8; font-weight:700; margin-bottom:0px;">
           Last Update
         </span>
         <span style="font-weight:600; color:#475569;">
@@ -109,7 +109,7 @@
         <div
           style="width:44px; height:44px; display:flex; align-items:center; justify-content:center;
                  background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;"
-          title="{{ pack_name }} ({{ pack_code | replace: 'EP', 'EP ' | replace:'GP','GP ' | replace:'SP','SP ' }})"
+          title="{{ pack_name }} ({{ pack_code }})"
         >
           <img
             src="{{ site.baseurl }}{{ icon_path }}"
