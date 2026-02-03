@@ -4,7 +4,7 @@ title: "Death Roulette Challenge"
 parent: "Mods"
 icon: "fas fa-skull-crossbones"
 requirements: ["smart_core"]
-categories: [Darker Gameplay, Survival, Challenges, Cheats]
+categories: [Death, Survival, Challenges, Cheats]
 tagline: "Leave survival to fate with a high-stakes mechanic designed for dystopian storytelling and disaster scenarios."
 ---
 

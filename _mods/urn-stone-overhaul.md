@@ -3,7 +3,8 @@ mod_id: urn_stone_overhaul
 title: "Urn/Stone Overhaul"
 icon: "fas fa-monument"
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Tweaks, Overrides]
+categories: [Death, Tweaks, Gameplay, Overrides]
+strings: false
 ---
 
 > ### ⚠️ Mod Status: Broken
@@ -25,13 +26,6 @@ Instead of the standard "Sad +1" or "Happy +1" buffs, Sims now receive varied em
 * **Energized +1**
 * **Fine 0**
 * **Sad +1, +2, or +3**
-
-## Translations
-This mod uses internal game strings only. It is **immediately available in all languages** supported by the game!
-
-## Requirements
-* **Lot51 Core Library** is strictly required for full functionality.
-* **Script Mods** must be enabled in your game settings.
 
 ## Compatibility & Overrides
 This is an **override mod** and will conflict with any other mod that modifies the following resource:
