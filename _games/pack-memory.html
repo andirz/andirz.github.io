@@ -8,7 +8,8 @@ mode: Memory
 difficulty: Medium
 ---
 
-<div id="pack-memory"
+<div class="pm-wrap"
+     id="pack-memory"
      data-ep-count="18"
      data-gp-count="12"
      data-pairs="8"
@@ -18,239 +19,446 @@ difficulty: Medium
 </div>
 
 <style>
-  :root {
-    --sims-green: #2ecc71;
-    --sims-blue: #1e293b;
-    --sims-red: #e74c3c;
-    --text-main: #0f172a;
-    --flip-ease: 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  :root{
+    --pm-bg: #f8fafc;
+    --pm-card: #ffffff;
+    --pm-ink: #0f172a;
+    --pm-muted: #64748b;
+    --pm-border: #e2e8f0;
+    --pm-blue: #1e293b;
+    --pm-green: #2ecc71;
+    --pm-red: #e74c3c;
+    --pm-shadow: 0 16px 22px -8px rgba(0,0,0,0.06);
+    --pm-radius: 22px;
+    --pm-gap: 10px;
+    --pm-flip: 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.22);
   }
 
-  .mm-root {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #f8fafc;
-    border-radius: 24px;
-    padding: 1.5rem;
-    margin: 1.6rem auto;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 16px 22px -8px rgba(0,0,0,0.06);
-    max-width: 760px;
+  .pm-shell{
+    max-width: 920px;
+    margin: 1.25rem auto;
+    background: var(--pm-bg);
+    border: 1px solid var(--pm-border);
+    border-radius: var(--pm-radius);
+    box-shadow: var(--pm-shadow);
+    padding: 1.2rem 1.2rem 1.3rem;
   }
 
-  .mm-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-
-  .mm-header h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--text-main);
-  }
-
-  .mm-header p {
-    margin: 0.2rem 0 0;
-    font-size: 0.85rem;
-    color: #64748b;
-  }
-
-  .mm-stats {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
+  .pm-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 1rem;
     flex-wrap: wrap;
-    margin-top: 0.8rem;
+    margin-bottom: 1rem;
   }
 
-  .mm-badge {
-    background: #fff;
-    padding: 0.4rem 0.7rem;
+  .pm-title{
+    min-width: 240px;
+  }
+  .pm-title h2{
+    margin:0;
+    font-size: 1.3rem;
+    font-weight: 850;
+    color: var(--pm-ink);
+    letter-spacing: -0.01em;
+  }
+  .pm-title p{
+    margin:.25rem 0 0;
+    color: var(--pm-muted);
+    font-size: .9rem;
+  }
+
+  .pm-stats{
+    display:flex;
+    gap:.5rem;
+    align-items:center;
+    flex-wrap: wrap;
+    justify-content:flex-end;
+  }
+
+  .pm-pill{
+    background: var(--pm-card);
+    border: 2px solid var(--pm-border);
     border-radius: 999px;
-    border: 2px solid #e2e8f0;
-    font-weight: 700;
-    font-size: 0.8rem;
-    min-width: 90px;
+    padding: .42rem .7rem;
+    font-weight: 800;
+    color: var(--pm-blue);
+    font-size: .85rem;
+    min-width: 108px;
+    text-align:center;
   }
-
-  .mm-badge.warning {
-    background: var(--sims-red);
-    color: #fff;
+  .pm-pill.is-warn{
+    background: var(--pm-red);
     border-color: #c0392b;
-  }
-
-  .mm-btn {
-    background: var(--sims-blue);
     color: #fff;
-    border: none;
-    padding: 0.45rem 0.9rem;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
   }
 
-  .mm-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-top: 1.2rem;
-    justify-items: center;
+  .pm-btn{
+    background: var(--pm-blue);
+    color:#fff;
+    border:none;
+    border-radius: 12px;
+    padding: .5rem .9rem;
+    font-weight: 850;
+    font-size: .9rem;
+    cursor:pointer;
+    transition: transform .12s ease, filter .12s ease;
+  }
+  .pm-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+  .pm-btn:active{ transform: translateY(0px); }
+
+  .pm-grid{
+    display:grid;
+    gap: var(--pm-gap);
+    justify-content:center;
+    perspective: 1100px;
   }
 
-  .mm-card {
-    width: 144px;
-    height: 144px;
+  /* responsive columns */
+  @media (min-width: 900px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-card-size)); } }
+  @media (min-width: 620px) and (max-width: 899px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-card-size)); } }
+  @media (max-width: 619px){ .pm-grid{ grid-template-columns: repeat(3, var(--pm-card-size)); } }
+
+  .pm-card{
+    width: var(--pm-card-size);
+    height: var(--pm-card-size);
     position: relative;
     transform-style: preserve-3d;
-    transition: transform var(--flip-ease);
+    transition: transform var(--pm-flip);
     cursor: pointer;
+    border-radius: 14px;
+    outline: none;
   }
 
-  .mm-card.is-flipped {
+  .pm-card.is-flipped{ transform: rotateY(180deg); }
+  .pm-card.is-matched{ cursor: default; opacity: 0.96; }
+  .pm-card:focus-visible{ box-shadow: 0 0 0 3px rgba(46,204,113,.25); }
+
+  .pm-face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border-radius: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .pm-front{
+    background: linear-gradient(180deg, #22314a, #152033);
+    border: 2px solid rgba(255,255,255,0.08);
+    color:#fff;
+    font-weight: 900;
+    letter-spacing: .06em;
+    font-size: 1.1rem;
+    user-select: none;
+  }
+
+  .pm-back{
+    background: var(--pm-card);
     transform: rotateY(180deg);
+    border: 2px solid var(--pm-green);
+    padding: 10px;
   }
 
-  .mm-face {
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    backface-visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .mm-front {
-    background: var(--sims-blue);
-    color: #fff;
-    font-size: 1.2rem;
-  }
-
-  .mm-back {
-    background: #fff;
-    transform: rotateY(180deg);
-    border: 2px solid var(--sims-green);
-    padding: 8px;
-  }
-
-  .mm-back img {
+  .pm-back img{
     width: 100%;
     height: 100%;
     object-fit: contain;
+    display:block;
   }
+
+  .pm-fallback{
+    display:none;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #334155;
+    font-weight: 900;
+    align-items:center;
+    justify-content:center;
+    font-size: .95rem;
+  }
+
+  .pm-note{
+    margin-top: .9rem;
+    color: var(--pm-muted);
+    font-size: .85rem;
+    text-align:center;
+  }
+
+  /* overlay */
+  .pm-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(2,6,23,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding: 1rem;
+    z-index: 9999;
+  }
+  .pm-modal{
+    width: min(520px, 100%);
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid var(--pm-border);
+    box-shadow: 0 28px 44px -18px rgba(0,0,0,.35);
+    padding: 1rem 1rem 1.1rem;
+    text-align:center;
+  }
+  .pm-modal h3{
+    margin: .1rem 0 .3rem;
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--pm-ink);
+  }
+  .pm-modal p{
+    margin: 0 0 .9rem;
+    color: var(--pm-muted);
+  }
+  .pm-modal .pm-modal-row{
+    display:flex;
+    gap:.5rem;
+    justify-content:center;
+    flex-wrap: wrap;
+    margin-bottom: .9rem;
+  }
+  .pm-modal .pm-pill{ min-width: 120px; }
+  .pm-modal .pm-btn{ min-width: 140px; }
+  .pm-modal.is-win .pm-btn{ background: var(--pm-green); }
 </style>
 
-<div class="mm-root">
-  <div class="mm-header">
-    <h2>Pack Picker Memory</h2>
-    <p>Match all Sims 4 packs before time runs out.</p>
-
-    <div class="mm-stats">
-      <div class="mm-badge" id="mm-status">Matches: 0</div>
-      <div class="mm-badge" id="mm-misses">Misses: 0</div>
-      <div class="mm-badge" id="mm-timer">Time: 00:00</div>
-      <button class="mm-btn" id="mm-restart">Restart</button>
-    </div>
-  </div>
-
-  <div class="mm-grid" id="mm-grid"></div>
-</div>
-
 <script>
-(function () {
-  const root = document.getElementById("pack-memory");
-  const grid = document.getElementById("mm-grid");
+(function(){
+  const host = document.getElementById("pack-memory");
+  if(!host) return;
 
-  const EP = +root.dataset.epCount;
-  const GP = +root.dataset.gpCount;
-  const PAIRS = +root.dataset.pairs;
-  const TIME = +root.dataset.timeLimit;
-  let FOLDER = root.dataset.folder || "";
+  // config
+  const EP = +host.dataset.epCount || 18;
+  const GP = +host.dataset.gpCount || 12;
+  const PAIRS = +host.dataset.pairs || 8;
+  const TIME = +host.dataset.timeLimit || 90;
+  const ICON = +host.dataset.iconSize || 128;
+
+  let FOLDER = host.dataset.folder || "";
   if (FOLDER && !FOLDER.endsWith("/")) FOLDER += "/";
 
-  const status = document.getElementById("mm-status");
-  const missesEl = document.getElementById("mm-misses");
-  const timerEl = document.getElementById("mm-timer");
-  const restartBtn = document.getElementById("mm-restart");
+  // derive card size: icon + padding
+  const CARD = Math.max(ICON + 18, 92);
+
+  host.innerHTML = `
+    <div class="pm-shell" style="--pm-card-size:${CARD}px">
+      <div class="pm-top">
+        <div class="pm-title">
+          <h2>Pack Picker Memory</h2>
+          <p>Match all Sims 4 packs before time runs out.</p>
+        </div>
+
+        <div class="pm-stats">
+          <div class="pm-pill" data-pm-status>Matches: 0 / ${PAIRS}</div>
+          <div class="pm-pill" data-pm-misses>Misses: 0</div>
+          <div class="pm-pill" data-pm-timer>Time: 00:00</div>
+          <button class="pm-btn" type="button" data-pm-restart>Restart</button>
+        </div>
+      </div>
+
+      <div class="pm-grid" data-pm-grid></div>
+
+      <div class="pm-note">Tip: You can play with mouse or keyboard (Tab + Enter).</div>
+    </div>
+
+    <div class="pm-overlay" data-pm-overlay>
+      <div class="pm-modal" data-pm-modal>
+        <h3 data-pm-modal-title>GAME OVER</h3>
+        <p data-pm-modal-text>Time is up!</p>
+        <div class="pm-modal-row">
+          <div class="pm-pill" data-pm-final-matches>Matches: 0 / ${PAIRS}</div>
+          <div class="pm-pill" data-pm-final-misses>Misses: 0</div>
+        </div>
+        <button class="pm-btn" type="button" data-pm-play-again>Play again</button>
+      </div>
+    </div>
+  `;
+
+  const grid = host.querySelector("[data-pm-grid]");
+  const statusEl = host.querySelector("[data-pm-status]");
+  const missesEl = host.querySelector("[data-pm-misses]");
+  const timerEl  = host.querySelector("[data-pm-timer]");
+  const restartBtn = host.querySelector("[data-pm-restart]");
+
+  const overlay = host.querySelector("[data-pm-overlay]");
+  const modal   = host.querySelector("[data-pm-modal]");
+  const modalTitle = host.querySelector("[data-pm-modal-title]");
+  const modalText  = host.querySelector("[data-pm-modal-text]");
+  const finalMatches = host.querySelector("[data-pm-final-matches]");
+  const finalMisses  = host.querySelector("[data-pm-final-misses]");
+  const playAgainBtn = host.querySelector("[data-pm-play-again]");
 
   let opened = [];
   let locked = false;
   let matches = 0;
   let misses = 0;
   let timerId = null;
-  let start = 0;
+  let startMs = 0;
 
   const packs = [];
-  for (let i = 1; i <= EP; i++) packs.push(`ep${String(i).padStart(2,"0")}`);
-  for (let i = 1; i <= GP; i++) packs.push(`gp${String(i).padStart(2,"0")}`);
+  for (let i=1;i<=EP;i++) packs.push(`ep${String(i).padStart(2,"0")}`);
+  for (let i=1;i<=GP;i++) packs.push(`gp${String(i).padStart(2,"0")}`);
 
   function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
 
   function format(s){
-    return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+    const m = Math.floor(s/60);
+    const sec = s%60;
+    return String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
+  }
+
+  function showOverlay(isWin){
+    finalMatches.textContent = `Matches: ${matches} / ${PAIRS}`;
+    finalMisses.textContent = `Misses: ${misses}`;
+
+    modal.classList.toggle("is-win", !!isWin);
+
+    if(isWin){
+      modalTitle.textContent = "VICTORY";
+      modalText.textContent = `Perfect memory! You had ${misses} misses.`;
+      playAgainBtn.textContent = "Play again";
+    } else {
+      modalTitle.textContent = "GAME OVER";
+      modalText.textContent = "Time is up!";
+      playAgainBtn.textContent = "Try again";
+    }
+
+    overlay.style.display = "flex";
+  }
+
+  function hideOverlay(){
+    overlay.style.display = "none";
+  }
+
+  function setTimer(left){
+    timerEl.textContent = "Time: " + format(Math.max(left,0));
+    timerEl.classList.toggle("is-warn", left <= 10 && left > 0);
+  }
+
+  function flipBack(){
+    opened.forEach(c => c.classList.remove("is-flipped"));
+    opened = [];
+  }
+
+  function onCardClick(card){
+    if(locked) return;
+    if(card.classList.contains("is-matched")) return;
+    if(card.classList.contains("is-flipped")) return;
+
+    card.classList.add("is-flipped");
+    opened.push(card);
+
+    if(opened.length < 2) return;
+
+    locked = true;
+    const a = opened[0].dataset.id;
+    const b = opened[1].dataset.id;
+
+    if(a === b){
+      matches++;
+      opened[0].classList.add("is-matched");
+      opened[1].classList.add("is-matched");
+      opened = [];
+      locked = false;
+
+      statusEl.textContent = `Matches: ${matches} / ${PAIRS}`;
+
+      if(matches === PAIRS){
+        clearInterval(timerId);
+        setTimeout(()=>showOverlay(true), 350);
+      }
+    } else {
+      misses++;
+      missesEl.textContent = `Misses: ${misses}`;
+      setTimeout(()=>{
+        flipBack();
+        locked = false;
+      }, 820);
+    }
+  }
+
+  function buildDeck(){
+    const chosen = shuffle([...packs]).slice(0, PAIRS);
+    return shuffle([...chosen, ...chosen]);
   }
 
   function reset(){
-    grid.innerHTML="";
-    opened=[]; locked=false;
-    matches=0; misses=0;
+    hideOverlay();
 
-    status.textContent=`Matches: 0 / ${PAIRS}`;
-    missesEl.textContent="Misses: 0";
-    timerEl.classList.remove("warning");   // <- FIX 1
+    grid.innerHTML = "";
+    opened = [];
+    locked = false;
+    matches = 0;
+    misses = 0;
+
+    statusEl.textContent = `Matches: 0 / ${PAIRS}`;
+    missesEl.textContent = "Misses: 0";
+    timerEl.classList.remove("is-warn");
 
     clearInterval(timerId);
-    start=Date.now();
-    timerId=setInterval(()=>{
-      const left = TIME - Math.floor((Date.now()-start)/1000);
-      timerEl.textContent="Time: "+format(Math.max(left,0));
-      if(left<=10) timerEl.classList.add("warning");
-      if(left<=0){ clearInterval(timerId); locked=true; }
-    },300);
+    startMs = Date.now();
+    setTimer(TIME);
 
-    const chosen = shuffle([...packs]).slice(0,PAIRS);
-    const deck = shuffle([...chosen,...chosen]);
+    timerId = setInterval(()=>{
+      const left = TIME - Math.floor((Date.now() - startMs)/1000);
+      setTimer(left);
+
+      if(left <= 0){
+        clearInterval(timerId);
+        locked = true;
+        // falls zwei offen sind, damit nix "halb" stehen bleibt
+        flipBack();
+        showOverlay(false);
+      }
+    }, 250);
+
+    const deck = buildDeck();
 
     deck.forEach(id=>{
-      const card=document.createElement("div");
-      card.className="mm-card";
-      card.dataset.id = id;               // <- FIX 2
-      card.innerHTML=`
-        <div class="mm-face mm-front">?</div>
-        <div class="mm-face mm-back">
-          <img src="${FOLDER}${id}.png" alt="">
-        </div>`;
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "pm-card";
+      card.dataset.id = id;
+      card.setAttribute("aria-label", "Card");
 
-      card.onclick=()=>{
-        if(locked||card.classList.contains("is-flipped")||opened[0]===card)return;
+      const imgSrc = `${FOLDER}${id}.png`;
 
-        card.classList.add("is-flipped");
-        opened.push(card);
+      card.innerHTML = `
+        <div class="pm-face pm-front">?</div>
+        <div class="pm-face pm-back">
+          <img src="${imgSrc}" alt="" loading="lazy">
+          <div class="pm-fallback">${id.toUpperCase()}</div>
+        </div>
+      `;
 
-        if(opened.length===2){
-          locked=true;
+      const img = card.querySelector("img");
+      const fb  = card.querySelector(".pm-fallback");
+      img.addEventListener("error", ()=>{
+        img.style.display = "none";
+        fb.style.display = "flex";
+      });
 
-          if (opened[0].dataset.id === opened[1].dataset.id) {   // <- FIX 2
-            matches++;
-            status.textContent=`Matches: ${matches} / ${PAIRS}`;
-            opened=[]; locked=false;
-          } else {
-            misses++;
-            missesEl.textContent=`Misses: ${misses}`;
-            setTimeout(()=>{
-              opened.forEach(c=>c.classList.remove("is-flipped"));
-              opened=[]; locked=false;
-            },800);
-          }
-        }
-      };
-
+      card.addEventListener("click", ()=>onCardClick(card));
       grid.appendChild(card);
     });
   }
 
-  restartBtn.onclick=reset;
+  restartBtn.addEventListener("click", reset);
+  playAgainBtn.addEventListener("click", reset);
+  overlay.addEventListener("click", (e)=>{
+    if(e.target === overlay) hideOverlay();
+  });
+
   reset();
 })();
 </script>
-

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Mod Status
+title: Mods Overview
 icon: "fas fa-layer-group"
 order: 2
 ---
