@@ -3,6 +3,7 @@ layout: page
 title: Packs Overview
 icon: "fas fa-box-open"
 description: "A reference guide to the abbreviations used for The Sims 4 Expansion, Gameplay, and Stuff Packs."
+order: 1
 ---
 
 {% include table_styles.html %}
@@ -40,8 +41,8 @@ It is a helpful resource for modders and players to identify packs across differ
 
 {% for t in tables %}
 {% assign tdata = t | split: "|" %}
-{% assign tkey = tdata[0] %}
-{% assign ttitle = tdata[1] %}
+{% assign tkey = tdata[0] | strip %}
+{% assign ttitle = tdata[1] | strip %}
 
 <h2 id="{{ ttitle | downcase | replace: ' ', '-' }}">{{ ttitle }}</h2>
 
