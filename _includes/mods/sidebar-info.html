@@ -27,7 +27,9 @@
 
 <div class="sticky-sidebar-wrapper">
 
+  <!-- MOD CARD -->
   <div class="sidebar-box">
+
     <div class="sidebar-cover">
       {% if cover_exists %}
         <a href="{{ expected_cover_path }}" target="_blank" rel="noopener noreferrer">
@@ -62,6 +64,7 @@
 
   {% if has_reqs or has_packs %}
   <div class="sidebar-box">
+
     <div class="sidebar-box-header">Requirements</div>
 
     <div class="sidebar-box-content">
@@ -87,7 +90,7 @@
         <div class="packs-list">
           {% for pack in page.packs %}
             {% assign pack_en = site.data.packs[pack].en | default: pack %}
-            <span class="pack-pill" title="{{ pack_en }}" aria-label="{{ pack_en }}">{{ pack }}</span>
+            <span class="pack-pill" title="{{ pack_en }}">{{ pack }}</span>
           {% endfor %}
         </div>
       </div>
@@ -111,57 +114,64 @@
   </div>
 
   <div class="support-icons">
-    <a class="support-link patreon" href="{{ patreon_link }}" target="_blank"><i class="fab fa-patreon"></i></a>
-    <a class="support-link kofi" href="{{ kofi_link }}" target="_blank"><i class="fas fa-coffee"></i></a>
-    <a class="support-link paypal" href="{{ paypal_link }}" target="_blank"><i class="fab fa-paypal"></i></a>
+    <a class="support-link patreon" href="{{ patreon_link }}" target="_blank">
+      <i class="fab fa-patreon"></i>
+    </a>
+    <a class="support-link kofi" href="{{ kofi_link }}" target="_blank">
+      <i class="fas fa-coffee"></i>
+    </a>
+    <a class="support-link paypal" href="{{ paypal_link }}" target="_blank">
+      <i class="fab fa-paypal"></i>
+    </a>
   </div>
+
 </div>
 
 <style>
 :root{ --soft-black:#1f2937; }
 
-/* Header – elegante kurze Linie */
+/* BOX */
+.sidebar-box{
+  background:#fff;
+  border:1px solid var(--soft-black);
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+/* HEADER – gleiche Version, nur Linie kürzer */
 .sidebar-box-header{
-  background:none;
-  text-align:center;
+  background:transparent;
+  color:var(--soft-black);
   font-size:0.7rem;
   font-weight:900;
-  letter-spacing:1.2px;
+  text-align:center;
   padding:10px 0 6px;
+  letter-spacing:1.2px;
   position:relative;
 }
 .sidebar-box-header::after{
   content:"";
   display:block;
-  width:60%;
+  width:65%;
   height:2px;
   background:var(--soft-black);
   margin:6px auto 0;
-  opacity:.7;
+  opacity:.6;
 }
 
-/* Requirements enger */
+/* REQUIREMENTS – enger */
+.requirements-list{ list-style:none; padding:0; margin:0; }
 .requirements-list li{
-  margin-bottom:4px;
+  display:flex;
+  align-items:center;
+  gap:8px;
   font-size:0.83rem;
+  margin-bottom:4px;
 }
 .requirements-list li:last-child{ margin-bottom:0; }
 
-/* Hover-Farbe bleibt */
-.requirements-list a{
-  font-weight:800;
-  color:var(--soft-black);
-  text-decoration:none;
-}
-.requirements-list a:hover{
-  color:#2563eb;
-  text-decoration:underline;
-}
-
-/* Packs */
-.pack-pill{ cursor:help; }
-
-/* Support Icons – Farben */
+/* SUPPORT ICONS – Farben */
 .support-icons{
   display:flex;
   justify-content:center;
@@ -171,15 +181,11 @@
 .support-link{
   font-size:1.45rem;
   transition:transform .18s cubic-bezier(.175,.885,.32,1.275);
+  text-decoration:none;
 }
-.support-link:hover{ transform:scale(1.35); }
+.support-link:hover{ transform:scale(1.3); }
 
 .support-link.patreon{ color:#000; }
-.support-link.paypal{ color:#2563eb; }
-.support-link.kofi{
-  color:#ff5e5b;
-  border:1.5px solid #000;
-  border-radius:6px;
-  padding:4px 6px;
-}
+.support-link.paypal{ color:#3b82f6; }
+.support-link.kofi{ color:#ff5e5b; }
 </style>
