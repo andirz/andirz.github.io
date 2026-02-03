@@ -115,13 +115,15 @@
   <div class="sidebar-box">
     <div class="download-wrap">
       {% unless page.curseforge_ban %}
-      <a href="{{ cf_url }}" target="_blank" rel="noopener noreferrer" class="download-btn cf-btn">
-        <i class="fab fa-firefox-browser"></i> CurseForge
-      </a>
-      {% endunless %}
-      <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" class="download-btn patreon-btn">
-        <i class="fab fa-patreon"></i> Patreon
-      </a>
+        <a class="download-btn cf-btn">
+          <i class="fab fa-firefox-browser"></i>
+          <span>Download on CurseForge</span>
+        </a>
+        
+        <a class="download-btn patreon-btn">
+          <i class="fab fa-patreon"></i>
+          <span>Download on Patreon</span>
+        </a>
     </div>
   </div>
 
@@ -269,12 +271,31 @@
   gap:8px;
 }
 .download-btn{
-  padding:10px;
-  border-radius:9px;
-  font-weight:800;
-  font-size:0.85rem;
-  color:#fff !important;
-  text-decoration:none;
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #fff !important;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;   
+}
+/* Icon bleibt links */
+.download-btn i{
+  position: absolute;
+  left: 14px;
+  font-size: 1rem;
+}
+/* Text wirklich zentriert */
+.download-btn span,
+.download-btn{
+  justify-content: center;
+}
+/* Hover: dünner Rand */
+.download-btn:hover{
+  border-color: rgba(255,255,255,0.55);
 }
 .cf-btn{ background:#f16436; }
 .patreon-btn{ background:#1e293b; }
@@ -316,9 +337,13 @@
 }
 
 .support-icons .icon-btn.kofi{
-  background:#ff5a5f;   /* hellrot */
-  color:#111111;       /* Icon schwarz */
-  border:1px solid #111111;
+  background:#ffffff;
+  color:#ff5a5f;      
+  border:1.5px solid #111111;
+}
+
+.support-icons .icon-btn.kofi i{
+  color:#ff5a5f;     
 }
 
 /* Hover: größer */
