@@ -23,292 +23,718 @@ difficulty: Medium
 
 {% raw %}
 <script>
-/*
-=========================================================
-PACK MEMORY – IMPORTANT PACK RULES (DO NOT REMOVE)
----------------------------------------------------------
-• EP: ep01 – ep18  (normal)
-• GP: gp01 – gp12 BUT gp09 MUST ALWAYS BE EXCLUDED
-        (no icon exists for gp09)
-• SP: NOT continuous!
-      Valid Stuff Packs are:
-      sp01–sp18 PLUS sp46 and sp49
-
-If this logic is changed, icons WILL break.
-=========================================================
-*/
-
 (() => {
-  if (customElements.get("pack-memory")) return;
+  try {
+    if (customElements.get("pack-memory")) return;
 
-  const tpl = document.createElement("template");
-  tpl.innerHTML = `
-    <style>
-      :host{
-        --bg:#ffffff;
-        --card:#ffffff;
-        --ink:#0b0b0b;
-        --muted:#4b5563;
-        --border:#d1d5db;
-        --shadow:0 14px 20px -10px rgba(0,0,0,.18);
-        --radius:22px;
-        --gap:10px;
-        --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
-        --size:146px;
-        display:block;
-      }
+    const tpl = document.createElement("template");
+    tpl.innerHTML = `
+      <style>
+        :host{
+          --bg:#ffffff;
+          --card:#ffffff;
+          --ink:#0b0b0b;
+          --muted:#4b5563;
+          --border:#d1d5db;
+          --shadow:0 14px 20px -10px rgba(0,0,0,.18);
+          --radius:22px;
+          --gap:10px;
+          --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
+          --size:146px;
+          display:block;
+        }
 
-      .shell{
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: 1.1rem;
-        position: relative;
-      }
+        .shell{
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow);
+          padding: 1.1rem 1.1rem 1.2rem;
+          position: relative;
+        }
 
-      .top{
-        display:flex;
-        justify-content:space-between;
-        align-items:flex-start;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin-bottom: 1rem;
-      }
+        .top{
+          display:flex;
+          justify-content:space-between;
+          align-items:flex-start;
+          gap: 1rem;
+          flex-wrap: wrap;
+          margin-bottom: 1rem;
+        }
 
-      h2{ margin:0; font-size:1.3rem; font-weight:850; }
-      p{ margin:.25rem 0 0; color:var(--muted); font-size:.9rem; }
+        h2{
+          margin:0;
+          font-size:1.3rem;
+          font-weight:850;
+          color:var(--ink);
+          letter-spacing:-.01em;
+        }
+        p{
+          margin:.25rem 0 0;
+          color:var(--muted);
+          font-size:.9rem;
+        }
 
-      .stats{
-        display:flex;
-        gap:.5rem;
-        align-items:center;
-        flex-wrap:wrap;
-        justify-content:flex-end;
-      }
+        .stats{
+          display:flex;
+          gap:.5rem;
+          align-items:center;
+          flex-wrap:wrap;
+          justify-content:flex-end;
+        }
 
-      .pill{
-        border:2px solid var(--border);
-        border-radius:999px;
-        padding:.42rem .7rem;
-        font-weight:800;
-        font-size:.85rem;
-        min-width:120px;
-        text-align:center;
-      }
+        .pill{
+          background: var(--card);
+          border: 2px solid var(--border);
+          border-radius: 999px;
+          padding: .42rem .7rem;
+          font-weight: 800;
+          color: var(--ink);
+          font-size: .85rem;
+          min-width: 120px;
+          text-align:center;
+          user-select:none;
+        }
 
-      .pill.warn{ background:#0b0b0b; color:#fff; }
+        .pill.warn{
+          background: #0b0b0b;
+          border-color:#0b0b0b;
+          color:#ffffff;
+        }
 
-      .btn{
-        background:#0b0b0b;
-        color:#fff;
-        border:none;
-        border-radius:12px;
-        padding:.5rem .9rem;
-        font-weight:850;
-        cursor:pointer;
-      }
+        .btn{
+          background: #0b0b0b;
+          color:#fff;
+          border:none;
+          border-radius: 12px;
+          padding: .5rem .9rem;
+          font-weight: 850;
+          font-size: .9rem;
+          cursor:pointer;
+          transition: transform .12s ease, filter .12s ease;
+        }
+        .btn:hover{ filter: brightness(1.10); transform: translateY(-1px); }
+        .btn:active{ transform: translateY(0px); }
 
-      .toggle{
-        display:inline-flex;
-        align-items:center;
-        gap:.45rem;
-        font-weight:850;
-        font-size:.85rem;
-        padding:.38rem .65rem;
-        border-radius:999px;
-        border:2px solid var(--border);
-        cursor:pointer;
-      }
+        .toggle{
+          display:inline-flex;
+          align-items:center;
+          gap:.45rem;
+          user-select:none;
+          cursor:pointer;
+          font-weight:850;
+          font-size:.85rem;
+          color: var(--ink);
+          padding:.38rem .65rem;
+          border-radius: 999px;
+          border:2px solid var(--border);
+          background: var(--card);
+        }
+        .toggle input{ accent-color:#0b0b0b; }
 
-      .grid{
-        display:grid;
-        gap:var(--gap);
-        justify-content:center;
-      }
+        .grid{
+          display:grid;
+          gap: var(--gap);
+          justify-content:center;
+          perspective: 1100px;
+        }
 
-      @media (min-width:900px){ .grid{ grid-template-columns:repeat(4,var(--size)); } }
-      @media (max-width:899px){ .grid{ grid-template-columns:repeat(3,var(--size)); } }
+        @media (min-width: 900px){ .grid{ grid-template-columns: repeat(4, var(--size)); } }
+        @media (min-width: 620px) and (max-width: 899px){ .grid{ grid-template-columns: repeat(4, var(--size)); } }
+        @media (max-width: 619px){ .grid{ grid-template-columns: repeat(3, var(--size)); } }
 
-      .card{
-        width:var(--size);
-        height:var(--size);
-        transform-style:preserve-3d;
-        transition:transform var(--flip);
-        cursor:pointer;
-        border-radius:14px;
-        background:none;
-        border:0;
-        padding:0;
-      }
+        .card{
+          width: var(--size);
+          height: var(--size);
+          position:relative;
+          transform-style:preserve-3d;
+          transition: transform var(--flip);
+          cursor:pointer;
+          border-radius: 14px;
+          border: 0;
+          padding: 0;
+          background: transparent;
+        }
 
-      .card[state="up"],
-      .card[state="match"]{ transform:rotateY(180deg); }
-      .card[state="match"]{ pointer-events:none; }
+        .card[state="up"],
+        .card[state="match"]{
+          transform: rotateY(180deg);
+        }
+        .card[state="match"]{
+          pointer-events:none;
+          cursor:default;
+        }
 
-      .face{
-        position:absolute;
-        inset:0;
-        backface-visibility:hidden;
-        border-radius:14px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-      }
+        .face{
+          position:absolute;
+          inset:0;
+          backface-visibility:hidden;
+          border-radius: 14px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          overflow:hidden;
+        }
 
-      .front{
-        background:#0b0b0b;
-        color:#fff;
-        font-weight:900;
-        font-size:1.1rem;
-      }
+        .front{
+          background: #0b0b0b;
+          border: 2px solid rgba(255,255,255,.10);
+          color:#ffffff;
+          font-weight: 900;
+          letter-spacing: .06em;
+          font-size: 1.1rem;
+          user-select:none;
+        }
 
-      .back{
-        background:#fff;
-        transform:rotateY(180deg);
-        border:2px solid #0b0b0b;
-        padding:10px;
-      }
+        .back{
+          background: var(--card);
+          transform: rotateY(180deg);
+          border: 2px solid #0b0b0b;
+          padding: 10px;
+        }
 
-      .back img{
-        width:100%;
-        height:100%;
-        object-fit:contain;
-      }
-    </style>
+        .back img{
+          width:100%;
+          height:100%;
+          object-fit:contain;
+          display:block;
+        }
 
-    <div class="shell">
-      <div class="top">
-        <div>
-          <h2>Pack Picker Memory</h2>
-          <p>EP + GP always active. Optional SP.</p>
+        .missing{
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          width:100%;
+          height:100%;
+          font-weight:900;
+          color:#0b0b0b;
+          letter-spacing:.03em;
+        }
+
+        .overlay{
+          position:absolute;
+          inset:0;
+          display:none;
+          align-items:center;
+          justify-content:center;
+          background: rgba(255,255,255,.78);
+          backdrop-filter: blur(4px);
+          border-radius: var(--radius);
+        }
+        .overlay[open]{ display:flex; }
+
+        .modal{
+          width:min(520px, calc(100% - 28px));
+          background: #ffffff;
+          border: 2px solid #0b0b0b;
+          border-radius: 18px;
+          box-shadow: 0 28px 40px -18px rgba(0,0,0,.35);
+          padding: 1.1rem 1.1rem 1rem;
+        }
+        .modal h3{
+          margin:0;
+          font-size:1.25rem;
+          font-weight:900;
+          letter-spacing:-.01em;
+          color:#0b0b0b;
+        }
+        .modal .msg{
+          margin:.35rem 0 .9rem;
+          color:#111827;
+          font-weight:650;
+        }
+        .modal .sub{
+          margin:-.65rem 0 1rem;
+          color: var(--muted);
+          font-size:.92rem;
+        }
+        .modal .row{
+          display:flex;
+          gap:.6rem;
+          flex-wrap:wrap;
+          align-items:center;
+          justify-content:flex-end;
+        }
+        .ghost{
+          background: #ffffff;
+          color:#0b0b0b;
+          border:2px solid #0b0b0b;
+        }
+
+        .fatal{
+          border:2px solid #0b0b0b;
+          border-radius: 14px;
+          padding: 1rem;
+          background:#fff;
+          color:#0b0b0b;
+          font-weight:850;
+        }
+        .fatal small{
+          display:block;
+          margin-top:.5rem;
+          font-weight:650;
+          color:#374151;
+          white-space:pre-wrap;
+        }
+      </style>
+
+      <div class="shell">
+        <div class="top">
+          <div class="title">
+            <h2>Pack Picker Memory</h2>
+            <p>Match all Sims 4 packs before time runs out.</p>
+          </div>
+
+          <div class="stats">
+            <div class="pill" id="status">Matches: 0 / 0</div>
+            <div class="pill" id="misses">Misses: 0</div>
+            <div class="pill" id="timer">Time: 00:00</div>
+
+            <label class="toggle" title="Enable/disable sound">
+              <input id="sound" type="checkbox" checked />
+              Sound
+            </label>
+
+            <label class="toggle" title="Include Stuff Packs (sp01–sp18 + sp46 + sp49)">
+              <input id="sp" type="checkbox" checked />
+              SP
+            </label>
+
+            <button class="btn" id="restart" type="button">Restart</button>
+          </div>
         </div>
 
-        <div class="stats">
-          <div class="pill" id="status">Matches: 0 / 0</div>
-          <div class="pill" id="misses">Misses: 0</div>
-          <div class="pill" id="timer">Time: 00:00</div>
+        <div class="grid" id="grid" aria-label="Memory grid"></div>
 
-          <label class="toggle">
-            <input id="sound" type="checkbox" checked /> Sound
-          </label>
+        <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+          <div class="modal">
+            <h3 id="ovTitle">You won!</h3>
+            <div class="msg" id="ovMsg">All pairs matched.</div>
+            <div class="sub" id="ovSub">—</div>
+            <div class="row">
+              <button class="btn ghost" id="closeOverlay" type="button">Close</button>
+              <button class="btn" id="restart2" type="button">Restart</button>
+            </div>
+          </div>
+        </div>
 
-          <label class="toggle">
-            <input id="addSP" type="checkbox" checked /> SP
-          </label>
-
-          <button class="btn" id="restart">Restart</button>
+        <div id="fatal" style="display:none" class="fatal">
+          Game crashed.
+          <small id="fatalMsg"></small>
         </div>
       </div>
+    `;
 
-      <div class="grid" id="grid"></div>
-    </div>
-  `;
+    class PackMemory extends HTMLElement{
+      constructor(){
+        super();
+        this.attachShadow({mode:"open"});
+        this.shadowRoot.appendChild(tpl.content.cloneNode(true));
 
-  class PackMemory extends HTMLElement{
-    constructor(){
-      super();
-      this.attachShadow({mode:"open"});
-      this.shadowRoot.appendChild(tpl.content.cloneNode(true));
+        this.$grid = this.shadowRoot.getElementById("grid");
+        this.$status = this.shadowRoot.getElementById("status");
+        this.$misses = this.shadowRoot.getElementById("misses");
+        this.$timer = this.shadowRoot.getElementById("timer");
+        this.$restart = this.shadowRoot.getElementById("restart");
 
-      this.$grid = this.shadowRoot.getElementById("grid");
-      this.$status = this.shadowRoot.getElementById("status");
-      this.$misses = this.shadowRoot.getElementById("misses");
-      this.$timer = this.shadowRoot.getElementById("timer");
-      this.$sound = this.shadowRoot.getElementById("sound");
-      this.$addSP = this.shadowRoot.getElementById("addSP");
-      this.$restart = this.shadowRoot.getElementById("restart");
+        this.$sound = this.shadowRoot.getElementById("sound");
+        this.$sp = this.shadowRoot.getElementById("sp");
 
-      this._open = [];
-      this._matches = 0;
-      this._misses = 0;
+        this.$overlay = this.shadowRoot.getElementById("overlay");
+        this.$ovTitle = this.shadowRoot.getElementById("ovTitle");
+        this.$ovMsg = this.shadowRoot.getElementById("ovMsg");
+        this.$ovSub = this.shadowRoot.getElementById("ovSub");
+        this.$closeOverlay = this.shadowRoot.getElementById("closeOverlay");
+        this.$restart2 = this.shadowRoot.getElementById("restart2");
 
-      this.$restart.onclick = () => this._reset();
-      this.$addSP.onchange = () => this._reset();
+        this.$fatal = this.shadowRoot.getElementById("fatal");
+        this.$fatalMsg = this.shadowRoot.getElementById("fatalMsg");
 
-      this._reset();
-    }
+        this._deck = [];
+        this._open = [];
+        this._locked = false;
 
-    _buildPool(){
-      const pool = [];
-      const exclude = new Set(["gp09"]); // HARD RULE
+        this._matches = 0;
+        this._misses = 0;
 
-      for(let i=1;i<=18;i++) pool.push(`ep${String(i).padStart(2,"0")}`);
-      for(let i=1;i<=12;i++){
-        const id = `gp${String(i).padStart(2,"0")}`;
-        if(!exclude.has(id)) pool.push(id);
+        this._timerId = null;
+        this._startMs = 0;
+
+        this._audioCtx = null;
+
+        this._onClick = this._onClick.bind(this);
+        this._reset = this._reset.bind(this);
+        this._close = this._close.bind(this);
+
+        this._onSPChange = this._onSPChange.bind(this);
       }
 
-      if(this.$addSP.checked){
-        for(let i=1;i<=18;i++) pool.push(`sp${String(i).padStart(2,"0")}`);
-        pool.push("sp46","sp49");
+      connectedCallback(){
+        try{
+          this.$grid.addEventListener("click", this._onClick);
+          this.$restart.addEventListener("click", this._reset);
+          this.$restart2.addEventListener("click", this._reset);
+          this.$closeOverlay.addEventListener("click", this._close);
+
+          this.$overlay.addEventListener("click", (e) => {
+            if(e.target === this.$overlay) this._close();
+          });
+
+          this.$sp.addEventListener("change", this._onSPChange);
+
+          this._reset();
+        }catch(err){
+          this._fatal(err);
+        }
       }
 
-      return pool;
-    }
-
-    _reset(){
-      this.$grid.innerHTML = "";
-      this._open = [];
-      this._matches = 0;
-      this._misses = 0;
-
-      const pool = this._shuffle(this._buildPool()).slice(0,8);
-      this._deck = this._shuffle(pool.concat(pool));
-
-      for(const id of this._deck){
-        const c = document.createElement("button");
-        c.className = "card";
-        c.dataset.id = id;
-        c.setAttribute("state","down");
-
-        c.innerHTML = `
-          <div class="face front">?</div>
-          <div class="face back"><img src="${this.getAttribute("folder")}${id}.png"></div>
-        `;
-        c.onclick = () => this._flip(c);
-        this.$grid.appendChild(c);
+      disconnectedCallback(){
+        this._stopTimer();
+        if(this._audioCtx){
+          try{ this._audioCtx.close(); }catch(_){}
+        }
+        this._audioCtx = null;
       }
 
-      this.$status.textContent = "Matches: 0 / 8";
-      this.$misses.textContent = "Misses: 0";
-    }
+      get epCount(){ return this._intAttr("ep-count", 18); }
+      get gpCount(){ return this._intAttr("gp-count", 12); }
+      get pairs(){ return this._intAttr("pairs", 8); }
+      get timeLimit(){ return this._intAttr("time-limit", 90); }
 
-    _flip(card){
-      if(card.getAttribute("state")!=="down") return;
-      card.setAttribute("state","up");
-      this._open.push(card);
+      get folder(){
+        const raw = (this.getAttribute("folder") || "").trim();
+        let f = raw || "/assets/img/packs/mono/";
+        if(!f.endsWith("/")) f += "/";
+        return f;
+      }
 
-      if(this._open.length===2){
-        const [a,b] = this._open;
-        if(a.dataset.id===b.dataset.id){
-          a.setAttribute("state","match");
-          b.setAttribute("state","match");
-          this._matches++;
-          this.$status.textContent = `Matches: ${this._matches} / 8`;
-          this._open=[];
-        }else{
-          this._misses++;
-          this.$misses.textContent = `Misses: ${this._misses}`;
-          setTimeout(()=>{
-            a.setAttribute("state","down");
-            b.setAttribute("state","down");
-            this._open=[];
-          },700);
+      get exclude(){
+        return (this.getAttribute("exclude") || "")
+          .split(",")
+          .map(s => s.trim().toLowerCase())
+          .filter(Boolean);
+      }
+
+      /*
+        IMPORTANT (DO NOT CHANGE):
+        - gp09 MUST be excluded (no icon)
+        - sp list is sp01–sp18 + sp46 + sp49
+      */
+      _buildPool(){
+        const pool = [];
+        const excl = new Set(this.exclude.map(x => x.toLowerCase()));
+
+        // hard rule: gp09 never
+        excl.add("gp09");
+
+        for(let i=1;i<=this.epCount;i++){
+          pool.push("ep" + String(i).padStart(2,"0"));
+        }
+        for(let i=1;i<=this.gpCount;i++){
+          pool.push("gp" + String(i).padStart(2,"0"));
+        }
+
+        // filter EP/GP by exclude
+        let filtered = pool.filter(id => !excl.has(id));
+
+        // optional SP
+        if(this.$sp.checked){
+          const sp = [];
+          for(let i=1;i<=18;i++) sp.push("sp" + String(i).padStart(2,"0"));
+          sp.push("sp46", "sp49");
+          filtered = filtered.concat(sp.filter(id => !excl.has(id)));
+        }
+
+        return filtered;
+      }
+
+      _onSPChange(){
+        this._reset();
+      }
+
+      _fatal(err){
+        console.error("PackMemory crashed:", err);
+        this.$fatal.style.display = "block";
+        this.$fatalMsg.textContent = String(err && (err.stack || err.message || err)) || "Unknown error";
+        this._locked = true;
+        this._stopTimer();
+      }
+
+      _intAttr(name, fallback){
+        const v = parseInt(this.getAttribute(name) || "", 10);
+        return Number.isFinite(v) && v > 0 ? v : fallback;
+      }
+
+      _format(sec){
+        const m = Math.floor(sec/60);
+        const s = sec % 60;
+        return String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+      }
+
+      _setTimer(left){
+        if(left < 0) left = 0;
+        this.$timer.textContent = "Time: " + this._format(left);
+        if(left <= 10 && left > 0) this.$timer.classList.add("warn");
+        else this.$timer.classList.remove("warn");
+      }
+
+      _stopTimer(){
+        if(this._timerId) clearInterval(this._timerId);
+        this._timerId = null;
+      }
+
+      _startTimer(){
+        this._stopTimer();
+        this._startMs = Date.now();
+        this._setTimer(this.timeLimit);
+
+        this._timerId = setInterval(() => {
+          const left = this.timeLimit - Math.floor((Date.now() - this._startMs)/1000);
+          this._setTimer(left);
+
+          if(left <= 0){
+            this._stopTimer();
+            this._locked = true;
+            this._closeOpen();
+            this._sfx("lose");
+            this._openOverlay("Game Over", "Time is up.", this._summaryLine());
+          }
+        }, 250);
+      }
+
+      _shuffle(arr){
+        for(let i = arr.length - 1; i > 0; i--){
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      _buildDeck(){
+        const pool = this._shuffle(this._buildPool().slice());
+        const chosen = pool.slice(0, this.pairs);
+        return this._shuffle(chosen.concat(chosen));
+      }
+
+      _render(){
+        this.$grid.innerHTML = "";
+        const frag = document.createDocumentFragment();
+
+        for(const id of this._deck){
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "card";
+          btn.setAttribute("state", "down");
+          btn.dataset.id = id;
+
+          const front = document.createElement("div");
+          front.className = "face front";
+          front.textContent = "?";
+
+          const back = document.createElement("div");
+          back.className = "face back";
+
+          const img = document.createElement("img");
+          img.alt = id;
+          img.loading = "lazy";
+          img.src = this.folder + id + ".png";
+
+          img.addEventListener("error", () => {
+            back.innerHTML = "";
+            const t = document.createElement("div");
+            t.className = "missing";
+            t.textContent = id.toUpperCase();
+            back.appendChild(t);
+          });
+
+          back.appendChild(img);
+          btn.appendChild(front);
+          btn.appendChild(back);
+          frag.appendChild(btn);
+        }
+
+        this.$grid.appendChild(frag);
+      }
+
+      _ui(){
+        this.$status.textContent = "Matches: " + this._matches + " / " + this.pairs;
+        this.$misses.textContent = "Misses: " + this._misses;
+      }
+
+      _summaryLine(){
+        const t = this.$timer.textContent.replace("Time: ","");
+        const types = this.$sp.checked ? "EP+GP+SP" : "EP+GP";
+        return "Types: " + types + " • Matches: " + this._matches + "/" + this.pairs + " • Misses: " + this._misses + " • Time: " + t;
+      }
+
+      _closeOpen(){
+        for(const c of this._open){
+          if(c.getAttribute("state") === "up") c.setAttribute("state", "down");
+        }
+        this._open = [];
+      }
+
+      _flipUp(card){
+        card.setAttribute("state", "up");
+        this._open.push(card);
+      }
+
+      _markMatch(a,b){
+        a.setAttribute("state", "match");
+        b.setAttribute("state", "match");
+        this._open = [];
+      }
+
+      _onClick(e){
+        try{
+          const card = e.target.closest(".card");
+          if(!card) return;
+
+          this._ensureAudio();
+
+          if(this._locked) return;
+          if(this.$overlay.hasAttribute("open")) return;
+
+          const st = card.getAttribute("state");
+          if(st === "up" || st === "match") return;
+
+          this._flipUp(card);
+          this._sfx("flip");
+
+          if(this._open.length < 2) return;
+
+          this._locked = true;
+
+          const [c1, c2] = this._open;
+          const a = c1.dataset.id;
+          const b = c2.dataset.id;
+
+          if(a === b){
+            this._matches++;
+            this._markMatch(c1,c2);
+            this._ui();
+            this._sfx("match");
+            this._locked = false;
+
+            if(this._matches === this.pairs){
+              this._stopTimer();
+              this._sfx("win");
+              this._openOverlay("You won!", "All pairs matched.", this._summaryLine());
+            }
+          }else{
+            this._misses++;
+            this._ui();
+            this._sfx("miss");
+            setTimeout(() => {
+              this._closeOpen();
+              this._locked = false;
+            }, 800);
+          }
+        }catch(err){
+          this._fatal(err);
+        }
+      }
+
+      _reset(){
+        try{
+          this._close();
+          this.$fatal.style.display = "none";
+
+          this._locked = false;
+          this._open = [];
+          this._matches = 0;
+          this._misses = 0;
+
+          this._deck = this._buildDeck();
+          this._render();
+          this._ui();
+          this._startTimer();
+        }catch(err){
+          this._fatal(err);
+        }
+      }
+
+      _openOverlay(title, msg, sub){
+        this.$ovTitle.textContent = title;
+        this.$ovMsg.textContent = msg;
+        this.$ovSub.textContent = sub || "";
+        this.$overlay.setAttribute("open","");
+        this.$overlay.setAttribute("aria-hidden","false");
+      }
+
+      _close(){
+        this.$overlay.removeAttribute("open");
+        this.$overlay.setAttribute("aria-hidden","true");
+      }
+
+      _ensureAudio(){
+        if(!this.$sound.checked) return;
+        if(this._audioCtx) return;
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if(!Ctx) return;
+        this._audioCtx = new Ctx();
+      }
+
+      _beep({freq=440, dur=0.07, type="sine", gain=0.06, when=0} = {}){
+        if(!this.$sound.checked) return;
+        this._ensureAudio();
+        if(!this._audioCtx) return;
+
+        const ctx = this._audioCtx;
+        const t0 = ctx.currentTime + when;
+
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, t0);
+
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(gain, t0 + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+        osc.connect(g);
+        g.connect(ctx.destination);
+
+        osc.start(t0);
+        osc.stop(t0 + dur + 0.02);
+      }
+
+      _sfx(kind){
+        if(!this.$sound.checked) return;
+
+        if(kind === "flip"){
+          this._beep({freq: 560, dur: 0.05, type:"triangle", gain:0.05});
+          return;
+        }
+        if(kind === "match"){
+          this._beep({freq: 660, dur: 0.06, type:"sine", gain:0.06});
+          this._beep({freq: 880, dur: 0.07, type:"sine", gain:0.06, when:0.07});
+          return;
+        }
+        if(kind === "miss"){
+          this._beep({freq: 220, dur: 0.10, type:"sawtooth", gain:0.045});
+          return;
+        }
+        if(kind === "win"){
+          this._beep({freq: 523, dur: 0.08, type:"sine", gain:0.06});
+          this._beep({freq: 659, dur: 0.08, type:"sine", gain:0.06, when:0.09});
+          this._beep({freq: 784, dur: 0.09, type:"sine", gain:0.06, when:0.18});
+          return;
+        }
+        if(kind === "lose"){
+          this._beep({freq: 392, dur: 0.10, type:"square", gain:0.05});
+          this._beep({freq: 294, dur: 0.12, type:"square", gain:0.05, when:0.11});
+          this._beep({freq: 196, dur: 0.14, type:"square", gain:0.05, when:0.24});
+          return;
         }
       }
     }
 
-    _shuffle(a){
-      for(let i=a.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [a[i],a[j]]=[a[j],a[i]];
-      }
-      return a;
-    }
+    customElements.define("pack-memory", PackMemory);
+  } catch (e) {
+    console.error("PackMemory bootstrap failed:", e);
   }
-
-  customElements.define("pack-memory", PackMemory);
 })();
 </script>
 {% endraw %}
