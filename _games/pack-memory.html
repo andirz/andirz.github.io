@@ -278,12 +278,8 @@ difficulty: Medium
   var PAIRS = parseInt(root.dataset.pairs || "8", 10);
   var TIME = parseInt(root.dataset.timeLimit || "90", 10);
 
-  // Der Pfad wird hier sicher aus dem data-folder Attribut gelesen
   var folder = root.dataset.folder || "/assets/img/packs/mono/";
-  
   if(folder && folder.charAt(folder.length-1) !== "/") folder += "/";
-  
-  console.log("Memory Game: Bilder werden geladen aus: " + folder);
 
   var opened = [];
   var locked = false;
@@ -293,15 +289,15 @@ difficulty: Medium
   var startMs = 0;
 
   var packs = [];
-  for (var i=1;i<=EP;i++){
-    packs.push("ep" + String(i).padStart(2,"0"));
-  }
-  for (var j=1;j<=GP;j++){
-    packs.push("gp" + String(j).padStart(2,"0"));
-  }
+  for (var i=1;i<=EP;i++) packs.push("ep" + String(i).padStart(2,"0"));
+  for (var j=1;j<=GP;j++) packs.push("gp" + String(j).padStart(2,"0"));
 
-  function shuffle(arr){
-    return arr.sort(function(){ return Math.random() - 0.5; });
+  function shuffleInPlace(arr){
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
   }
 
   function format(sec){
@@ -343,9 +339,7 @@ difficulty: Medium
   }
 
   function flipBack(){
-    for(var k=0;k<opened.length;k++){
-      opened[k].classList.remove("is-flipped");
-    }
+    for(var k=0;k<opened.length;k++) opened[k].classList.remove("is-flipped");
     opened = [];
   }
 
@@ -387,9 +381,11 @@ difficulty: Medium
   }
 
   function buildDeck(){
-    var chosen = shuffle(packs.slice()).slice(0, PAIRS);
+    var pool = packs.slice();
+    shuffleInPlace(pool);
+    var chosen = pool.slice(0, PAIRS);
     var deck = chosen.concat(chosen);
-    return shuffle(deck);
+    return shuffleInPlace(deck);
   }
 
   function makeCard(id){
@@ -415,7 +411,6 @@ difficulty: Medium
     fb.textContent = id.toUpperCase();
 
     img.addEventListener("error", function(){
-      console.warn("Bild nicht gefunden: " + img.src);
       img.style.display = "none";
       fb.style.display = "flex";
     });
@@ -426,7 +421,6 @@ difficulty: Medium
     card.appendChild(back);
 
     card.addEventListener("click", function(){ onCard(card); });
-
     return card;
   }
 
@@ -466,6 +460,7 @@ difficulty: Medium
 
   restartBtn.addEventListener("click", reset);
   playAgainBtn.addEventListener("click", reset);
+
   overlay.addEventListener("click", function(e){
     if(e.target === overlay) hideOverlay();
   });
