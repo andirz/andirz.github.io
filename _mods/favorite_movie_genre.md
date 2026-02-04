@@ -6,6 +6,7 @@ packs: ["SP05"]
 requirements: ["lot51_core"]
 categories: [UI Tweaks, Traits, Overrides]
 tagline: "Bring hidden preferences to light by making your Sim’s favorite movie genres visible and customizable in the UI."
+strings: false
 ---
 
 ## About This Mod
@@ -20,12 +21,6 @@ Normally, your Sims' favorite movie genres are hidden as "hidden traits." This m
 * **Cheat Menu:** Shift-click (or use the new menu) on any TV to manually set a favorite genre for your Sim.
 * **Immersive Storytelling:** Easily track if your Sim prefers Action, Horror, Comedy, Romance, or Family movies.
 
-## Requirements
-
-* **The Sims 4 Movie Hangout Stuff (SP05)** – Strictly required for the movie traits.
-* **Lot51 Core Library** – Required for the menu functionality.
-* **Script Mods** must be enabled in your game settings.
-
 ## Compatibility
 
 This mod overwrites specific hidden traits from the game. It is **not compatible** with any other mods or add-ons that modify the following trait resources:
@@ -34,8 +29,3 @@ This mod overwrites specific hidden traits from the game. It is **not compatible
 * `trait_Hidden_FavoriteMovie_Comedy` (ID: 128972)
 * `trait_Hidden_FavoriteMovie_Romance` (ID: 128973)
 * `trait_Hidden_FavoriteMovie_Family` (ID: 128974)
-
-## Translations
-
-No separate translations are required! The mod exclusively uses strings already present in the game's code, so it will automatically appear in your game's language.
-
