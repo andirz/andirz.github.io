@@ -3,7 +3,7 @@ mod_id: cleanup_script
 title: "Cleanup Script for Windows"
 icon: "fas fa-broom"
 files: ["bat"]
-categories: [Utility, Tools, Scripts]
+categories: [Utility, Scripts, Non-CurseForge]
 tagline: "Keep your game running smoothly by removing temporary cache and diagnostic logs with one simple tool."
 curseforge_ban: true
 ---
