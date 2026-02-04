@@ -8,11 +8,6 @@ mode: Memory
 difficulty: Medium
 ---
 
-<!--
-  Usage:
-  - folder MUST end with "/"
-  - gp09 is excluded by default via exclude="gp09"
--->
 <pack-memory
   ep-count="18"
   gp-count="12"
@@ -23,12 +18,11 @@ difficulty: Medium
 </pack-memory>
 
 <style>
-  /* Page-level spacing only */
   pack-memory{ display:block; margin: 1.25rem auto; max-width: 920px; }
 </style>
 
-<script>
 {% raw %}
+<script>
 (() => {
   const tpl = document.createElement("template");
   tpl.innerHTML = `
@@ -142,11 +136,6 @@ difficulty: Medium
         background: transparent;
       }
 
-      /* NEW LOGIC:
-         - state="down"  : hidden (question mark)
-         - state="up"    : revealed
-         - state="match" : revealed + locked
-      */
       .card[state="up"],
       .card[state="match"]{
         transform: rotateY(180deg);
@@ -267,14 +256,201 @@ difficulty: Medium
 
     get folder(){
       const raw = (this.getAttribute("folder") || "").trim();
-      // hard fallback if Liquid/attr fails
       let f = raw || "/assets/img/packs/mono/";
       if(!f.endsWith("/")) f += "/";
       return f;
     }
 
     get exclude(){
-      // comma-separated: "gp09,gp10"
       return (this.getAttribute("exclude") || "")
         .split(",")
         .map(s => s.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    _intAttr(name, fallback){
+      const v = parseInt(this.getAttribute(name) || "", 10);
+      return Number.isFinite(v) && v > 0 ? v : fallback;
+    }
+
+    _format(sec){
+      const m = Math.floor(sec/60);
+      const s = sec % 60;
+      return String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+    }
+
+    _setTimer(left){
+      if(left < 0) left = 0;
+      this.$timer.textContent = "Time: " + this._format(left);
+      if(left <= 10 && left > 0) this.$timer.classList.add("warn");
+      else this.$timer.classList.remove("warn");
+    }
+
+    _stopTimer(){
+      if(this._timerId) clearInterval(this._timerId);
+      this._timerId = null;
+    }
+
+    _startTimer(){
+      this._stopTimer();
+      this._startMs = Date.now();
+      this._setTimer(this.timeLimit);
+
+      this._timerId = setInterval(() => {
+        const left = this.timeLimit - Math.floor((Date.now() - this._startMs)/1000);
+        this._setTimer(left);
+
+        if(left <= 0){
+          this._stopTimer();
+          this._locked = true;
+          this._closeOpen();
+        }
+      }, 250);
+    }
+
+    _shuffle(arr){
+      for(let i = arr.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    _buildPool(){
+      const pool = [];
+      for(let i=1;i<=this.epCount;i++){
+        pool.push("ep" + String(i).padStart(2,"0"));
+      }
+      for(let i=1;i<=this.gpCount;i++){
+        pool.push("gp" + String(i).padStart(2,"0"));
+      }
+
+      const excl = new Set(this.exclude);
+      return pool.filter(id => !excl.has(id));
+    }
+
+    _buildDeck(){
+      const pool = this._shuffle(this._buildPool().slice());
+      const chosen = pool.slice(0, this.pairs);
+      return this._shuffle(chosen.concat(chosen));
+    }
+
+    _render(){
+      this.$grid.innerHTML = "";
+      const frag = document.createDocumentFragment();
+
+      for(const id of this._deck){
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "card";
+        btn.setAttribute("state", "down");
+        btn.dataset.id = id;
+        btn.setAttribute("aria-label", id);
+
+        const front = document.createElement("div");
+        front.className = "face front";
+        front.textContent = "?";
+
+        const back = document.createElement("div");
+        back.className = "face back";
+
+        const img = document.createElement("img");
+        img.alt = id;
+        img.loading = "lazy";
+        img.src = this.folder + id + ".png";
+
+        img.addEventListener("error", () => {
+          back.innerHTML = "";
+          const t = document.createElement("div");
+          t.className = "missing";
+          t.textContent = id.toUpperCase();
+          back.appendChild(t);
+        });
+
+        back.appendChild(img);
+        btn.appendChild(front);
+        btn.appendChild(back);
+
+        frag.appendChild(btn);
+      }
+
+      this.$grid.appendChild(frag);
+    }
+
+    _ui(){
+      this.$status.textContent = "Matches: " + this._matches + " / " + this.pairs;
+      this.$misses.textContent = "Misses: " + this._misses;
+    }
+
+    _closeOpen(){
+      for(const c of this._open){
+        if(c.getAttribute("state") === "up") c.setAttribute("state", "down");
+      }
+      this._open = [];
+    }
+
+    _flipUp(card){
+      card.setAttribute("state", "up");
+      this._open.push(card);
+    }
+
+    _markMatch(a,b){
+      a.setAttribute("state", "match");
+      b.setAttribute("state", "match");
+      this._open = [];
+    }
+
+    _onClick(e){
+      const card = e.target.closest(".card");
+      if(!card) return;
+
+      if(this._locked) return;
+      const st = card.getAttribute("state");
+      if(st === "up" || st === "match") return;
+
+      this._flipUp(card);
+
+      if(this._open.length < 2) return;
+
+      this._locked = true;
+
+      const [c1, c2] = this._open;
+      const a = c1.dataset.id;
+      const b = c2.dataset.id;
+
+      if(a === b){
+        this._matches++;
+        this._markMatch(c1,c2);
+        this._ui();
+        this._locked = false;
+
+        if(this._matches === this.pairs){
+          this._stopTimer();
+        }
+      }else{
+        this._misses++;
+        this._ui();
+        setTimeout(() => {
+          this._closeOpen();
+          this._locked = false;
+        }, 800);
+      }
+    }
+
+    _reset(){
+      this._locked = false;
+      this._open = [];
+      this._matches = 0;
+      this._misses = 0;
+
+      this._deck = this._buildDeck();
+      this._render();
+      this._ui();
+      this._startTimer();
+    }
+  }
+
+  customElements.define("pack-memory", PackMemory);
+})();
+</script>
+{% endraw %}
