@@ -2,8 +2,10 @@
 mod_id: poisoning_overhaul
 title: "Poisoning Overhaul"
 icon: "fas fa-biohazard"
+packs: ["GP06"]
 requirements: ["lot51_core"]
-categories: [Death, Gameplay, Medical, Realism, Overrides]
+categories: [Death, Gameplay, Medical, Realism]
+strings: false
 ---
 
 ## About This Mod
@@ -31,19 +33,3 @@ The **Poisoning Overhaul** makes the poisoning and antidote mechanics from *Jung
 
 - **Immortal Sims:** Grim Reapers, Vampires, Robots, Ghosts, and immortal Werewolves are immune to death by poisoning.
 - **Pregnancy:** By default, pregnant Sims are protected to remain compliant with certain platform policies. A separate add-on is available to enable this risk.
-
-## Requirements
-
-- **Lot51 Core Library** is strictly required for full functionality.
-- **Expansion Packs:** Requires *Jungle Adventure (GP06)*.
-- **Script Mods** must be enabled in your game settings.
-
-## Translations
-
-This mod exclusively uses existing strings from the game. No additional translations are necessary; it will automatically appear in your game's language.
-
-## Compatibility
-
-- Designed to be non-intrusive.
-- No EA resources are overridden in the main mod.
-- No compatibility issues with other major gameplay mods are expected.

@@ -21,42 +21,24 @@ difficulty: Medium
     </div>
 
     <div class="pm-stats">
-      <div class="pm-pill" id="pm-status">Matches: 0 / 0</div>
+      <div class="pm-pill" id="pm-status">Matches: 0 / 8</div>
       <div class="pm-pill" id="pm-misses">Misses: 0</div>
-      <div class="pm-pill" id="pm-timer">Time: 00:00</div>
+      <div class="pm-pill" id="pm-timer">Time: 01:30</div>
       <button class="pm-btn" id="pm-restart" type="button">Restart</button>
     </div>
   </div>
 
   <div class="pm-grid" id="pm-grid" aria-label="Memory grid"></div>
-
-  <div class="pm-note">Tip: Works best with mouse. Mobile also ok.</div>
-</div>
-
-<div class="pm-overlay" id="pm-overlay" aria-hidden="true">
-  <div class="pm-modal" id="pm-modal">
-    <h3 id="pm-modal-title">GAME OVER</h3>
-    <p id="pm-modal-text">Time is up!</p>
-    <div class="pm-modal-row">
-      <div class="pm-pill" id="pm-final-matches">Matches: 0 / 0</div>
-      <div class="pm-pill" id="pm-final-misses">Misses: 0</div>
-    </div>
-    <button class="pm-btn" id="pm-play-again" type="button">Play again</button>
-  </div>
 </div>
 
 <style>
   :root{
-    /* BLACK & WHITE THEME */
     --pm-bg:#ffffff;
     --pm-card:#ffffff;
     --pm-ink:#0b0b0b;
-    --pm-muted:#3b3b3b;
-    --pm-border:#d9d9d9;
-    --pm-blue:#0b0b0b;   /* used for buttons/pills -> black */
-    --pm-green:#0b0b0b;  /* no green in bw mode */
-    --pm-red:#0b0b0b;    /* no red in bw mode */
-    --pm-shadow:0 16px 22px -8px rgba(0,0,0,.10);
+    --pm-muted:#4b5563;
+    --pm-border:#d1d5db;
+    --pm-shadow:0 14px 20px -10px rgba(0,0,0,.18);
     --pm-radius:22px;
     --pm-gap:10px;
     --pm-flip:0.42s cubic-bezier(.175,.885,.32,1.22);
@@ -109,13 +91,12 @@ difficulty: Medium
     border-radius: 999px;
     padding: .42rem .7rem;
     font-weight: 800;
-    color: var(--pm-blue);
+    color: var(--pm-ink);
     font-size: .85rem;
     min-width: 120px;
     text-align:center;
   }
 
-  /* In bw mode, "warning" is just inverted */
   .pm-pill.is-warn{
     background: #0b0b0b;
     border-color:#0b0b0b;
@@ -123,7 +104,7 @@ difficulty: Medium
   }
 
   .pm-btn{
-    background: var(--pm-blue);
+    background: #0b0b0b;
     color:#fff;
     border:none;
     border-radius: 12px;
@@ -133,7 +114,7 @@ difficulty: Medium
     cursor:pointer;
     transition: transform .12s ease, filter .12s ease;
   }
-  .pm-btn:hover{ filter: brightness(1.08); transform: translateY(-1px); }
+  .pm-btn:hover{ filter: brightness(1.10); transform: translateY(-1px); }
   .pm-btn:active{ transform: translateY(0px); }
 
   .pm-grid{
@@ -159,14 +140,14 @@ difficulty: Medium
     padding: 0;
     background: transparent;
   }
+
   .pm-card.is-flipped{ transform: rotateY(180deg); }
 
-  /* FIX: matched cards stay open forever (force the flip) */
+  /* IMPORTANT: matched cards stay open, no "?" flash */
   .pm-card.is-matched{
     transform: rotateY(180deg) !important;
-    cursor: default;
     pointer-events: none;
-    opacity: .98;
+    cursor: default;
   }
 
   .pm-face{
@@ -180,7 +161,6 @@ difficulty: Medium
     overflow:hidden;
   }
 
-  /* FRONT: black face */
   .pm-front{
     background: #0b0b0b;
     border: 2px solid rgba(255,255,255,.10);
@@ -191,7 +171,6 @@ difficulty: Medium
     user-select:none;
   }
 
-  /* BACK: white face + black border */
   .pm-back{
     background: var(--pm-card);
     transform: rotateY(180deg);
@@ -199,72 +178,13 @@ difficulty: Medium
     padding: 10px;
   }
 
-  /* FORCE ICONS INTO BLACK/WHITE */
+  /* Keep icons clean; if your icons are mono already, they'll look perfect. */
   .pm-back img{
     width:100%;
     height:100%;
     object-fit:contain;
     display:block;
-    filter: grayscale(1) contrast(1.25) brightness(0.9);
   }
-
-  .pm-fallback{
-    display:none;
-    width:100%;
-    height:100%;
-    border-radius: 10px;
-    background:#f2f2f2;
-    color:#0b0b0b;
-    font-weight: 900;
-    align-items:center;
-    justify-content:center;
-    font-size:.95rem;
-  }
-
-  .pm-note{
-    margin-top: .9rem;
-    color: var(--pm-muted);
-    font-size: .85rem;
-    text-align:center;
-  }
-
-  .pm-overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.55);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding: 1rem;
-    z-index: 9999;
-  }
-  .pm-modal{
-    width: min(520px, 100%);
-    background: #fff;
-    border-radius: 18px;
-    border: 1px solid var(--pm-border);
-    box-shadow: 0 28px 44px -18px rgba(0,0,0,.35);
-    padding: 1rem 1rem 1.1rem;
-    text-align:center;
-  }
-  .pm-modal h3{
-    margin: .1rem 0 .3rem;
-    font-size: 1.35rem;
-    font-weight: 900;
-    color: var(--pm-ink);
-  }
-  .pm-modal p{
-    margin: 0 0 .9rem;
-    color: var(--pm-muted);
-  }
-  .pm-modal-row{
-    display:flex;
-    gap:.5rem;
-    justify-content:center;
-    flex-wrap: wrap;
-    margin-bottom: .9rem;
-  }
-  .pm-modal.is-win .pm-btn{ background: #0b0b0b; }
 </style>
 
 <script>
@@ -279,21 +199,15 @@ difficulty: Medium
   var timerEl  = document.getElementById("pm-timer");
   var restartBtn = document.getElementById("pm-restart");
 
-  var overlay = document.getElementById("pm-overlay");
-  var modal = document.getElementById("pm-modal");
-  var modalTitle = document.getElementById("pm-modal-title");
-  var modalText  = document.getElementById("pm-modal-text");
-  var finalMatches = document.getElementById("pm-final-matches");
-  var finalMisses  = document.getElementById("pm-final-misses");
-  var playAgainBtn = document.getElementById("pm-play-again");
-
   var EP = parseInt(root.dataset.epCount || "18", 10);
   var GP = parseInt(root.dataset.gpCount || "12", 10);
   var PAIRS = parseInt(root.dataset.pairs || "8", 10);
   var TIME = parseInt(root.dataset.timeLimit || "90", 10);
 
-  var folder = root.dataset.folder || "/assets/img/packs/mono/";
-  if(folder && folder.charAt(folder.length-1) !== "/") folder += "/";
+  // Safe folder: if Liquid fails or empty -> hard fallback
+  var folder = (root.dataset.folder || "").trim();
+  if(!folder) folder = "/assets/img/packs/mono/";
+  if(folder.charAt(folder.length-1) !== "/") folder += "/";
 
   var opened = [];
   var locked = false;
@@ -308,7 +222,7 @@ difficulty: Medium
   }
   for (var j=1;j<=GP;j++){
     var id = "gp" + String(j).padStart(2,"0");
-    if(id === "gp09") continue;          // EXCLUDE gp09 completely
+    if(id === "gp09") continue;   // exclude gp09
     packs.push(id);
   }
 
@@ -333,29 +247,12 @@ difficulty: Medium
     else timerEl.classList.remove("is-warn");
   }
 
-  function hideOverlay(){
-    overlay.style.display = "none";
-    overlay.setAttribute("aria-hidden","true");
-  }
-
-  function showOverlay(isWin){
-    finalMatches.textContent = "Matches: " + matches + " / " + PAIRS;
-    finalMisses.textContent = "Misses: " + misses;
-
-    if(isWin){
-      modal.classList.add("is-win");
-      modalTitle.textContent = "VICTORY";
-      modalText.textContent = "Perfect memory! You had " + misses + " misses.";
-      playAgainBtn.textContent = "Play again";
-    } else {
-      modal.classList.remove("is-win");
-      modalTitle.textContent = "GAME OVER";
-      modalText.textContent = "Time is up!";
-      playAgainBtn.textContent = "Try again";
-    }
-
-    overlay.style.display = "flex";
-    overlay.setAttribute("aria-hidden","false");
+  function buildDeck(){
+    var pool = packs.slice();
+    shuffleInPlace(pool);
+    var chosen = pool.slice(0, PAIRS);
+    var deck = chosen.concat(chosen);
+    return shuffleInPlace(deck);
   }
 
   function flipBack(){
@@ -376,6 +273,7 @@ difficulty: Medium
     if(opened.length < 2) return;
 
     locked = true;
+
     var a = opened[0].dataset.id;
     var b = opened[1].dataset.id;
 
@@ -390,7 +288,6 @@ difficulty: Medium
 
       if(matches === PAIRS){
         clearInterval(timerId);
-        setTimeout(function(){ showOverlay(true); }, 250);
       }
     } else {
       misses++;
@@ -400,14 +297,6 @@ difficulty: Medium
         locked = false;
       }, 800);
     }
-  }
-
-  function buildDeck(){
-    var pool = packs.slice();
-    shuffleInPlace(pool);
-    var chosen = pool.slice(0, PAIRS);
-    var deck = chosen.concat(chosen);
-    return shuffleInPlace(deck);
   }
 
   function makeCard(id){
@@ -428,17 +317,16 @@ difficulty: Medium
     img.loading = "lazy";
     img.src = folder + id + ".png";
 
-    var fb = document.createElement("div");
-    fb.className = "pm-fallback";
-    fb.textContent = id.toUpperCase();
-
+    // If an icon file is missing, keep it still usable (no crash)
     img.addEventListener("error", function(){
+      img.alt = id + " (missing icon)";
       img.style.display = "none";
-      fb.style.display = "flex";
+      back.textContent = id.toUpperCase();
+      back.style.fontWeight = "900";
+      back.style.color = "#0b0b0b";
     });
 
     back.appendChild(img);
-    back.appendChild(fb);
     card.appendChild(front);
     card.appendChild(back);
 
@@ -447,7 +335,6 @@ difficulty: Medium
   }
 
   function reset(){
-    hideOverlay();
     grid.innerHTML = "";
     opened = [];
     locked = false;
@@ -456,7 +343,6 @@ difficulty: Medium
 
     statusEl.textContent = "Matches: 0 / " + PAIRS;
     missesEl.textContent = "Misses: 0";
-    timerEl.classList.remove("is-warn");
 
     clearInterval(timerId);
     startMs = Date.now();
@@ -465,12 +351,10 @@ difficulty: Medium
     timerId = setInterval(function(){
       var left = TIME - Math.floor((Date.now() - startMs) / 1000);
       setTimer(left);
-
       if(left <= 0){
         clearInterval(timerId);
         locked = true;
         flipBack();
-        showOverlay(false);
       }
     }, 250);
 
@@ -481,11 +365,6 @@ difficulty: Medium
   }
 
   restartBtn.addEventListener("click", reset);
-  playAgainBtn.addEventListener("click", reset);
-  overlay.addEventListener("click", function(e){
-    if(e.target === overlay) hideOverlay();
-  });
-
   reset();
 })();
 {% endraw %}
