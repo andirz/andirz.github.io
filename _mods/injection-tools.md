@@ -17,7 +17,8 @@ Since the original author hasn’t fixed it yet, I fixed the bugs introduced by 
 ## Important Note
 There are actually three injectors in this tool: 
 * **Sim Filter Injector**
-* **Situation Shift Injector** * **Walkby Tuning Injector**
+* **Situation Shift Injector** 
+* **Walkby Tuning Injector**
 
 Not all mods that use this tool use all three of these injectors. It's quite possible that some of these injectors are or will be included in another library, such as the *Lot51 Core Library*. 
 
@@ -25,4 +26,3 @@ However, some older mods still use the original injection tools — and this fix
 
 ## For Modders
 The usage and syntax of this updated version of the script remain entirely unchanged. You can continue using it in new mods exactly as described in the original post, without any need to modify your code or adjust how it’s integrated.
-
