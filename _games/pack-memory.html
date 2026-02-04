@@ -8,364 +8,273 @@ mode: Memory
 difficulty: Medium
 ---
 
-<div class="pm-shell" id="pm-root"
-     data-ep-count="18"
-     data-gp-count="12"
-     data-pairs="8"
-     data-time-limit="90"
-     data-folder="{{ '/assets/img/packs/mono/' | relative_url }}">
-  <div class="pm-top">
-    <div class="pm-title">
-      <h2>Pack Picker Memory</h2>
-      <p>Match all Sims 4 packs before time runs out.</p>
-    </div>
-
-    <div class="pm-stats">
-      <div class="pm-pill" id="pm-status">Matches: 0 / 8</div>
-      <div class="pm-pill" id="pm-misses">Misses: 0</div>
-      <div class="pm-pill" id="pm-timer">Time: 01:30</div>
-      <button class="pm-btn" id="pm-restart" type="button">Restart</button>
-    </div>
-  </div>
-
-  <div class="pm-grid" id="pm-grid" aria-label="Memory grid"></div>
-</div>
+<!--
+  Usage:
+  - folder MUST end with "/"
+  - gp09 is excluded by default via exclude="gp09"
+-->
+<pack-memory
+  ep-count="18"
+  gp-count="12"
+  pairs="8"
+  time-limit="90"
+  folder="{{ '/assets/img/packs/mono/' | relative_url }}/"
+  exclude="gp09">
+</pack-memory>
 
 <style>
-  :root{
-    --pm-bg:#ffffff;
-    --pm-card:#ffffff;
-    --pm-ink:#0b0b0b;
-    --pm-muted:#4b5563;
-    --pm-border:#d1d5db;
-    --pm-shadow:0 14px 20px -10px rgba(0,0,0,.18);
-    --pm-radius:22px;
-    --pm-gap:10px;
-    --pm-flip:0.42s cubic-bezier(.175,.885,.32,1.22);
-    --pm-size:146px;
-  }
-
-  .pm-shell{
-    max-width: 920px;
-    margin: 1.25rem auto;
-    background: var(--pm-bg);
-    border: 1px solid var(--pm-border);
-    border-radius: var(--pm-radius);
-    box-shadow: var(--pm-shadow);
-    padding: 1.1rem 1.1rem 1.2rem;
-  }
-
-  .pm-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-
-  .pm-title h2{
-    margin:0;
-    font-size:1.3rem;
-    font-weight:850;
-    color:var(--pm-ink);
-    letter-spacing:-.01em;
-  }
-  .pm-title p{
-    margin:.25rem 0 0;
-    color:var(--pm-muted);
-    font-size:.9rem;
-  }
-
-  .pm-stats{
-    display:flex;
-    gap:.5rem;
-    align-items:center;
-    flex-wrap:wrap;
-    justify-content:flex-end;
-  }
-
-  .pm-pill{
-    background: var(--pm-card);
-    border: 2px solid var(--pm-border);
-    border-radius: 999px;
-    padding: .42rem .7rem;
-    font-weight: 800;
-    color: var(--pm-ink);
-    font-size: .85rem;
-    min-width: 120px;
-    text-align:center;
-  }
-
-  .pm-pill.is-warn{
-    background: #0b0b0b;
-    border-color:#0b0b0b;
-    color:#ffffff;
-  }
-
-  .pm-btn{
-    background: #0b0b0b;
-    color:#fff;
-    border:none;
-    border-radius: 12px;
-    padding: .5rem .9rem;
-    font-weight: 850;
-    font-size: .9rem;
-    cursor:pointer;
-    transition: transform .12s ease, filter .12s ease;
-  }
-  .pm-btn:hover{ filter: brightness(1.10); transform: translateY(-1px); }
-  .pm-btn:active{ transform: translateY(0px); }
-
-  .pm-grid{
-    display:grid;
-    gap: var(--pm-gap);
-    justify-content:center;
-    perspective: 1100px;
-  }
-
-  @media (min-width: 900px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-size)); } }
-  @media (min-width: 620px) and (max-width: 899px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-size)); } }
-  @media (max-width: 619px){ .pm-grid{ grid-template-columns: repeat(3, var(--pm-size)); } }
-
-  .pm-card{
-    width: var(--pm-size);
-    height: var(--pm-size);
-    position:relative;
-    transform-style:preserve-3d;
-    transition: transform var(--pm-flip);
-    cursor:pointer;
-    border-radius: 14px;
-    border: 0;
-    padding: 0;
-    background: transparent;
-  }
-
-  .pm-card.is-flipped{ transform: rotateY(180deg); }
-
-  /* IMPORTANT: matched cards stay open, no "?" flash */
-  .pm-card.is-matched{
-    transform: rotateY(180deg) !important;
-    pointer-events: none;
-    cursor: default;
-  }
-
-  .pm-face{
-    position:absolute;
-    inset:0;
-    backface-visibility:hidden;
-    border-radius: 14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-  }
-
-  .pm-front{
-    background: #0b0b0b;
-    border: 2px solid rgba(255,255,255,.10);
-    color:#ffffff;
-    font-weight: 900;
-    letter-spacing: .06em;
-    font-size: 1.1rem;
-    user-select:none;
-  }
-
-  .pm-back{
-    background: var(--pm-card);
-    transform: rotateY(180deg);
-    border: 2px solid #0b0b0b;
-    padding: 10px;
-  }
-
-  /* Keep icons clean; if your icons are mono already, they'll look perfect. */
-  .pm-back img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-  }
+  /* Page-level spacing only */
+  pack-memory{ display:block; margin: 1.25rem auto; max-width: 920px; }
 </style>
 
 <script>
 {% raw %}
-(function(){
-  var root = document.getElementById("pm-root");
-  if(!root) return;
-
-  var grid = document.getElementById("pm-grid");
-  var statusEl = document.getElementById("pm-status");
-  var missesEl = document.getElementById("pm-misses");
-  var timerEl  = document.getElementById("pm-timer");
-  var restartBtn = document.getElementById("pm-restart");
-
-  var EP = parseInt(root.dataset.epCount || "18", 10);
-  var GP = parseInt(root.dataset.gpCount || "12", 10);
-  var PAIRS = parseInt(root.dataset.pairs || "8", 10);
-  var TIME = parseInt(root.dataset.timeLimit || "90", 10);
-
-  // Safe folder: if Liquid fails or empty -> hard fallback
-  var folder = (root.dataset.folder || "").trim();
-  if(!folder) folder = "/assets/img/packs/mono/";
-  if(folder.charAt(folder.length-1) !== "/") folder += "/";
-
-  var opened = [];
-  var locked = false;
-  var matches = 0;
-  var misses = 0;
-  var timerId = null;
-  var startMs = 0;
-
-  var packs = [];
-  for (var i=1;i<=EP;i++){
-    packs.push("ep" + String(i).padStart(2,"0"));
-  }
-  for (var j=1;j<=GP;j++){
-    var id = "gp" + String(j).padStart(2,"0");
-    if(id === "gp09") continue;   // exclude gp09
-    packs.push(id);
-  }
-
-  function shuffleInPlace(arr){
-    for(var i = arr.length - 1; i > 0; i--){
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-    }
-    return arr;
-  }
-
-  function format(sec){
-    var m = Math.floor(sec/60);
-    var s = sec % 60;
-    return String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
-  }
-
-  function setTimer(left){
-    if(left < 0) left = 0;
-    timerEl.textContent = "Time: " + format(left);
-    if(left <= 10 && left > 0) timerEl.classList.add("is-warn");
-    else timerEl.classList.remove("is-warn");
-  }
-
-  function buildDeck(){
-    var pool = packs.slice();
-    shuffleInPlace(pool);
-    var chosen = pool.slice(0, PAIRS);
-    var deck = chosen.concat(chosen);
-    return shuffleInPlace(deck);
-  }
-
-  function flipBack(){
-    for(var k=0;k<opened.length;k++){
-      opened[k].classList.remove("is-flipped");
-    }
-    opened = [];
-  }
-
-  function onCard(card){
-    if(locked) return;
-    if(card.classList.contains("is-matched")) return;
-    if(card.classList.contains("is-flipped")) return;
-
-    card.classList.add("is-flipped");
-    opened.push(card);
-
-    if(opened.length < 2) return;
-
-    locked = true;
-
-    var a = opened[0].dataset.id;
-    var b = opened[1].dataset.id;
-
-    if(a === b){
-      matches++;
-      opened[0].classList.add("is-matched");
-      opened[1].classList.add("is-matched");
-      opened = [];
-      locked = false;
-
-      statusEl.textContent = "Matches: " + matches + " / " + PAIRS;
-
-      if(matches === PAIRS){
-        clearInterval(timerId);
+(() => {
+  const tpl = document.createElement("template");
+  tpl.innerHTML = `
+    <style>
+      :host{
+        --bg:#ffffff;
+        --card:#ffffff;
+        --ink:#0b0b0b;
+        --muted:#4b5563;
+        --border:#d1d5db;
+        --shadow:0 14px 20px -10px rgba(0,0,0,.18);
+        --radius:22px;
+        --gap:10px;
+        --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
+        --size:146px;
+        display:block;
       }
-    } else {
-      misses++;
-      missesEl.textContent = "Misses: " + misses;
-      setTimeout(function(){
-        flipBack();
-        locked = false;
-      }, 800);
-    }
-  }
 
-  function makeCard(id){
-    var card = document.createElement("button");
-    card.type = "button";
-    card.className = "pm-card";
-    card.dataset.id = id;
-
-    var front = document.createElement("div");
-    front.className = "pm-face pm-front";
-    front.textContent = "?";
-
-    var back = document.createElement("div");
-    back.className = "pm-face pm-back";
-
-    var img = document.createElement("img");
-    img.alt = id;
-    img.loading = "lazy";
-    img.src = folder + id + ".png";
-
-    // If an icon file is missing, keep it still usable (no crash)
-    img.addEventListener("error", function(){
-      img.alt = id + " (missing icon)";
-      img.style.display = "none";
-      back.textContent = id.toUpperCase();
-      back.style.fontWeight = "900";
-      back.style.color = "#0b0b0b";
-    });
-
-    back.appendChild(img);
-    card.appendChild(front);
-    card.appendChild(back);
-
-    card.addEventListener("click", function(){ onCard(card); });
-    return card;
-  }
-
-  function reset(){
-    grid.innerHTML = "";
-    opened = [];
-    locked = false;
-    matches = 0;
-    misses = 0;
-
-    statusEl.textContent = "Matches: 0 / " + PAIRS;
-    missesEl.textContent = "Misses: 0";
-
-    clearInterval(timerId);
-    startMs = Date.now();
-    setTimer(TIME);
-
-    timerId = setInterval(function(){
-      var left = TIME - Math.floor((Date.now() - startMs) / 1000);
-      setTimer(left);
-      if(left <= 0){
-        clearInterval(timerId);
-        locked = true;
-        flipBack();
+      .shell{
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 1.1rem 1.1rem 1.2rem;
       }
-    }, 250);
 
-    var deck = buildDeck();
-    for(var i=0;i<deck.length;i++){
-      grid.appendChild(makeCard(deck[i]));
+      .top{
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+
+      h2{
+        margin:0;
+        font-size:1.3rem;
+        font-weight:850;
+        color:var(--ink);
+        letter-spacing:-.01em;
+      }
+      p{
+        margin:.25rem 0 0;
+        color:var(--muted);
+        font-size:.9rem;
+      }
+
+      .stats{
+        display:flex;
+        gap:.5rem;
+        align-items:center;
+        flex-wrap:wrap;
+        justify-content:flex-end;
+      }
+
+      .pill{
+        background: var(--card);
+        border: 2px solid var(--border);
+        border-radius: 999px;
+        padding: .42rem .7rem;
+        font-weight: 800;
+        color: var(--ink);
+        font-size: .85rem;
+        min-width: 120px;
+        text-align:center;
+        user-select:none;
+      }
+
+      .pill.warn{
+        background: #0b0b0b;
+        border-color:#0b0b0b;
+        color:#ffffff;
+      }
+
+      .btn{
+        background: #0b0b0b;
+        color:#fff;
+        border:none;
+        border-radius: 12px;
+        padding: .5rem .9rem;
+        font-weight: 850;
+        font-size: .9rem;
+        cursor:pointer;
+        transition: transform .12s ease, filter .12s ease;
+      }
+      .btn:hover{ filter: brightness(1.10); transform: translateY(-1px); }
+      .btn:active{ transform: translateY(0px); }
+
+      .grid{
+        display:grid;
+        gap: var(--gap);
+        justify-content:center;
+        perspective: 1100px;
+      }
+
+      @media (min-width: 900px){ .grid{ grid-template-columns: repeat(4, var(--size)); } }
+      @media (min-width: 620px) and (max-width: 899px){ .grid{ grid-template-columns: repeat(4, var(--size)); } }
+      @media (max-width: 619px){ .grid{ grid-template-columns: repeat(3, var(--size)); } }
+
+      .card{
+        width: var(--size);
+        height: var(--size);
+        position:relative;
+        transform-style:preserve-3d;
+        transition: transform var(--flip);
+        cursor:pointer;
+        border-radius: 14px;
+        border: 0;
+        padding: 0;
+        background: transparent;
+      }
+
+      /* NEW LOGIC:
+         - state="down"  : hidden (question mark)
+         - state="up"    : revealed
+         - state="match" : revealed + locked
+      */
+      .card[state="up"],
+      .card[state="match"]{
+        transform: rotateY(180deg);
+      }
+      .card[state="match"]{
+        pointer-events:none;
+        cursor:default;
+      }
+
+      .face{
+        position:absolute;
+        inset:0;
+        backface-visibility:hidden;
+        border-radius: 14px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        overflow:hidden;
+      }
+
+      .front{
+        background: #0b0b0b;
+        border: 2px solid rgba(255,255,255,.10);
+        color:#ffffff;
+        font-weight: 900;
+        letter-spacing: .06em;
+        font-size: 1.1rem;
+        user-select:none;
+      }
+
+      .back{
+        background: var(--card);
+        transform: rotateY(180deg);
+        border: 2px solid #0b0b0b;
+        padding: 10px;
+      }
+
+      .back img{
+        width:100%;
+        height:100%;
+        object-fit:contain;
+        display:block;
+      }
+
+      .missing{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        width:100%;
+        height:100%;
+        font-weight:900;
+        color:#0b0b0b;
+        letter-spacing:.03em;
+      }
+    </style>
+
+    <div class="shell">
+      <div class="top">
+        <div class="title">
+          <h2>Pack Picker Memory</h2>
+          <p>Match all Sims 4 packs before time runs out.</p>
+        </div>
+
+        <div class="stats">
+          <div class="pill" id="status">Matches: 0 / 0</div>
+          <div class="pill" id="misses">Misses: 0</div>
+          <div class="pill" id="timer">Time: 00:00</div>
+          <button class="btn" id="restart" type="button">Restart</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid" aria-label="Memory grid"></div>
+    </div>
+  `;
+
+  class PackMemory extends HTMLElement{
+    constructor(){
+      super();
+      this.attachShadow({mode:"open"});
+      this.shadowRoot.appendChild(tpl.content.cloneNode(true));
+
+      this.$grid = this.shadowRoot.getElementById("grid");
+      this.$status = this.shadowRoot.getElementById("status");
+      this.$misses = this.shadowRoot.getElementById("misses");
+      this.$timer = this.shadowRoot.getElementById("timer");
+      this.$restart = this.shadowRoot.getElementById("restart");
+
+      this._deck = [];
+      this._open = [];
+      this._locked = false;
+
+      this._matches = 0;
+      this._misses = 0;
+
+      this._timerId = null;
+      this._startMs = 0;
+
+      this._onClick = this._onClick.bind(this);
+      this._reset = this._reset.bind(this);
     }
-  }
 
-  restartBtn.addEventListener("click", reset);
-  reset();
-})();
-{% endraw %}
-</script>
+    connectedCallback(){
+      this.$grid.addEventListener("click", this._onClick);
+      this.$restart.addEventListener("click", this._reset);
+      this._reset();
+    }
+
+    disconnectedCallback(){
+      this.$grid.removeEventListener("click", this._onClick);
+      this.$restart.removeEventListener("click", this._reset);
+      this._stopTimer();
+    }
+
+    get epCount(){ return this._intAttr("ep-count", 18); }
+    get gpCount(){ return this._intAttr("gp-count", 12); }
+    get pairs(){ return this._intAttr("pairs", 8); }
+    get timeLimit(){ return this._intAttr("time-limit", 90); }
+
+    get folder(){
+      const raw = (this.getAttribute("folder") || "").trim();
+      // hard fallback if Liquid/attr fails
+      let f = raw || "/assets/img/packs/mono/";
+      if(!f.endsWith("/")) f += "/";
+      return f;
+    }
+
+    get exclude(){
+      // comma-separated: "gp09,gp10"
+      return (this.getAttribute("exclude") || "")
+        .split(",")
+        .map(s => s.trim().toLowerCase())
