@@ -13,14 +13,8 @@ The **Create New Sim** mod unlocks and reorganizes hidden debug interactions, al
 
 Simply **Shift-Click on the floor** in Live Mode to access the new menu.
 
-### Instant Spawning
 With just one click, you can create:
 * **Humans & Occults:** Quickly add new townies to your current lot.
-* **Pets:** Dogs, Cats, and even Foxes (requires *EP Cats & Dogs* or *EP Cottage Living*).
+* **Pets:** Dogs, Cats, and even Foxes (requires *Cats & Dogs* or *Cottage Living*).
 * **Livestock:** Horses and small farm animals (requires corresponding Packs).
-* **Robots:** Servo and other robotic entities (requires *EP Discover University*).
-
-### Key Features
-* **Visual Overhaul:** Reorganized menus with intuitive icons to help you find the right creature type instantly.
-* **Pure Scripting:** This mod does not overwrite any EA files, ensuring maximum compatibility.
-* **Lightweight:** Highly optimized for a seamless experience.
+* **Robots:** Servo and other robotic entities (requires *Discover University*).
