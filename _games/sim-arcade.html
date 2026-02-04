@@ -6,10 +6,10 @@ icon: "fas fa-gamepad"
 
 <div class="arcade-shell">
   <div class="arc-nav">
-    <button class="arc-tab active" onclick="switchGame(event,'memory')">
+    <button class="arc-tab active" data-game="memory">
       <i class="fas fa-brain"></i> Pack Memory
     </button>
-    <button class="arc-tab" onclick="switchGame(event,'shooting')">
+    <button class="arc-tab" data-game="shooting">
       <i class="fas fa-crosshairs"></i> Quickdraw
     </button>
   </div>
@@ -35,7 +35,7 @@ icon: "fas fa-gamepad"
       <div class="shoot-stats">
         <div class="shoot-badge">Score: <span id="s-score">0</span></div>
         <div class="shoot-badge">Time: <span id="s-time">30</span>s</div>
-        <button class="pm-btn" style="background:#e74c3c" onclick="qdStart()">Start</button>
+        <button class="pm-btn" id="qd-start" style="background:#e74c3c">Start</button>
       </div>
       <div class="shoot-stage" id="s-stage"></div>
     </section>
@@ -73,90 +73,184 @@ icon: "fas fa-gamepad"
 </style>
 
 <script>
-function switchGame(e,id){
-  document.querySelectorAll('.arc-game-container').forEach(c=>c.classList.remove('active'))
-  document.querySelectorAll('.arc-tab').forEach(t=>t.classList.remove('active'))
-  document.getElementById(id).classList.add('active')
-  e.currentTarget.classList.add('active')
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = Array.from(document.querySelectorAll('.arc-tab'))
+  const containers = Array.from(document.querySelectorAll('.arc-game-container'))
+  const imgPath = "{{ '/assets/img/packs/mono/' | relative_url }}"
 
-/* SHOOTING */
-let sScore=0,sTime=30,sRun=false,sClock,sLoop
-const sStage=document.getElementById('s-stage')
-const imgPath="{{ '/assets/img/packs/mono/' | relative_url }}"
-
-function qdStart(){
-  clearInterval(sClock);clearInterval(sLoop)
-  sStage.innerHTML=''
-  sScore=0;sTime=30;sRun=true
-  document.getElementById('s-score').textContent=0
-  document.getElementById('s-time').textContent=30
-
-  sLoop=setInterval(spawn,900)
-  sClock=setInterval(()=>{
-    sTime--
-    document.getElementById('s-time').textContent=sTime
-    if(sTime<=0){clearInterval(sClock);clearInterval(sLoop);sRun=false}
-  },1000)
-}
-
-function spawn(){
-  if(!sRun)return
-  const evil=Math.random()>0.4
-  const img=document.createElement('img')
-  img.src=imgPath+(Math.random()>0.5?'ep01.png':'gp01.png')
-  img.className='target-img '+(evil?'evil':'good')
-  img.style.left=Math.random()*(sStage.offsetWidth-70)+'px'
-  img.style.top=Math.random()*(sStage.offsetHeight-70)+'px'
-  img.onclick=()=>{sScore+=evil?10:-50;document.getElementById('s-score').textContent=sScore;img.remove()}
-  sStage.appendChild(img)
-  setTimeout(()=>img.remove(),1000)
-}
-
-/* MEMORY */
-const grid=document.getElementById('pm-grid')
-const folder="{{ '/assets/img/packs/mono/' | relative_url }}"
-let opened=[],lock=false,match=0,time=90,timer
-
-function reset(){
-  grid.innerHTML='';opened=[];lock=false;match=0;time=90
-  document.getElementById('pm-status').textContent='Matches: 0 / 8'
-  document.getElementById('pm-timer').textContent='Time: 90'
-  clearInterval(timer)
-  timer=setInterval(()=>{
-    time--;document.getElementById('pm-timer').textContent='Time: '+time
-    if(time<=0)clearInterval(timer)
-  },1000)
-
-  let deck=[]
-  for(let i=1;i<=8;i++){let id='ep'+String(i).padStart(2,'0');deck.push(id,id)}
-  deck.sort(()=>Math.random()-0.5)
-
-  deck.forEach(id=>{
-    const c=document.createElement('button')
-    c.className='pm-card'
-    c.dataset.id=id
-    c.innerHTML=`<div class="pm-face pm-front">?</div>
-                 <div class="pm-face pm-back"><img src="${folder}${id}.png"></div>`
-    c.onclick=()=>flip(c)
-    grid.appendChild(c)
-  })
-}
-
-function flip(c){
-  if(lock||c.classList.contains('is-flipped'))return
-  c.classList.add('is-flipped');opened.push(c)
-  if(opened.length===2){
-    lock=true
-    if(opened[0].dataset.id===opened[1].dataset.id){
-      match++;document.getElementById('pm-status').textContent=`Matches: ${match} / 8`
-      opened=[];lock=false
-    }else{
-      setTimeout(()=>{opened.forEach(x=>x.classList.remove('is-flipped'));opened=[];lock=false},800)
-    }
+  const activateTab = (targetId) => {
+    containers.forEach((c) => c.classList.remove('active'))
+    tabs.forEach((t) => t.classList.remove('active'))
+    const activeContainer = document.getElementById(targetId)
+    const activeTab = tabs.find((tab) => tab.dataset.game === targetId)
+    if (activeContainer) activeContainer.classList.add('active')
+    if (activeTab) activeTab.classList.add('active')
   }
-}
 
-document.getElementById('pm-restart').onclick=reset
-reset()
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      activateTab(tab.dataset.game)
+    })
+  })
+
+  /* SHOOTING */
+  let sScore = 0
+  let sTime = 30
+  let sRun = false
+  let sClock
+  let sLoop
+  const sStage = document.getElementById('s-stage')
+  const sScoreEl = document.getElementById('s-score')
+  const sTimeEl = document.getElementById('s-time')
+  const sStart = document.getElementById('qd-start')
+
+  const clearShootingTimers = () => {
+    clearInterval(sClock)
+    clearInterval(sLoop)
+  }
+
+  const updateScore = (delta) => {
+    sScore += delta
+    if (sScoreEl) sScoreEl.textContent = sScore
+  }
+
+  const spawn = () => {
+    if (!sRun || !sStage) return
+    const stageWidth = sStage.offsetWidth
+    const stageHeight = sStage.offsetHeight
+    if (!stageWidth || !stageHeight) return
+
+    const evil = Math.random() > 0.4
+    const img = document.createElement('img')
+    img.src = imgPath + (Math.random() > 0.5 ? 'ep01.png' : 'gp01.png')
+    img.className = `target-img ${evil ? 'evil' : 'good'}`
+    img.style.left = Math.random() * (stageWidth - 70) + 'px'
+    img.style.top = Math.random() * (stageHeight - 70) + 'px'
+    img.addEventListener('click', () => {
+      updateScore(evil ? 10 : -50)
+      img.remove()
+    })
+    sStage.appendChild(img)
+    setTimeout(() => img.remove(), 1000)
+  }
+
+  const qdStart = () => {
+    if (!sStage || !sScoreEl || !sTimeEl) return
+    clearShootingTimers()
+    sStage.innerHTML = ''
+    sScore = 0
+    sTime = 30
+    sRun = true
+    sScoreEl.textContent = 0
+    sTimeEl.textContent = 30
+
+    sLoop = setInterval(spawn, 900)
+    sClock = setInterval(() => {
+      sTime -= 1
+      sTimeEl.textContent = sTime
+      if (sTime <= 0) {
+        clearShootingTimers()
+        sRun = false
+      }
+    }, 1000)
+  }
+
+  if (sStart) sStart.addEventListener('click', qdStart)
+
+  /* MEMORY */
+  const grid = document.getElementById('pm-grid')
+  const folder = "{{ '/assets/img/packs/mono/' | relative_url }}"
+  const statusEl = document.getElementById('pm-status')
+  const timerEl = document.getElementById('pm-timer')
+  const restartBtn = document.getElementById('pm-restart')
+  let opened = []
+  let lock = false
+  let match = 0
+  let time = 90
+  let timer
+
+  const updateTimer = () => {
+    if (timerEl) timerEl.textContent = `Time: ${time}`
+  }
+
+  const updateStatus = () => {
+    if (statusEl) statusEl.textContent = `Matches: ${match} / 8`
+  }
+
+  const stopTimer = () => {
+    clearInterval(timer)
+  }
+
+  const startTimer = () => {
+    stopTimer()
+    timer = setInterval(() => {
+      time -= 1
+      updateTimer()
+      if (time <= 0) {
+        stopTimer()
+        lock = true
+      }
+    }, 1000)
+  }
+
+  const buildDeck = () => {
+    const deck = []
+    for (let i = 1; i <= 8; i += 1) {
+      const id = `ep${String(i).padStart(2, '0')}`
+      deck.push(id, id)
+    }
+    return deck.sort(() => Math.random() - 0.5)
+  }
+
+  const flip = (card) => {
+    if (lock || card.classList.contains('is-flipped')) return
+    card.classList.add('is-flipped')
+    opened.push(card)
+    if (opened.length !== 2) return
+
+    lock = true
+    const [first, second] = opened
+    if (first.dataset.id === second.dataset.id) {
+      match += 1
+      updateStatus()
+      opened = []
+      lock = false
+      if (match === 8) stopTimer()
+      return
+    }
+
+    setTimeout(() => {
+      opened.forEach((x) => x.classList.remove('is-flipped'))
+      opened = []
+      lock = false
+    }, 800)
+  }
+
+  const reset = () => {
+    if (!grid) return
+    grid.innerHTML = ''
+    opened = []
+    lock = false
+    match = 0
+    time = 90
+    updateStatus()
+    updateTimer()
+    startTimer()
+
+    buildDeck().forEach((id) => {
+      const card = document.createElement('button')
+      card.className = 'pm-card'
+      card.dataset.id = id
+      card.innerHTML = `<div class="pm-face pm-front">?</div>
+                 <div class="pm-face pm-back"><img src="${folder}${id}.png" alt=""></div>`
+      card.addEventListener('click', () => flip(card))
+      grid.appendChild(card)
+    })
+  }
+
+  if (restartBtn) restartBtn.addEventListener('click', reset)
+
+  activateTab('memory')
+  reset()
+})
 </script>
