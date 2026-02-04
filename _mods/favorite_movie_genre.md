@@ -4,7 +4,7 @@ title: "Favorite Movie Genre"
 icon: "fas fa-video"
 packs: ["SP05"]
 requirements: ["lot51_core"]
-categories: [UI Tweaks, Traits, Overrides]
+categories: [UI Tweaks, Preferences, Traits, Overrides]
 tagline: "Bring hidden preferences to light by making your Sim’s favorite movie genres visible and customizable in the UI."
 strings: false
 ---
