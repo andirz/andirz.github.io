@@ -21,7 +21,7 @@ difficulty: Medium
     </div>
 
     <div class="pm-stats">
-      <div class="pm-pill" id="pm-status">Matches: 0 / 0</div>
+      <div class="pm-pill" id="pm-status">Matches: 0 / 8</div>
       <div class="pm-pill" id="pm-misses">Misses: 0</div>
       <div class="pm-pill" id="pm-timer">Time: 00:00</div>
       <button class="pm-btn" id="pm-restart" type="button">Restart</button>
@@ -38,7 +38,7 @@ difficulty: Medium
     <h3 id="pm-modal-title">GAME OVER</h3>
     <p id="pm-modal-text">Time is up!</p>
     <div class="pm-modal-row">
-      <div class="pm-pill" id="pm-final-matches">Matches: 0 / 0</div>
+      <div class="pm-pill" id="pm-final-matches">Matches: 0 / 8</div>
       <div class="pm-pill" id="pm-final-misses">Misses: 0</div>
     </div>
     <button class="pm-btn" id="pm-play-again" type="button">Play again</button>
@@ -62,197 +62,32 @@ difficulty: Medium
     --pm-size:146px;
   }
 
-  .pm-shell{
-    max-width: 920px;
-    margin: 1.25rem auto;
-    background: var(--pm-bg);
-    border: 1px solid var(--pm-border);
-    border-radius: var(--pm-radius);
-    box-shadow: var(--pm-shadow);
-    padding: 1.1rem 1.1rem 1.2rem;
-  }
+  .pm-shell{ max-width: 920px; margin: 1.25rem auto; background: var(--pm-bg); border: 1px solid var(--pm-border); border-radius: var(--pm-radius); box-shadow: var(--pm-shadow); padding: 1.1rem 1.1rem 1.2rem; }
+  .pm-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .pm-title h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--pm-ink); letter-spacing:-.01em; }
+  .pm-title p{ margin:.25rem 0 0; color:var(--pm-muted); font-size:.9rem; }
+  .pm-stats{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+  .pm-pill{ background: var(--pm-card); border: 2px solid var(--pm-border); border-radius: 999px; padding: .42rem .7rem; font-weight: 800; color: var(--pm-blue); font-size: .85rem; min-width: 120px; text-align:center; }
+  .pm-pill.is-warn{ background: var(--pm-red); border-color:#c0392b; color:#fff; }
+  .pm-btn{ background: var(--pm-blue); color:#fff; border:none; border-radius: 12px; padding: .5rem .9rem; font-weight: 850; font-size: .9rem; cursor:pointer; }
 
-  .pm-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-
-  .pm-title h2{
-    margin:0;
-    font-size:1.3rem;
-    font-weight:850;
-    color:var(--pm-ink);
-    letter-spacing:-.01em;
-  }
-  .pm-title p{
-    margin:.25rem 0 0;
-    color:var(--pm-muted);
-    font-size:.9rem;
-  }
-
-  .pm-stats{
-    display:flex;
-    gap:.5rem;
-    align-items:center;
-    flex-wrap:wrap;
-    justify-content:flex-end;
-  }
-
-  .pm-pill{
-    background: var(--pm-card);
-    border: 2px solid var(--pm-border);
-    border-radius: 999px;
-    padding: .42rem .7rem;
-    font-weight: 800;
-    color: var(--pm-blue);
-    font-size: .85rem;
-    min-width: 120px;
-    text-align:center;
-  }
-  .pm-pill.is-warn{
-    background: var(--pm-red);
-    border-color:#c0392b;
-    color:#fff;
-  }
-
-  .pm-btn{
-    background: var(--pm-blue);
-    color:#fff;
-    border:none;
-    border-radius: 12px;
-    padding: .5rem .9rem;
-    font-weight: 850;
-    font-size: .9rem;
-    cursor:pointer;
-    transition: transform .12s ease, filter .12s ease;
-  }
-  .pm-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
-  .pm-btn:active{ transform: translateY(0px); }
-
-  .pm-grid{
-    display:grid;
-    gap: var(--pm-gap);
-    justify-content:center;
-    perspective: 1100px;
-  }
-
-  @media (min-width: 900px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-size)); } }
-  @media (min-width: 620px) and (max-width: 899px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-size)); } }
+  .pm-grid{ display:grid; gap: var(--pm-gap); justify-content:center; perspective: 1100px; }
+  @media (min-width: 620px){ .pm-grid{ grid-template-columns: repeat(4, var(--pm-size)); } }
   @media (max-width: 619px){ .pm-grid{ grid-template-columns: repeat(3, var(--pm-size)); } }
 
-  .pm-card{
-    width: var(--pm-size);
-    height: var(--pm-size);
-    position:relative;
-    transform-style:preserve-3d;
-    transition: transform var(--pm-flip);
-    cursor:pointer;
-    border-radius: 14px;
-    border: 0;
-    padding: 0;
-    background: transparent;
-  }
+  .pm-card{ width: var(--pm-size); height: var(--pm-size); position:relative; transform-style:preserve-3d; transition: transform var(--pm-flip); cursor:pointer; border: 0; padding: 0; background: transparent; }
   .pm-card.is-flipped{ transform: rotateY(180deg); }
   .pm-card.is-matched{ cursor: default; }
 
-  .pm-face{
-    position:absolute;
-    inset:0;
-    backface-visibility:hidden;
-    border-radius: 14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-  }
+  .pm-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 14px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .pm-front{ background: linear-gradient(180deg,#22314a,#152033); border: 2px solid rgba(255,255,255,.08); color:#fff; font-weight: 900; font-size: 1.1rem; }
+  .pm-back{ background: var(--pm-card); transform: rotateY(180deg); border: 2px solid var(--pm-green); padding: 10px; }
+  
+  /* Icons Schwarz-Weiß Filter */
+  .pm-back img{ width:100%; height:100%; object-fit:contain; filter: grayscale(1) contrast(200%); }
 
-  .pm-front{
-    background: linear-gradient(180deg,#22314a,#152033);
-    border: 2px solid rgba(255,255,255,.08);
-    color:#fff;
-    font-weight: 900;
-    letter-spacing: .06em;
-    font-size: 1.1rem;
-    user-select:none;
-  }
-
-  .pm-back{
-    background: var(--pm-card);
-    transform: rotateY(180deg);
-    border: 2px solid var(--pm-green);
-    padding: 10px;
-  }
-
-  /* Icons Schwarz-Weiß machen */
-  .pm-back img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-    filter: grayscale(1) brightness(0); /* Macht das Icon komplett schwarz */
-  }
-
-  .pm-fallback{
-    display:none;
-    width:100%;
-    height:100%;
-    border-radius: 10px;
-    background:#f1f5f9;
-    color:#334155;
-    font-weight: 900;
-    align-items:center;
-    justify-content:center;
-    font-size:.95rem;
-  }
-
-  .pm-note{
-    margin-top: .9rem;
-    color: var(--pm-muted);
-    font-size: .85rem;
-    text-align:center;
-  }
-
-  .pm-overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(2,6,23,.55);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding: 1rem;
-    z-index: 9999;
-  }
-  .pm-modal{
-    width: min(520px, 100%);
-    background: #fff;
-    border-radius: 18px;
-    border: 1px solid var(--pm-border);
-    box-shadow: 0 28px 44px -18px rgba(0,0,0,.35);
-    padding: 1rem 1rem 1.1rem;
-    text-align:center;
-  }
-  .pm-modal h3{
-    margin: .1rem 0 .3rem;
-    font-size: 1.35rem;
-    font-weight: 900;
-    color: var(--pm-ink);
-  }
-  .pm-modal p{
-    margin: 0 0 .9rem;
-    color: var(--pm-muted);
-  }
-  .pm-modal-row{
-    display:flex;
-    gap:.5rem;
-    justify-content:center;
-    flex-wrap: wrap;
-    margin-bottom: .9rem;
-  }
-  .pm-modal.is-win .pm-btn{ background: var(--pm-green); }
+  .pm-overlay{ position: fixed; inset: 0; background: rgba(2,6,23,.55); display:none; align-items:center; justify-content:center; z-index: 9999; }
+  .pm-modal{ width: min(520px, 100%); background: #fff; border-radius: 18px; padding: 1.5rem; text-align:center; }
 </style>
 
 <script>
@@ -265,219 +100,76 @@ difficulty: Medium
   var statusEl = document.getElementById("pm-status");
   var missesEl = document.getElementById("pm-misses");
   var timerEl  = document.getElementById("pm-timer");
-  var restartBtn = document.getElementById("pm-restart");
-
-  var overlay = document.getElementById("pm-overlay");
-  var modal = document.getElementById("pm-modal");
-  var modalTitle = document.getElementById("pm-modal-title");
-  var modalText  = document.getElementById("pm-modal-text");
-  var finalMatches = document.getElementById("pm-final-matches");
-  var finalMisses  = document.getElementById("pm-final-misses");
-  var playAgainBtn = document.getElementById("pm-play-again");
-
-  var EP = parseInt(root.dataset.epCount || "18", 10);
-  var GP = parseInt(root.dataset.gpCount || "12", 10);
-  var PAIRS = parseInt(root.dataset.pairs || "8", 10);
-  var TIME = parseInt(root.dataset.timeLimit || "90", 10);
-
+  
+  var EP = 18, GP = 12, PAIRS = 8, TIME = 90;
   var folder = root.dataset.folder || "/assets/img/packs/mono/";
-  if(folder && folder.charAt(folder.length-1) !== "/") folder += "/";
-
-  var opened = [];
-  var locked = false;
-  var matches = 0;
-  var misses = 0;
-  var timerId = null;
-  var startMs = 0;
+  
+  var opened = [], locked = false, matches = 0, misses = 0, timerId = null, startMs = 0;
 
   var packs = [];
-  for (var i=1;i<=EP;i++) packs.push("ep" + String(i).padStart(2,"0"));
-  for (var j=1;j<=GP;j++) {
+  for (var i=1; i<=EP; i++) packs.push("ep" + String(i).padStart(2,"0"));
+  for (var j=1; j<=GP; j++) {
     var id = "gp" + String(j).padStart(2,"0");
-    // GP09 explizit ausschließen
-    if (id !== "gp09") packs.push(id);
+    if (id !== "gp09") packs.push(id); // GP09 ausschließen
   }
 
-  function shuffleInPlace(arr){
-    for(var i = arr.length - 1; i > 0; i--){
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-    }
-    return arr;
-  }
-
-  function format(sec){
-    var m = Math.floor(sec/60);
-    var s = sec % 60;
-    return String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
-  }
-
-  function setTimer(left){
-    if(left < 0) left = 0;
-    timerEl.textContent = "Time: " + format(left);
-    if(left <= 10 && left > 0) timerEl.classList.add("is-warn");
-    else timerEl.classList.remove("is-warn");
-  }
-
-  function hideOverlay(){
-    overlay.style.display = "none";
-    overlay.setAttribute("aria-hidden","true");
-  }
-
-  function showOverlay(isWin){
-    finalMatches.textContent = "Matches: " + matches + " / " + PAIRS;
-    finalMisses.textContent = "Misses: " + misses;
-
-    if(isWin){
-      modal.classList.add("is-win");
-      modalTitle.textContent = "VICTORY";
-      modalText.textContent = "Perfect memory! You had " + misses + " misses.";
-      playAgainBtn.textContent = "Play again";
-    } else {
-      modal.classList.remove("is-win");
-      modalTitle.textContent = "GAME OVER";
-      modalText.textContent = "Time is up!";
-      playAgainBtn.textContent = "Try again";
-    }
-
-    overlay.style.display = "flex";
-    overlay.setAttribute("aria-hidden","false");
-  }
-
-  function flipBack(){
-    // Nur Karten umdrehen, die KEIN Match sind
-    for(var k=0;k<opened.length;k++) {
-      if (!opened[k].classList.contains("is-matched")) {
-        opened[k].classList.remove("is-flipped");
-      }
-    }
-    opened = [];
-  }
+  function shuffle(arr){ return arr.sort(() => Math.random() - 0.5); }
 
   function onCard(card){
-    if(locked) return;
-    if(card.classList.contains("is-matched")) return;
-    if(card.classList.contains("is-flipped")) return;
+    if(locked || card.classList.contains("is-matched") || card.classList.contains("is-flipped")) return;
 
     card.classList.add("is-flipped");
     opened.push(card);
 
-    if(opened.length < 2) return;
-
-    locked = true;
-    var a = opened[0].dataset.id;
-    var b = opened[1].dataset.id;
-
-    if(a === b){
-      matches++;
-      opened[0].classList.add("is-matched");
-      opened[1].classList.add("is-matched");
-      // Karten bleiben offen (is-flipped bleibt), Array wird geleert
-      opened = [];
-      locked = false;
-
-      statusEl.textContent = "Matches: " + matches + " / " + PAIRS;
-
-      if(matches === PAIRS){
-        clearInterval(timerId);
-        setTimeout(function(){ showOverlay(true); }, 250);
-      }
-    } else {
-      misses++;
-      missesEl.textContent = "Misses: " + misses;
-      setTimeout(function(){
-        flipBack();
+    if(opened.length === 2){
+      locked = true;
+      if(opened[0].dataset.id === opened[1].dataset.id){
+        matches++;
+        opened.forEach(c => c.classList.add("is-matched"));
+        opened = [];
         locked = false;
-      }, 800);
+        statusEl.textContent = "Matches: " + matches + " / " + PAIRS;
+        if(matches === PAIRS) { clearInterval(timerId); setTimeout(() => alert("Victory!"), 500); }
+      } else {
+        misses++;
+        missesEl.textContent = "Misses: " + misses;
+        setTimeout(() => {
+          opened.forEach(c => c.classList.remove("is-flipped"));
+          opened = [];
+          locked = false;
+        }, 800);
+      }
     }
-  }
-
-  function buildDeck(){
-    var pool = packs.slice();
-    shuffleInPlace(pool);
-    var chosen = pool.slice(0, PAIRS);
-    var deck = chosen.concat(chosen);
-    return shuffleInPlace(deck);
-  }
-
-  function makeCard(id){
-    var card = document.createElement("button");
-    card.type = "button";
-    card.className = "pm-card";
-    card.dataset.id = id;
-
-    var front = document.createElement("div");
-    front.className = "pm-face pm-front";
-    front.textContent = "?";
-
-    var back = document.createElement("div");
-    back.className = "pm-face pm-back";
-
-    var img = document.createElement("img");
-    img.alt = id;
-    img.loading = "lazy";
-    img.src = folder + id + ".png";
-
-    var fb = document.createElement("div");
-    fb.className = "pm-fallback";
-    fb.textContent = id.toUpperCase();
-
-    img.addEventListener("error", function(){
-      img.style.display = "none";
-      fb.style.display = "flex";
-    });
-
-    back.appendChild(img);
-    back.appendChild(fb);
-    card.appendChild(front);
-    card.appendChild(back);
-
-    card.addEventListener("click", function(){ onCard(card); });
-    return card;
   }
 
   function reset(){
-    hideOverlay();
-    grid.innerHTML = "";
-    opened = [];
-    locked = false;
-    matches = 0;
-    misses = 0;
-
+    grid.innerHTML = ""; matches = 0; misses = 0;
     statusEl.textContent = "Matches: 0 / " + PAIRS;
     missesEl.textContent = "Misses: 0";
-    timerEl.classList.remove("is-warn");
-
     clearInterval(timerId);
+    
+    var pool = shuffle(packs.slice()).slice(0, PAIRS);
+    var deck = shuffle(pool.concat(pool));
+    
+    deck.forEach(id => {
+      var card = document.createElement("button");
+      card.className = "pm-card";
+      card.dataset.id = id;
+      card.innerHTML = `<div class="pm-face pm-front">?</div>
+                        <div class="pm-face pm-back"><img src="${folder}${id}.png"></div>`;
+      card.onclick = () => onCard(card);
+      grid.appendChild(card);
+    });
+
     startMs = Date.now();
-    setTimer(TIME);
-
-    timerId = setInterval(function(){
+    timerId = setInterval(() => {
       var left = TIME - Math.floor((Date.now() - startMs) / 1000);
-      setTimer(left);
-
-      if(left <= 0){
-        clearInterval(timerId);
-        locked = true;
-        // Beim Game Over alle nicht gematchten Karten verdecken
-        flipBack();
-        showOverlay(false);
-      }
-    }, 250);
-
-    var deck = buildDeck();
-    for(var i=0;i<deck.length;i++){
-      grid.appendChild(makeCard(deck[i]));
-    }
+      timerEl.textContent = "Time: " + left + "s";
+      if(left <= 0) { clearInterval(timerId); locked = true; alert("Game Over!"); }
+    }, 1000);
   }
 
-  restartBtn.addEventListener("click", reset);
-  playAgainBtn.addEventListener("click", reset);
-
-  overlay.addEventListener("click", function(e){
-    if(e.target === overlay) hideOverlay();
-  });
-
+  document.getElementById("pm-restart").onclick = reset;
   reset();
 })();
 {% endraw %}
