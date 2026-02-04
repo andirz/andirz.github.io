@@ -4,7 +4,7 @@ title: "Take It Off: No Shoes! No Accessories!"
 parent: "Mods"
 icon: "fas fa-socks"
 requirements: ["lot51_core"]
-categories: [Sim Personalization, Gameplay Mods, Tweaks, Adopted Mods]
+categories: [Sim Personalization, Gameplay, Tweaks, Adopted Mods]
 ---
 
 ## About This Mod
@@ -46,24 +46,10 @@ This modular system allows you to customize the automation exactly to your likin
 Similar mods exist that rely on overrides.  
 This mod intentionally avoids overriding tunings to ensure **better stability and patch safety**.
 
-## Translations
+## Language & Translations
 
-- **English, German, Russian, Spanish** – by me  
-- **French** – Mollory  
-- **Italian** – vale93_games  
-- **Portuguese** – Nymphieta  
-- **Traditional Chinese & Simplified Chinese** – WANZI (partial)  
-
-All other languages use English strings.
-
-## Requirements
-
-- **Lot51 Core Library** – required (separate download)
-- **Script Mods** must be enabled in game options
-- Fully compatible with the **Base Game**
-
-## Compatibility
-
-- No game resources are overridden  
-- Modular, script-based implementation  
-- No compatibility issues are expected
+- **English<**, **German**, **Spanish**, and **Russian** by me  
+- **French** by Mollory  
+- **Italian** by vale93_games  
+- **Portuguese** by Nymphieta  
+- **Chinese** and **Simplified Chinese** by WANZI
