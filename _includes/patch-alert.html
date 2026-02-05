@@ -1,123 +1,132 @@
-<div class="patch-badge-wrapper">
-  <div class="patch-badge-header">
-    <div class="badge-pill version-badge">
+<div class="patch-status-badge-container">
+  <div class="patch-badge-flex">
+    <div class="status-pill v-patch" title="Aktuelle Spielversion">
       <i class="fas fa-code-branch"></i>
-      <span>Patch: {{ site.data.globals.latest_patch }}</span>
+      <span>Patch {{ site.data.globals.latest_patch }}</span>
     </div>
     
-    <div class="badge-pill date-badge">
+    <div class="status-pill v-release" title="Release Datum des Patches">
       <i class="fas fa-calendar-alt"></i>
       <span>{{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}</span>
     </div>
 
-    <div class="badge-pill update-badge">
+    <div class="status-pill v-check" title="Letzte Überprüfung der Tabelle">
       <i class="fas fa-history"></i>
-      <span>Check: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}</span>
+      <span>Last Checked: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}</span>
     </div>
   </div>
 
-  <div class="patch-badge-body">
-    <p class="patch-intro">
+  <div class="patch-status-info">
+    <p class="main-status-text">
       <i class="fas fa-info-circle"></i>
-      All specific mod statuses are listed in the table below.
+      All specific mod statuses for konkrete mods are listed in the table below.
     </p>
     
-    <div class="patch-instruction-grid">
-      <div class="instruction-item">
-        <strong>Safety First:</strong> Backup your <code>Saves</code> & <code>Tray</code> folders and play offline.
+    <div class="patch-guidelines">
+      <div class="guide-box">
+        <i class="fas fa-shield-alt"></i>
+        <span><strong>Safety First:</strong> Backup your <code>Saves</code> & <code>Tray</code> folders and play offline.</span>
       </div>
-      <div class="instruction-item">
-        <strong>Unknown Risk:</strong> Mods not yet marked as 'Compatible' or 'Updated' are used at your own risk.
+      <div class="guide-box">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span><strong>Unknown Risk:</strong> Mods not marked as 'Compatible' or 'Updated' are used at your own risk.</span>
       </div>
     </div>
   </div>
 
-  <div class="patch-badge-footer">
-    <a href="https://andirz-mods.com/support/keep-functional/" class="functional-link">
+  <div class="patch-status-footer">
+    <a href="https://andirz-mods.com/support/keep-functional/" target="_blank" class="functional-link">
       <i class="fas fa-tools"></i> Learn how to keep your game functional
+      <i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-left: 5px;"></i>
     </a>
   </div>
 </div>
 
 <style>
-  :root {
-    --patch-danger: #ef4444;
-    --patch-accent: #3b82f6;
-    --patch-bg: rgba(248, 250, 252, 0.8);
-  }
-
-  .patch-badge-wrapper {
-    margin: 25px 0;
+  .patch-status-badge-container {
+    margin: 20px 0;
     padding: 20px;
-    background: var(--patch-bg);
-    border-radius: 16px;
-    border: 1px solid #e2e8f0;
+    background: rgba(var(--brand-accent-rgb, 46, 204, 113), 0.03);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 14px;
     font-family: inherit;
   }
 
-  .patch-badge-header {
+  .patch-badge-flex {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 20px;
   }
 
-  /* Badge Styling */
-  .badge-pill {
+  .status-pill {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 6px 14px;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    border: 1px solid rgba(0,0,0,0.05);
   }
 
-  .version-badge { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-  .date-badge { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
-  .update-badge { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+  /* Farben für die Badges */
+  .v-patch { background: #fee2e2; color: #b91c1c; } /* Rot-Ton */
+  .v-release { background: #dbeafe; color: #1d4ed8; } /* Blau-Ton */
+  .v-check { background: #f1f5f9; color: #475569; } /* Grau-Ton */
 
-  /* Body & Text */
-  .patch-badge-body .patch-intro {
-    font-weight: 600;
-    color: #1e293b;
+  .main-status-text {
+    font-weight: 700;
+    color: var(--brand-primary, #1e293b);
     margin-bottom: 15px;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  .patch-instruction-grid {
+  .patch-guidelines {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    font-size: 0.9rem;
-    color: #64748b;
+    gap: 15px;
   }
 
-  .instruction-item strong { color: #1e293b; display: block; margin-bottom: 2px; }
+  .guide-box {
+    display: flex;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.4;
+  }
 
-  /* Footer Link */
-  .patch-badge-footer {
+  .guide-box i {
+    margin-top: 3px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
+
+  .patch-status-footer {
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px dashed #e2e8f0;
+    border-top: 1px dashed var(--border-color, #e2e8f0);
   }
 
   .functional-link {
-    font-size: 0.85rem;
-    color: var(--patch-accent);
+    color: #3b82f6;
     text-decoration: none;
+    font-size: 0.85rem;
     font-weight: 600;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
   }
 
-  .functional-link:hover { color: #1d4ed8; text-decoration: underline; }
+  .functional-link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+  }
 
   @media (max-width: 768px) {
-    .patch-instruction-grid { grid-template-columns: 1fr; }
-    .patch-badge-header { justify-content: center; }
+    .patch-guidelines { grid-template-columns: 1fr; }
   }
 </style>
