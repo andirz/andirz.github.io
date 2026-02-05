@@ -14,12 +14,6 @@ sitemap: false
     cursor: default;
   }
 
-  .crypt {
-    unicode-bidi: bidi-override;
-    direction: rtl;
-    display: inline-block;
-  }
-
   .lang-tabs {
     display: flex;
     gap: 14px;
@@ -138,6 +132,7 @@ sitemap: false
 
 <script>
 (() => {
+  // decode = Base64 → reverse (kein Klartext im HTML)
   const decode = v => atob(v).split('').reverse().join('');
 
   const data = {
@@ -149,14 +144,13 @@ sitemap: false
 
   const block = `
     <strong>Operator</strong>
-    <span class="crypt">${decode(data.name)}</span><br>
-    <span class="crypt">${decode(data.street)}</span><br>
-    <span class="crypt">${decode(data.city)}</span><br>
+    ${decode(data.name)}<br>
+    ${decode(data.street)}<br>
+    ${decode(data.city)}<br>
     Germany
 
     <strong>Contact</strong>
-    E-Mail:
-    <span class="crypt">${decode(data.mail)}</span>
+    E-Mail: ${decode(data.mail)}
   `;
 
   document.getElementById("contact-en").innerHTML = block;
@@ -172,6 +166,7 @@ sitemap: false
     document.getElementById('tab-' + lang).classList.add('active');
   }
 
+  // block common copy / inspect shortcuts
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && ['c','u','s','p','i','a'].includes(e.key.toLowerCase())) {
       e.preventDefault();
