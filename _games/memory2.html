@@ -15,7 +15,7 @@ difficulty: Medium
   sp-extra="46, 49"
   pairs="12"
   time-limit="120"
-  folder="{{ '/assets/img/packs/mono/' | relative_url }}/"
+  folder="{{ '/assets/img/packs/mono/' | relative_url }}"
   exclude="gp09">
 </pack-memory>
 
@@ -48,23 +48,14 @@ difficulty: Medium
         .btn{ background: #0b0b0b; color:#fff; border:none; border-radius: 12px; padding: .5rem .9rem; font-weight: 850; font-size: .9rem; cursor:pointer; transition: transform .12s ease; }
         .toggle{ display:inline-flex; align-items:center; gap:.45rem; cursor:pointer; font-weight:850; font-size:.85rem; color: var(--ink); padding:.38rem .65rem; border-radius: 999px; border:2px solid var(--border); background: var(--card); }
         
-        /* Grid-Logik */
-        .grid{ 
-          display:grid; 
-          gap: var(--gap); 
-          justify-content:center; 
-          perspective: 1100px;
-          margin: 0 auto;
-        }
+        .grid{ display:grid; gap: var(--gap); justify-content:center; perspective: 1100px; margin: 0 auto; }
 
-        /* Desktop: 6 Spalten */
         @media (min-width: 621px){
           .grid{ grid-template-columns: repeat(6, var(--size)); }
         }
 
-        /* Handy: 4 Spalten & 60% Größe */
         @media (max-width: 620px){
-          :host{ --size: 88px; --gap: 6px; } /* 88px ist ca 60% von 146px */
+          :host{ --size: 88px; --gap: 6px; }
           .grid{ grid-template-columns: repeat(4, var(--size)); }
           .pill{ min-width: 80px; font-size: 0.75rem; padding: 0.3rem 0.5rem; }
           h2{ font-size: 1.1rem; }
@@ -76,8 +67,10 @@ difficulty: Medium
         .face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 12px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
         .front{ background: #0b0b0b; border: 2px solid rgba(255,255,255,.10); color:#ffffff; font-weight: 900; font-size: 1.1rem; }
         .back{ background: var(--card); transform: rotateY(180deg); border: 2px solid #0b0b0b; padding: 8px; }
-        .back img{ width:100%; height:100%; object-fit:contain; }
+        .back img{ width:100%; height:100%; object-fit:contain; display:block; }
         
+        .missing{ font-weight:900; color:#0b0b0b; font-size:0.8rem; }
+
         .overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; background: rgba(255,255,255,.78); backdrop-filter: blur(4px); border-radius: var(--radius); z-index:10; }
         .overlay[open]{ display:flex; }
         .modal{ width:min(400px, calc(100% - 28px)); background: #ffffff; border: 2px solid #0b0b0b; border-radius: 18px; padding: 1.1rem; text-align:center; }
@@ -144,7 +137,14 @@ difficulty: Medium
       get spExtra(){ return (this.getAttribute("sp-extra") || "").split(",").map(s => s.trim()).filter(Boolean); }
       get pairs(){ return this._intAttr("pairs", 12); }
       get timeLimit(){ return this._intAttr("time-limit", 120); }
-      get folder(){ let f = (this.getAttribute("folder") || "/").trim(); if(!f.endsWith("/")) f += "/"; return f; }
+      
+      get folder(){ 
+        let f = (this.getAttribute("folder") || "").trim(); 
+        if(!f) return "/assets/img/packs/mono/";
+        if(!f.endsWith("/")) f += "/"; 
+        return f; 
+      }
+
       get exclude(){ return (this.getAttribute("exclude") || "").split(",").map(s => s.trim().toLowerCase()).filter(Boolean); }
 
       _intAttr(name, fallback){ const v = parseInt(this.getAttribute(name) || "", 10); return Number.isFinite(v) && v >= 0 ? v : fallback; }
@@ -177,7 +177,20 @@ difficulty: Medium
           const card = document.createElement("button");
           card.className = "card";
           card.dataset.id = id;
-          card.innerHTML = `<div class="face front">?</div><div class="face back"><img src="${this.folder}${id}.png"></div>`;
+          
+          const backFace = document.createElement("div");
+          backFace.className = "face back";
+          
+          const img = document.createElement("img");
+          img.src = `${this.folder}${id}.png`;
+          img.alt = id;
+          img.onerror = () => {
+            backFace.innerHTML = `<span class="missing">${id.toUpperCase()}</span>`;
+          };
+          
+          backFace.appendChild(img);
+          card.innerHTML = `<div class="face front">?</div>`;
+          card.appendChild(backFace);
           this.$grid.appendChild(card);
         });
       }
@@ -210,7 +223,7 @@ difficulty: Medium
         this._timerId = setInterval(() => {
           const elapsed = Math.floor((Date.now() - this._startMs) / 1000);
           const left = this.timeLimit - elapsed;
-          const m = Math.floor(left/60), s = left%60;
+          const m = Math.floor(Math.max(0, left)/60), s = Math.max(0, left)%60;
           this.$timer.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
           if(left <= 0) { this._stopTimer(); this._locked = true; this._openOverlay("Time's Up!", "Game Over"); this._sfx("lose"); }
         }, 1000);
