@@ -8,7 +8,7 @@ mode: Memory
 difficulty: Hard
 ---
 
-<pack-memory
+<chaos-memory
   ep-count="18"
   gp-count="12"
   sp-count="18"
@@ -17,263 +17,197 @@ difficulty: Hard
   time-limit="120"
   folder="{{ '/assets/img/packs/mono/' | relative_url }}"
   exclude="gp09">
-</pack-memory>
+</chaos-memory>
 
 <style>
-  pack-memory{ display:block; margin: 1.25rem auto; max-width: 1000px; }
+  chaos-memory { display:block; margin: 1.25rem auto; max-width: 1000px; min-height: 400px; }
 </style>
 
 {% raw %}
 <script>
 (() => {
-  try {
-    if (customElements.get("pack-memory")) return;
+  const TAG = "chaos-memory";
+  if (customElements.get(TAG)) return;
 
-    const tpl = document.createElement("template");
-    tpl.innerHTML = `
-      <style>
-        :host{
-          --bg:#ffffff; --card:#ffffff; --ink:#0b0b0b; --muted:#4b5563;
-          --border:#d1d5db; --shadow:0 14px 20px -10px rgba(0,0,0,.18);
-          --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
-          --size:146px; display:block;
-        }
-        .shell{ background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem; position: relative; overflow: hidden; }
-        .top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
-        h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
-        
-        .pill{ background: var(--card); border: 2px solid var(--border); border-radius: 999px; padding: .42rem .7rem; font-weight: 800; color: var(--ink); font-size: .85rem; min-width: 110px; text-align:center; position:relative; transition: all 0.3s ease; }
-        
-        /* Chaos Animation für Misses */
-        .pill.chaos-active { transform: scale(2.5) translateY(30px); background: #ef4444; color: #fff; z-index: 100; box-shadow: 0 0 40px rgba(239,68,68,0.6); }
+  const tpl = document.createElement("template");
+  tpl.innerHTML = `
+    <style>
+      :host{
+        --bg:#ffffff; --card:#ffffff; --ink:#0b0b0b; --muted:#4b5563;
+        --border:#d1d5db; --shadow:0 14px 20px -10px rgba(0,0,0,.18);
+        --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
+        --size:146px; display:block;
+      }
+      .shell{ background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem; position: relative; overflow: hidden; }
+      .top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+      h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
+      
+      .pill{ background: var(--card); border: 2px solid var(--border); border-radius: 999px; padding: .42rem .7rem; font-weight: 800; color: var(--ink); font-size: .85rem; min-width: 110px; text-align:center; position:relative; }
+      .pill.chaos-active { transform: scale(2.2); background: #ef4444; color: #fff; z-index: 100; transition: all 0.3s; }
 
-        .grid{ display:grid; gap: var(--gap); justify-content:center; perspective: 1100px; margin: 0 auto; transition: filter 0.3s; }
-        .grid.glitch { filter: hue-rotate(90deg) contrast(1.5); }
+      .grid{ display:grid; gap: var(--gap); justify-content:center; perspective: 1100px; margin: 0 auto; }
+      .grid.glitch { filter: invert(1) hue-rotate(180deg); }
 
-        @media (min-width: 621px){ .grid{ grid-template-columns: repeat(6, var(--size)); } }
-        @media (max-width: 620px){ :host{ --size: 88px; --gap: 6px; } .grid{ grid-template-columns: repeat(4, var(--size)); } }
+      @media (min-width: 621px){ .grid{ grid-template-columns: repeat(6, var(--size)); } }
+      @media (max-width: 620px){ :host{ --size: 88px; --gap: 6px; } .grid{ grid-template-columns: repeat(4, var(--size)); } }
 
-        .card{ width: var(--size); height: var(--size); position:relative; transform-style:preserve-3d; transition: transform var(--flip); cursor:pointer; border-radius: 14px; border: 0; padding: 0; background: transparent; }
-        .card[state="up"], .card[state="match"]{ transform: rotateY(180deg); }
-        .face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 12px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-        .front{ background: #0b0b0b; border: 2px solid rgba(255,255,255,.10); color:#ffffff; font-weight: 900; font-size: 1.2rem; }
-        .back{ background: var(--card); transform: rotateY(180deg); border: 2px solid #0b0b0b; padding: 10px; }
-        .back img{ width:100%; height:100%; object-fit:contain; }
-        
-        .bonus-text { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-weight: 900; animation: floatUp 1s forwards; pointer-events: none; }
-        .pos { color: #22c55e; } .neg { color: #ef4444; }
-        @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 10px); } 100% { opacity: 0; transform: translate(-50%, -30px); } }
+      .card{ width: var(--size); height: var(--size); position:relative; transform-style:preserve-3d; transition: transform var(--flip); cursor:pointer; border-radius: 14px; border: 0; padding: 0; background: transparent; }
+      .card[state="up"], .card[state="match"]{ transform: rotateY(180deg); }
+      .face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 12px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+      .front{ background: #0b0b0b; border: 2px solid rgba(255,255,255,.10); color:#ffffff; font-weight: 900; font-size: 1.2rem; }
+      .back{ background: var(--card); transform: rotateY(180deg); border: 2px solid #0b0b0b; padding: 10px; }
+      .back img{ width:100%; height:100%; object-fit:contain; pointer-events: none; }
+      
+      .floating { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-weight: 900; pointer-events: none; animation: floatUp 1s forwards; }
+      .pos { color: #22c55e; } .neg { color: #ef4444; }
+      @keyframes floatUp { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -40px); } }
 
-        .overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; background: rgba(255,255,255,.85); backdrop-filter: blur(4px); border-radius: var(--radius); z-index:100; }
-        .overlay[open]{ display:flex; }
-        .modal{ width:min(400px, calc(100% - 28px)); background: #fff; border: 2px solid #0b0b0b; border-radius: 18px; padding: 1.5rem; text-align:center; box-shadow: var(--shadow); }
-        .btn{ background: #0b0b0b; color:#fff; border:none; border-radius: 12px; padding: .5rem .9rem; font-weight: 850; cursor:pointer; }
-      </style>
-      <div class="shell">
-        <div class="top">
-          <div class="title"><h2>Pack Picker Memory</h2><p>Chaos bei 10 Misses!</p></div>
-          <div class="stats">
-            <div class="pill" id="status">Pairs: 0 / 0</div>
-            <div class="pill" id="misses-pill">Misses: <span id="misses-val">0</span></div>
-            <div id="timer-pill" class="pill">
-              <span id="timer">00:00</span>
-              <div id="float-container"></div>
-            </div>
-            <button class="btn" id="restart">Restart</button>
+      .overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; background: rgba(255,255,255,.85); backdrop-filter: blur(4px); border-radius: var(--radius); z-index:200; }
+      .overlay[open]{ display:flex; }
+      .modal{ width:min(350px, 90%); background: #fff; border: 2px solid #0b0b0b; border-radius: 18px; padding: 1.5rem; text-align:center; }
+      .btn{ background: #0b0b0b; color:#fff; border:none; border-radius: 12px; padding: .5rem .9rem; font-weight: 850; cursor:pointer; }
+    </style>
+    <div class="shell">
+      <div class="top">
+        <div><h2>Pack Picker Memory</h2><p>Chaos bei 10 Misses!</p></div>
+        <div class="stats">
+          <div class="pill" id="status">Pairs: 0/0</div>
+          <div class="pill" id="miss-pill">Misses: <span id="miss-val">0</span></div>
+          <div class="pill">
+            <span id="timer">00:00</span>
+            <div id="float-box"></div>
           </div>
-        </div>
-        <div class="grid" id="grid"></div>
-        <div class="overlay" id="overlay">
-          <div class="modal"><h3 id="ovTitle">Victory!</h3><p id="ovMsg"></p><button class="btn" id="restart2">Play Again</button></div>
+          <button class="btn" id="res">Restart</button>
         </div>
       </div>
-    `;
+      <div class="grid" id="grid"></div>
+      <div class="overlay" id="over">
+        <div class="modal"><h3 id="otit">Victory!</h3><p id="omsg"></p><button class="btn" id="res2">Play Again</button></div>
+      </div>
+    </div>
+  `;
 
-    class PackMemory extends HTMLElement{
-      constructor(){
-        super();
-        this.attachShadow({mode:"open"});
-        this.shadowRoot.appendChild(tpl.content.cloneNode(true));
-        this.$grid = this.shadowRoot.getElementById("grid");
-        this.$status = this.shadowRoot.getElementById("status");
-        this.$missesVal = this.shadowRoot.getElementById("misses-val");
-        this.$missesPill = this.shadowRoot.getElementById("misses-pill");
-        this.$timer = this.shadowRoot.getElementById("timer");
-        this.$floatContainer = this.shadowRoot.getElementById("float-container");
-        this.$overlay = this.shadowRoot.getElementById("overlay");
-        this._deck = []; this._open = []; this._locked = false;
-        this._matches = 0; this._misses = 0; this._timerId = null;
-      }
+  class ChaosMemory extends HTMLElement {
+    constructor() {
+      super();
+      this.attachShadow({mode:"open"}).appendChild(tpl.content.cloneNode(true));
+      this.root = this.shadowRoot;
+      this.d = []; this.o = []; this.l = false;
+      this.m = 0; this.mi = 0; this.tid = null;
+    }
 
-      connectedCallback(){
-        this.shadowRoot.getElementById("restart").onclick = () => this._reset();
-        this.shadowRoot.getElementById("restart2").onclick = () => this._reset();
-        this.$grid.onclick = (e) => this._onClick(e);
-        this._reset();
-      }
+    connectedCallback() {
+      this.root.getElementById("res").onclick = () => this.reset();
+      this.root.getElementById("res2").onclick = () => this.reset();
+      this.root.getElementById("grid").onclick = (e) => this.click(e);
+      this.reset();
+    }
 
-      get folder(){ 
-        let f = (this.getAttribute("folder") || "").trim() || "/assets/img/packs/mono/";
-        return f.endsWith("/") ? f : f + "/"; 
-      }
+    reset() {
+      this.m = 0; this.mi = 0; this.o = []; this.l = false;
+      this.root.getElementById("over").removeAttribute("open");
+      this.timeLeft = parseInt(this.getAttribute("time-limit") || "120");
+      
+      const p = [];
+      for(let i=1;i<=18;i++) p.push(`ep${String(i).padStart(2,"0")}`);
+      for(let i=1;i<=12;i++) p.push(`gp${String(i).padStart(2,"0")}`);
+      const pairs = parseInt(this.getAttribute("pairs") || "12");
+      const sel = p.sort(() => .5-Math.random()).slice(0, pairs);
+      this.d = [...sel, ...sel].sort(() => .5-Math.random()).map(id => ({id, match: false}));
+      
+      this.render();
+      this.update();
+      this.start();
+    }
 
-      _reset(){
-        this._matches = 0; this._misses = 0; this._open = []; this._locked = false;
-        this.$overlay.removeAttribute("open");
-        this._timeLeft = parseInt(this.getAttribute("time-limit") || "120");
-        this._initDeck();
-        this._render();
-        this._updateUI();
-        this._startTimer();
-      }
+    render() {
+      const g = this.root.getElementById("grid");
+      g.innerHTML = "";
+      const base = this.getAttribute("folder") || "/assets/img/packs/mono/";
+      this.d.forEach((c, i) => {
+        const b = document.createElement("button");
+        b.className = "card"; b.dataset.idx = i;
+        if(c.match) b.setAttribute("state", "match");
+        b.innerHTML = `<div class="face front">?</div><div class="face back"><img src="${base}${c.id}.png" onerror="this.parentElement.innerHTML='<b>${c.id}</b>'"></div>`;
+        g.appendChild(b);
+      });
+    }
 
-      _initDeck(){
-        const all = [];
-        for(let i=1;i<=18;i++) all.push(`ep${String(i).padStart(2,"0")}`);
-        for(let i=1;i<=12;i++) all.push(`gp${String(i).padStart(2,"0")}`);
-        const pairsCount = parseInt(this.getAttribute("pairs") || "12");
-        const selected = all.sort(() => 0.5-Math.random()).slice(0, pairsCount);
-        const shuffledIcons = [...selected, ...selected].sort(() => 0.5-Math.random());
-        this._deck = shuffledIcons.map(id => ({ id, matched: false }));
-      }
-
-      _render(){
-        this.$grid.innerHTML = "";
-        this._deck.forEach((cardObj, idx) => {
-          const card = document.createElement("button");
-          card.className = "card"; card.dataset.idx = idx;
-          if(cardObj.matched) card.setAttribute("state", "match");
-          
-          card.innerHTML = `<div class="face front">?</div><div class="face back"></div>`;
-          const img = document.createElement("img");
-          img.src = `${this.folder}${cardObj.id}.png`;
-          img.onerror = () => { card.querySelector(".back").innerHTML = `<b>${cardObj.id.toUpperCase()}</b>`; };
-          card.querySelector(".back").appendChild(img);
-          this.$grid.appendChild(card);
-        });
-      }
-
-      _onClick(e){
-        const card = e.target.closest(".card");
-        if(!card || this._locked || card.getAttribute("state")) return;
-        this._ensureAudio();
-        card.setAttribute("state", "up");
-        this._open.push(card);
-        this._sfx("flip");
-
-        if(this._open.length === 2){
-          this._locked = true;
-          const [c1, c2] = this._open;
-          const idx1 = c1.dataset.idx;
-          const idx2 = c2.dataset.idx;
-
-          if(this._deck[idx1].id === this._deck[idx2].id){
-            this._deck[idx1].matched = true;
-            this._deck[idx2].matched = true;
-            c1.setAttribute("state", "match");
-            c2.setAttribute("state", "match");
-            this._matches++; this._open = []; this._locked = false;
-            this._triggerFloat(10, true);
-            this._updateUI(); this._sfx("match");
-            if(this._matches === parseInt(this.getAttribute("pairs") || "12")) this._end("Victory!");
-          } else {
-            this._misses++;
-            this._triggerFloat(3, false);
-            this._updateUI(); this._sfx("miss");
-            if(this._misses % 10 === 0) {
-              setTimeout(() => this._chaosEvent(), 600);
-            } else {
-              setTimeout(() => { c1.removeAttribute("state"); c2.removeAttribute("state"); this._open = []; this._locked = false; }, 800);
-            }
-          }
+    click(e) {
+      const c = e.target.closest(".card");
+      if(!c || this.l || c.getAttribute("state")) return;
+      c.setAttribute("state", "up");
+      this.o.push(c);
+      if(this.o.length === 2) {
+        this.l = true;
+        const [c1, c2] = this.o;
+        if(this.d[c1.dataset.idx].id === this.d[c2.dataset.idx].id) {
+          this.d[c1.dataset.idx].match = this.d[c2.dataset.idx].match = true;
+          c1.setAttribute("state", "match"); c2.setAttribute("state", "match");
+          this.m++; this.o = []; this.l = false; this.float(10,true);
+          if(this.m === parseInt(this.getAttribute("pairs"))) this.end("Victory!");
+        } else {
+          this.mi++; this.float(3,false);
+          if(this.mi % 10 === 0) setTimeout(() => this.chaos(), 600);
+          else setTimeout(() => { c1.removeAttribute("state"); c2.removeAttribute("state"); this.o = []; this.l = false; }, 800);
         }
-      }
-
-      _chaosEvent(){
-        this._sfx("chaos");
-        this.$missesPill.classList.add("chaos-active");
-        this.$grid.classList.add("glitch");
-
-        // 1. Alle nicht-gematchten Karten austauschen (Stuff Packs)
-        const spPool = [];
-        for(let i=1;i<=49;i++) spPool.push(`sp${String(i).padStart(2,"0")}`);
-        
-        const unmatchedIndices = this._deck.map((c,i) => c.matched ? -1 : i).filter(i => i !== -1);
-        const newPairsNeeded = unmatchedIndices.length / 2;
-        const selectedSPs = spPool.sort(() => 0.5-Math.random()).slice(0, newPairsNeeded);
-        const newIcons = [...selectedSPs, ...selectedSPs].sort(() => 0.5-Math.random());
-        
-        unmatchedIndices.forEach((deckIdx, i) => {
-          this._deck[deckIdx].id = newIcons[i];
-        });
-
-        // 2. Ein paar bereits gefundene Paare wieder verstecken
-        const matchedIds = [...new Set(this._deck.filter(c => c.matched).map(c => c.id))];
-        if(matchedIds.length > 0) {
-          const toBreak = matchedIds.sort(() => 0.5-Math.random()).slice(0, Math.ceil(matchedIds.length/3));
-          this._deck.forEach(c => {
-            if(toBreak.includes(c.id)) c.matched = false;
-          });
-          this._matches = this._deck.filter(c => c.matched).length / 2;
-        }
-
-        setTimeout(() => {
-          this._render();
-          this.$missesPill.classList.remove("chaos-active");
-          this.$grid.classList.remove("glitch");
-          this._open = []; this._locked = false;
-          this._updateUI();
-        }, 1200);
-      }
-
-      _triggerFloat(sec, isPos){
-        this._timeLeft = isPos ? this._timeLeft + sec : Math.max(0, this._timeLeft - sec);
-        const el = document.createElement("div");
-        el.className = `bonus-text ${isPos?'pos':'neg'}`;
-        el.textContent = `${isPos?'+':'-'}${sec}s`;
-        this.$floatContainer.appendChild(el);
-        setTimeout(() => el.remove(), 1000);
-      }
-
-      _startTimer(){
-        clearInterval(this._timerId);
-        this._timerId = setInterval(() => {
-          this._timeLeft--;
-          const m = Math.floor(Math.max(0, this._timeLeft)/60), s = Math.max(0, this._timeLeft)%60;
-          this.$timer.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-          if(this._timeLeft <= 0) { clearInterval(this._timerId); this._end("Game Over"); }
-        }, 1000);
-      }
-
-      _updateUI(){
-        this.$status.textContent = `Pairs: ${this._matches}/${this.getAttribute("pairs") || "12"}`;
-        this.$missesVal.textContent = this._misses;
-      }
-
-      _end(t){
-        clearInterval(this._timerId);
-        this.shadowRoot.getElementById("ovTitle").textContent = t;
-        this.shadowRoot.getElementById("ovMsg").textContent = `Score: ${this._matches} Pairs | Misses: ${this._misses}`;
-        this.$overlay.setAttribute("open", "");
-      }
-
-      _ensureAudio(){ if(!this._audioCtx) this._audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-      _beep(f, d, t, g, w=0){
-        const ctx = this._audioCtx; const t0 = ctx.currentTime + w;
-        const o = ctx.createOscillator(); const gain = ctx.createGain();
-        o.type = t; o.frequency.setValueAtTime(f, t0);
-        gain.gain.setValueAtTime(g, t0); gain.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
-        o.connect(gain); gain.connect(ctx.destination); o.start(t0); o.stop(t0 + d);
-      }
-      _sfx(k){
-        if(k === "flip") this._beep(560, 0.1, "triangle", 0.05);
-        if(k === "match") { this._beep(660, 0.1, "sine", 0.06); this._beep(880, 0.1, "sine", 0.06, 0.05); }
-        if(k === "miss") this._beep(220, 0.2, "sawtooth", 0.04);
-        if(k === "chaos") { this._beep(100, 0.5, "square", 0.1); this._beep(150, 0.5, "square", 0.1, 0.1); }
+        this.update();
       }
     }
-    customElements.define("pack-memory", PackMemory);
-  } catch (e) { console.error(e); }
+
+    chaos() {
+      const g = this.root.getElementById("grid");
+      const mp = this.root.getElementById("miss-pill");
+      g.classList.add("glitch"); mp.classList.add("chaos-active");
+
+      // Austausch verdeckte Karten
+      const sp = []; for(let i=1;i<=49;i++) sp.push(`sp${String(i).padStart(2,"0")}`);
+      const un = this.d.map((c,i) => c.match ? -1 : i).filter(i => i !== -1);
+      const icons = sp.sort(() => .5-Math.random()).slice(0, un.length/2);
+      const pairs = [...icons, ...icons].sort(() => .5-Math.random());
+      un.forEach((idx, i) => this.d[idx].id = pairs[i]);
+
+      // Paare "zerbrechen"
+      this.d.forEach(c => { if(c.match && Math.random() > 0.6) c.match = false; });
+      this.m = this.d.filter(c => c.match).length / 2;
+
+      setTimeout(() => {
+        this.render(); g.classList.remove("glitch"); mp.classList.remove("chaos-active");
+        this.o = []; this.l = false; this.update();
+      }, 1200);
+    }
+
+    float(s, p) {
+      this.timeLeft = p ? this.timeLeft + s : Math.max(0, this.timeLeft - s);
+      const e = document.createElement("div");
+      e.className = `floating ${p?'pos':'neg'}`; e.textContent = `${p?'+':'-'}${s}s`;
+      this.root.getElementById("float-box").appendChild(e);
+      setTimeout(() => e.remove(), 1000);
+    }
+
+    start() {
+      clearInterval(this.tid);
+      this.tid = setInterval(() => {
+        this.timeLeft--;
+        const m = Math.floor(Math.max(0, this.timeLeft)/60), s = Math.max(0, this.timeLeft)%60;
+        this.root.getElementById("timer").textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        if(this.timeLeft <= 0) { clearInterval(this.tid); this.end("Game Over"); }
+      }, 1000);
+    }
+
+    update() {
+      this.root.getElementById("status").textContent = `Pairs: ${this.m}/${this.getAttribute("pairs")}`;
+      this.root.getElementById("miss-val").textContent = this.mi;
+    }
+
+    end(t) {
+      clearInterval(this.tid);
+      this.root.getElementById("otit").textContent = t;
+      this.root.getElementById("omsg").textContent = `Score: ${this.m} Pairs | Misses: ${this.mi}`;
+      this.root.getElementById("over").setAttribute("open", "");
+    }
+  }
+  customElements.define(TAG, ChaosMemory);
 })();
 </script>
 {% endraw %}
