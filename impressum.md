@@ -8,12 +8,6 @@ sitemap: false
 ---
 
 <style>
-  .protection-wrapper {
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: default;
-  }
-
   .lang-tabs {
     display: flex;
     gap: 14px;
@@ -73,104 +67,94 @@ sitemap: false
 </style>
 
 <div class="lang-tabs">
-  <button class="tab-btn active" id="tab-en" onclick="showLang('en')">English</button>
-  <button class="tab-btn" id="tab-de" onclick="showLang('de')">Deutsch</button>
+  <button class="tab-btn active" id="tab-de" onclick="showLang('de')">Deutsch</button>
+  <button class="tab-btn" id="tab-en" onclick="showLang('en')">English</button>
 </div>
 
-<div class="protection-wrapper" oncopy="return false" oncontextmenu="return false">
+<!-- DE -->
+<div id="content-de" class="lang-content active">
+  <h2>Impressum</h2>
+  <p>Angaben gemäß § 5 TMG:</p>
 
-  <!-- ENGLISH -->
-  <div id="content-en" class="lang-content active">
-    <h2>Legal Notice (Impressum)</h2>
-    <p>Information according to § 5 TMG:</p>
+  <div class="contact-card" data-contact></div>
 
-    <div class="contact-card" id="contact-en"></div>
+  <h3>Urheberrecht & Medien</h3>
+  <p>
+    Der Großteil der auf dieser Website verwendeten Bilder und visuellen Inhalte besteht aus
+    Screenshots aus <em>Die Sims 4</em> und dient ausschließlich der Darstellung der Mod-Funktionen.
+  </p>
+  <p>
+    <strong>Credits & Lizenzen:</strong>
+    Quellen und Lizenzen für verwendete Icons und Bilder:
+    <a href="/licenses/">Credits & Lizenzen</a>
+  </p>
 
-    <h3>Intellectual Property & Media</h3>
-    <p>
-      Most images and visual content on this website consist of screenshots taken directly from
-      <em>The Sims 4</em> and are used solely to illustrate the functionality of the published mods.
-    </p>
-    <p>
-      <strong>Credits & Licenses:</strong>
-      Sources and licenses for third-party icons, images, and similar assets used on this website
-      are listed on a dedicated page:
-      <a href="/licenses/">Credits & Licenses</a>.
-    </p>
-
-    <div class="legal-links">
-      <a href="/privacy/">Privacy Policy</a>
-      <a href="/cookies/">Cookie Policy</a>
-    </div>
+  <div class="legal-links">
+    <a href="/privacy/">Datenschutzerklärung</a>
+    <a href="/cookies/">Cookie-Richtlinie</a>
   </div>
+</div>
 
-  <!-- DEUTSCH -->
-  <div id="content-de" class="lang-content">
-    <h2>Impressum</h2>
-    <p>Angaben gemäß § 5 TMG:</p>
+<!-- EN -->
+<div id="content-en" class="lang-content">
+  <h2>Legal Notice (Impressum)</h2>
+  <p>Information according to § 5 TMG:</p>
 
-    <div class="contact-card" id="contact-de"></div>
+  <div class="contact-card" data-contact></div>
 
-    <h3>Urheberrecht & Medien</h3>
-    <p>
-      Der Großteil der auf dieser Website verwendeten Bilder und visuellen Inhalte besteht aus
-      Screenshots aus <em>Die Sims 4</em> und dient ausschließlich der Darstellung der Mod-Funktionen.
-    </p>
-    <p>
-      <strong>Credits & Lizenzen:</strong>
-      Quellen und Lizenzen für verwendete Icons, Bilder und vergleichbare Drittanbieter-Assets
-      sind auf einer separaten Seite zusammengefasst:
-      <a href="/licenses/">Credits & Lizenzen</a>.
-    </p>
+  <h3>Intellectual Property & Media</h3>
+  <p>
+    Most images and visual content on this website consist of screenshots taken directly from
+    <em>The Sims 4</em> and are used solely to illustrate mod functionality.
+  </p>
+  <p>
+    <strong>Credits & Licenses:</strong>
+    Sources and licenses for icons and images:
+    <a href="/licenses/">Credits & Licenses</a>
+  </p>
 
-    <div class="legal-links">
-      <a href="/privacy/">Datenschutzerklärung</a>
-      <a href="/cookies/">Cookie-Richtlinie</a>
-    </div>
+  <div class="legal-links">
+    <a href="/privacy/">Privacy Policy</a>
+    <a href="/cookies/">Cookie Policy</a>
   </div>
 </div>
 
 <script>
-(() => {
-  // Base64 → reverse → Klartext
-  const decode = v => atob(v).split('').reverse().join('');
+/* ---------- CONTACT DATA (NO PLAINTEXT IN HTML) ---------- */
 
-  // NUR Base64-Werte hier (kein reverse!)
-  const data = {
-    name:   "emFhUiBzYWVyZG5B",
-    street: "MTcwIGVsbEEgcmV1bGF6bmVyUA==",
-    city:   "bmlscmVCIDA5NDAx",
-    mail:   "bW9jLmxpYW1nQHpyaWRuYTRzbWlz"
-  };
+(function () {
+  // simple obfuscation: char codes
+  const d = [
+    [65,110,100,114,101,97,115,32,82,97,97,122],
+    [80,114,101,110,122,108,97,117,101,114,32,65,108,108,101,101,32,49,55,48],
+    [49,48,52,48,57,32,66,101,114,108,105,110],
+    [115,105,109,115,52,97,110,100,105,114,122,64,103,109,97,105,108,46,99,111,109]
+  ];
+
+  const t = arr => arr.map(c => String.fromCharCode(c)).join('');
 
   const html = `
-    <strong>Operator</strong>
-    ${decode(data.name)}<br>
-    ${decode(data.street)}<br>
-    ${decode(data.city)}<br>
+    <strong>Verantwortlich / Operator</strong>
+    ${t(d[0])}<br>
+    ${t(d[1])}<br>
+    ${t(d[2])}<br>
     Germany
 
-    <strong>Contact</strong>
-    E-Mail: ${decode(data.mail)}
+    <strong>Kontakt / Contact</strong>
+    E-Mail: ${t(d[3])}
   `;
 
-  document.getElementById("contact-en").innerHTML = html;
-  document.getElementById("contact-de").innerHTML = html;
+  document.querySelectorAll('[data-contact]').forEach(el => {
+    el.innerHTML = html;
+  });
 })();
 </script>
 
 <script>
-  function showLang(lang) {
-    document.querySelectorAll('.lang-content').forEach(e => e.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
-    document.getElementById('content-' + lang).classList.add('active');
-    document.getElementById('tab-' + lang).classList.add('active');
-  }
-
-  // block common copy / inspect shortcuts
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && ['c','u','s','p','i','a'].includes(e.key.toLowerCase())) {
-      e.preventDefault();
-    }
-  });
+function showLang(lang) {
+  document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('content-' + lang).classList.add('active');
+  document.getElementById('tab-' + lang).classList.add('active');
+}
 </script>
