@@ -3,7 +3,7 @@ layout: page
 title: Pack Picker Memory
 icon: "fas fa-brain"
 order: 2
-description: "Match Sims 4 Packs. Mild chaos every 10 misses (only a few cards reset & replaced)."
+description: "Match Sims 4 Packs. Mild chaos every 10 misses."
 mode: Memory
 difficulty: Hard
 ---
@@ -51,22 +51,20 @@ difficulty: Hard
 
         .top{
           display:flex;
-          justify-content:space-between;
-          align-items:flex-start;
-          gap: 1rem;
-          flex-wrap: wrap;
+          flex-direction:column;
+          align-items:center;
+          gap: .75rem;
           margin-bottom: 1rem;
         }
 
-        h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
-        p{ margin:.25rem 0 0; color:var(--muted); font-size:.9rem; }
+        h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; text-align:center; }
 
         .stats{
           display:flex;
           gap:.5rem;
           align-items:center;
           flex-wrap:wrap;
-          justify-content:flex-end;
+          justify-content:center;
         }
 
         .pill{
@@ -110,21 +108,44 @@ difficulty: Hard
           100%{ transform: scale(1); }
         }
 
+        .controls{
+          display:flex;
+          gap:.75rem;
+          align-items:center;
+          justify-content:center;
+          flex-wrap:wrap;
+        }
+
         .btn{
           background: #0b0b0b;
           color:#fff;
           border:none;
           border-radius: 12px;
-          padding: .5rem .9rem;
+          padding: .55rem 1.05rem;
           font-weight: 850;
-          font-size: .9rem;
+          font-size: .92rem;
           cursor:pointer;
         }
 
-        .btn.ghost{
-          background: transparent;
+        .btn:disabled{
+          opacity: .55;
+          cursor: not-allowed;
+        }
+
+        .sound-toggle{
+          display:flex;
+          align-items:center;
+          gap:.45rem;
+          font-weight: 800;
           color: var(--ink);
-          border: 2px solid var(--border);
+          user-select:none;
+        }
+
+        .sound-toggle input{
+          width: 18px;
+          height: 18px;
+          accent-color: #0b0b0b;
+          cursor:pointer;
         }
 
         .grid{
@@ -133,6 +154,14 @@ difficulty: Hard
           justify-content:center;
           perspective: 1100px;
           margin: 0 auto;
+          opacity: 1;
+          transition: opacity .25s ease;
+        }
+
+        .grid.disabled{
+          pointer-events:none;
+          opacity: .45;
+          filter: grayscale(1);
         }
 
         .grid.glitch{
@@ -252,44 +281,47 @@ difficulty: Hard
         .overlay[open]{ display:flex; }
 
         .modal{
-          width:min(400px, calc(100% - 28px));
+          width:min(420px, calc(100% - 28px));
           background: #fff;
           border: 2px solid #0b0b0b;
           border-radius: 18px;
-          padding: 1.5rem;
+          padding: 1.35rem;
           text-align:center;
           box-shadow: var(--shadow);
+        }
+
+        .modal .btn{
+          margin-top: .75rem;
+          width: 100%;
         }
       </style>
 
       <div class="shell">
         <div class="top">
-          <div class="title">
-            <h2>Pack Picker Memory</h2>
-            <p>Every 10 misses: only a few open cards slam shut, and only a few new icons are injected.</p>
+          <h2>Pack Picker Memory</h2>
+
+          <div class="controls">
+            <button class="btn" id="start">Start</button>
+            <label class="sound-toggle" title="Sound">
+              <input type="checkbox" id="soundCheck">
+              <span>Sound</span>
+            </label>
           </div>
 
           <div class="stats">
             <div class="pill" id="status">Pairs: 0 / 0</div>
             <div class="pill" id="misses-pill">Misses: 0</div>
-
-            <div class="pill" id="timer-pill">
-              <span id="timer">00:00</span>
-              <div id="bonus-container"></div>
-            </div>
-
-            <button class="btn" id="restart">Restart</button>
-            <button class="btn ghost" id="sound">Sound: ON</button>
+            <div class="pill" id="timer-pill"><span id="timer">00:00</span><div id="bonus-container"></div></div>
           </div>
         </div>
 
-        <div class="grid" id="grid"></div>
+        <div class="grid disabled" id="grid"></div>
 
         <div class="overlay" id="overlay">
           <div class="modal">
             <h3 id="ovTitle">Victory!</h3>
             <p id="ovMsg"></p>
-            <button class="btn" id="restart2">Play Again</button>
+            <button class="btn" id="restart2">Restart</button>
           </div>
         </div>
       </div>
@@ -309,7 +341,9 @@ difficulty: Hard
         this.$bonusContainer = this.shadowRoot.getElementById("bonus-container");
         this.$overlay = this.shadowRoot.getElementById("overlay");
 
-        this.$soundBtn = this.shadowRoot.getElementById("sound");
+        this.$startBtn = this.shadowRoot.getElementById("start");
+        this.$restartBtn = this.shadowRoot.getElementById("restart2");
+        this.$soundCheck = this.shadowRoot.getElementById("soundCheck");
 
         this._deck = [];
         this._open = [];
@@ -323,26 +357,36 @@ difficulty: Hard
         this._ac = null;
         this._soundOn = ((this.getAttribute("sound") || "on").toLowerCase() !== "off");
 
+        this._running = false;
         this._chaosActive = false;
         this._lastTickSecond = null;
       }
 
       connectedCallback(){
-        this.shadowRoot.getElementById("restart").onclick = () => this._reset();
-        this.shadowRoot.getElementById("restart2").onclick = () => this._reset();
-        this.$grid.onclick = (e) => this._onClick(e);
+        this.$soundCheck.checked = this._soundOn;
 
-        this.$soundBtn.onclick = () => {
-          this._soundOn = !this._soundOn;
-          this.$soundBtn.textContent = this._soundOn ? "Sound: ON" : "Sound: OFF";
+        this.$soundCheck.onchange = () => {
+          this._soundOn = !!this.$soundCheck.checked;
           if (this._soundOn) {
             this._ensureAudio();
             if (this._ac && this._ac.state === "suspended") this._ac.resume().catch(() => {});
           }
         };
 
-        this.$soundBtn.textContent = this._soundOn ? "Sound: ON" : "Sound: OFF";
-        this._reset();
+        this.$startBtn.onclick = () => {
+          if (!this._running) this._startGame();
+          else this._reset();
+        };
+
+        this.$restartBtn.onclick = () => {
+          this.$overlay.removeAttribute("open");
+          this._reset();
+          this._startGame();
+        };
+
+        this.$grid.onclick = (e) => this._onClick(e);
+
+        this._prepareBoard();
       }
 
       _ensureAudio(){
@@ -422,8 +466,20 @@ difficulty: Hard
         return pool.filter(id => !ex.has(id.toLowerCase()));
       }
 
-      _reset(){
+      _prepareBoard(){
+        this._running = false;
+        this.$grid.classList.add("disabled");
+        this.$startBtn.textContent = "Start";
         this.$overlay.removeAttribute("open");
+        this._resetStateOnly();
+        this._renderEmpty();
+        this._updateUI();
+        this._setTimerUI(this.timeLimit);
+      }
+
+      _resetStateOnly(){
+        clearInterval(this._timerId);
+        this._timerId = null;
 
         this._matches = 0;
         this._misses = 0;
@@ -435,6 +491,22 @@ difficulty: Hard
         this._lastTickSecond = null;
 
         this.$timerPill.classList.remove("timer-urgent");
+      }
+
+      _renderEmpty(){
+        this.$grid.innerHTML = "";
+      }
+
+      _startGame(){
+        this._running = true;
+        this.$grid.classList.remove("disabled");
+        this.$startBtn.textContent = "Restart";
+        this._reset();
+      }
+
+      _reset(){
+        this.$overlay.removeAttribute("open");
+        this._resetStateOnly();
 
         const pool = this._buildPool();
         const pickCount = Math.min(this.pairs, pool.length);
@@ -486,6 +558,8 @@ difficulty: Hard
       }
 
       _onClick(e){
+        if (!this._running) return;
+
         const card = e.target.closest(".card");
         if(!card || this._locked) return;
 
@@ -538,7 +612,6 @@ difficulty: Hard
           } else {
             this._misses++;
             this._sfx("miss");
-            this._showFloat(3, false);
             this._updateUI();
 
             if(this._misses % 10 === 0){
@@ -619,8 +692,6 @@ difficulty: Hard
       }
 
       _showFloat(sec, pos){
-        this._timeLeft = pos ? (this._timeLeft + sec) : Math.max(0, this._timeLeft - sec);
-
         const b = document.createElement("div");
         b.className = `bonus-text ${pos ? "pos" : "neg"}`;
         b.textContent = `${pos ? "+" : "-"}${sec}s`;
