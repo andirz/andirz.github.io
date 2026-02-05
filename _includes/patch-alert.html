@@ -1,58 +1,123 @@
-<div class="patch-alert-container critical-mode">
-  <div class="patch-alert-header">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span>{{ site.data.globals.patch_alert.title }}</span>
+<div class="patch-badge-wrapper">
+  <div class="patch-badge-header">
+    <div class="badge-pill version-badge">
+      <i class="fas fa-code-branch"></i>
+      <span>Patch: {{ site.data.globals.latest_patch }}</span>
+    </div>
+    
+    <div class="badge-pill date-badge">
+      <i class="fas fa-calendar-alt"></i>
+      <span>{{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}</span>
+    </div>
+
+    <div class="badge-pill update-badge">
+      <i class="fas fa-history"></i>
+      <span>Check: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}</span>
+    </div>
   </div>
-  
-  <div class="patch-alert-body">
-    <p>
-      A game update (<strong>{{ site.data.globals.latest_patch }}</strong>) is scheduled or was recently released on 
-      <strong>{{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}</strong>.
+
+  <div class="patch-badge-body">
+    <p class="patch-intro">
+      <i class="fas fa-info-circle"></i>
+      All specific mod statuses are listed in the table below.
     </p>
     
-    <ul class="patch-list">
-      <li><strong>Safety First:</strong> Backup your <code>Saves</code> & <code>Tray</code> folders and play offline until you have updated your mods.</li>
-      <li><strong>Individual Status:</strong> Please check the <strong>Status</strong> column in the table below for each specific mod.</li>
-      <li><strong>Unknown Risk:</strong> Mods not yet marked as 'Compatible' or 'Updated' should be used at your own risk.</li>
-    </ul>
-
-    <div class="patch-status-footer">
-      Table last updated: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}
+    <div class="patch-instruction-grid">
+      <div class="instruction-item">
+        <strong>Safety First:</strong> Backup your <code>Saves</code> & <code>Tray</code> folders and play offline.
+      </div>
+      <div class="instruction-item">
+        <strong>Unknown Risk:</strong> Mods not yet marked as 'Compatible' or 'Updated' are used at your own risk.
+      </div>
     </div>
+  </div>
+
+  <div class="patch-badge-footer">
+    <a href="https://andirz-mods.com/support/keep-functional/" class="functional-link">
+      <i class="fas fa-tools"></i> Learn how to keep your game functional
+    </a>
   </div>
 </div>
 
 <style>
-  .patch-alert-container {
-    margin: 20px 0;
-    border: 2px solid #b30000;
-    border-radius: 8px;
-    overflow: hidden;
-    background: var(--bg-primary);
+  :root {
+    --patch-danger: #ef4444;
+    --patch-accent: #3b82f6;
+    --patch-bg: rgba(248, 250, 252, 0.8);
   }
-  .patch-alert-header {
-    background: #b30000;
-    color: #ffffff;
-    padding: 10px 15px;
-    font-weight: 800;
+
+  .patch-badge-wrapper {
+    margin: 25px 0;
+    padding: 20px;
+    background: var(--patch-bg);
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    font-family: inherit;
+  }
+
+  .patch-badge-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  /* Badge Styling */
+  .badge-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .version-badge { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+  .date-badge { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .update-badge { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+  /* Body & Text */
+  .patch-badge-body .patch-intro {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 10px;
-    text-transform: uppercase;
   }
-  .patch-alert-body {
-    padding: 15px;
-    color: var(--text-color);
+
+  .patch-instruction-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     font-size: 0.9rem;
+    color: #64748b;
   }
-  .patch-list { margin: 10px 0; padding-left: 20px; list-style-type: disc; }
-  .patch-list li { margin-bottom: 5px; }
-  .patch-status-footer {
-    margin-top: 10px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-align: right;
-    border-top: 1px solid rgba(128,128,128,0.1);
-    padding: 5px 15px;
+
+  .instruction-item strong { color: #1e293b; display: block; margin-bottom: 2px; }
+
+  /* Footer Link */
+  .patch-badge-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #e2e8f0;
+  }
+
+  .functional-link {
+    font-size: 0.85rem;
+    color: var(--patch-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .functional-link:hover { color: #1d4ed8; text-decoration: underline; }
+
+  @media (max-width: 768px) {
+    .patch-instruction-grid { grid-template-columns: 1fr; }
+    .patch-badge-header { justify-content: center; }
   }
 </style>
