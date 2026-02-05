@@ -27,3 +27,10 @@ lot51_core:
   author: "Lot51"
   icon: "fas fa-layer-group"
   url: "https://lot51.cc/core"
+
+zerbu_preferences:
+  name: "Custom Preferences Mod"
+  short_name: "Custom Prefs"
+  author: "Zerbu"
+  icon: "fas fa-thumbs-up"
+  url: "https://zerbu.tumblr.com/post/756892231287422976/the-sims-4-mod-the-custom-preferences-mod"

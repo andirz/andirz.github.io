@@ -3,7 +3,7 @@ mod_id: weather_preferences
 title: "Visible Weather Preferences"
 icon: "fas fa-cloud-sun"
 packs: ["EP05"]
-requirements: ["custom_preferences_mod"]
+requirements: ["zerbu_preferences"]
 categories: [UI Tweaks, Traits, Preferences, Overrides]
 overrides: true
 ---
