@@ -2,88 +2,21 @@
 layout: default
 ---
 
-<div class="page-layout-wrapper" style="max-width: 1400px; margin: 0 auto; padding: 20px;">
-  <div class="dynamic-grid">
-    
-    <main class="main-content-area">
-      <article class="px-1">
-        <h1 class="dynamic-title">{{ page.title }}</h1>
-        <div class="content">
-          {{ content }}
-        </div>
-      </article>
+{% include lang.html %}
 
-      <div class="ad-footer-block">
-        {% include google/ad-multiplex.html %}
-      </div>
-    </main>
-
-    <aside class="sidebar-ad-area">
-      <div class="sticky-ad-wrapper">
-        {% include google/ad-vertical.html %}
-      </div>
-    </aside>
-
-  </div>
-</div>
-
-<style>
-  /* Grund-Layout: Flexbox mit automatischer Verteilung */
-  .dynamic-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-  }
-
-  /* Der Textbereich nimmt so viel Platz wie möglich ein */
-  .main-content-area {
-    flex: 1; 
-    min-width: 320px;
-    transition: all 0.3s ease;
-  }
-
-  /* Die Sidebar hat eine feste Breite für den Skyscraper */
-  .sidebar-ad-area {
-    flex: 0 0 300px;
-    display: block;
-  }
-
-  /* STICKY-LOGIK: Anzeige bleibt beim Scrollen im Bild */
-  .sticky-ad-wrapper {
-    position: sticky;
-    top: 20px;
-  }
-
-  /* --- INTELLIGENTE LÜCKEN-PRÄVENTION --- */
-
-  /* Wenn die Anzeige "unfilled" ist, wird die Sidebar komplett versteckt */
-  /* Die Hauptspalte (.main-content-area) füllt dann automatisch 100% aus */
-  .sidebar-ad-area:has(ins[data-ad-status="unfilled"]) {
-    display: none;
-  }
-
-  /* Styling für die geladene Anzeige */
-  .adsbygoogle[data-ad-status="filled"] {
-    display: block;
-    background: rgba(0,0,0,0.02);
-    border-radius: 8px;
-    padding: 10px;
-  }
-
-  /* Verstecke den Platzhalter, wenn nichts geladen wurde */
-  .adsbygoogle[data-ad-status="unfilled"] {
-    display: none !important;
-  }
-
-  /* Responsive: Auf Handys wird die Sidebar ohnehin ausgeblendet oder rutscht nach unten */
-  @media (max-width: 1024px) {
-    .sidebar-ad-area {
-      flex: 1 1 100%;
-    }
-  }
-
-  .content {
-    font-size: 1.1rem;
-    line-height: 1.7;
-  }
-</style>
+<article class="px-1">
+  {% if page.layout == 'page' or page.collection == 'tabs' %}
+    {% assign tab_key = page.title | downcase %}
+    {% assign title = site.data.locales[lang].tabs[tab_key] | default: page.title %}
+    <h1 class="dynamic-title">
+      {{ title }}
+    </h1>
+    <div class="content">
+      {{ content }}
+    </div>
+  {% else %}
+    {% include google/ad-vertical.html %}
+    {{ content }}
+  {% endif %}
+  {% include google/ad-multiplex.html %}
+</article>
