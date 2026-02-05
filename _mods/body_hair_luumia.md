@@ -1,9 +1,8 @@
 ---
-mod_id: body_hair_luumia_edition
-title: "Body Hair: Luumia Edition"
-icon: "fas fa-user"
-categories: [CAS, Overrides, Body Hair]
-overrides: true
+mod_id: body_hair_luumia
+title: "Body Hair Replacement: Luumia Edition"
+icon: "fas fa-cut"
+categories: [CAS, Replacement, Overrides]
 ---
 
 ## What does this mod do?

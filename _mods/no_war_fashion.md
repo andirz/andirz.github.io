@@ -1,7 +1,7 @@
 ---
 mod_id: cas_no_war_fashion
 title: "#NoWar Fashion Collection"
-icon: "fas fa-tshirt"
+icon: "fas fa-peace"
 categories: [CAS, Fashion]
 ---
 

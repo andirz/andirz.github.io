@@ -261,15 +261,11 @@
   status: "compatible"
   updated: "2025-10-07"
 
-- id: body-hair-replacement-luumia
-  name: "Body Hair Replacement: Luumia Edition"
-  icon: "fas fa-cut"
+- id: body_hair_luumia
   version: "1.0.1"
   status: "compatible"
 
-- id: no-war-fashion
-  name: "#NoWar Fashion (CAS)"
-  icon: "fas fa-peace"
+- id: no_war_fashion
   version: "1.0.0"
   status: "compatible"
 
