@@ -23,4 +23,4 @@ Detailed information on how data is handled can be found on the following pages:
 
 ## Disclaimer
 
-<script src="/_javascript/legal.js"></script>
+<script src="/assets/javascript/legal.js"></script>
