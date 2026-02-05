@@ -1,8 +1,8 @@
 ---
 mod_id: medical_decorations
 title: "Medical Decorations Kit"
-icon: "fas fa-first-aid"
-categories: [Buy Mode, Decor, Medical]
+icon: "fas fa-briefcase-medical"
+categories: [Build/Buy, Decor, Medical]
 ---
 
 ## Mod Description

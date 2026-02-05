@@ -269,13 +269,11 @@
   version: "1.0.0"
   status: "compatible"
 
-- id: medical-decorations-kit
-  name: "Medical Decorations Kit"
-  icon: "fas fa-briefcase-medical"
+- id: medical_decorations_kit
   version: "1.1.0"
   status: "compatible"
 
-- id: pharmacy-kiosk-object
+- id: pharmacy_kiosk_object
   version: "1.4.2"
   status: "compatible"
 
