@@ -5,9 +5,7 @@ icon: "fas fa-toolbox"
 order: 200
 ---
 
-This page serves as a comprehensive directory of the essential tools and resources utilized during the development of game mods. Whether for technical utilities to handle Python scripts or creative assets for UI design, this list covers the core pillars of modern modding.
-
-Use of all resources is at the user's own risk. No liability is assumed for any damage to files, hardware, or software. This website contains links to external sites for which the respective providers are solely responsible. Technical utilities may trigger false positives in security software; it is recommended to use official sources exclusively.
+**This page serves as a comprehensive directory of the essential tools and resources utilized during the development of game mods. Use of all resources is at the user's own risk. No liability is assumed for any damage to files, hardware, or software. This website contains links to external sites for which the respective providers are solely responsible. Technical utilities may trigger false positives in security software; it is recommended to use official sources exclusively.**
 
 ---
 
