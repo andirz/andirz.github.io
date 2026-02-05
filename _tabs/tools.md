@@ -63,11 +63,11 @@ The shared knowledge of the community is often the most valuable asset. These li
 ---
 
 ## ⚖️ Disclaimer & Terms of Use {#disclaimer--terms-of-use}
-**External Links:** This website contains links to external websites ("third-party links"). As the content of these websites is not under external control, no liability can be assumed for such external content. In all cases, the provider or operator of the linked websites is liable for the content and accuracy of the information provided.
+**External Links:** This website contains links to third-party websites. I assume no liability for the content or accuracy of external sites; the respective providers are solely responsible.
 
-**Liability:** The tools and resources listed above are provided for informational purposes only. The use of any software or web-based service is at the user's own risk. No responsibility is taken for any damage to game files, hardware, or software resulting from the use of these resources.
+**Liability:** Use of these tools and resources is at your own risk. I am not responsible for any damage to game files, hardware, or software resulting from their use.
 
-**Security:** Please be aware that some technical utilities (such as decompilers) may be flagged by security software as false positives due to their nature. It is recommended to always ensure that downloads are obtained from the official sources provided.
+**Security:** Some technical utilities (e.g., decompilers) may trigger false positives in security software. To ensure safety, always download exclusively from the official sources provided.
 
 ---
 *Note: This list is updated periodically as new tools emerge in the modding scene.*
