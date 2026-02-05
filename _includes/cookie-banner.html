@@ -8,19 +8,15 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var banner = document.getElementById('cookie-banner');
-    var button = document.getElementById('accept-cookies');
+  if (localStorage.getItem('cookies-accepted') === 'true') {
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-RTPTZC13KG";
+    document.head.appendChild(script);
 
-    // Prüfen, ob der User schon mal zugestimmt hat
-    if (!localStorage.getItem('cookies-accepted')) {
-      banner.style.display = 'block';
-    }
-
-    button.addEventListener('click', function() {
-      localStorage.setItem('cookies-accepted', 'true');
-      banner.style.display = 'none';
-      location.reload(); // Seite neu laden, um GA zu aktivieren
-    });
-  });
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RTPTZC13KG', { 'anonymize_ip': true });
+  }
 </script>
