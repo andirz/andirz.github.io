@@ -2,7 +2,7 @@
 layout: page
 title: "Credits & Licenses"
 icon: "fas fa-balance-scale"
-order: 400
+order: 200
 ---
 
 This page lists all third-party icons used in **P.S.O. (Purchasing System Overhaul)** mods.
