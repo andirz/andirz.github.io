@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: table
 title: Mods Overview
 icon: "fas fa-layer-group"
 order: 2
