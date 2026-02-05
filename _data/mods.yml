@@ -261,9 +261,10 @@
   status: "compatible"
   updated: "2025-10-07"
 
-- id: body_hair_luumia
+- id: body_hair_replacement_luumia_edition
   version: "1.0.1"
   status: "compatible"
+  updated: "2023-09-25"
 
 - id: no_war_fashion
   version: "1.0.0"

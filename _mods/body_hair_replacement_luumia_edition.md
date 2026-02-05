@@ -1,5 +1,5 @@
 ---
-mod_id: body_hair_luumia
+mod_id: body_hair_replacement_luumia_edition
 title: "Body Hair Replacement: Luumia Edition"
 icon: "fas fa-cut"
 categories: [CAS, Replacement, Overrides]
