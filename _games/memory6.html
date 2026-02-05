@@ -53,11 +53,47 @@ difficulty: Hard
           display:flex;
           flex-direction:column;
           align-items:center;
-          gap: .75rem;
+          gap: .7rem;
           margin-bottom: 1rem;
         }
 
         h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; text-align:center; }
+
+        .controls{
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          gap:.75rem;
+          flex-wrap:nowrap; /* buttons in one line */
+          white-space:nowrap;
+        }
+
+        .btn{
+          background: #0b0b0b;
+          color:#fff;
+          border:none;
+          border-radius: 12px;
+          padding: .55rem 1.05rem;
+          font-weight: 850;
+          font-size: .92rem;
+          cursor:pointer;
+        }
+
+        .sound-toggle{
+          display:flex;
+          align-items:center;
+          gap:.45rem;
+          font-weight: 800;
+          color: var(--ink);
+          user-select:none;
+        }
+
+        .sound-toggle input{
+          width: 18px;
+          height: 18px;
+          accent-color: #0b0b0b;
+          cursor:pointer;
+        }
 
         .stats{
           display:flex;
@@ -108,46 +144,6 @@ difficulty: Hard
           100%{ transform: scale(1); }
         }
 
-        .controls{
-          display:flex;
-          gap:.75rem;
-          align-items:center;
-          justify-content:center;
-          flex-wrap:wrap;
-        }
-
-        .btn{
-          background: #0b0b0b;
-          color:#fff;
-          border:none;
-          border-radius: 12px;
-          padding: .55rem 1.05rem;
-          font-weight: 850;
-          font-size: .92rem;
-          cursor:pointer;
-        }
-
-        .btn:disabled{
-          opacity: .55;
-          cursor: not-allowed;
-        }
-
-        .sound-toggle{
-          display:flex;
-          align-items:center;
-          gap:.45rem;
-          font-weight: 800;
-          color: var(--ink);
-          user-select:none;
-        }
-
-        .sound-toggle input{
-          width: 18px;
-          height: 18px;
-          accent-color: #0b0b0b;
-          cursor:pointer;
-        }
-
         .grid{
           display:grid;
           gap: var(--gap);
@@ -187,6 +183,7 @@ difficulty: Hard
           .grid{ grid-template-columns: repeat(4, var(--size)); }
           .pill{ min-width: 80px; font-size: 0.75rem; padding: 0.3rem 0.5rem; }
           h2{ font-size: 1.1rem; }
+          .controls{ flex-wrap:wrap; } /* on small screens allow wrap */
         }
 
         .card{
@@ -211,13 +208,24 @@ difficulty: Hard
 
         .card.replaced{
           animation: replacePop 0.55s cubic-bezier(.175,.885,.32,1.22);
-          filter: drop-shadow(0 0 16px rgba(34,197,94,.55));
+          filter: drop-shadow(0 0 18px rgba(34,197,94,.60));
+        }
+
+        .card.shuffled{
+          animation: shufflePop 0.55s cubic-bezier(.175,.885,.32,1.22);
+          filter: drop-shadow(0 0 18px rgba(59,130,246,.55));
         }
 
         @keyframes replacePop{
-          0%{ transform: scale(0.88) rotateZ(-2deg); opacity: .65; }
-          40%{ transform: scale(1.1) rotateZ(2deg); opacity: 1; }
+          0%{ transform: scale(0.86) rotateZ(-3deg); opacity: .55; }
+          40%{ transform: scale(1.12) rotateZ(3deg); opacity: 1; }
           100%{ transform: scale(1) rotateZ(0deg); opacity: 1; }
+        }
+
+        @keyframes shufflePop{
+          0%{ transform: scale(0.92); opacity: .6; }
+          40%{ transform: scale(1.08); opacity: 1; }
+          100%{ transform: scale(1); opacity: 1; }
         }
 
         .face{
@@ -425,6 +433,7 @@ difficulty: Hard
         if(name === "chaos"){ this._beep(180, 120, "sawtooth", 0.02); return this._beep(120, 140, "sawtooth", 0.02); }
         if(name === "slam")  return this._beep(160, 90, "square", 0.02);
         if(name === "inject"){ this._beep(880, 70, "triangle", 0.02); return this._beep(1100, 60, "triangle", 0.02); }
+        if(name === "shuffle"){ this._beep(740, 70, "sine", 0.02); return this._beep(520, 70, "sine", 0.02); }
         if(name === "tick")  return this._beep(990, 35, "square", 0.015);
         if(name === "tock")  return this._beep(660, 35, "square", 0.015);
         if(name === "win")   { this._beep(784, 120, "sine", 0.03); this._beep(988, 140, "sine", 0.03); return this._beep(1175, 180, "sine", 0.03); }
@@ -472,7 +481,7 @@ difficulty: Hard
         this.$startBtn.textContent = "Start";
         this.$overlay.removeAttribute("open");
         this._resetStateOnly();
-        this._renderEmpty();
+        this.$grid.innerHTML = "";
         this._updateUI();
         this._setTimerUI(this.timeLimit);
       }
@@ -491,10 +500,6 @@ difficulty: Hard
         this._lastTickSecond = null;
 
         this.$timerPill.classList.remove("timer-urgent");
-      }
-
-      _renderEmpty(){
-        this.$grid.innerHTML = "";
       }
 
       _startGame(){
@@ -557,6 +562,14 @@ difficulty: Hard
         });
       }
 
+      _shuffleInPlace(arr){
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
       _onClick(e){
         if (!this._running) return;
 
@@ -568,6 +581,7 @@ difficulty: Hard
         this._ensureAudio();
         if (this._ac && this._ac.state === "suspended") this._ac.resume().catch(() => {});
 
+        // allow closing an open (unmatched) card without miss
         if (card.getAttribute("state") === "up") {
           card.removeAttribute("state");
           this._open = this._open.filter(c => c !== card);
@@ -615,7 +629,7 @@ difficulty: Hard
             this._updateUI();
 
             if(this._misses % 10 === 0){
-              setTimeout(() => this._chaosLite(), 500);
+              setTimeout(() => this._chaosLiteSafe(), 500);
             } else {
               setTimeout(() => {
                 c1.removeAttribute("state");
@@ -628,7 +642,7 @@ difficulty: Hard
         }
       }
 
-      _chaosLite(){
+      _chaosLiteSafe(){
         if (this._chaosActive) {
           this._locked = false;
           this._open = [];
@@ -642,42 +656,90 @@ difficulty: Hard
 
         const btns = Array.from(this.$grid.querySelectorAll(".card"));
 
+        // 1) close only a couple open cards (visible slam)
         const openIdx = btns
           .map((b,i) => (b.getAttribute("state") === "up" ? i : -1))
           .filter(i => i !== -1);
 
         const closeCount = Math.min(2, openIdx.length);
-        const toClose = openIdx.sort(() => 0.5 - Math.random()).slice(0, closeCount);
+        const toClose = this._shuffleInPlace(openIdx.slice()).slice(0, closeCount);
 
         toClose.forEach(i => btns[i].removeAttribute("state"));
         this._open = this._open.filter(c => c.getAttribute("state") === "up");
 
         if (toClose.length) {
           this._sfx("slam");
-          this._flashCards(toClose, "flash", 650);
+          this._flashCards(toClose, "flash", 700);
         }
 
-        const candidates = this._deck
+        // 2) replace only FULL pairs (never break a pair)
+        // build map id -> indices (unmatched only)
+        const map = new Map();
+        this._deck.forEach((c, i) => {
+          if (c.matched) return;
+          const key = String(c.id).toLowerCase();
+          if (!map.has(key)) map.set(key, []);
+          map.get(key).push(i);
+        });
+
+        // keep only ids that currently have 2 cards (a proper pair)
+        const pairIds = Array.from(map.entries())
+          .filter(([, idxs]) => idxs.length === 2)
+          .map(([id]) => id);
+
+        // choose how many pairs to replace (0..2 depending on availability)
+        const replacePairCount = Math.min(2, pairIds.length);
+        const replaceOldIds = this._shuffleInPlace(pairIds.slice()).slice(0, replacePairCount);
+
+        // choose NEW ids that are not already in the deck (so no duplicates with old)
+        const currentIds = new Set(this._deck.map(c => String(c.id).toLowerCase()));
+        const poolAll = this._buildPool().map(x => String(x));
+        let poolNew = poolAll.filter(x => !currentIds.has(x.toLowerCase()));
+
+        // fallback if pool is too small (still keep pair integrity)
+        if (poolNew.length < replaceOldIds.length) {
+          const banned = new Set(replaceOldIds.map(x => x.toLowerCase()));
+          poolNew = poolAll.filter(x => !banned.has(x.toLowerCase()));
+        }
+
+        const chosenNewIds = this._shuffleInPlace(poolNew.slice()).slice(0, replaceOldIds.length);
+
+        const replacedIndices = [];
+        replaceOldIds.forEach((oldId, k) => {
+          const idxs = map.get(oldId) || [];
+          const newId = chosenNewIds[k];
+          if (!newId || idxs.length !== 2) return;
+
+          idxs.forEach(i => {
+            this._deck[i].id = newId;
+            this._deck[i].matched = false;
+            if (btns[i]) btns[i].removeAttribute("state");
+            replacedIndices.push(i);
+          });
+        });
+
+        if (replacedIndices.length) {
+          this._sfx("inject");
+          this._flashCards(replacedIndices, "replaced", 850);
+        }
+
+        // 3) mild shuffle of ONLY unmatched cards (keeps pair counts exactly correct)
+        const unmatchedIdx = this._deck
           .map((c,i) => (c.matched ? -1 : i))
           .filter(i => i !== -1);
 
-        const replaceSlots = candidates.sort(() => 0.5 - Math.random()).slice(0, 4);
+        const ids = unmatchedIdx.map(i => this._deck[i].id);
+        this._shuffleInPlace(ids);
+        unmatchedIdx.forEach((idx, n) => { this._deck[idx].id = ids[n]; });
 
-        const pool = this._buildPool();
-        const newIcons = pool.sort(() => 0.5 - Math.random()).slice(0, replaceSlots.length);
-
-        replaceSlots.forEach((idx, k) => {
-          this._deck[idx].id = newIcons[k] || this._deck[idx].id;
-          this._deck[idx].matched = false;
-          const b = btns[idx];
-          if (b) b.removeAttribute("state");
-        });
-
-        if (replaceSlots.length) {
-          this._sfx("inject");
-          this._flashCards(replaceSlots, "replaced", 750);
+        if (unmatchedIdx.length) {
+          this._sfx("shuffle");
+          // visible effect: highlight a few random cards
+          const sample = this._shuffleInPlace(unmatchedIdx.slice()).slice(0, 6);
+          this._flashCards(sample, "shuffled", 850);
         }
 
+        // recompute matches safely (always integer)
         this._matches = Math.floor(this._deck.filter(c => c.matched).length / 2);
 
         setTimeout(() => {
@@ -688,7 +750,7 @@ difficulty: Hard
           this._locked = false;
           this._chaosActive = false;
           this._updateUI();
-        }, 950);
+        }, 980);
       }
 
       _showFloat(sec, pos){
