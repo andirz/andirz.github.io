@@ -1,0 +1,26 @@
+<div id="cookie-banner" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 600px; background: #222; color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 10000; font-family: sans-serif; border: 1px solid #444;">
+  <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5;">
+    We use cookies to analyze our traffic and improve your experience with our mods. By clicking "Accept", you consent to our use of Google Analytics.
+  </p>
+  <div style="display: flex; gap: 10px; justify-content: flex-end;">
+    <button id="accept-cookies" style="background: #007bff; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Accept</button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var banner = document.getElementById('cookie-banner');
+    var button = document.getElementById('accept-cookies');
+
+    // Prüfen, ob der User schon mal zugestimmt hat
+    if (!localStorage.getItem('cookies-accepted')) {
+      banner.style.display = 'block';
+    }
+
+    button.addEventListener('click', function() {
+      localStorage.setItem('cookies-accepted', 'true');
+      banner.style.display = 'none';
+      location.reload(); // Seite neu laden, um GA zu aktivieren
+    });
+  });
+</script>
