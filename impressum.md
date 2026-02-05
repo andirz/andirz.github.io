@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Legal Notice & Privacy
+title: Legal Notice (Impressum)
 permalink: /impressum/
 nav_exclude: true
 noindex: true
@@ -8,68 +8,74 @@ sitemap: false
 ---
 
 <style>
-  .protection-wrapper { user-select: none; -webkit-user-select: none; cursor: default; }
-  .crypt { unicode-bidi: bidi-override; direction: rtl; text-align: left; display: inline-block; font-family: inherit; }
-  
-  /* Sprach-Buttons Design */
-  .lang-tabs { 
-    display: flex; 
-    gap: 15px; 
-    margin-bottom: 2rem; 
-    padding: 10px 0;
+  .protection-wrapper {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+  }
+
+  .crypt {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    display: inline-block;
+  }
+
+  .lang-tabs {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 2rem;
+    padding-bottom: 10px;
     border-bottom: 1px solid #eee;
   }
-  .tab-btn { 
-    padding: 10px 24px; 
+
+  .tab-btn {
+    padding: 8px 22px;
     border: 1px solid #d1d1d1;
-    background: #fdfdfd; 
-    cursor: pointer; 
-    font-weight: 600; 
+    background: #fdfdfd;
+    cursor: pointer;
+    font-weight: 600;
     color: #444;
     border-radius: 8px;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    font-size: 0.9rem;
+    transition: all .2s ease;
+    font-size: .9rem;
   }
-  .tab-btn:hover { border-color: #007bff; color: #007bff; }
-  .tab-btn.active { 
-    color: #fff; 
-    background: #007bff; 
+
+  .tab-btn.active {
+    background: #007bff;
+    color: #fff;
     border-color: #0056b3;
-    box-shadow: 0 3px 8px rgba(0, 123, 255, 0.3);
   }
 
   .contact-card {
     background: #fff;
     border: 1px solid #eee;
     border-left: 4px solid #007bff;
-    padding: 25px;
-    border-radius: 4px;
+    padding: 24px;
+    border-radius: 6px;
     margin: 20px 0;
     line-height: 1.6;
   }
-  .contact-card strong { color: #111; display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
 
-  .legal-section { color: #333; line-height: 1.6; }
-  .legal-box { 
-    background: #f9f9f9; 
-    border: 1px solid #eee;
-    padding: 30px; 
-    margin: 20px 0; 
-    font-size: 0.92rem;
-    line-height: 1.8;
-    border-radius: 8px;
-    color: #444;
+  .contact-card strong {
+    display: block;
+    margin-top: 16px;
+    font-size: .75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #111;
   }
-  
-  h2 { margin-top: 3rem; font-size: 1.7rem; color: #111; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-  h3 { font-size: 1.25rem; margin-top: 2rem; color: #222; font-weight: 700; }
-  
-  .support-note { font-size: 0.85rem; color: #666; font-style: italic; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
-  .lang-content { display: none; animation: fadeIn 0.4s ease; }
+
+  .legal-links {
+    margin-top: 28px;
+    font-size: .9rem;
+  }
+
+  .legal-links a {
+    margin-right: 18px;
+  }
+
+  .lang-content { display: none; }
   .lang-content.active { display: block; }
-  
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
 <div class="lang-tabs">
@@ -79,94 +85,92 @@ sitemap: false
 
 <div class="protection-wrapper" oncopy="return false" oncontextmenu="return false">
 
+  <!-- ENGLISH -->
   <div id="content-en" class="lang-content active">
-    <div class="legal-section">
-      <h2>Legal Notice (Impressum)</h2>
-      <p>Information according to § 5 TMG:</p>
-      
-      <div class="contact-card">
-        <strong>Operator</strong>
-        <span class="crypt">zaaR saerdnA</span><br>
-        <span class="crypt">071 eellA reualznerP</span><br>
-        <span class="crypt">nilreB 90401</span><br>
-        Germany
-        
-        <strong style="margin-top: 20px;">Contact</strong>
-        E-Mail: <span class="crypt">moc.liamg@zridna4smis</span>
-      </div>
+    <h2>Legal Notice (Impressum)</h2>
+    <p>Information according to § 5 TMG:</p>
 
-      <h3>Intellectual Property & Media</h3>
-      <p>The majority of the images and visual content on this website consist of screenshots taken directly from the game (The Sims 4). These are used for illustrative purposes of the mods' functionality.</p>
-      <p><strong>Exception:</strong> Custom menu icons used for online shopping apps and network interfaces. Due to the extensive nature of these assets, a dedicated <strong>"Credits & Icon Sources"</strong> page is provided to attribute the respective authors and licenses.</p>
+    <div class="contact-card" id="contact-en"></div>
 
-      <h2>Privacy Policy</h2>
-      <div class="legal-box">
-        <h3>1. Data Protection</h3>
-        <p>I treat your personal data confidentially and in accordance with the GDPR.</p>
+    <h3>Intellectual Property & Media</h3>
+    <p>
+      Most images and visual content on this website consist of screenshots taken directly from
+      <em>The Sims 4</em> and are used solely to illustrate mod functionality.
+    </p>
+    <p>
+      <strong>Exception:</strong> Custom icons used for in-game applications and interfaces.
+      Credits and licenses are listed on a separate “Credits & Icon Sources” page.
+    </p>
 
-        <h3>2. Hosting</h3>
-        <p>This website is hosted via <strong>GitHub Pages</strong>. Technical log files (e.g. IP addresses) are processed by GitHub Inc. to ensure server security (Art. 6 Para. 1 lit. f GDPR).</p>
-
-        <h3>3. Cookies</h3>
-        <p>This website does <strong>not use tracking, marketing, or analysis cookies</strong>. Only technically necessary session data may be used by the hosting provider to ensure stability.</p>
-
-        <h3>4. External Links</h3>
-        <p>Links to platforms like Patreon or CurseForge lead to external sites with their own privacy policies.</p>
-      </div>
+    <div class="legal-links">
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/cookies/">Cookie Policy</a>
     </div>
   </div>
 
+  <!-- DEUTSCH -->
   <div id="content-de" class="lang-content">
-    <div class="legal-section">
-      <h2>Impressum</h2>
-      <p>Angaben gemäß § 5 TMG:</p>
-      
-      <div class="contact-card">
-        <strong>Verantwortlich</strong>
-        <span class="crypt">zaaR saerdnA</span><br>
-        <span class="crypt">071 eellA reualznerP</span><br>
-        <span class="crypt">nilreB 90401</span><br>
-        Deutschland
-        
-        <strong style="margin-top: 20px;">Kontakt</strong>
-        E-Mail: <span class="crypt">moc.liamg@zridna4smis</span>
-      </div>
+    <h2>Impressum</h2>
+    <p>Angaben gemäß § 5 TMG:</p>
 
-      <h3>Urheberrecht & Medien</h3>
-      <p>Der Großteil der auf dieser Website verwendeten Bilder und visuellen Inhalte besteht aus Screenshots, die direkt aus dem Spiel (Die Sims 4) erstellt wurden. Diese dienen der Veranschaulichung der Mod-Funktionen.</p>
-      <p><strong>Ausnahme:</strong> Spezielle Menü-Icons für Online-Shopping-Apps und Netzwerkschnittstellen. Aufgrund der hohen Anzahl dieser Assets gibt es eine separate <strong>"Credits & Icon-Quellen"</strong> Seite, auf der die jeweiligen Urheber und Lizenzen detailliert aufgeführt sind.</p>
+    <div class="contact-card" id="contact-de"></div>
 
-      <h2>Datenschutzerklärung</h2>
-      <div class="legal-box">
-        <h3>1. Datenschutz</h3>
-        <p>Wir behandeln Ihre Daten vertraulich und entsprechend der gesetzlichen Vorschriften (DSGVO).</p>
+    <h3>Urheberrecht & Medien</h3>
+    <p>
+      Der Großteil der auf dieser Website verwendeten Bilder und visuellen Inhalte besteht aus
+      Screenshots aus <em>Die Sims 4</em> und dient ausschließlich der Darstellung der Mod-Funktionen.
+    </p>
+    <p>
+      <strong>Ausnahme:</strong> Spezielle Icons für In-Game-Anwendungen und Benutzeroberflächen.
+      Quellen und Lizenzen sind auf einer separaten Seite „Credits & Icon-Quellen“ aufgeführt.
+    </p>
 
-        <h3>2. Hosting</h3>
-        <p>Diese Webseite wird über <strong>GitHub Pages</strong> bereitgestellt. Hierbei werden technisch notwendige Log-Dateien (IP-Adresse) durch GitHub Inc. erhoben (Art. 6 Abs. 1 lit. f DSGVO).</p>
-
-        <h3>3. Cookies</h3>
-        <p>Diese Webseite nutzt <strong>keine Tracking-, Marketing- oder Analyse-Cookies</strong>. Es werden lediglich technisch notwendige Daten durch den Hoster verarbeitet, um den Betrieb sicherzustellen.</p>
-
-        <h3>4. Externe Links</h3>
-        <p>Links zu Patreon, CurseForge oder anderen Modding-Seiten führen zu externen Anbietern mit eigenen Datenschutzbestimmungen.</p>
-      </div>
+    <div class="legal-links">
+      <a href="/privacy/">Datenschutzerklärung</a>
+      <a href="/cookies/">Cookie-Richtlinie</a>
     </div>
   </div>
 </div>
 
 <script>
+(() => {
+  const decode = v => atob(v).split('').reverse().join('');
+
+  const data = {
+    name: "emFhUiBzYWVyZG5B".split('').reverse().join(''),
+    street: "MTcwIGVsbEEgcmV1bGF6bmVyUA==",
+    city: "bmlscmVCIDA5NDAx",
+    mail: "bW9jLmxpYW1nQHpyaWRuYTRzbWlz"
+  };
+
+  const block = `
+    <strong>Operator</strong>
+    <span class="crypt">${decode(data.name)}</span><br>
+    <span class="crypt">${decode(data.street)}</span><br>
+    <span class="crypt">${decode(data.city)}</span><br>
+    Germany
+
+    <strong>Contact</strong>
+    E-Mail:
+    <span class="crypt">${decode(data.mail)}</span>
+  `;
+
+  document.getElementById("contact-en").innerHTML = block;
+  document.getElementById("contact-de").innerHTML = block;
+})();
+</script>
+
+<script>
   function showLang(lang) {
-    document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    
+    document.querySelectorAll('.lang-content').forEach(e => e.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
     document.getElementById('content-' + lang).classList.add('active');
     document.getElementById('tab-' + lang).classList.add('active');
   }
 
-  document.addEventListener('keydown', function(e) {
-    if ((e.ctrlKey || e.metaKey) && ['c', 'u', 's', 'p', 'i', 'a'].includes(e.key.toLowerCase())) {
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['c','u','s','p','i','a'].includes(e.key.toLowerCase())) {
       e.preventDefault();
-      return false;
     }
   });
 </script>
