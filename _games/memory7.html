@@ -3,7 +3,7 @@ layout: page
 title: Pack Picker Memory
 icon: "fas fa-brain"
 order: 2
-description: "Match Sims 4 Packs."
+description: "Match all Sims 4 Expansion, Game, and Stuff Packs. Mild chaos at 10 misses!"
 mode: Memory
 difficulty: Hard
 ---
@@ -12,12 +12,11 @@ difficulty: Hard
   ep-count="18"
   gp-count="12"
   sp-count="18"
-  sp-extra="46,49"
+  sp-extra="46, 49"
   pairs="12"
   time-limit="120"
   folder="{{ '/assets/img/packs/mono/' | relative_url }}"
-  exclude="gp09"
-  sound="on">
+  exclude="gp09">
 </chaos-memory>
 
 <style>
@@ -37,10 +36,8 @@ difficulty: Hard
           --bg:#ffffff; --card:#ffffff; --ink:#0b0b0b; --muted:#4b5563;
           --border:#d1d1d1; --shadow:0 14px 20px -10px rgba(0,0,0,.18);
           --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
-          --size:146px;
-          display:block;
+          --size:146px; display:block;
         }
-
         .shell{
           background: var(--bg);
           border: 1px solid var(--border);
@@ -49,68 +46,23 @@ difficulty: Hard
           padding: 1.1rem;
           position: relative;
         }
-
         .top{
           display:flex;
-          flex-direction:column;
-          align-items:center;
-          gap:.7rem;
+          justify-content:space-between;
+          align-items:flex-start;
+          gap: 1rem;
+          flex-wrap: wrap;
           margin-bottom: 1rem;
         }
-
-        h2{
-          margin:0;
-          font-size:1.3rem;
-          font-weight:850;
-          color:var(--ink);
-          letter-spacing:-.01em;
-          text-align:center;
-        }
-
-        .bar{
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          gap:.8rem;
-          flex-wrap:nowrap;
-          white-space:nowrap;
-        }
-
-        .btn{
-          background:#0b0b0b;
-          color:#fff;
-          border:none;
-          border-radius:12px;
-          padding:.55rem 1.05rem;
-          font-weight:850;
-          font-size:.92rem;
-          cursor:pointer;
-        }
-
-        .toggle{
-          display:flex;
-          align-items:center;
-          gap:.45rem;
-          font-weight:800;
-          color:var(--ink);
-          user-select:none;
-        }
-
-        .toggle input{
-          width:18px;
-          height:18px;
-          accent-color:#0b0b0b;
-          cursor:pointer;
-        }
-
+        h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
+        p{ margin:.25rem 0 0; color:var(--muted); font-size:.9rem; }
         .stats{
           display:flex;
           gap:.5rem;
           align-items:center;
-          justify-content:center;
           flex-wrap:wrap;
+          justify-content:flex-end;
         }
-
         .pill{
           background: var(--card);
           border: 2px solid var(--border);
@@ -121,130 +73,110 @@ difficulty: Hard
           font-size: .85rem;
           min-width: 110px;
           text-align:center;
+          position:relative;
           user-select:none;
         }
-
-        .pill.chaos{
-          background:#ef4444;
+        .pill.chaos-active{
+          background: #ef4444;
           border-color:#ef4444;
           color:#fff;
-          animation: pop 0.45s ease-in-out 3;
+          transform: scale(1.08);
+          transition: 0.25s;
         }
-
-        @keyframes pop{
-          0%{ transform:scale(1); }
-          35%{ transform:scale(1.12); }
-          70%{ transform:scale(0.98); }
-          100%{ transform:scale(1); }
-        }
-
-        .pill.urgent{
-          background:#ef4444;
+        .pill.timer-urgent{
+          background: #ef4444;
           border-color:#ef4444;
           color:#fff;
-          animation: pulse 0.9s ease-in-out infinite;
+          animation: pulseUrgent 0.9s ease-in-out infinite;
         }
-
-        @keyframes pulse{
-          0%{ transform:scale(1); }
-          50%{ transform:scale(1.08); }
-          100%{ transform:scale(1); }
+        @keyframes pulseUrgent{
+          0%{ transform: scale(1); }
+          50%{ transform: scale(1.08); }
+          100%{ transform: scale(1); }
         }
-
+        .btn{
+          background: #0b0b0b;
+          color:#fff;
+          border:none;
+          border-radius: 12px;
+          padding: .5rem .9rem;
+          font-weight: 850;
+          font-size: .9rem;
+          cursor:pointer;
+        }
         .grid{
           display:grid;
           gap: var(--gap);
           justify-content:center;
           perspective: 1100px;
           margin: 0 auto;
-          transition: opacity .25s ease, filter .25s ease;
         }
-
-        .grid.disabled{
-          pointer-events:none;
-          opacity:.45;
-          filter: grayscale(1);
+        .grid.glitch{
+          filter: hue-rotate(40deg) contrast(1.08);
         }
-
-        .grid.boom{
-          animation: shake 0.16s linear 7;
-          filter: hue-rotate(70deg) contrast(1.12) saturate(1.2);
-        }
-
-        @keyframes shake{
-          0%{ transform: translate(0,0); }
-          20%{ transform: translate(3px,-2px); }
-          40%{ transform: translate(-2px,3px); }
-          60%{ transform: translate(2px,2px); }
-          80%{ transform: translate(-3px,-2px); }
-          100%{ transform: translate(0,0); }
-        }
-
         @media (min-width: 621px){
           .grid{ grid-template-columns: repeat(6, var(--size)); }
         }
-
         @media (max-width: 620px){
-          :host{ --size:88px; --gap:6px; }
+          :host{ --size: 88px; --gap: 6px; }
           .grid{ grid-template-columns: repeat(4, var(--size)); }
-          .pill{ min-width: 80px; font-size:.75rem; padding:.3rem .5rem; }
-          h2{ font-size:1.1rem; }
-          .bar{ flex-wrap:wrap; }
+          .pill{ min-width: 80px; font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+          h2{ font-size: 1.1rem; }
         }
-
         .card{
           width: var(--size);
           height: var(--size);
           position:relative;
           transform-style:preserve-3d;
-          transition: transform var(--flip), filter .2s ease;
+          transition: transform var(--flip);
           cursor:pointer;
-          border-radius:14px;
-          border:0;
-          padding:0;
-          background:transparent;
+          border-radius: 14px;
+          border: 0;
+          padding: 0;
+          background: transparent;
         }
-
         .card[state="up"], .card[state="match"]{ transform: rotateY(180deg); }
         .card[state="match"]{ pointer-events:none; }
-
-        .card.flash{ filter: drop-shadow(0 0 12px rgba(239,68,68,.65)); }
-        .card.replaced{ filter: drop-shadow(0 0 16px rgba(34,197,94,.65)); animation: pop2 .55s cubic-bezier(.175,.885,.32,1.22); }
-        .card.shuffled{ filter: drop-shadow(0 0 16px rgba(59,130,246,.6)); animation: pop2 .55s cubic-bezier(.175,.885,.32,1.22); }
-
-        @keyframes pop2{
-          0%{ transform: scale(.88) rotateZ(-3deg); opacity:.55; }
-          45%{ transform: scale(1.12) rotateZ(3deg); opacity:1; }
-          100%{ transform: scale(1) rotateZ(0deg); opacity:1; }
-        }
-
         .face{
           position:absolute; inset:0;
           backface-visibility:hidden;
-          border-radius:12px;
+          border-radius: 12px;
           display:flex;
           align-items:center;
           justify-content:center;
           overflow:hidden;
         }
-
         .front{
-          background:#0b0b0b;
-          border:2px solid rgba(255,255,255,.10);
-          color:#fff;
-          font-weight:900;
-          font-size:1.2rem;
+          background: #0b0b0b;
+          border: 2px solid rgba(255,255,255,.10);
+          color:#ffffff;
+          font-weight: 900;
+          font-size: 1.2rem;
         }
-
         .back{
           background: var(--card);
           transform: rotateY(180deg);
-          border:2px solid #0b0b0b;
-          padding:10px;
+          border: 2px solid #0b0b0b;
+          padding: 10px;
         }
-
         .back img{ width:100%; height:100%; object-fit:contain; }
-
+        .bonus-text{
+          position: absolute;
+          top: -30px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-weight: 900;
+          pointer-events: none;
+          opacity: 0;
+          animation: floatUp 1s forwards;
+        }
+        .pos { color: #22c55e; }
+        .neg { color: #ef4444; }
+        @keyframes floatUp {
+          0% { opacity: 0; transform: translate(-50%, 10px); }
+          20% { opacity: 1; }
+          100% { opacity: 0; transform: translate(-50%, -30px); }
+        }
         .overlay{
           position:absolute; inset:0;
           display:none;
@@ -255,119 +187,129 @@ difficulty: Hard
           border-radius: var(--radius);
           z-index:100;
         }
-
         .overlay[open]{ display:flex; }
-
         .modal{
-          width:min(420px, calc(100% - 28px));
-          background:#fff;
-          border:2px solid #0b0b0b;
-          border-radius:18px;
-          padding:1.35rem;
+          width:min(400px, calc(100% - 28px));
+          background: #fff;
+          border: 2px solid #0b0b0b;
+          border-radius: 18px;
+          padding: 1.5rem;
           text-align:center;
           box-shadow: var(--shadow);
         }
-
-        .modal .btn{ width:100%; margin-top:.75rem; }
       </style>
 
       <div class="shell">
         <div class="top">
-          <h2>Pack Picker Memory</h2>
-
-          <div class="bar">
-            <button class="btn" id="start">Start</button>
-            <label class="toggle" title="Sound">
-              <input type="checkbox" id="sound">
-              <span>Sound</span>
-            </label>
+          <div class="title">
+            <h2>Pack Picker Memory</h2>
+            <p>At 10 misses: all unmatched cards close, then remix (incl. previously matched).</p>
           </div>
 
           <div class="stats">
-            <div class="pill" id="pairs">Pairs: 0/0</div>
-            <div class="pill" id="misses">Misses: 0</div>
-            <div class="pill" id="timer">00:00</div>
+            <div class="pill" id="status">Pairs: 0 / 0</div>
+            <div class="pill" id="misses-pill">Misses: 0</div>
+
+            <div class="pill" id="timer-pill">
+              <span id="timer">00:00</span>
+              <div id="bonus-container"></div>
+            </div>
+
+            <button class="btn" id="restart">Restart</button>
           </div>
         </div>
 
-        <div class="grid disabled" id="grid"></div>
+        <div class="grid" id="grid"></div>
 
         <div class="overlay" id="overlay">
           <div class="modal">
             <h3 id="ovTitle">Victory!</h3>
             <p id="ovMsg"></p>
-            <button class="btn" id="restart">Restart</button>
+            <button class="btn" id="restart2">Play Again</button>
           </div>
         </div>
       </div>
     `;
 
-    class ChaosMemory extends HTMLElement {
+    class ChaosMemory extends HTMLElement{
       constructor(){
         super();
         this.attachShadow({mode:"open"});
         this.shadowRoot.appendChild(tpl.content.cloneNode(true));
 
         this.$grid = this.shadowRoot.getElementById("grid");
-        this.$pairs = this.shadowRoot.getElementById("pairs");
-        this.$misses = this.shadowRoot.getElementById("misses");
+        this.$status = this.shadowRoot.getElementById("status");
+        this.$missesPill = this.shadowRoot.getElementById("misses-pill");
+        this.$timerPill = this.shadowRoot.getElementById("timer-pill");
         this.$timer = this.shadowRoot.getElementById("timer");
+        this.$bonusContainer = this.shadowRoot.getElementById("bonus-container");
         this.$overlay = this.shadowRoot.getElementById("overlay");
-        this.$ovTitle = this.shadowRoot.getElementById("ovTitle");
-        this.$ovMsg = this.shadowRoot.getElementById("ovMsg");
 
-        this.$start = this.shadowRoot.getElementById("start");
-        this.$restart = this.shadowRoot.getElementById("restart");
-        this.$sound = this.shadowRoot.getElementById("sound");
-
-        this._deck = [];           // [{id, matched}]
-        this._open = [];           // [button, button]
+        this._deck = [];
+        this._open = [];
         this._locked = false;
 
         this._matches = 0;
-        this._missCount = 0;
-
+        this._misses = 0;
         this._timeLeft = 0;
         this._timerId = null;
 
-        this._running = false;
-        this._chaosActive = false;
-
         this._ac = null;
-        this._soundOn = ((this.getAttribute("sound") || "on").toLowerCase() !== "off");
-        this._lastUrgentSecond = null;
+
+        this._chaosActive = false;
+        this._lastTickSecond = null;
       }
 
       connectedCallback(){
-        this.$sound.checked = this._soundOn;
-
-        this.$sound.onchange = () => {
-          this._soundOn = !!this.$sound.checked;
-          if (this._soundOn) this._ensureAudio(true);
-        };
-
-        this.$start.onclick = () => {
-          if (!this._running) this._startGame();
-          else this._restartGame();
-        };
-
-        this.$restart.onclick = () => {
-          this.$overlay.removeAttribute("open");
-          this._restartGame();
-        };
-
+        this.shadowRoot.getElementById("restart").onclick = () => this._reset();
+        this.shadowRoot.getElementById("restart2").onclick = () => this._reset();
         this.$grid.onclick = (e) => this._onClick(e);
-
-        this._renderEmpty();
-        this._setTimerText(this.timeLimit);
-        this._updateUI();
+        this._reset();
       }
 
-      get epCount(){ return parseInt(this.getAttribute("ep-count") || "18", 10); }
-      get gpCount(){ return parseInt(this.getAttribute("gp-count") || "12", 10); }
-      get spCount(){ return parseInt(this.getAttribute("sp-count") || "0", 10); }
-      get pairsCount(){ return parseInt(this.getAttribute("pairs") || "12", 10); }
-      get timeLimit(){ return parseInt(this.getAttribute("time-limit") || "120", 10); }
+      _ensureAudio(){
+        if (this._ac) return;
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        this._ac = new Ctx();
+      }
+
+      _beep(freq, ms, type, gain){
+        try{
+          this._ensureAudio();
+          if(!this._ac) return;
+          if (this._ac.state === "suspended") this._ac.resume().catch(() => {});
+          const o = this._ac.createOscillator();
+          const g = this._ac.createGain();
+          o.type = type || "sine";
+          o.frequency.value = freq;
+          const now = this._ac.currentTime;
+          const a = Math.max(0.0001, (gain == null ? 0.03 : gain));
+          g.gain.setValueAtTime(0.0001, now);
+          g.gain.exponentialRampToValueAtTime(a, now + 0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + (ms/1000));
+          o.connect(g); g.connect(this._ac.destination);
+          o.start(now);
+          o.stop(now + (ms/1000) + 0.02);
+        } catch(e) {}
+      }
+
+      _sfx(name){
+        if(name === "flip")  return this._beep(520, 45, "triangle", 0.02);
+        if(name === "match"){ this._beep(660, 70, "sine", 0.03); return this._beep(880, 90, "sine", 0.03); }
+        if(name === "miss")  return this._beep(220, 110, "square", 0.02);
+        if(name === "chaos"){ this._beep(180, 120, "sawtooth", 0.02); return this._beep(120, 140, "sawtooth", 0.02); }
+        if(name === "tick")  return this._beep(990, 35, "square", 0.015);
+        if(name === "tock")  return this._beep(660, 35, "square", 0.015);
+        if(name === "win")   { this._beep(784, 120, "sine", 0.03); this._beep(988, 140, "sine", 0.03); return this._beep(1175, 180, "sine", 0.03); }
+        if(name === "lose")  { this._beep(196, 160, "triangle", 0.03); return this._beep(147, 220, "triangle", 0.03); }
+      }
+
+      get epCount(){ return parseInt(this.getAttribute("ep-count") || "18"); }
+      get gpCount(){ return parseInt(this.getAttribute("gp-count") || "12"); }
+      get spCount(){ return parseInt(this.getAttribute("sp-count") || "0"); }
+      get pairs(){ return parseInt(this.getAttribute("pairs") || "12"); }
+      get timeLimit(){ return parseInt(this.getAttribute("time-limit") || "120"); }
 
       get folder(){
         let f = (this.getAttribute("folder") || "").trim() || "/assets/img/packs/mono/";
@@ -392,197 +334,85 @@ difficulty: Hard
           .map(s => s.trim())
           .filter(Boolean);
 
-        extra.forEach(n => pool.push(`sp${String(n).padStart(2,"0")}`));
+        extra.forEach(num => pool.push(`sp${String(num).padStart(2,"0")}`));
 
         const ex = new Set(this.exclude);
         return pool.filter(id => !ex.has(id.toLowerCase()));
       }
 
-      _shuffle(arr){
-        for(let i=arr.length-1;i>0;i--){
-          const j = Math.floor(Math.random()*(i+1));
-          [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr;
-      }
-
-      _ensureAudio(resume){
-        if (!this._soundOn) return;
-        if (!this._ac){
-          const Ctx = window.AudioContext || window.webkitAudioContext;
-          if (!Ctx) return;
-          this._ac = new Ctx();
-        }
-        if (resume && this._ac && this._ac.state === "suspended"){
-          this._ac.resume().catch(() => {});
-        }
-      }
-
-      _beep(freq, ms, type, gain){
-        if (!this._soundOn) return;
-        try{
-          this._ensureAudio(true);
-          if (!this._ac) return;
-
-          const o = this._ac.createOscillator();
-          const g = this._ac.createGain();
-          o.type = type || "sine";
-          o.frequency.value = freq;
-
-          const now = this._ac.currentTime;
-          const a = Math.max(0.0001, gain ?? 0.02);
-
-          g.gain.setValueAtTime(0.0001, now);
-          g.gain.exponentialRampToValueAtTime(a, now + 0.01);
-          g.gain.exponentialRampToValueAtTime(0.0001, now + ms/1000);
-
-          o.connect(g); g.connect(this._ac.destination);
-          o.start(now);
-          o.stop(now + ms/1000 + 0.02);
-        } catch(e){}
-      }
-
-      _sfx(name){
-        if (!this._soundOn) return;
-        if (name === "flip") return this._beep(520, 45, "triangle", 0.02);
-        if (name === "match"){ this._beep(660, 70, "sine", 0.03); return this._beep(880, 90, "sine", 0.03); }
-        if (name === "miss") return this._beep(220, 110, "square", 0.02);
-        if (name === "slam") return this._beep(160, 90, "square", 0.02);
-        if (name === "inject"){ this._beep(880, 70, "triangle", 0.02); return this._beep(1100, 60, "triangle", 0.02); }
-        if (name === "shuffle"){ this._beep(740, 70, "sine", 0.02); return this._beep(520, 70, "sine", 0.02); }
-        if (name === "tick") return this._beep(990, 35, "square", 0.015);
-        if (name === "tock") return this._beep(660, 35, "square", 0.015);
-        if (name === "win"){ this._beep(784, 120, "sine", 0.03); this._beep(988, 140, "sine", 0.03); return this._beep(1175, 180, "sine", 0.03); }
-        if (name === "lose"){ this._beep(196, 160, "triangle", 0.03); return this._beep(147, 220, "triangle", 0.03); }
-      }
-
-      _startGame(){
-        this._running = true;
-        this.$start.textContent = "Restart";
-        this.$grid.classList.remove("disabled");
-        this._restartGame();
-      }
-
-      _restartGame(){
+      _reset(){
         this.$overlay.removeAttribute("open");
+
+        this._matches = 0;
+        this._misses = 0;
         this._locked = false;
         this._open = [];
-        this._matches = 0;
-        this._missCount = 0;
         this._chaosActive = false;
 
         this._timeLeft = this.timeLimit;
-        this._lastUrgentSecond = null;
-        this.$timer.classList.remove("urgent");
-        this.$misses.classList.remove("chaos");
+        this._lastTickSecond = null;
 
-        clearInterval(this._timerId);
-        this._timerId = null;
+        this.$timerPill.classList.remove("timer-urgent");
 
         const pool = this._buildPool();
-        const n = Math.min(this.pairsCount, pool.length);
-        const pick = this._shuffle(pool.slice()).slice(0, n);
-        const deckIds = this._shuffle([...pick, ...pick]);
+        const pickCount = Math.min(this.pairs, pool.length);
 
-        this._deck = deckIds.map(id => ({ id, matched:false }));
-        this._renderDeck();
+        const selected = pool
+          .sort(() => 0.5 - Math.random())
+          .slice(0, pickCount);
+
+        const shuffled = [...selected, ...selected].sort(() => 0.5 - Math.random());
+        this._deck = shuffled.map(id => ({ id, matched: false }));
+
+        this._render();
         this._updateUI();
         this._startTimer();
       }
 
-      _renderEmpty(){
-        this.$grid.innerHTML = "";
-        this.$grid.classList.add("disabled");
-      }
-
-      _renderDeck(){
+      _render(){
         this.$grid.innerHTML = "";
         const folder = this.folder;
 
-        this._deck.forEach((c, idx) => {
-          const btn = document.createElement("button");
-          btn.className = "card";
-          btn.dataset.idx = String(idx);
-          if (c.matched) btn.setAttribute("state", "match");
+        this._deck.forEach((cardObj, idx) => {
+          const card = document.createElement("button");
+          card.className = "card";
+          card.dataset.idx = String(idx);
 
-          btn.innerHTML = `<div class="face front">?</div><div class="face back"></div>`;
+          if(cardObj.matched) card.setAttribute("state", "match");
+
+          card.innerHTML = \`<div class="face front">?</div><div class="face back"></div>\`;
 
           const img = document.createElement("img");
-          img.src = `${folder}${c.id}.png`;
+          img.src = \`\${folder}\${cardObj.id}.png\`;
           img.onerror = () => {
-            btn.querySelector(".back").innerHTML = `<b>${String(c.id).toUpperCase()}</b>`;
+            card.querySelector(".back").innerHTML = \`<b>\${String(cardObj.id || "").toUpperCase()}</b>\`;
           };
-          btn.querySelector(".back").appendChild(img);
+          card.querySelector(".back").appendChild(img);
 
-          this.$grid.appendChild(btn);
+          this.$grid.appendChild(card);
         });
       }
 
-      _setTimerText(sec){
-        const t = Math.max(0, sec|0);
-        const m = Math.floor(t/60);
-        const s = t%60;
-        this.$timer.textContent = `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-
-        if (t <= 10 && t > 0){
-          this.$timer.classList.add("urgent");
-          if (this._lastUrgentSecond !== t){
-            this._lastUrgentSecond = t;
-            if ((t % 2) === 0) this._sfx("tick"); else this._sfx("tock");
-          }
-        } else {
-          this.$timer.classList.remove("urgent");
-          this._lastUrgentSecond = null;
-        }
-      }
-
-      _startTimer(){
-        this._setTimerText(this._timeLeft);
-        this._timerId = setInterval(() => {
-          this._timeLeft--;
-          this._setTimerText(this._timeLeft);
-          if (this._timeLeft <= 0){
-            clearInterval(this._timerId);
-            this._timerId = null;
-            this._end("Game Over");
-          }
-        }, 1000);
-      }
-
-      _updateUI(){
-        const totalPairs = Math.floor(this._deck.length / 2);
-        this.$pairs.textContent = `Pairs: ${this._matches}/${totalPairs}`;
-        this.$misses.textContent = `Misses: ${this._missCount}`;
-      }
-
-      _flash(indices, cls, ms){
-        const btns = Array.from(this.$grid.querySelectorAll(".card"));
-        indices.forEach(i => {
-          const b = btns[i];
-          if (!b) return;
-          b.classList.add(cls);
-          setTimeout(() => b.classList.remove(cls), ms);
-        });
+      _closeOpenCards(noMiss){
+        const openNow = this._open.slice();
+        openNow.forEach(c => c.removeAttribute("state"));
+        this._open = [];
+        this._locked = false;
+        if (!noMiss) this._updateUI();
       }
 
       _onClick(e){
-        if (!this._running) return;
-
         const card = e.target.closest(".card");
-        if (!card || this._locked) return;
-
-        const idx = parseInt(card.dataset.idx, 10);
-        const data = this._deck[idx];
-        if (!data) return;
-
-        this._ensureAudio(true);
+        if(!card || this._locked) return;
 
         if (card.getAttribute("state") === "match") return;
 
-        // allow closing an open card without miss
-        if (card.getAttribute("state") === "up"){
+        this._ensureAudio();
+        if (this._ac && this._ac.state === "suspended") this._ac.resume().catch(() => {});
+
+        if (card.getAttribute("state") === "up") {
           card.removeAttribute("state");
-          this._open = this._open.filter(x => x !== card);
+          this._open = this._open.filter(c => c !== card);
           this._sfx("flip");
           return;
         }
@@ -593,160 +423,152 @@ difficulty: Hard
         card.setAttribute("state", "up");
         this._open.push(card);
 
-        if (this._open.length !== 2) return;
+        if(this._open.length === 2){
+          this._locked = true;
 
-        this._locked = true;
+          const c1 = this._open[0];
+          const c2 = this._open[1];
+          const d1 = this._deck[parseInt(c1.dataset.idx, 10)];
+          const d2 = this._deck[parseInt(c2.dataset.idx, 10)];
 
-        const c1 = this._open[0];
-        const c2 = this._open[1];
-        const i1 = parseInt(c1.dataset.idx, 10);
-        const i2 = parseInt(c2.dataset.idx, 10);
+          if(d1 && d2 && d1.id === d2.id){
+            d1.matched = true;
+            d2.matched = true;
+            c1.setAttribute("state", "match");
+            c2.setAttribute("state", "match");
 
-        const d1 = this._deck[i1];
-        const d2 = this._deck[i2];
-
-        if (d1 && d2 && d1.id === d2.id){
-          d1.matched = true;
-          d2.matched = true;
-          c1.setAttribute("state", "match");
-          c2.setAttribute("state", "match");
-
-          this._matches++;
-          this._open = [];
-          this._locked = false;
-
-          this._sfx("match");
-          this._updateUI();
-
-          if (this._matches === Math.floor(this._deck.length / 2)){
-            this._end("Victory!");
-          }
-          return;
-        }
-
-        // miss
-        this._missCount++;
-        this._sfx("miss");
-        this._updateUI();
-
-        if (this._missCount % 10 === 0){
-          setTimeout(() => this._chaos10(), 480);
-        } else {
-          setTimeout(() => {
-            c1.removeAttribute("state");
-            c2.removeAttribute("state");
+            this._matches++;
             this._open = [];
             this._locked = false;
-          }, 780);
+
+            this._sfx("match");
+            this._showFloat(10, true);
+            this._updateUI();
+
+            if(this._matches === Math.floor(this._deck.length / 2)){
+              this._end("Victory!");
+            }
+          } else {
+            this._misses++;
+            this._sfx("miss");
+            this._showFloat(3, false);
+            this._updateUI();
+
+            if(this._misses % 10 === 0){
+              setTimeout(() => this._mildChaosCloseAndRemix(), 600);
+            } else {
+              setTimeout(() => {
+                c1.removeAttribute("state");
+                c2.removeAttribute("state");
+                this._open = [];
+                this._locked = false;
+              }, 800);
+            }
+          }
         }
       }
 
-      _chaos10(){
-        if (this._chaosActive){
-          this._open = [];
+      _mildChaosCloseAndRemix(){
+        if (this._chaosActive) {
           this._locked = false;
+          this._open = [];
           return;
         }
         this._chaosActive = true;
 
-        const btns = Array.from(this.$grid.querySelectorAll(".card"));
+        this._sfx("chaos");
+        this.$missesPill.classList.add("chaos-active");
+        this.$grid.classList.add("glitch");
 
-        this.$misses.classList.add("chaos");
-        this.$grid.classList.add("boom");
-
-        // 1) close up to 2 currently open cards (slam)
-        const openIdx = btns
-          .map((b,i) => (b.getAttribute("state") === "up" ? i : -1))
-          .filter(i => i !== -1);
-
-        const toClose = this._shuffle(openIdx.slice()).slice(0, Math.min(2, openIdx.length));
-        toClose.forEach(i => btns[i].removeAttribute("state"));
-        if (toClose.length){
-          this._sfx("slam");
-          this._flash(toClose, "flash", 700);
-        }
-
-        // reset open state
+        const allButtons = Array.from(this.$grid.querySelectorAll(".card"));
+        allButtons.forEach(btn => {
+          if (btn.getAttribute("state") === "up") btn.removeAttribute("state");
+        });
         this._open = [];
 
-        // 2) replace EXACTLY one FULL unmatched pair, with a NEW id not currently on board
-        const idToIdx = new Map();
-        this._deck.forEach((c, i) => {
-          if (c.matched) return;
-          const key = String(c.id).toLowerCase();
-          if (!idToIdx.has(key)) idToIdx.set(key, []);
-          idToIdx.get(key).push(i);
+        const pool = this._buildPool();
+        const remixIdx = this._deck.map((c,i) => i);
+
+        const pairCount = Math.floor(remixIdx.length / 2);
+        const newIcons = pool.sort(() => 0.5 - Math.random()).slice(0, pairCount);
+        const newPairs = [...newIcons, ...newIcons].sort(() => 0.5 - Math.random());
+
+        remixIdx.forEach((idx, i) => {
+          this._deck[idx].id = newPairs[i] || this._deck[idx].id;
+          this._deck[idx].matched = false;
         });
 
-        const pairIds = Array.from(idToIdx.entries())
-          .filter(([, idxs]) => idxs.length === 2)
-          .map(([id]) => id);
+        this._matches = 0;
 
-        const replaced = [];
-        if (pairIds.length){
-          const oldId = this._shuffle(pairIds.slice())[0];
-          const oldIdxs = idToIdx.get(oldId);
-
-          const currentIds = new Set(this._deck.map(c => String(c.id).toLowerCase()));
-          const pool = this._buildPool();
-
-          // prefer a truly new id (not on board)
-          let candidates = pool.filter(x => !currentIds.has(String(x).toLowerCase()));
-          // fallback: at least different from the id we replace
-          if (!candidates.length) candidates = pool.filter(x => String(x).toLowerCase() !== oldId);
-
-          const newId = candidates.length ? this._shuffle(candidates.slice())[0] : null;
-
-          if (newId){
-            oldIdxs.forEach(i => {
-              this._deck[i].id = newId;
-              this._deck[i].matched = false;
-              if (btns[i]) btns[i].removeAttribute("state");
-              replaced.push(i);
-            });
-          }
-        }
-
-        if (replaced.length){
-          this._sfx("inject");
-          this._flash(replaced, "replaced", 900);
-        }
-
-        // 3) shuffle ONLY unmatched cards by permuting their ids (pair counts stay correct)
-        const unmatchedIdx = this._deck
-          .map((c,i) => (c.matched ? -1 : i))
-          .filter(i => i !== -1);
-
-        const ids = unmatchedIdx.map(i => this._deck[i].id);
-        this._shuffle(ids);
-        unmatchedIdx.forEach((idx, k) => { this._deck[idx].id = ids[k]; });
-
-        if (unmatchedIdx.length){
-          this._sfx("shuffle");
-          const sample = this._shuffle(unmatchedIdx.slice()).slice(0, 6);
-          this._flash(sample, "shuffled", 900);
-        }
-
-        // after chaos, rerender so images match data
         setTimeout(() => {
-          this._renderDeck();
-          this.$misses.classList.remove("chaos");
-          this.$grid.classList.remove("boom");
+          this._render();
+          this.$missesPill.classList.remove("chaos-active");
+          this.$grid.classList.remove("glitch");
+          this._open = [];
           this._locked = false;
           this._chaosActive = false;
           this._updateUI();
-        }, 980);
+        }, 900);
       }
 
-      _end(title){
+      _showFloat(sec, pos){
+        this._timeLeft = pos ? (this._timeLeft + sec) : Math.max(0, this._timeLeft - sec);
+
+        const b = document.createElement("div");
+        b.className = \`bonus-text \${pos ? "pos" : "neg"}\`;
+        b.textContent = \`\${pos ? "+" : "-"}\${sec}s\`;
+        this.$bonusContainer.appendChild(b);
+        setTimeout(() => b.remove(), 1000);
+      }
+
+      _setTimerUI(t){
+        const m = Math.floor(t / 60);
+        const s = t % 60;
+        this.$timer.textContent = \`\${String(m).padStart(2,'0')}:\${String(s).padStart(2,'0')}\`;
+
+        if (t <= 10 && t > 0) {
+          this.$timerPill.classList.add("timer-urgent");
+          if (this._lastTickSecond !== t) {
+            this._lastTickSecond = t;
+            if ((t % 2) === 0) this._sfx("tick"); else this._sfx("tock");
+          }
+        } else {
+          this.$timerPill.classList.remove("timer-urgent");
+          this._lastTickSecond = null;
+        }
+      }
+
+      _startTimer(){
         clearInterval(this._timerId);
-        this._timerId = null;
+        const t0 = Math.max(0, this._timeLeft);
+        this._setTimerUI(t0);
 
-        this.$ovTitle.textContent = title;
-        this.$ovMsg.textContent = `Pairs: ${this._matches} | Misses: ${this._missCount}`;
+        this._timerId = setInterval(() => {
+          this._timeLeft--;
+          const t = Math.max(0, this._timeLeft);
+          this._setTimerUI(t);
+
+          if(this._timeLeft <= 0){
+            clearInterval(this._timerId);
+            this._end("Game Over");
+          }
+        }, 1000);
+      }
+
+      _updateUI(){
+        const totalPairs = Math.floor(this._deck.length / 2);
+        this.$status.textContent = \`Pairs: \${this._matches}/\${totalPairs}\`;
+        this.$missesPill.textContent = \`Misses: \${this._misses}\`;
+      }
+
+      _end(t){
+        clearInterval(this._timerId);
+        this.shadowRoot.getElementById("ovTitle").textContent = t;
+        this.shadowRoot.getElementById("ovMsg").textContent = \`Pairs: \${this._matches} | Misses: \${this._misses}\`;
         this.$overlay.setAttribute("open", "");
+        this.$timerPill.classList.remove("timer-urgent");
 
-        if (title === "Victory!") this._sfx("win");
+        if (t === "Victory!") this._sfx("win");
         else this._sfx("lose");
       }
     }
