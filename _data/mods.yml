@@ -270,7 +270,7 @@
   version: "1.0.0"
   status: "compatible"
 
-- id: medical_decorations_kit
+- id: medical_decorations
   version: "1.1.0"
   status: "compatible"
 
