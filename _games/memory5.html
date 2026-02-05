@@ -1,0 +1,153 @@
+---
+layout: page
+title: Pack Picker Memory
+icon: "fas fa-brain"
+order: 2
+description: "Match all Sims 4 Expansion, Game, and Stuff Packs. Chaos at 10 misses!"
+mode: Memory
+difficulty: Hard
+---
+
+<chaos-memory
+  ep-count="18"
+  gp-count="12"
+  sp-count="18"
+  sp-extra="46, 49"
+  pairs="12"
+  time-limit="120"
+  folder="{{ '/assets/img/packs/mono/' | relative_url }}"
+  exclude="gp09">
+</chaos-memory>
+
+<style>
+  chaos-memory{ display:block; margin: 1.25rem auto; max-width: 1000px; }
+</style>
+
+{% raw %}
+<script>
+(() => {
+  try {
+    if (customElements.get("chaos-memory")) return;
+
+    const tpl = document.createElement("template");
+    tpl.innerHTML = `
+      <style>
+        :host{
+          --bg:#ffffff; --card:#ffffff; --ink:#0b0b0b; --muted:#4b5563;
+          --border:#d1d5db; --shadow:0 14px 20px -10px rgba(0,0,0,.18);
+          --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
+          --size:146px; display:block;
+        }
+
+        .shell{
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow);
+          padding: 1.1rem;
+          position: relative;
+        }
+
+        .top{
+          display:flex;
+          justify-content:space-between;
+          align-items:flex-start;
+          gap: 1rem;
+          flex-wrap: wrap;
+          margin-bottom: 1rem;
+        }
+
+        h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
+        p{ margin:.25rem 0 0; color:var(--muted); font-size:.9rem; }
+
+        .stats{
+          display:flex;
+          gap:.5rem;
+          align-items:center;
+          flex-wrap:wrap;
+          justify-content:flex-end;
+        }
+
+        .pill{
+          background: var(--card);
+          border: 2px solid var(--border);
+          border-radius: 999px;
+          padding: .42rem .7rem;
+          font-weight: 800;
+          color: var(--ink);
+          font-size: .85rem;
+          min-width: 110px;
+          text-align:center;
+          position:relative;
+          user-select:none;
+        }
+
+        .pill.chaos-active{
+          background: #ef4444;
+          border-color:#ef4444;
+          color:#fff;
+          transform: scale(1.12);
+          transition: 0.25s;
+        }
+
+        .btn{
+          background: #0b0b0b;
+          color:#fff;
+          border:none;
+          border-radius: 12px;
+          padding: .5rem .9rem;
+          font-weight: 850;
+          font-size: .9rem;
+          cursor:pointer;
+        }
+
+        .grid{
+          display:grid;
+          gap: var(--gap);
+          justify-content:center;
+          perspective: 1100px;
+          margin: 0 auto;
+        }
+
+        .grid.glitch{
+          filter: hue-rotate(90deg) contrast(1.2);
+        }
+
+        @media (min-width: 621px){
+          .grid{ grid-template-columns: repeat(6, var(--size)); }
+        }
+
+        @media (max-width: 620px){
+          :host{ --size: 88px; --gap: 6px; }
+          .grid{ grid-template-columns: repeat(4, var(--size)); }
+          .pill{ min-width: 80px; font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+          h2{ font-size: 1.1rem; }
+        }
+
+        .card{
+          width: var(--size);
+          height: var(--size);
+          position:relative;
+          transform-style:preserve-3d;
+          transition: transform var(--flip);
+          cursor:pointer;
+          border-radius: 14px;
+          border: 0;
+          padding: 0;
+          background: transparent;
+        }
+        .card[state="up"], .card[state="match"]{ transform: rotateY(180deg); }
+        .card[state="match"]{ pointer-events:none; }
+
+        .face{
+          position:absolute; inset:0;
+          backface-visibility:hidden;
+          border-radius: 12px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          overflow:hidden;
+        }
+        .front{
+          background: #0b0b0b;
+          border: 2px solid rgba(255,
