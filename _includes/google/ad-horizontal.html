@@ -1,12 +1,50 @@
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146635618193757"
-     crossorigin="anonymous"></script>
-<!-- Block Horizontal -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-2146635618193757"
-     data-ad-slot="8824930390"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
+<!-- AdSense Horizontal Block -->
+<div class="ad-wrap">
+  <ins class="adsbygoogle"
+       data-ad-client="ca-pub-2146635618193757"
+       data-ad-slot="8824930390"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+</div>
+
+<!-- AdSense Script -->
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146635618193757"
+        crossorigin="anonymous"></script>
+
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
+
+  // Auto height handling (0 if not loaded)
+  (() => {
+    const wrap = document.querySelector('.ad-wrap');
+    const ad   = wrap?.querySelector('.adsbygoogle');
+    if (!wrap || !ad || !window.ResizeObserver) return;
+
+    // Start collapsed
+    wrap.style.height = '0';
+    wrap.style.overflow = 'hidden';
+
+    const ro = new ResizeObserver(entries => {
+      const h = entries[0].contentRect.height;
+      wrap.style.height = h > 0 ? h + 'px' : '0';
+    });
+
+    ro.observe(ad);
+  })();
 </script>
+
+<style>
+  .ad-wrap {
+    display: block;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.25s ease;
+  }
+
+  .ad-wrap ins.adsbygoogle {
+    display: block;
+    width: 100%;
+  }
+</style>
