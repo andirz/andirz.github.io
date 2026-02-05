@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Game Center
 icon: "fas fa-puzzle-piece"
 order: 300
