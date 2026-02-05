@@ -1,11 +1,58 @@
 ---
 layout: default
-toc: true
 ---
 
-<article class="px-1">
-  <h1 class="dynamic-title">{{ page.title }}</h1>
-  <div class="content">
-    {{ content }}
+<div class="page-layout-wrapper" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+  <div class="page-grid" style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+    
+    <main style="flex: 2; min-width: 320px;">
+      <article class="px-1">
+        <h1 class="dynamic-title" style="margin-bottom: 20px;">{{ page.title }}</h1>
+        
+        <div class="content" style="font-size: 1.1rem; line-height: 1.8;">
+          {{ content }}
+        </div>
+      </article>
+
+      <div class="ad-container-flex">
+        {% include google/ad-multiplex.html %}
+      </div>
+    </main>
+
+    <aside style="flex: 1; min-width: 300px; position: sticky; top: 20px;">
+      <div class="ad-container-flex">
+        {% include google/ad-vertical.html %}
+      </div>
+    </aside>
+
   </div>
-</article>
+</div>
+
+<style>
+  /* Flex-Container für die Werbung */
+  .ad-container-flex {
+    display: block;
+    width: 100%;
+  }
+
+  /* Styling nur anwenden, wenn Werbung tatsächlich geladen wird */
+  .adsbygoogle[data-ad-status="filled"] {
+    display: block;
+    margin: 20px 0;
+    padding: 10px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 8px;
+  }
+
+  /* Verhindert leere Flächen, wenn AdBlock aktiv ist oder Google nichts liefert */
+  .adsbygoogle[data-ad-status="unfilled"] {
+    display: none !important;
+  }
+
+  /* Responsive: Sidebar rutscht am Handy unter den Content */
+  @media (max-width: 768px) {
+    .page-grid {
+      flex-direction: column;
+    }
+  }
+</style>
