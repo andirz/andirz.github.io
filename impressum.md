@@ -22,4 +22,4 @@ sitemap: false
 <h2>Disclaimer</h2>
 <p>Information according to § 7 Para. 1 TMG...</p>
 
-<script src="legal.js"></script>
+<script src="/_javascripts/legal.js"></script>
