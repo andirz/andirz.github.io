@@ -132,17 +132,18 @@ sitemap: false
 
 <script>
 (() => {
-  // decode = Base64 → reverse (kein Klartext im HTML)
+  // Base64 → reverse → Klartext
   const decode = v => atob(v).split('').reverse().join('');
 
+  // NUR Base64-Werte hier (kein reverse!)
   const data = {
-    name:   "emFhUiBzYWVyZG5B".split('').reverse().join(''),
+    name:   "emFhUiBzYWVyZG5B",
     street: "MTcwIGVsbEEgcmV1bGF6bmVyUA==",
     city:   "bmlscmVCIDA5NDAx",
     mail:   "bW9jLmxpYW1nQHpyaWRuYTRzbWlz"
   };
 
-  const block = `
+  const html = `
     <strong>Operator</strong>
     ${decode(data.name)}<br>
     ${decode(data.street)}<br>
@@ -153,8 +154,8 @@ sitemap: false
     E-Mail: ${decode(data.mail)}
   `;
 
-  document.getElementById("contact-en").innerHTML = block;
-  document.getElementById("contact-de").innerHTML = block;
+  document.getElementById("contact-en").innerHTML = html;
+  document.getElementById("contact-de").innerHTML = html;
 })();
 </script>
 
