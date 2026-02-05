@@ -1,5 +1,5 @@
 ---
-mod_id: x_mas_collection
+mod_id: xmas_collection
 title: "X-Mas Poster & Painting Collection"
 icon: "fas fa-image"
 categories: [Build/Buy, Decor, Christmas]
