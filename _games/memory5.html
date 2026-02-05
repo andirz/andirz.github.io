@@ -256,13 +256,62 @@ difficulty: Hard
         this._misses = 0;
         this._timeLeft = 0;
         this._timerId = null;
+
+        /* sound */
+        this._ac = null;
       }
 
       connectedCallback(){
         this.shadowRoot.getElementById("restart").onclick = () => this._reset();
         this.shadowRoot.getElementById("restart2").onclick = () => this._reset();
         this.$grid.onclick = (e) => this._onClick(e);
+
+        // AudioContext braucht oft User-Interaktion; wir initialisieren es beim ersten Klick automatisch.
         this._reset();
+      }
+
+      _ensureAudio(){
+        if (this._ac) return;
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        this._ac = new Ctx();
+      }
+
+      _beep(freq, ms, type, gain){
+        try{
+          this._ensureAudio();
+          if(!this._ac) return;
+
+          if (this._ac.state === "suspended") {
+            // Safari/Chrome: resume nur nach user gesture; wir versuchen es trotzdem, und beim nächsten Klick klappt’s.
+            this._ac.resume().catch(() => {});
+          }
+
+          const o = this._ac.createOscillator();
+          const g = this._ac.createGain();
+          o.type = type || "sine";
+          o.frequency.value = freq;
+
+          const now = this._ac.currentTime;
+          const a = Math.max(0.0001, gain ?? 0.03);
+          g.gain.setValueAtTime(0.0001, now);
+          g.gain.exponentialRampToValueAtTime(a, now + 0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + (ms/1000));
+
+          o.connect(g); g.connect(this._ac.destination);
+          o.start(now);
+          o.stop(now + (ms/1000) + 0.02);
+        } catch(e) {}
+      }
+
+      _sfx(name){
+        // kleine, klare SFX (ohne externe Dateien)
+        if(name === "flip")  return this._beep(520, 45, "triangle", 0.02);
+        if(name === "match") { this._beep(660, 70, "sine", 0.03); return this._beep(880, 90, "sine", 0.03); }
+        if(name === "miss")  return this._beep(220, 110, "square", 0.02);
+        if(name === "chaos") { this._beep(140, 140, "sawtooth", 0.02); return this._beep(90, 160, "sawtooth", 0.02); }
+        if(name === "win")   { this._beep(784, 120, "sine", 0.03); this._beep(988, 140, "sine", 0.03); return this._beep(1175, 180, "sine", 0.03); }
+        if(name === "lose")  { this._beep(196, 160, "triangle", 0.03); return this._beep(147, 220, "triangle", 0.03); }
       }
 
       get epCount(){ return parseInt(this.getAttribute("ep-count") || "18"); }
@@ -353,6 +402,12 @@ difficulty: Hard
         const card = e.target.closest(".card");
         if(!card || this._locked || card.getAttribute("state")) return;
 
+        // attempt resume audio on first user gesture
+        this._ensureAudio();
+        if (this._ac && this._ac.state === "suspended") this._ac.resume().catch(() => {});
+
+        this._sfx("flip");
+
         card.setAttribute("state", "up");
         this._open.push(card);
 
@@ -372,6 +427,7 @@ difficulty: Hard
             this._open = [];
             this._locked = false;
 
+            this._sfx("match");
             this._showFloat(10, true);
             this._updateUI();
 
@@ -380,6 +436,7 @@ difficulty: Hard
             }
           } else {
             this._misses++;
+            this._sfx("miss");
             this._showFloat(3, false);
             this._updateUI();
 
@@ -398,6 +455,7 @@ difficulty: Hard
       }
 
       _chaos(){
+        this._sfx("chaos");
         this.$missesPill.classList.add("chaos-active");
         this.$grid.classList.add("glitch");
 
@@ -416,7 +474,9 @@ difficulty: Hard
 
         /* optional extra-chaos: selten bereits gematchte wieder ent-matchen */
         this._deck.forEach(c => { if(c.matched && Math.random() > 0.7) c.matched = false; });
-        this._matches = this._deck.filter(c => c.matched).length / 2;
+
+        // WICHTIG: nie 2.5 anzeigen -> sauber runden (und gleichzeitig robust gegen Chaos)
+        this._matches = Math.floor(this._deck.filter(c => c.matched).length / 2);
 
         setTimeout(() => {
           this._render();
@@ -469,6 +529,9 @@ difficulty: Hard
         this.shadowRoot.getElementById("ovTitle").textContent = t;
         this.shadowRoot.getElementById("ovMsg").textContent = `Pairs: ${this._matches} | Misses: ${this._misses}`;
         this.$overlay.setAttribute("open", "");
+
+        if (t === "Victory!") this._sfx("win");
+        else this._sfx("lose");
       }
     }
 
