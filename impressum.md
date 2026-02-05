@@ -12,14 +12,15 @@ sitemap: false
     <noscript>Please enable JavaScript to view contact details.</noscript>
 </div>
 
-<h2>Privacy Policy</h2>
-<div class="legal-box">
-    <strong>1. Data Protection:</strong> Personal data is treated confidentially.<br>
-    <strong>2. Hosting:</strong> This site is hosted via <strong>GitHub Pages</strong>.<br>
-    <strong>3. Rights:</strong> You have the right to information, correction, and deletion.
-</div>
+<hr style="margin: 30px 0;">
 
-<h2>Disclaimer</h2>
-<p>Information according to § 7 Para. 1 TMG...</p>
+## Privacy & Cookies
+Detailed information on how data is handled can be found on the following pages:
+* [**Privacy Policy**](/privacy/) – Information about data controller and your rights.
+* [**Cookie Policy**](/cookies/) – Details about cookies and consent management.
+
+---
+
+## Disclaimer
 
 <script src="/_javascripts/legal.js"></script>
