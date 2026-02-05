@@ -31,7 +31,7 @@
         </div>
     `;
 
-    // Die Funktion zum Umschalten
+    // Funktion zum Umschalten
     window.switchLegal = function(lang) {
         const de = document.getElementById('content-de');
         const en = document.getElementById('content-en');
