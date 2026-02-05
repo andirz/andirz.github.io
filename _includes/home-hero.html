@@ -1,0 +1,41 @@
+<style>
+  .hero-wrapper-mini {
+    background: transparent;
+    color: var(--brand-primary, #1e293b);
+    padding: 15px; /* Reduziert von 20px */
+    text-align: center;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 12px;
+    margin-bottom: 25px;
+  }
+
+  .plumbob-mini {
+    color: var(--brand-accent, #2ecc71);
+    font-size: 1.2rem; /* Etwas kleiner */
+    animation: float-simple 3s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  @keyframes float-simple {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  .hero-wrapper-mini h1 { 
+    font-size: 1.3rem; /* Kompakter */
+    margin: 5px 0; 
+    font-weight: 800;
+  }
+  
+  .hero-wrapper-mini p {
+    font-size: 0.9rem;
+    margin: 0;
+    opacity: 0.8;
+  }
+</style>
+
+<header class="hero-wrapper-mini">
+  <div class="plumbob-mini"><i class="fas fa-gem"></i></div>
+  <h1>Sul Sul!</h1>
+  <p>Modding The Sims 4. Explore <strong>SimSim</strong> & <strong>Obscura</strong>.</p>
+</header>
