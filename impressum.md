@@ -12,15 +12,11 @@ sitemap: false
     <noscript>Please enable JavaScript to view contact details.</noscript>
 </div>
 
-<hr style="margin: 30px 0;">
+<br>
 
-## Privacy & Cookies
-Detailed information on how data is handled can be found on the following pages:
-* [**Privacy Policy**](/privacy/) – Information about data controller and your rights.
-* [**Cookie Policy**](/cookies/) – Details about cookies and consent management.
+## Policies & Data Protection
+For more information, please visit our specific policy pages:
+* [**Privacy Policy**](/privacy/)
+* [**Cookie Policy**](/cookies/)
 
----
-
-## Disclaimer
-
-<script src="/assets/javascript/legal.js"></script>
+<script src="/legal.js"></script>
