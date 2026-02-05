@@ -95,11 +95,13 @@ sitemap: false
     <h3>Intellectual Property & Media</h3>
     <p>
       Most images and visual content on this website consist of screenshots taken directly from
-      <em>The Sims 4</em> and are used solely to illustrate mod functionality.
+      <em>The Sims 4</em> and are used solely to illustrate the functionality of the published mods.
     </p>
     <p>
-      <strong>Exception:</strong> Custom icons used for in-game applications and interfaces.
-      Credits and licenses are listed on a separate “Credits & Icon Sources” page.
+      <strong>Credits & Licenses:</strong>
+      Sources and licenses for third-party icons, images, and similar assets used on this website
+      are listed on a dedicated page:
+      <a href="/licenses/">Credits & Licenses</a>.
     </p>
 
     <div class="legal-links">
@@ -121,8 +123,10 @@ sitemap: false
       Screenshots aus <em>Die Sims 4</em> und dient ausschließlich der Darstellung der Mod-Funktionen.
     </p>
     <p>
-      <strong>Ausnahme:</strong> Spezielle Icons für In-Game-Anwendungen und Benutzeroberflächen.
-      Quellen und Lizenzen sind auf einer separaten Seite „Credits & Icon-Quellen“ aufgeführt.
+      <strong>Credits & Lizenzen:</strong>
+      Quellen und Lizenzen für verwendete Icons, Bilder und vergleichbare Drittanbieter-Assets
+      sind auf einer separaten Seite zusammengefasst:
+      <a href="/licenses/">Credits & Lizenzen</a>.
     </p>
 
     <div class="legal-links">
