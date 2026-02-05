@@ -1,9 +1,16 @@
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RTPTZC13KG"></script>
+{% if jekyll.environment == 'production' %}
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  if (localStorage.getItem('cookies-accepted') === 'true') {
+    // Nur laden, wenn Zustimmung vorliegt
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=G-RTPTZC13KG";
+    document.head.appendChild(script);
 
-  gtag('config', 'G-RTPTZC13KG');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RTPTZC13KG', { 'anonymize_ip': true });
+  }
 </script>
+{% endif %}
