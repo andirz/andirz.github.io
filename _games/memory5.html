@@ -38,7 +38,6 @@ difficulty: Hard
           --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
           --size:146px; display:block;
         }
-
         .shell{
           background: var(--bg);
           border: 1px solid var(--border);
@@ -47,7 +46,6 @@ difficulty: Hard
           padding: 1.1rem;
           position: relative;
         }
-
         .top{
           display:flex;
           justify-content:space-between;
@@ -56,10 +54,8 @@ difficulty: Hard
           flex-wrap: wrap;
           margin-bottom: 1rem;
         }
-
         h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
         p{ margin:.25rem 0 0; color:var(--muted); font-size:.9rem; }
-
         .stats{
           display:flex;
           gap:.5rem;
@@ -67,7 +63,6 @@ difficulty: Hard
           flex-wrap:wrap;
           justify-content:flex-end;
         }
-
         .pill{
           background: var(--card);
           border: 2px solid var(--border);
@@ -81,7 +76,6 @@ difficulty: Hard
           position:relative;
           user-select:none;
         }
-
         .pill.chaos-active{
           background: #ef4444;
           border-color:#ef4444;
@@ -89,7 +83,6 @@ difficulty: Hard
           transform: scale(1.12);
           transition: 0.25s;
         }
-
         .btn{
           background: #0b0b0b;
           color:#fff;
@@ -100,7 +93,6 @@ difficulty: Hard
           font-size: .9rem;
           cursor:pointer;
         }
-
         .grid{
           display:grid;
           gap: var(--gap);
@@ -108,22 +100,18 @@ difficulty: Hard
           perspective: 1100px;
           margin: 0 auto;
         }
-
         .grid.glitch{
           filter: hue-rotate(90deg) contrast(1.2);
         }
-
         @media (min-width: 621px){
           .grid{ grid-template-columns: repeat(6, var(--size)); }
         }
-
         @media (max-width: 620px){
           :host{ --size: 88px; --gap: 6px; }
           .grid{ grid-template-columns: repeat(4, var(--size)); }
           .pill{ min-width: 80px; font-size: 0.75rem; padding: 0.3rem 0.5rem; }
           h2{ font-size: 1.1rem; }
         }
-
         .card{
           width: var(--size);
           height: var(--size);
@@ -257,7 +245,6 @@ difficulty: Hard
         this._timeLeft = 0;
         this._timerId = null;
 
-        /* sound */
         this._ac = null;
       }
 
@@ -266,7 +253,7 @@ difficulty: Hard
         this.shadowRoot.getElementById("restart2").onclick = () => this._reset();
         this.$grid.onclick = (e) => this._onClick(e);
 
-        // AudioContext braucht oft User-Interaktion; wir initialisieren es beim ersten Klick automatisch.
+        /* AudioContext braucht oft User-Interaktion; wir initialisieren es beim ersten Klick automatisch */
         this._reset();
       }
 
@@ -283,7 +270,7 @@ difficulty: Hard
           if(!this._ac) return;
 
           if (this._ac.state === "suspended") {
-            // Safari/Chrome: resume nur nach user gesture; wir versuchen es trotzdem, und beim nächsten Klick klappt’s.
+            /* Safari/Chrome: resume nur nach user gesture; wir versuchen es trotzdem */
             this._ac.resume().catch(() => {});
           }
 
@@ -293,7 +280,7 @@ difficulty: Hard
           o.frequency.value = freq;
 
           const now = this._ac.currentTime;
-          const a = Math.max(0.0001, gain ?? 0.03);
+          const a = Math.max(0.0001, (gain == null ? 0.03 : gain));
           g.gain.setValueAtTime(0.0001, now);
           g.gain.exponentialRampToValueAtTime(a, now + 0.01);
           g.gain.exponentialRampToValueAtTime(0.0001, now + (ms/1000));
@@ -305,11 +292,11 @@ difficulty: Hard
       }
 
       _sfx(name){
-        // kleine, klare SFX (ohne externe Dateien)
+        /* kleine, klare SFX (ohne externe Dateien) */
         if(name === "flip")  return this._beep(520, 45, "triangle", 0.02);
-        if(name === "match") { this._beep(660, 70, "sine", 0.03); return this._beep(880, 90, "sine", 0.03); }
+        if(name === "match"){ this._beep(660, 70, "sine", 0.03); return this._beep(880, 90, "sine", 0.03); }
         if(name === "miss")  return this._beep(220, 110, "square", 0.02);
-        if(name === "chaos") { this._beep(140, 140, "sawtooth", 0.02); return this._beep(90, 160, "sawtooth", 0.02); }
+        if(name === "chaos"){ this._beep(140, 140, "sawtooth", 0.02); return this._beep(90, 160, "sawtooth", 0.02); }
         if(name === "win")   { this._beep(784, 120, "sine", 0.03); this._beep(988, 140, "sine", 0.03); return this._beep(1175, 180, "sine", 0.03); }
         if(name === "lose")  { this._beep(196, 160, "triangle", 0.03); return this._beep(147, 220, "triangle", 0.03); }
       }
@@ -402,7 +389,7 @@ difficulty: Hard
         const card = e.target.closest(".card");
         if(!card || this._locked || card.getAttribute("state")) return;
 
-        // attempt resume audio on first user gesture
+        /* attempt resume audio on first user gesture */
         this._ensureAudio();
         if (this._ac && this._ac.state === "suspended") this._ac.resume().catch(() => {});
 
@@ -414,12 +401,14 @@ difficulty: Hard
         if(this._open.length === 2){
           this._locked = true;
 
-          const [c1, c2] = this._open;
+          const c1 = this._open[0];
+          const c2 = this._open[1];
           const d1 = this._deck[parseInt(c1.dataset.idx, 10)];
           const d2 = this._deck[parseInt(c2.dataset.idx, 10)];
 
           if(d1 && d2 && d1.id === d2.id){
-            d1.matched = d2.matched = true;
+            d1.matched = true;
+            d2.matched = true;
             c1.setAttribute("state", "match");
             c2.setAttribute("state", "match");
 
@@ -456,6 +445,7 @@ difficulty: Hard
 
       _chaos(){
         this._sfx("chaos");
+
         this.$missesPill.classList.add("chaos-active");
         this.$grid.classList.add("glitch");
 
@@ -475,7 +465,7 @@ difficulty: Hard
         /* optional extra-chaos: selten bereits gematchte wieder ent-matchen */
         this._deck.forEach(c => { if(c.matched && Math.random() > 0.7) c.matched = false; });
 
-        // WICHTIG: nie 2.5 anzeigen -> sauber runden (und gleichzeitig robust gegen Chaos)
+        /* WICHTIG: nie 2.5 anzeigen -> robust runden */
         this._matches = Math.floor(this._deck.filter(c => c.matched).length / 2);
 
         setTimeout(() => {
