@@ -1,0 +1,267 @@
+---
+layout: page
+title: Pack Picker Memory
+icon: "fas fa-brain"
+order: 2
+description: "Match all Sims 4 Expansion, Game, and Stuff Packs before time runs out."
+mode: Memory
+difficulty: Medium
+---
+
+<pack-memory
+  ep-count="18"
+  gp-count="12"
+  sp-count="18"
+  sp-extra="46, 49"
+  pairs="12"
+  time-limit="120"
+  folder="{{ '/assets/img/packs/mono/' | relative_url }}"
+  exclude="gp09">
+</pack-memory>
+
+<style>
+  pack-memory{ display:block; margin: 1.25rem auto; max-width: 1000px; }
+</style>
+
+{% raw %}
+<script>
+(() => {
+  try {
+    if (customElements.get("pack-memory")) return;
+
+    const tpl = document.createElement("template");
+    tpl.innerHTML = `
+      <style>
+        :host{
+          --bg:#ffffff; --card:#ffffff; --ink:#0b0b0b; --muted:#4b5563;
+          --border:#d1d5db; --shadow:0 14px 20px -10px rgba(0,0,0,.18);
+          --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
+          --size:146px; display:block;
+        }
+        .shell{ background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem; position: relative; }
+        .top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
+        p{ margin:.25rem 0 0; color:var(--muted); font-size:.9rem; }
+        .stats{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+        
+        /* Timer & Pill Styles */
+        .pill{ background: var(--card); border: 2px solid var(--border); border-radius: 999px; padding: .42rem .7rem; font-weight: 800; color: var(--ink); font-size: .85rem; min-width: 110px; text-align:center; user-select:none; position:relative; }
+        
+        /* Timer Alert & Animation */
+        .pill.warn{ background: #ef4444; border-color: #ef4444; color: #fff; animation: blink 0.8s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        /* Bonus Text Animation */
+        .bonus-text {
+          position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+          color: #22c55e; font-weight: 900; font-size: 1.1rem;
+          pointer-events: none; opacity: 0; animation: floatUp 1s ease-out;
+        }
+        @keyframes floatUp {
+          0% { opacity: 0; transform: translate(-50%, 0); }
+          20% { opacity: 1; }
+          100% { opacity: 0; transform: translate(-50%, -30px); }
+        }
+
+        .btn{ background: #0b0b0b; color:#fff; border:none; border-radius: 12px; padding: .5rem .9rem; font-weight: 850; font-size: .9rem; cursor:pointer; transition: transform .12s ease; }
+        .toggle{ display:inline-flex; align-items:center; gap:.45rem; cursor:pointer; font-weight:850; font-size:.85rem; color: var(--ink); padding:.38rem .65rem; border-radius: 999px; border:2px solid var(--border); background: var(--card); }
+        
+        .grid{ display:grid; gap: var(--gap); justify-content:center; perspective: 1100px; margin: 0 auto; }
+
+        @media (min-width: 621px){ .grid{ grid-template-columns: repeat(6, var(--size)); } }
+        @media (max-width: 620px){
+          :host{ --size: 88px; --gap: 6px; }
+          .grid{ grid-template-columns: repeat(4, var(--size)); }
+          .pill{ min-width: 80px; font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+          h2{ font-size: 1.1rem; }
+        }
+
+        .card{ width: var(--size); height: var(--size); position:relative; transform-style:preserve-3d; transition: transform var(--flip); cursor:pointer; border-radius: 14px; border: 0; padding: 0; background: transparent; }
+        .card[state="up"], .card[state="match"]{ transform: rotateY(180deg); }
+        .card[state="match"]{ pointer-events:none; }
+        .face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 12px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .front{ background: #0b0b0b; border: 2px solid rgba(255,255,255,.10); color:#ffffff; font-weight: 900; font-size: 1.1rem; }
+        .back{ background: var(--card); transform: rotateY(180deg); border: 2px solid #0b0b0b; padding: 8px; }
+        .back img{ width:100%; height:100%; object-fit:contain; display:block; }
+        
+        .overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; background: rgba(255,255,255,.78); backdrop-filter: blur(4px); border-radius: var(--radius); z-index:10; }
+        .overlay[open]{ display:flex; }
+        .modal{ width:min(400px, calc(100% - 28px)); background: #ffffff; border: 2px solid #0b0b0b; border-radius: 18px; padding: 1.1rem; text-align:center; }
+        .modal .row{ display:flex; gap:.6rem; justify-content:center; margin-top:1rem; }
+      </style>
+      <div class="shell">
+        <div class="top">
+          <div class="title"><h2>Pack Picker Memory</h2><p>Find pairs & gain time!</p></div>
+          <div class="stats">
+            <div class="pill" id="status">Pairs: 0 / 0</div>
+            <div class="pill" id="misses">Misses: 0</div>
+            <div class="pill" id="timer-pill">
+               <span id="timer">00:00</span>
+               <div id="bonus-container"></div>
+            </div>
+            <label class="toggle"><input id="sound" type="checkbox" checked /> Sound</label>
+            <button class="btn" id="restart">Restart</button>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+        <div class="overlay" id="overlay">
+          <div class="modal">
+            <h3 id="ovTitle">Done!</h3>
+            <div id="ovMsg"></div>
+            <div class="row"><button class="btn" id="restart2">Play Again</button></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    class PackMemory extends HTMLElement{
+      constructor(){
+        super();
+        this.attachShadow({mode:"open"});
+        this.shadowRoot.appendChild(tpl.content.cloneNode(true));
+        this.$grid = this.shadowRoot.getElementById("grid");
+        this.$status = this.shadowRoot.getElementById("status");
+        this.$misses = this.shadowRoot.getElementById("misses");
+        this.$timer = this.shadowRoot.getElementById("timer");
+        this.$timerPill = this.shadowRoot.getElementById("timer-pill");
+        this.$bonusContainer = this.shadowRoot.getElementById("bonus-container");
+        this.$restart = this.shadowRoot.getElementById("restart");
+        this.$sound = this.shadowRoot.getElementById("sound");
+        this.$overlay = this.shadowRoot.getElementById("overlay");
+        this.$ovTitle = this.shadowRoot.getElementById("ovTitle");
+        this.$ovMsg = this.shadowRoot.getElementById("ovMsg");
+        this.$restart2 = this.shadowRoot.getElementById("restart2");
+        this._deck = []; this._open = []; this._locked = false;
+        this._matches = 0; this._misses = 0;
+        this._timerId = null; this._timeLeft = 0; this._audioCtx = null;
+        this._onClick = this._onClick.bind(this);
+        this._reset = this._reset.bind(this);
+      }
+
+      connectedCallback(){
+        this.$grid.addEventListener("click", this._onClick);
+        this.$restart.addEventListener("click", this._reset);
+        this.$restart2.addEventListener("click", this._reset);
+        this._reset();
+      }
+
+      get epCount(){ return this._intAttr("ep-count", 18); }
+      get gpCount(){ return this._intAttr("gp-count", 12); }
+      get spCount(){ return this._intAttr("sp-count", 0); }
+      get spExtra(){ return (this.getAttribute("sp-extra") || "").split(",").map(s => s.trim()).filter(Boolean); }
+      get pairs(){ return this._intAttr("pairs", 12); }
+      get timeLimit(){ return this._intAttr("time-limit", 120); }
+      get folder(){ 
+        let f = (this.getAttribute("folder") || "").trim() || "/assets/img/packs/mono/";
+        return f.endsWith("/") ? f : f + "/"; 
+      }
+
+      _intAttr(name, fallback){ const v = parseInt(this.getAttribute(name) || "", 10); return Number.isFinite(v) && v >= 0 ? v : fallback; }
+
+      _reset(){
+        this.$overlay.removeAttribute("open");
+        this._matches = 0; this._misses = 0; this._locked = false; this._open = [];
+        this._timeLeft = this.timeLimit;
+        
+        const pool = [];
+        for(let i=1;i<=this.epCount;i++) pool.push("ep" + String(i).padStart(2,"0"));
+        for(let i=1;i<=this.gpCount;i++) pool.push("gp" + String(i).padStart(2,"0"));
+        for(let i=1;i<=this.spCount;i++) pool.push("sp" + String(i).padStart(2,"0"));
+        this.spExtra.forEach(num => pool.push("sp" + String(num).padStart(2,"0")));
+        const excl = (this.getAttribute("exclude") || "").split(",").map(s => s.trim().toLowerCase());
+        const filtered = pool.filter(id => !excl.includes(id));
+
+        const selected = filtered.sort(() => 0.5 - Math.random()).slice(0, this.pairs);
+        this._deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
+        
+        this._render();
+        this._ui();
+        this._startTimer();
+      }
+
+      _render(){
+        this.$grid.innerHTML = "";
+        this._deck.forEach(id => {
+          const card = document.createElement("button");
+          card.className = "card"; card.dataset.id = id;
+          card.innerHTML = `<div class="face front">?</div><div class="face back"><img src="${this.folder}${id}.png" onerror="this.parentElement.innerHTML='<b>${id.toUpperCase()}</b>'"></div>`;
+          this.$grid.appendChild(card);
+        });
+      }
+
+      _onClick(e){
+        const card = e.target.closest(".card");
+        if(!card || this._locked || card.getAttribute("state")) return;
+        this._ensureAudio();
+        card.setAttribute("state", "up");
+        this._open.push(card);
+        this._sfx("flip");
+
+        if(this._open.length === 2){
+          this._locked = true;
+          const [c1, c2] = this._open;
+          if(c1.dataset.id === c2.dataset.id){
+            c1.setAttribute("state", "match"); c2.setAttribute("state", "match");
+            this._matches++; this._open = []; this._locked = false;
+            this._addBonusTime(10);
+            this._ui(); this._sfx("match");
+            if(this._matches === this.pairs) { this._stopTimer(); this._sfx("win"); this._openOverlay("Victory!"); }
+          } else {
+            this._misses++; this._ui(); this._sfx("miss");
+            setTimeout(() => { c1.removeAttribute("state"); c2.removeAttribute("state"); this._open = []; this._locked = false; }, 800);
+          }
+        }
+      }
+
+      _addBonusTime(sec){
+        this._timeLeft += sec;
+        const bonus = document.createElement("div");
+        bonus.className = "bonus-text";
+        bonus.textContent = `+${sec}s`;
+        this.$bonusContainer.appendChild(bonus);
+        setTimeout(() => bonus.remove(), 1000);
+      }
+
+      _startTimer(){
+        this._stopTimer();
+        this._timerId = setInterval(() => {
+          this._timeLeft--;
+          const m = Math.floor(Math.max(0, this._timeLeft)/60), s = Math.max(0, this._timeLeft)%60;
+          this.$timer.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+          
+          if(this._timeLeft <= 10) this.$timerPill.classList.add("warn");
+          else this.$timerPill.classList.remove("warn");
+
+          if(this._timeLeft <= 0) { this._stopTimer(); this._locked = true; this._openOverlay("Time's Up!", "Game Over"); this._sfx("lose"); }
+        }, 1000);
+      }
+      _stopTimer(){ clearInterval(this._timerId); }
+      _ui(){ this.$status.textContent = `Pairs: ${this._matches}/${this.pairs}`; this.$misses.textContent = `Misses: ${this._misses}`; }
+      _openOverlay(title, msg = ""){
+        this.$ovTitle.textContent = title;
+        this.$ovMsg.textContent = msg || `You matched everything with ${this._misses} misses.`;
+        this.$overlay.setAttribute("open", "");
+      }
+
+      _ensureAudio(){ if(!this._audioCtx && this.$sound.checked) this._audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+      _beep(f, d, t, g, w=0){
+        if(!this.$sound.checked || !this._audioCtx) return;
+        const ctx = this._audioCtx; const t0 = ctx.currentTime + w;
+        const o = ctx.createOscillator(); const gain = ctx.createGain();
+        o.type = t; o.frequency.setValueAtTime(f, t0);
+        gain.gain.setValueAtTime(g, t0); gain.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+        o.connect(gain); gain.connect(ctx.destination); o.start(t0); o.stop(t0 + d);
+      }
+      _sfx(k){
+        if(k === "flip") this._beep(560, 0.1, "triangle", 0.05);
+        if(k === "match") { this._beep(660, 0.1, "sine", 0.06); this._beep(880, 0.1, "sine", 0.06, 0.05); }
+        if(k === "miss") this._beep(220, 0.2, "sawtooth", 0.04);
+        if(k === "win") this._beep(523, 0.3, "sine", 0.06);
+        if(k === "lose") this._beep(196, 0.4, "square", 0.04);
+      }
+    }
+    customElements.define("pack-memory", PackMemory);
+  } catch (e) { console.error(e); }
+})();
+</script>
+{% endraw %}
