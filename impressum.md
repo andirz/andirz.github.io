@@ -13,18 +13,18 @@ sitemap: false
     gap:14px;
     margin-bottom:2rem;
     padding-bottom:10px;
-    border-bottom:1px solid var(--border-color, rgba(0,0,0,.12));
+    border-bottom:1px solid var(--border-color, rgba(0,0,0,.15));
   }
 
   .tab-btn{
     padding:8px 22px;
-    border:1px solid var(--border-color, rgba(0,0,0,.18));
-    background: var(--main-bg, transparent);
+    border:1px solid var(--border-color, rgba(0,0,0,.2));
+    background:var(--main-bg, transparent);
     cursor:pointer;
     font-weight:600;
-    color: var(--text-color, inherit);
+    color:inherit;
     border-radius:8px;
-    transition:all .2s ease;
+    transition:.2s;
     font-size:.9rem;
   }
 
@@ -34,16 +34,15 @@ sitemap: false
     border-color:#0056b3;
   }
 
-  /* WICHTIG: kein hartes #fff, damit Dark Mode nicht "unsichtbar" wird */
   .contact-card{
-    background: var(--card-bg, var(--main-bg, transparent));
-    color: var(--text-color, inherit);
-    border: 1px solid var(--border-color, rgba(0,0,0,.12));
-    border-left: 4px solid #007bff;
+    border:1px solid var(--border-color, rgba(0,0,0,.15));
+    border-left:4px solid #007bff;
     padding:24px;
     border-radius:10px;
     margin:20px 0;
     line-height:1.6;
+    background:var(--card-bg, transparent);
+    color:inherit;
   }
 
   .contact-card strong{
@@ -59,6 +58,7 @@ sitemap: false
     margin-top:28px;
     font-size:.95rem;
   }
+
   .legal-links a{ margin-right:18px; }
 
   .lang-content{ display:none; }
@@ -70,11 +70,21 @@ sitemap: false
   <button class="tab-btn" id="tab-en" onclick="showLang('en')">English</button>
 </div>
 
+<!-- DE -->
 <div id="content-de" class="lang-content active">
   <h2>Impressum</h2>
   <p>Angaben gemäß § 5 TMG:</p>
 
-  <div class="contact-card" data-contact></div>
+  <div class="contact-card">
+    <strong>Verantwortlich</strong>
+    <span id="imprint-name"></span><br>
+    <span id="imprint-street"></span><br>
+    <span id="imprint-city"></span><br>
+    Deutschland
+
+    <strong>Kontakt</strong>
+    E-Mail: <span id="imprint-mail"></span>
+  </div>
 
   <h3>Urheberrecht &amp; Medien</h3>
   <p>
@@ -93,11 +103,21 @@ sitemap: false
   </div>
 </div>
 
+<!-- EN -->
 <div id="content-en" class="lang-content">
   <h2>Legal Notice (Impressum)</h2>
   <p>Information according to § 5 TMG:</p>
 
-  <div class="contact-card" data-contact></div>
+  <div class="contact-card">
+    <strong>Operator</strong>
+    <span id="imprint-name-en"></span><br>
+    <span id="imprint-street-en"></span><br>
+    <span id="imprint-city-en"></span><br>
+    Germany
+
+    <strong>Contact</strong>
+    E-Mail: <span id="imprint-mail-en"></span>
+  </div>
 
   <h3>Intellectual Property &amp; Media</h3>
   <p>
@@ -117,36 +137,29 @@ sitemap: false
 </div>
 
 <script>
+  // Sprachumschaltung
   function showLang(lang){
-    document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.lang-content').forEach(e => e.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
     document.getElementById('content-' + lang).classList.add('active');
     document.getElementById('tab-' + lang).classList.add('active');
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    // Kein Klartext im HTML: Daten als Char-Codes
-    const d = [
-      [65,110,100,114,101,97,115,32,82,97,97,122],
-      [80,114,101,110,122,108,97,117,101,114,32,65,108,108,101,101,32,49,55,48],
-      [49,48,52,48,57,32,66,101,114,108,105,110],
-      [115,105,109,115,52,97,110,100,105,114,122,64,103,109,97,105,108,46,99,111,109]
-    ];
-    const t = arr => arr.map(c => String.fromCharCode(c)).join('');
+  // KEIN Klartext im HTML – nur CharCodes
+  const NAME   = [65,110,100,114,101,97,115,32,82,97,97,122];
+  const STREET = [80,114,101,110,122,108,97,117,101,114,32,65,108,108,101,101,32,49,55,48];
+  const CITY   = [49,48,52,48,57,32,66,101,114,108,105,110];
+  const MAIL   = [115,105,109,115,52,97,110,100,105,114,122,64,103,109,97,105,108,46,99,111,109];
 
-    const html = `
-      <strong>Verantwortlich / Operator</strong>
-      ${t(d[0])}<br>
-      ${t(d[1])}<br>
-      ${t(d[2])}<br>
-      Germany
+  const T = a => String.fromCharCode(...a);
 
-      <strong>Kontakt / Contact</strong>
-      E-Mail: ${t(d[3])}
-    `;
+  document.getElementById("imprint-name").textContent     = T(NAME);
+  document.getElementById("imprint-street").textContent   = T(STREET);
+  document.getElementById("imprint-city").textContent     = T(CITY);
+  document.getElementById("imprint-mail").textContent     = T(MAIL);
 
-    document.querySelectorAll('[data-contact]').forEach(el => {
-      el.innerHTML = html;
-    });
-  });
+  document.getElementById("imprint-name-en").textContent  = T(NAME);
+  document.getElementById("imprint-street-en").textContent= T(STREET);
+  document.getElementById("imprint-city-en").textContent  = T(CITY);
+  document.getElementById("imprint-mail-en").textContent  = T(MAIL);
 </script>
