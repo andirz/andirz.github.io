@@ -57,15 +57,15 @@ The shared knowledge of the community is often the most valuable asset. These li
 
 * **[EA Forums](https://forums.ea.com/category/the-sims-4-en/discussions/the-sims-4-mods-and-custom-content-en)** – The official hub for technical discussions and troubleshooting. It is a vital place for staying informed about engine changes and discussing modding issues directly with other developers.
 * **[Scarlet's Realm](https://scarletsrealm.com/the-mod-list/)** – The industry standard for tracking mod compatibility. This resource is essential for checking if community mods are broken or need updates after an official game patch has been released.
-* **[SimTimes](https://www.simtimes.de/)** – One of the leading German news sources for all things Sims. It provides detailed coverage of game updates, patch notes, and community news, which is helpful for staying informed on game changes.
 * **[Sims Community](https://simscommunity.info/)** – A major news and resource hub providing up-to-date information on game updates, patches, and features. It is a valuable source for understanding new mechanics that might require mod adjustments.
+* **[SimTimes](https://www.simtimes.de/)** – One of the leading German news sources for all things Sims. It provides detailed coverage of game updates, patch notes, and community news, which is helpful for staying informed on game changes.
 
 ---
 
 ## ⚖️ Disclaimer & Terms of Use {#disclaimer--terms-of-use}
-**External Links:** This website contains links to external websites ("third-party links"). As the content of these websites is not under my control, I cannot assume any liability for such external content. In all cases, the provider or operator of the linked websites is liable for the content and accuracy of the information provided.
-**Liability:** The tools and resources listed above are provided for informational purposes. The use of any software or web-based service is at the user's own risk. I am not responsible for any damage to game files, hardware, or software resulting from the use of these resources.
-**Security:** Please be aware that some technical utilities (such as decompilers) may be flagged by security software as false positives due to their nature. Always ensure you are downloading from the official sources provided.
+* **External Links:** This website contains links to external websites ("third-party links"). As the content of these websites is not under my control, I cannot assume any liability for such external content. In all cases, the provider or operator of the linked websites is liable for the content and accuracy of the information provided.
+* **Liability:** The tools and resources listed above are provided for informational purposes. The use of any software or web-based service is at the user's own risk. I am not responsible for any damage to game files, hardware, or software resulting from the use of these resources.
+* **Security:** Please be aware that some technical utilities (such as decompilers) may be flagged by security software as false positives due to their nature. Always ensure you are downloading from the official sources provided.
 
 ---
 *Note: This list is updated periodically as new tools emerge in the modding scene.*
