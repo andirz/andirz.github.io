@@ -1,0 +1,303 @@
+---
+layout: page
+title: Pack Picker Memory
+icon: "fas fa-brain"
+order: 2
+description: "Match all Sims 4 Packs - Watch out for the Chaos Event!"
+mode: Memory
+difficulty: Hard
+---
+
+<pack-memory
+  ep-count="18"
+  gp-count="12"
+  sp-count="18"
+  sp-extra="46, 49"
+  pairs="12"
+  time-limit="120"
+  folder="{{ '/assets/img/packs/mono/' | relative_url }}"
+  exclude="gp09">
+</pack-memory>
+
+<style>
+  pack-memory{ display:block; margin: 1.25rem auto; max-width: 1000px; }
+</style>
+
+{% raw %}
+<script>
+(() => {
+  try {
+    if (customElements.get("pack-memory")) return;
+
+    const tpl = document.createElement("template");
+    tpl.innerHTML = `
+      <style>
+        :host{
+          --bg:#ffffff; --card:#ffffff; --ink:#0b0b0b; --muted:#4b5563;
+          --border:#d1d5db; --shadow:0 14px 20px -10px rgba(0,0,0,.18);
+          --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
+          --size:146px; display:block;
+        }
+        .shell{ background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem; position: relative; overflow: hidden; }
+        .top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
+        
+        .pill{ background: var(--card); border: 2px solid var(--border); border-radius: 999px; padding: .42rem .7rem; font-weight: 800; color: var(--ink); font-size: .85rem; min-width: 110px; text-align:center; position:relative; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        .pill.drama-miss { 
+          transform: scale(4) translateY(30px);
+          background: #ef4444; border-color: #0b0b0b; color: #fff; z-index: 1000;
+          box-shadow: 0 0 60px rgba(239, 68, 68, 0.8);
+        }
+
+        .grid{ display:grid; gap: var(--gap); justify-content:center; perspective: 1100px; margin: 0 auto; transition: filter 0.3s, transform 0.3s; }
+        .grid.glitch { animation: glitchAnim 0.2s infinite; filter: hue-rotate(90deg) contrast(2); }
+        
+        @keyframes glitchAnim {
+          0% { transform: translate(0); }
+          20% { transform: translate(-5px, 5px); }
+          40% { transform: translate(-5px, -5px); }
+          60% { transform: translate(5px, 5px); }
+          80% { transform: translate(5px, -5px); }
+          100% { transform: translate(0); }
+        }
+
+        @media (min-width: 621px){ .grid{ grid-template-columns: repeat(6, var(--size)); } }
+        @media (max-width: 620px){ :host{ --size: 88px; --gap: 6px; } .grid{ grid-template-columns: repeat(4, var(--size)); } }
+
+        .card{ width: var(--size); height: var(--size); position:relative; transform-style:preserve-3d; transition: transform var(--flip), left 0.5s ease, top 0.5s ease; cursor:pointer; border-radius: 14px; background: transparent; }
+        .card[state="up"], .card[state="match"]{ transform: rotateY(180deg); }
+        
+        .card.chaos-mode .front { background: #ef4444; animation: pulse Chaos 0.3s infinite; }
+        .card.shattering { animation: shatter 0.6s forwards; }
+
+        @keyframes shatter {
+          0% { transform: rotateY(180deg) scale(1); filter: brightness(2); }
+          100% { transform: rotateY(0deg) scale(1); filter: brightness(1); }
+        }
+
+        .face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 12px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .front{ background: #0b0b0b; border: 2px solid rgba(255,255,255,.10); color:#ffffff; font-weight: 900; font-size: 1.2rem; }
+        .back{ background: var(--card); transform: rotateY(180deg); border: 2px solid #0b0b0b; padding: 10px; }
+        .back img{ width:100%; height:100%; object-fit:contain; }
+
+        .float-text { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-weight: 900; animation: floatUp 1s forwards; }
+        .penalty { color: #ef4444; } .bonus { color: #22c55e; }
+        @keyframes floatUp { 0% { opacity:0; transform:translate(-50%,10px); } 100% { opacity:0; transform:translate(-50%,-30px); } }
+
+        .overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; background: rgba(255,255,255,.9); backdrop-filter: blur(8px); z-index:100; }
+        .overlay[open]{ display:flex; }
+        .modal{ background: #fff; border: 3px solid #0b0b0b; border-radius: 18px; padding: 2rem; text-align:center; }
+        .btn{ background: #0b0b0b; color:#fff; border:none; border-radius: 12px; padding: .6rem 1.2rem; font-weight: 850; cursor:pointer; }
+      </style>
+      <div class="shell">
+        <div class="top">
+          <div class="title"><h2>Pack Picker Memory</h2><p>Chaos every 10 Misses!</p></div>
+          <div class="stats">
+            <div class="pill" id="status">Pairs: 0 / 0</div>
+            <div class="pill" id="misses-pill">Misses: <span id="misses">0</span></div>
+            <div class="pill" id="timer-pill"><span id="timer">00:00</span><div id="float-container"></div></div>
+            <button class="btn" id="restart">Restart</button>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+        <div class="overlay" id="overlay">
+          <div class="modal"><h3 id="ovTitle"></h3><p id="ovMsg"></p><button class="btn" id="restart2">Play Again</button></div>
+        </div>
+      </div>
+    `;
+
+    class PackMemory extends HTMLElement{
+      constructor(){
+        super();
+        this.attachShadow({mode:"open"});
+        this.shadowRoot.appendChild(tpl.content.cloneNode(true));
+        this.$grid = this.shadowRoot.getElementById("grid");
+        this.$status = this.shadowRoot.getElementById("status");
+        this.$misses = this.shadowRoot.getElementById("misses");
+        this.$missesPill = this.shadowRoot.getElementById("misses-pill");
+        this.$timer = this.shadowRoot.getElementById("timer");
+        this.$timerPill = this.shadowRoot.getElementById("timer-pill");
+        this.$floatContainer = this.shadowRoot.getElementById("float-container");
+        this.$overlay = this.shadowRoot.getElementById("overlay");
+        this._deck = []; this._open = []; this._locked = false;
+        this._matches = 0; this._misses = 0; this._timerId = null;
+      }
+
+      connectedCallback(){
+        this.shadowRoot.getElementById("restart").onclick = () => this._reset();
+        this.shadowRoot.getElementById("restart2").onclick = () => this._reset();
+        this.$grid.onclick = (e) => this._onClick(e);
+        this._reset();
+      }
+
+      get folder(){ return (this.getAttribute("folder") || "/assets/img/packs/mono/").replace(/\\/\\+$/, '') + "/"; }
+      get pairsCount(){ return parseInt(this.getAttribute("pairs") || "12"); }
+
+      _reset(){
+        this._matches = 0; this._misses = 0; this._open = []; this._locked = false;
+        this.$overlay.removeAttribute("open");
+        this._timeLeft = parseInt(this.getAttribute("time-limit") || "120");
+        this._initDeck();
+        this._render();
+        this._updateUI();
+        this._startTimer();
+      }
+
+      _initDeck(){
+        const all = [];
+        for(let i=1;i<=18;i++) all.push(`ep${String(i).padStart(2,"0")}`);
+        for(let i=1;i<=12;i++) all.push(`gp${String(i).padStart(2,"0")}`);
+        for(let i=1;i<=49;i++) all.push(`sp${String(i).padStart(2,"0")}`);
+        
+        const selected = all.sort(() => 0.5-Math.random()).slice(0, this.pairsCount);
+        const double = [...selected, ...selected].sort(() => 0.5-Math.random());
+        this._deck = double.map(id => ({id, matched: false}));
+      }
+
+      _render(){
+        this.$grid.innerHTML = "";
+        this._deck.forEach((cardObj, idx) => {
+          const card = document.createElement("button");
+          card.className = "card";
+          card.dataset.idx = idx;
+          if(cardObj.matched) card.setAttribute("state", "match");
+          card.innerHTML = `<div class="face front">?</div><div class="face back"><img src="${this.folder}${cardObj.id}.png"></div>`;
+          this.$grid.appendChild(card);
+        });
+      }
+
+      _onClick(e){
+        const card = e.target.closest(".card");
+        if(!card || this._locked || card.getAttribute("state")) return;
+        this._ensureAudio();
+        card.setAttribute("state", "up");
+        this._open.push(card);
+        this._sfx("flip");
+
+        if(this._open.length === 2){
+          this._locked = true;
+          const [c1, c2] = this._open;
+          const idx1 = c1.dataset.idx, idx2 = c2.dataset.idx;
+
+          if(this._deck[idx1].id === this._deck[idx2].id){
+            this._deck[idx1].matched = true; this._deck[idx2].matched = true;
+            c1.setAttribute("state", "match"); c2.setAttribute("state", "match");
+            this._matches++; this._open = []; this._locked = false;
+            this._triggerFloat(10, true); this._updateUI(); this._sfx("match");
+            if(this._matches === this.pairsCount) this._end("Victory!");
+          } else {
+            this._misses++;
+            this._triggerFloat(3, false); this._updateUI(); this._sfx("miss");
+            if(this._misses % 10 === 0) {
+              setTimeout(() => this._doChaosEvent(), 600);
+            } else {
+              setTimeout(() => { c1.removeAttribute("state"); c2.removeAttribute("state"); this._open = []; this._locked = false; }, 800);
+            }
+          }
+        }
+      }
+
+      _doChaosEvent(){
+        this._sfx("shatter");
+        this.$grid.classList.add("glitch");
+        this.$missesPill.classList.add("drama-miss");
+
+        // 1. Unentdeckte Karten mischen & Icons ändern
+        const pool = [];
+        for(let i=1;i<=49;i++) pool.push(`sp${String(i).padStart(2,"0")}`); // Pool für neue Icons
+        
+        const unmatchedIndices = this._deck.map((c,i) => c.matched ? -1 : i).filter(i => i !== -1);
+        const newIcons = pool.sort(() => 0.5-Math.random()).slice(0, unmatchedIndices.length / 2);
+        const newPairs = [...newIcons, ...newIcons].sort(() => 0.5-Math.random());
+
+        unmatchedIndices.forEach((deckIdx, i) => {
+          this._deck[deckIdx].id = newPairs[i];
+        });
+
+        // 2. Hälfte der Paare zerbrechen
+        const matchedIndices = [];
+        this._deck.forEach((c, i) => { if(c.matched) matchedIndices.push(i); });
+        
+        if(matchedIndices.length > 0){
+           const pairsToShatter = Math.ceil((matchedIndices.length / 2) / 2); 
+           // Wir nehmen zufällige Ids aus den Matches
+           const matchedIds = [...new Set(matchedIndices.map(i => this._deck[i].id))].sort(() => 0.5-Math.random());
+           const brokenIds = matchedIds.slice(0, pairsToShatter);
+           
+           this._deck.forEach((c, i) => {
+             if(brokenIds.includes(c.id)) {
+               c.matched = false;
+               const cardEl = this.shadowRoot.querySelector(`.card[dataset-idx="${i}"]`) || this.$grid.children[i];
+               cardEl.classList.add("shattering");
+               cardEl.removeAttribute("state");
+               this._matches = Math.max(0, this._matches - 0.5);
+             }
+           });
+           this._matches = Math.floor(this._matches);
+        }
+
+        setTimeout(() => {
+          this._render(); // Alles neu zeichnen mit neuen IDs und Positionen
+          this.$grid.classList.remove("glitch");
+          this.$missesPill.classList.remove("drama-miss");
+          this._open = []; this._locked = false; this._updateUI();
+        }, 1200);
+      }
+
+      _triggerFloat(sec, isB){
+        this._timeLeft = isB ? this._timeLeft + sec : Math.max(0, this._timeLeft - sec);
+        const el = document.createElement("div");
+        el.className = `float-text ${isB?'bonus':'penalty'}`;
+        el.textContent = `${isB?'+':'-'}${sec}s`;
+        this.$floatContainer.appendChild(el);
+        setTimeout(() => el.remove(), 1000);
+      }
+
+      _startTimer(){
+        clearInterval(this._timerId);
+        this._timerId = setInterval(() => {
+          this._timeLeft--;
+          const m = Math.floor(this._timeLeft/60), s = this._timeLeft%60;
+          this.$timer.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+          if(this._timeLeft <= 0) this._end("Game Over");
+        }, 1000);
+      }
+
+      _updateUI(){
+        this.$status.textContent = `Pairs: ${this._matches}/${this.pairsCount}`;
+        this.$misses.textContent = this._misses;
+      }
+
+      _end(t){
+        clearInterval(this._timerId);
+        this.shadowRoot.getElementById("ovTitle").textContent = t;
+        this.shadowRoot.getElementById("ovMsg").textContent = `Final Score: ${this._matches} Pairs, ${this._misses} Misses`;
+        this.$overlay.setAttribute("open", "");
+      }
+
+      _ensureAudio(){ if(!this._audioCtx) this._audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+      _beep(f, d, t, g, w=0){
+        if(!this.shadowRoot.getElementById("restart").matches(':visible')){} // Dummy
+        const ctx = this._audioCtx; const t0 = ctx.currentTime + w;
+        const o = ctx.createOscillator(); const gain = ctx.createGain();
+        o.type = t; o.frequency.setValueAtTime(f, t0);
+        gain.gain.setValueAtTime(g, t0); gain.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+        o.connect(gain); gain.connect(ctx.destination); o.start(t0); o.stop(t0 + d);
+      }
+      _sfx(k){
+        if(k === "flip") this._beep(440, 0.1, "triangle", 0.05);
+        if(k === "match") { this._beep(523, 0.1, "sine", 0.05); this._beep(659, 0.2, "sine", 0.05, 0.1); }
+        if(k === "miss") this._beep(150, 0.2, "sawtooth", 0.05);
+        if(k === "shatter") {
+          // Glassplitter Simulation
+          for(let i=0; i<5; i++) this._beep(2000 + Math.random()*3000, 0.1, "sawtooth", 0.02, i*0.05);
+          this._beep(100, 0.5, "square", 0.1);
+        }
+      }
+    }
+    customElements.define("pack-memory", PackMemory);
+  } catch (e) { console.error(e); }
+})();
+</script>
+{% endraw %}
