@@ -8,10 +8,6 @@ layout: default
     <main style="flex: 2; min-width: 320px;">
       {% include mods/hero-header.html %}
 
-      <div class="ad-container-hero-below" style="margin: 20px 0; text-align: center; width: 100%;">
-        {% include google/ad-horizontal.html %}
-      </div>
-
       {% comment %} 
         SPLIT LOGIK: Zerlegung an den H2-IDs.
       {% endcomment %}
@@ -58,10 +54,6 @@ layout: default
         </div>
       </section>
 
-      <div class="ad-container-multiplex" style="margin-top: 40px; margin-bottom: 20px;">
-        {% include google/ad-multiplex.html %}
-      </div>
-
       <hr style="border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--border-color), rgba(0, 0, 0, 0)); margin: 50px 0;">
 
       {% if content contains 'id="frequently-asked-questions"' %}
@@ -77,19 +69,10 @@ layout: default
 
     <aside style="flex: 1; min-width: 280px; position: sticky; top: 20px;">
       {% include mods/sidebar-info.html %}
-      
-      <div class="ad-container-sidebar" style="margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px;">
-        {% include google/ad-square.html %}
-      </div>
     </aside>
 
   </div>
-
   {% include mods/policy.html %}
-
-  <div class="ad-container-footer" style="margin: 40px 0 20px 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px;">
-    {% include google/ad-horizontal.html %}
-  </div>
 </div>
 
 <style>
@@ -110,10 +93,4 @@ layout: default
     text-decoration: underline !important;
     cursor: pointer;
   }
-
-  /* Platzhalter-Höhen gegen Layout-Shifts */
-  .ad-container-hero-below { min-height: 100px; }
-  .ad-container-sidebar { min-height: 250px; }
-  .ad-container-multiplex { min-height: 300px; }
-  .ad-container-footer { min-height: 90px; }
 </style>
