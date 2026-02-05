@@ -20,7 +20,7 @@ difficulty: Medium
 </pack-memory>
 
 <style>
-  pack-memory{ display:block; margin: 1.25rem auto; max-width: 920px; }
+  pack-memory{ display:block; margin: 1.25rem auto; max-width: 1000px; }
 </style>
 
 {% raw %}
@@ -38,65 +38,73 @@ difficulty: Medium
           --radius:22px; --gap:10px; --flip:0.42s cubic-bezier(.175,.885,.32,1.22);
           --size:146px; display:block;
         }
-        .shell{ background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem 1.1rem 1.2rem; position: relative; }
+        .shell{ background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem; position: relative; }
         .top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
         h2{ margin:0; font-size:1.3rem; font-weight:850; color:var(--ink); letter-spacing:-.01em; }
         p{ margin:.25rem 0 0; color:var(--muted); font-size:.9rem; }
         .stats{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
-        .pill{ background: var(--card); border: 2px solid var(--border); border-radius: 999px; padding: .42rem .7rem; font-weight: 800; color: var(--ink); font-size: .85rem; min-width: 120px; text-align:center; user-select:none; }
+        .pill{ background: var(--card); border: 2px solid var(--border); border-radius: 999px; padding: .42rem .7rem; font-weight: 800; color: var(--ink); font-size: .85rem; min-width: 110px; text-align:center; user-select:none; }
         .pill.warn{ background: #0b0b0b; border-color:#0b0b0b; color:#ffffff; }
-        .btn{ background: #0b0b0b; color:#fff; border:none; border-radius: 12px; padding: .5rem .9rem; font-weight: 850; font-size: .9rem; cursor:pointer; transition: transform .12s ease, filter .12s ease; }
-        .btn:hover{ filter: brightness(1.10); transform: translateY(-1px); }
-        .btn:active{ transform: translateY(0px); }
-        .toggle{ display:inline-flex; align-items:center; gap:.45rem; user-select:none; cursor:pointer; font-weight:850; font-size:.85rem; color: var(--ink); padding:.38rem .65rem; border-radius: 999px; border:2px solid var(--border); background: var(--card); }
-        .toggle input{ accent-color:#0b0b0b; }
-        .grid{ display:grid; gap: var(--gap); justify-content:center; perspective: 1100px; }
-        @media (min-width: 900px){ .grid{ grid-template-columns: repeat(4, var(--size)); } }
-        @media (min-width: 620px) and (max-width: 899px){ .grid{ grid-template-columns: repeat(4, var(--size)); } }
-        @media (max-width: 619px){ .grid{ grid-template-columns: repeat(3, var(--size)); } }
+        .btn{ background: #0b0b0b; color:#fff; border:none; border-radius: 12px; padding: .5rem .9rem; font-weight: 850; font-size: .9rem; cursor:pointer; transition: transform .12s ease; }
+        .toggle{ display:inline-flex; align-items:center; gap:.45rem; cursor:pointer; font-weight:850; font-size:.85rem; color: var(--ink); padding:.38rem .65rem; border-radius: 999px; border:2px solid var(--border); background: var(--card); }
+        
+        /* Grid-Logik */
+        .grid{ 
+          display:grid; 
+          gap: var(--gap); 
+          justify-content:center; 
+          perspective: 1100px;
+          margin: 0 auto;
+        }
+
+        /* Desktop: 6 Spalten */
+        @media (min-width: 621px){
+          .grid{ grid-template-columns: repeat(6, var(--size)); }
+        }
+
+        /* Handy: 4 Spalten & 60% Größe */
+        @media (max-width: 620px){
+          :host{ --size: 88px; --gap: 6px; } /* 88px ist ca 60% von 146px */
+          .grid{ grid-template-columns: repeat(4, var(--size)); }
+          .pill{ min-width: 80px; font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+          h2{ font-size: 1.1rem; }
+        }
+
         .card{ width: var(--size); height: var(--size); position:relative; transform-style:preserve-3d; transition: transform var(--flip); cursor:pointer; border-radius: 14px; border: 0; padding: 0; background: transparent; }
         .card[state="up"], .card[state="match"]{ transform: rotateY(180deg); }
-        .card[state="match"]{ pointer-events:none; cursor:default; }
-        .face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 14px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-        .front{ background: #0b0b0b; border: 2px solid rgba(255,255,255,.10); color:#ffffff; font-weight: 900; letter-spacing: .06em; font-size: 1.1rem; user-select:none; }
-        .back{ background: var(--card); transform: rotateY(180deg); border: 2px solid #0b0b0b; padding: 10px; }
-        .back img{ width:100%; height:100%; object-fit:contain; display:block; }
-        .missing{ display:flex; align-items:center; justify-content:center; width:100%; height:100%; font-weight:900; color:#0b0b0b; letter-spacing:.03em; }
-        .overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; background: rgba(255,255,255,.78); backdrop-filter: blur(4px); border-radius: var(--radius); }
+        .card[state="match"]{ pointer-events:none; }
+        .face{ position:absolute; inset:0; backface-visibility:hidden; border-radius: 12px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .front{ background: #0b0b0b; border: 2px solid rgba(255,255,255,.10); color:#ffffff; font-weight: 900; font-size: 1.1rem; }
+        .back{ background: var(--card); transform: rotateY(180deg); border: 2px solid #0b0b0b; padding: 8px; }
+        .back img{ width:100%; height:100%; object-fit:contain; }
+        
+        .overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; background: rgba(255,255,255,.78); backdrop-filter: blur(4px); border-radius: var(--radius); z-index:10; }
         .overlay[open]{ display:flex; }
-        .modal{ width:min(520px, calc(100% - 28px)); background: #ffffff; border: 2px solid #0b0b0b; border-radius: 18px; box-shadow: 0 28px 40px -18px rgba(0,0,0,.35); padding: 1.1rem 1.1rem 1rem; }
-        .modal h3{ margin:0; font-size:1.25rem; font-weight:900; letter-spacing:-.01em; color:#0b0b0b; }
-        .modal .msg{ margin:.35rem 0 .9rem; color:#111827; font-weight:650; }
-        .modal .sub{ margin:-.65rem 0 1rem; color: var(--muted); font-size:.92rem; }
-        .modal .row{ display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
-        .ghost{ background: #ffffff; color:#0b0b0b; border:2px solid #0b0b0b; }
-        .fatal{ border:2px solid #0b0b0b; border-radius: 14px; padding: 1rem; background:#fff; color:#0b0b0b; font-weight:850; }
-        .fatal small{ display:block; margin-top:.5rem; font-weight:650; color:#374151; white-space:pre-wrap; }
+        .modal{ width:min(400px, calc(100% - 28px)); background: #ffffff; border: 2px solid #0b0b0b; border-radius: 18px; padding: 1.1rem; text-align:center; }
+        .modal .row{ display:flex; gap:.6rem; justify-content:center; margin-top:1rem; }
       </style>
       <div class="shell">
         <div class="top">
-          <div class="title"><h2>Pack Picker Memory</h2><p>Match all Sims 4 packs before time runs out.</p></div>
+          <div class="title"><h2>Pack Picker Memory</h2><p>Match all packs!</p></div>
           <div class="stats">
             <div class="pill" id="status">Matches: 0 / 0</div>
             <div class="pill" id="misses">Misses: 0</div>
-            <div class="pill" id="timer">Time: 00:00</div>
-            <label class="toggle" title="Enable/disable sound"><input id="sound" type="checkbox" checked /> Sound</label>
-            <button class="btn" id="restart" type="button">Restart</button>
+            <div class="pill" id="timer">00:00</div>
+            <label class="toggle"><input id="sound" type="checkbox" checked /> Sound</label>
+            <button class="btn" id="restart">Restart</button>
           </div>
         </div>
-        <div class="grid" id="grid" aria-label="Memory grid"></div>
-        <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="grid" id="grid"></div>
+        <div class="overlay" id="overlay">
           <div class="modal">
-            <h3 id="ovTitle">You won!</h3>
-            <div class="msg" id="ovMsg">All pairs matched.</div>
-            <div class="sub" id="ovSub">—</div>
+            <h3 id="ovTitle">Done!</h3>
+            <div id="ovMsg"></div>
+            <div id="ovSub" style="font-size:0.85rem; color:var(--muted); margin-top:0.5rem;"></div>
             <div class="row">
-              <button class="btn ghost" id="closeOverlay" type="button">Close</button>
-              <button class="btn" id="restart2" type="button">Restart</button>
+              <button class="btn" id="restart2">Play Again</button>
             </div>
           </div>
         </div>
-        <div id="fatal" style="display:none" class="fatal">Game crashed.<small id="fatalMsg"></small></div>
       </div>
     `;
 
@@ -115,47 +123,32 @@ difficulty: Medium
         this.$ovTitle = this.shadowRoot.getElementById("ovTitle");
         this.$ovMsg = this.shadowRoot.getElementById("ovMsg");
         this.$ovSub = this.shadowRoot.getElementById("ovSub");
-        this.$closeOverlay = this.shadowRoot.getElementById("closeOverlay");
         this.$restart2 = this.shadowRoot.getElementById("restart2");
-        this.$fatal = this.shadowRoot.getElementById("fatal");
-        this.$fatalMsg = this.shadowRoot.getElementById("fatalMsg");
         this._deck = []; this._open = []; this._locked = false;
         this._matches = 0; this._misses = 0;
         this._timerId = null; this._startMs = 0; this._audioCtx = null;
         this._onClick = this._onClick.bind(this);
         this._reset = this._reset.bind(this);
-        this._close = this._close.bind(this);
       }
 
       connectedCallback(){
-        try{
-          this.$grid.addEventListener("click", this._onClick);
-          this.$restart.addEventListener("click", this._reset);
-          this.$restart2.addEventListener("click", this._reset);
-          this.$closeOverlay.addEventListener("click", this._close);
-          this.$overlay.addEventListener("click", (e) => { if(e.target === this.$overlay) this._close(); });
-          this._reset();
-        }catch(err){ this._fatal(err); }
+        this.$grid.addEventListener("click", this._onClick);
+        this.$restart.addEventListener("click", this._reset);
+        this.$restart2.addEventListener("click", this._reset);
+        this._reset();
       }
-
-      disconnectedCallback(){ this._stopTimer(); if(this._audioCtx){ try{ this._audioCtx.close(); }catch(_){} } }
 
       get epCount(){ return this._intAttr("ep-count", 18); }
       get gpCount(){ return this._intAttr("gp-count", 12); }
       get spCount(){ return this._intAttr("sp-count", 0); }
       get spExtra(){ return (this.getAttribute("sp-extra") || "").split(",").map(s => s.trim()).filter(Boolean); }
-      get pairs(){ return this._intAttr("pairs", 8); }
-      get timeLimit(){ return this._intAttr("time-limit", 90); }
-      get folder(){ let f = (this.getAttribute("folder") || "/assets/img/packs/mono/").trim(); if(!f.endsWith("/")) f += "/"; return f; }
+      get pairs(){ return this._intAttr("pairs", 12); }
+      get timeLimit(){ return this._intAttr("time-limit", 120); }
+      get folder(){ let f = (this.getAttribute("folder") || "/").trim(); if(!f.endsWith("/")) f += "/"; return f; }
       get exclude(){ return (this.getAttribute("exclude") || "").split(",").map(s => s.trim().toLowerCase()).filter(Boolean); }
 
       _intAttr(name, fallback){ const v = parseInt(this.getAttribute(name) || "", 10); return Number.isFinite(v) && v >= 0 ? v : fallback; }
-      _format(sec){ const m = Math.floor(sec/60); const s = sec % 60; return String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0"); }
-      _setTimer(left){ this.$timer.textContent = "Time: " + this._format(left < 0 ? 0 : left); if(left <= 10 && left > 0) this.$timer.classList.add("warn"); else this.$timer.classList.remove("warn"); }
-      _stopTimer(){ if(this._timerId) clearInterval(this._timerId); this._timerId = null; }
-      _startTimer(){ this._stopTimer(); this._startMs = Date.now(); this._setTimer(this.timeLimit); this._timerId = setInterval(() => { const left = this.timeLimit - Math.floor((Date.now() - this._startMs)/1000); this._setTimer(left); if(left <= 0){ this._stopTimer(); this._locked = true; this._closeOpen(); this._sfx("lose"); this._openOverlay("Game Over", "Time is up.", this._summaryLine()); } }, 250); }
-      _shuffle(arr){ for(let i = arr.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
-
+      
       _buildPool(){
         const pool = [];
         for(let i=1;i<=this.epCount;i++) pool.push("ep" + String(i).padStart(2,"0"));
@@ -166,69 +159,89 @@ difficulty: Medium
         return pool.filter(id => !excl.has(id));
       }
 
-      _buildDeck(){ const pool = this._shuffle(this._buildPool().slice()); const chosen = pool.slice(0, this.pairs); return this._shuffle(chosen.concat(chosen)); }
-      _render(){
-        this.$grid.innerHTML = ""; const frag = document.createDocumentFragment();
-        for(const id of this._deck){
-          const btn = document.createElement("button"); btn.type = "button"; btn.className = "card"; btn.setAttribute("state", "down"); btn.dataset.id = id;
-          const front = document.createElement("div"); front.className = "face front"; front.textContent = "?";
-          const back = document.createElement("div"); back.className = "face back";
-          const img = document.createElement("img"); img.alt = id; img.loading = "lazy"; img.src = this.folder + id + ".png";
-          img.addEventListener("error", () => { back.innerHTML = ""; const t = document.createElement("div"); t.className = "missing"; t.textContent = id.toUpperCase(); back.appendChild(t); });
-          back.appendChild(img); btn.appendChild(front); btn.appendChild(back); frag.appendChild(btn);
-        }
-        this.$grid.appendChild(frag);
+      _reset(){
+        this.$overlay.removeAttribute("open");
+        this._matches = 0; this._misses = 0; this._locked = false; this._open = [];
+        const pool = this._buildPool();
+        const shuffled = pool.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, this.pairs);
+        this._deck = [...selected, ...selected].sort(() => 0.5 - Math.random());
+        this._render();
+        this._ui();
+        this._startTimer();
       }
 
-      _ui(){ this.$status.textContent = "Matches: " + this._matches + " / " + this.pairs; this.$misses.textContent = "Misses: " + this._misses; }
-      _summaryLine(){ const t = this.$timer.textContent.replace("Time: ",""); return "Matches: " + this._matches + "/" + this.pairs + " • Misses: " + this._misses + " • Time: " + t; }
-      _closeOpen(){ for(const c of this._open){ if(c.getAttribute("state") === "up") c.setAttribute("state", "down"); } this._open = []; }
-      _flipUp(card){ card.setAttribute("state", "up"); this._open.push(card); }
-      _markMatch(a,b){ a.setAttribute("state", "match"); b.setAttribute("state", "match"); this._open = []; }
+      _render(){
+        this.$grid.innerHTML = "";
+        this._deck.forEach(id => {
+          const card = document.createElement("button");
+          card.className = "card";
+          card.dataset.id = id;
+          card.innerHTML = `<div class="face front">?</div><div class="face back"><img src="${this.folder}${id}.png"></div>`;
+          this.$grid.appendChild(card);
+        });
+      }
 
       _onClick(e){
-        try{
-          const card = e.target.closest(".card"); if(!card || this._locked || this.$overlay.hasAttribute("open")) return;
-          this._ensureAudio();
-          const st = card.getAttribute("state"); if(st === "up" || st === "match") return;
-          this._flipUp(card); this._sfx("flip");
-          if(this._open.length < 2) return;
+        const card = e.target.closest(".card");
+        if(!card || this._locked || card.getAttribute("state")) return;
+        this._ensureAudio();
+        card.setAttribute("state", "up");
+        this._open.push(card);
+        this._sfx("flip");
+
+        if(this._open.length === 2){
           this._locked = true;
           const [c1, c2] = this._open;
           if(c1.dataset.id === c2.dataset.id){
-            this._matches++; this._markMatch(c1,c2); this._ui(); this._sfx("match"); this._locked = false;
-            if(this._matches === this.pairs){ this._stopTimer(); this._sfx("win"); this._openOverlay("You won!", "All pairs matched.", this._summaryLine()); }
-          }else{
+            c1.setAttribute("state", "match"); c2.setAttribute("state", "match");
+            this._matches++; this._open = []; this._locked = false; this._ui(); this._sfx("match");
+            if(this._matches === this.pairs) { this._stopTimer(); this._sfx("win"); this._openOverlay("Victory!"); }
+          } else {
             this._misses++; this._ui(); this._sfx("miss");
-            setTimeout(() => { this._closeOpen(); this._locked = false; }, 800);
+            setTimeout(() => { c1.removeAttribute("state"); c2.removeAttribute("state"); this._open = []; this._locked = false; }, 800);
           }
-        }catch(err){ this._fatal(err); }
+        }
       }
 
-      _reset(){ try{ this._close(); this.$fatal.style.display = "none"; this._locked = false; this._open = []; this._matches = 0; this._misses = 0; this._deck = this._buildDeck(); this._render(); this._ui(); this._startTimer(); }catch(err){ this._fatal(err); } }
-      _openOverlay(title, msg, sub){ this.$ovTitle.textContent = title; this.$ovMsg.textContent = msg; this.$ovSub.textContent = sub || ""; this.$overlay.setAttribute("open",""); this.$overlay.setAttribute("aria-hidden","false"); }
-      _close(){ this.$overlay.removeAttribute("open"); this.$overlay.setAttribute("aria-hidden","true"); }
-      _ensureAudio(){ if(!this.$sound.checked || this._audioCtx) return; const Ctx = window.AudioContext || window.webkitAudioContext; if(Ctx) this._audioCtx = new Ctx(); }
-      _beep({freq=440, dur=0.07, type="sine", gain=0.06, when=0} = {}){
-        if(!this.$sound.checked) return; this._ensureAudio(); if(!this._audioCtx) return;
-        const ctx = this._audioCtx; const t0 = ctx.currentTime + when;
-        const osc = ctx.createOscillator(); const g = ctx.createGain();
-        osc.type = type; osc.frequency.setValueAtTime(freq, t0);
-        g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(gain, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-        osc.connect(g); g.connect(ctx.destination); osc.start(t0); osc.stop(t0 + dur + 0.02);
+      _startTimer(){
+        this._stopTimer();
+        this._startMs = Date.now();
+        this._timerId = setInterval(() => {
+          const elapsed = Math.floor((Date.now() - this._startMs) / 1000);
+          const left = this.timeLimit - elapsed;
+          const m = Math.floor(left/60), s = left%60;
+          this.$timer.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+          if(left <= 0) { this._stopTimer(); this._locked = true; this._openOverlay("Time's Up!", "Game Over"); this._sfx("lose"); }
+        }, 1000);
       }
-      _sfx(kind){
-        if(!this.$sound.checked) return;
-        if(kind === "flip") this._beep({freq: 560, dur: 0.05, type:"triangle", gain:0.05});
-        if(kind === "match"){ this._beep({freq: 660, dur: 0.06, type:"sine", gain:0.06}); this._beep({freq: 880, dur: 0.07, type:"sine", gain:0.06, when:0.07}); }
-        if(kind === "miss") this._beep({freq: 220, dur: 0.10, type:"sawtooth", gain:0.045});
-        if(kind === "win"){ this._beep({freq: 523, dur: 0.08, type:"sine", gain:0.06}); this._beep({freq: 659, dur: 0.08, type:"sine", gain:0.06, when:0.09}); this._beep({freq: 784, dur: 0.09, type:"sine", gain:0.06, when:0.18}); }
-        if(kind === "lose"){ this._beep({freq: 392, dur: 0.10, type:"square", gain:0.05}); this._beep({freq: 294, dur: 0.12, type:"square", gain:0.05, when:0.11}); this._beep({freq: 196, dur: 0.14, type:"square", gain:0.05, when:0.24}); }
+      _stopTimer(){ clearInterval(this._timerId); }
+      _ui(){ this.$status.textContent = `Pairs: ${this._matches}/${this.pairs}`; this.$misses.textContent = `Misses: ${this._misses}`; }
+      _openOverlay(title, msg = ""){
+        this.$ovTitle.textContent = title;
+        this.$ovMsg.textContent = msg || `You found all pairs with ${this._misses} misses.`;
+        this.$overlay.setAttribute("open", "");
       }
-      _fatal(err){ console.error("PackMemory crashed:", err); this.$fatal.style.display = "block"; this.$fatalMsg.textContent = String(err && (err.stack || err.message || err)) || "Unknown error"; this._locked = true; this._stopTimer(); }
+
+      _ensureAudio(){ if(!this._audioCtx && this.$sound.checked) this._audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+      _beep(f, d, t, g, w=0){
+        if(!this.$sound.checked || !this._audioCtx) return;
+        const ctx = this._audioCtx; const t0 = ctx.currentTime + w;
+        const o = ctx.createOscillator(); const gain = ctx.createGain();
+        o.type = t; o.frequency.setValueAtTime(f, t0);
+        gain.gain.setValueAtTime(g, t0); gain.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+        o.connect(gain); gain.connect(ctx.destination); o.start(t0); o.stop(t0 + d);
+      }
+      _sfx(k){
+        if(k === "flip") this._beep(560, 0.1, "triangle", 0.05);
+        if(k === "match") { this._beep(660, 0.1, "sine", 0.06); this._beep(880, 0.1, "sine", 0.06, 0.05); }
+        if(k === "miss") this._beep(220, 0.2, "sawtooth", 0.04);
+        if(k === "win") this._beep(523, 0.3, "sine", 0.06);
+        if(k === "lose") this._beep(196, 0.4, "square", 0.04);
+      }
     }
     customElements.define("pack-memory", PackMemory);
-  } catch (e) { console.error("PackMemory bootstrap failed:", e); }
+  } catch (e) { console.error(e); }
 })();
 </script>
 {% endraw %}
