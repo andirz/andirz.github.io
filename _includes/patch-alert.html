@@ -22,12 +22,12 @@
       All specific mod statuses for konkrete mods are listed in the table below.
     </p>
     
-    <div class="patch-guidelines">
-      <div class="guide-box">
+    <div class="patch-guidelines-vertical">
+      <div class="guide-row">
         <i class="fas fa-shield-alt"></i>
         <span><strong>Safety First:</strong> Backup your <code>Saves</code> & <code>Tray</code> folders and play offline.</span>
       </div>
-      <div class="guide-box">
+      <div class="guide-row">
         <i class="fas fa-exclamation-triangle"></i>
         <span><strong>Unknown Risk:</strong> Mods not marked as 'Compatible' or 'Updated' are used at your own risk.</span>
       </div>
@@ -46,10 +46,9 @@
   .patch-status-badge-container {
     margin: 20px 0;
     padding: 20px;
-    background: rgba(var(--brand-accent-rgb, 46, 204, 113), 0.03);
+    background: rgba(46, 204, 113, 0.03);
     border: 1px solid var(--border-color, #e2e8f0);
     border-radius: 14px;
-    font-family: inherit;
   }
 
   .patch-badge-flex {
@@ -69,17 +68,15 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border: 1px solid rgba(0,0,0,0.05);
   }
 
-  /* Farben für die Badges */
-  .v-patch { background: #fee2e2; color: #b91c1c; } /* Rot-Ton */
-  .v-release { background: #dbeafe; color: #1d4ed8; } /* Blau-Ton */
-  .v-check { background: #f1f5f9; color: #475569; } /* Grau-Ton */
+  .v-patch { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+  .v-release { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .v-check { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
 
   .main-status-text {
     font-weight: 700;
-    color: var(--brand-primary, #1e293b);
+    color: #1e293b;
     margin-bottom: 15px;
     font-size: 1rem;
     display: flex;
@@ -87,30 +84,34 @@
     gap: 10px;
   }
 
-  .patch-guidelines {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-  }
-
-  .guide-box {
+  /* Vertikales Layout für die Hinweise */
+  .patch-guidelines-vertical {
     display: flex;
-    gap: 10px;
-    font-size: 0.85rem;
-    color: #64748b;
-    line-height: 1.4;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  .guide-box i {
-    margin-top: 3px;
+  .guide-row {
+    display: flex;
+    gap: 12px;
     font-size: 0.9rem;
-    opacity: 0.6;
+    color: #64748b;
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+
+  .guide-row i {
+    margin-top: 4px;
+    font-size: 1rem;
+    opacity: 0.7;
+    width: 20px;
+    text-align: center;
   }
 
   .patch-status-footer {
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px dashed var(--border-color, #e2e8f0);
+    border-top: 1px dashed #e2e8f0;
   }
 
   .functional-link {
@@ -118,15 +119,10 @@
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 600;
-    transition: all 0.2s ease;
   }
 
   .functional-link:hover {
     color: #1d4ed8;
     text-decoration: underline;
-  }
-
-  @media (max-width: 768px) {
-    .patch-guidelines { grid-template-columns: 1fr; }
   }
 </style>
