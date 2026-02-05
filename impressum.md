@@ -19,4 +19,4 @@ For more information, please visit our specific policy pages:
 * [**Privacy Policy**](/privacy/)
 * [**Cookie Policy**](/cookies/)
 
-<script src="/legal.js"></script>
+<script src="/assets/javascript/legal.js"></script>
