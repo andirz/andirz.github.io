@@ -2,63 +2,29 @@
 layout: default
 ---
 
-<div class="table-page-wrapper" style="max-width: 100%; margin: 0 auto; padding: 20px;">
-  
-  <article class="px-1" style="max-width: 1200px; margin: 0 auto;">
-    <h1 class="dynamic-title" style="margin-bottom: 20px;">{{ page.title }}</h1>
+<div class="page-layout-wrapper" style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+  <div class="dynamic-grid">
     
-    <div class="ad-container-flex">
-      {% include google/ad-horizontal.html %}
-    </div>
+    <main class="main-content-area">
+      <article class="px-1">
 
-    <div class="content" style="font-size: 1rem; line-height: 1.6; margin-top: 20px;">
-      {{ content }}
-    </div>
-  </article>
+        <h1 class="dynamic-title">{{ page.title }}</h1>
 
-  <div class="ad-container-flex" style="max-width: 1200px; margin: 40px auto 0 auto;">
-    {% include google/ad-multiplex.html %}
+        <div class="ad-footer-block">
+          {% include google/ad-horizontal.html %}
+        </div>
+
+        <div class="content">
+          {{ content }}
+        </div>
+
+      </article>
+
+      <div class="ad-footer-block">
+        {% include google/ad-multiplex.html %}
+      </div>
+
+    </main>
+
   </div>
 </div>
-
-<style>
-  /* Tabellen-Container für horizontales Scrollen auf kleinen Bildschirmen */
-  .content table {
-    width: 100% !important;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    border-collapse: collapse;
-    margin: 20px 0;
-  }
-
-  .content th, .content td {
-    padding: 12px;
-    border: 1px solid var(--border-color, #ddd);
-    text-align: left;
-  }
-
-  .content th {
-    background-color: rgba(0,0,0,0.05);
-    font-weight: bold;
-  }
-
-  /* Werbung Logik */
-  .ad-container-flex {
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
-
-  .adsbygoogle[data-ad-status="filled"] {
-    display: block;
-    margin: 20px 0;
-    padding: 10px;
-    background: rgba(0,0,0,0.02);
-    border-radius: 8px;
-  }
-
-  .adsbygoogle[data-ad-status="unfilled"] {
-    display: none !important;
-  }
-</style>
