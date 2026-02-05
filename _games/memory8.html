@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: default
 title: Pack Picker Memory
 icon: "fas fa-brain"
 order: 2
-description: "Match all Sims 4 Expansion, Game, and Stuff Packs. Mild chaos at 10 misses!"
+description: "Match all Sims 4 Expansion, Game, and Stuff Packs. Watch out: at 10 misses, a found pair hides again!"
 mode: Memory
 difficulty: Hard
 ---
@@ -111,9 +111,6 @@ difficulty: Hard
           perspective: 1100px;
           margin: 0 auto;
         }
-        .grid.glitch{
-          filter: hue-rotate(40deg) contrast(1.08);
-        }
         @media (min-width: 621px){
           .grid{ grid-template-columns: repeat(6, var(--size)); }
         }
@@ -203,7 +200,7 @@ difficulty: Hard
         <div class="top">
           <div class="title">
             <h2>Pack Picker Memory</h2>
-            <p>At 10 misses: all unmatched cards close, then remix (incl. previously matched).</p>
+            <p>At 10 misses: a random matched pair will close again!</p>
           </div>
 
           <div class="stats">
@@ -253,10 +250,7 @@ difficulty: Hard
         this._misses = 0;
         this._timeLeft = 0;
         this._timerId = null;
-
         this._ac = null;
-
-        this._chaosActive = false;
         this._lastTickSecond = null;
       }
 
@@ -342,25 +336,17 @@ difficulty: Hard
 
       _reset(){
         this.$overlay.removeAttribute("open");
-
         this._matches = 0;
         this._misses = 0;
         this._locked = false;
         this._open = [];
-        this._chaosActive = false;
-
         this._timeLeft = this.timeLimit;
         this._lastTickSecond = null;
-
         this.$timerPill.classList.remove("timer-urgent");
 
         const pool = this._buildPool();
         const pickCount = Math.min(this.pairs, pool.length);
-
-        const selected = pool
-          .sort(() => 0.5 - Math.random())
-          .slice(0, pickCount);
-
+        const selected = pool.sort(() => 0.5 - Math.random()).slice(0, pickCount);
         const shuffled = [...selected, ...selected].sort(() => 0.5 - Math.random());
         this._deck = shuffled.map(id => ({ id, matched: false }));
 
@@ -372,44 +358,26 @@ difficulty: Hard
       _render(){
         this.$grid.innerHTML = "";
         const folder = this.folder;
-
         this._deck.forEach((cardObj, idx) => {
           const card = document.createElement("button");
           card.className = "card";
           card.dataset.idx = String(idx);
-
           if(cardObj.matched) card.setAttribute("state", "match");
-
-          card.innerHTML = \`<div class="face front">?</div><div class="face back"></div>\`;
-
+          card.innerHTML = `<div class="face front">?</div><div class="face back"></div>`;
           const img = document.createElement("img");
-          img.src = \`\${folder}\${cardObj.id}.png\`;
-          img.onerror = () => {
-            card.querySelector(".back").innerHTML = \`<b>\${String(cardObj.id || "").toUpperCase()}</b>\`;
-          };
+          img.src = `${folder}${cardObj.id}.png`;
+          img.onerror = () => { card.querySelector(".back").innerHTML = `<b>${String(cardObj.id || "").toUpperCase()}</b>`; };
           card.querySelector(".back").appendChild(img);
-
           this.$grid.appendChild(card);
         });
-      }
-
-      _closeOpenCards(noMiss){
-        const openNow = this._open.slice();
-        openNow.forEach(c => c.removeAttribute("state"));
-        this._open = [];
-        this._locked = false;
-        if (!noMiss) this._updateUI();
       }
 
       _onClick(e){
         const card = e.target.closest(".card");
         if(!card || this._locked) return;
-
         if (card.getAttribute("state") === "match") return;
 
         this._ensureAudio();
-        if (this._ac && this._ac.state === "suspended") this._ac.resume().catch(() => {});
-
         if (card.getAttribute("state") === "up") {
           card.removeAttribute("state");
           this._open = this._open.filter(c => c !== card);
@@ -425,37 +393,30 @@ difficulty: Hard
 
         if(this._open.length === 2){
           this._locked = true;
-
           const c1 = this._open[0];
           const c2 = this._open[1];
           const d1 = this._deck[parseInt(c1.dataset.idx, 10)];
           const d2 = this._deck[parseInt(c2.dataset.idx, 10)];
 
           if(d1 && d2 && d1.id === d2.id){
-            d1.matched = true;
-            d2.matched = true;
+            d1.matched = true; d2.matched = true;
             c1.setAttribute("state", "match");
             c2.setAttribute("state", "match");
-
             this._matches++;
             this._open = [];
             this._locked = false;
-
             this._sfx("match");
             this._showFloat(10, true);
             this._updateUI();
-
-            if(this._matches === Math.floor(this._deck.length / 2)){
-              this._end("Victory!");
-            }
+            if(this._matches === Math.floor(this._deck.length / 2)) this._end("Victory!");
           } else {
             this._misses++;
             this._sfx("miss");
-            this._showFloat(3, false);
+            this._showFloat(1, false); // Strafzeit auf 1s reduziert
             this._updateUI();
 
             if(this._misses % 10 === 0){
-              setTimeout(() => this._mildChaosCloseAndRemix(), 600);
+              setTimeout(() => this._chaosCloseRandomPair(), 600);
             } else {
               setTimeout(() => {
                 c1.removeAttribute("state");
@@ -468,55 +429,39 @@ difficulty: Hard
         }
       }
 
-      _mildChaosCloseAndRemix(){
-        if (this._chaosActive) {
-          this._locked = false;
-          this._open = [];
-          return;
+      _chaosCloseRandomPair(){
+        // Finde alle bereits gelösten Pack-IDs
+        const solvedIds = [...new Set(this._deck.filter(c => c.matched).map(c => c.id))];
+
+        if (solvedIds.length > 0) {
+          this._sfx("chaos");
+          this.$missesPill.classList.add("chaos-active");
+          
+          const randomId = solvedIds[Math.floor(Math.random() * solvedIds.length)];
+          
+          this._deck.forEach((cardObj, idx) => {
+            if (cardObj.id === randomId) {
+              cardObj.matched = false;
+              const cardEl = this.$grid.querySelector(`[data-idx="${idx}"]`);
+              if (cardEl) cardEl.removeAttribute("state");
+            }
+          });
+
+          this._matches--;
+          setTimeout(() => {
+            this.$missesPill.classList.remove("chaos-active");
+            this._updateUI();
+          }, 500);
         }
-        this._chaosActive = true;
-
-        this._sfx("chaos");
-        this.$missesPill.classList.add("chaos-active");
-        this.$grid.classList.add("glitch");
-
-        const allButtons = Array.from(this.$grid.querySelectorAll(".card"));
-        allButtons.forEach(btn => {
-          if (btn.getAttribute("state") === "up") btn.removeAttribute("state");
-        });
         this._open = [];
-
-        const pool = this._buildPool();
-        const remixIdx = this._deck.map((c,i) => i);
-
-        const pairCount = Math.floor(remixIdx.length / 2);
-        const newIcons = pool.sort(() => 0.5 - Math.random()).slice(0, pairCount);
-        const newPairs = [...newIcons, ...newIcons].sort(() => 0.5 - Math.random());
-
-        remixIdx.forEach((idx, i) => {
-          this._deck[idx].id = newPairs[i] || this._deck[idx].id;
-          this._deck[idx].matched = false;
-        });
-
-        this._matches = 0;
-
-        setTimeout(() => {
-          this._render();
-          this.$missesPill.classList.remove("chaos-active");
-          this.$grid.classList.remove("glitch");
-          this._open = [];
-          this._locked = false;
-          this._chaosActive = false;
-          this._updateUI();
-        }, 900);
+        this._locked = false;
       }
 
       _showFloat(sec, pos){
         this._timeLeft = pos ? (this._timeLeft + sec) : Math.max(0, this._timeLeft - sec);
-
         const b = document.createElement("div");
-        b.className = \`bonus-text \${pos ? "pos" : "neg"}\`;
-        b.textContent = \`\${pos ? "+" : "-"}\${sec}s\`;
+        b.className = `bonus-text ${pos ? "pos" : "neg"}`;
+        b.textContent = `${pos ? "+" : "-"}${sec}s`;
         this.$bonusContainer.appendChild(b);
         setTimeout(() => b.remove(), 1000);
       }
@@ -524,8 +469,7 @@ difficulty: Hard
       _setTimerUI(t){
         const m = Math.floor(t / 60);
         const s = t % 60;
-        this.$timer.textContent = \`\${String(m).padStart(2,'0')}:\${String(s).padStart(2,'0')}\`;
-
+        this.$timer.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         if (t <= 10 && t > 0) {
           this.$timerPill.classList.add("timer-urgent");
           if (this._lastTickSecond !== t) {
@@ -540,14 +484,11 @@ difficulty: Hard
 
       _startTimer(){
         clearInterval(this._timerId);
-        const t0 = Math.max(0, this._timeLeft);
-        this._setTimerUI(t0);
-
+        this._setTimerUI(Math.max(0, this._timeLeft));
         this._timerId = setInterval(() => {
           this._timeLeft--;
           const t = Math.max(0, this._timeLeft);
           this._setTimerUI(t);
-
           if(this._timeLeft <= 0){
             clearInterval(this._timerId);
             this._end("Game Over");
@@ -557,26 +498,21 @@ difficulty: Hard
 
       _updateUI(){
         const totalPairs = Math.floor(this._deck.length / 2);
-        this.$status.textContent = \`Pairs: \${this._matches}/\${totalPairs}\`;
-        this.$missesPill.textContent = \`Misses: \${this._misses}\`;
+        this.$status.textContent = `Pairs: ${this._matches}/${totalPairs}`;
+        this.$missesPill.textContent = `Misses: ${this._misses}`;
       }
 
       _end(t){
         clearInterval(this._timerId);
         this.shadowRoot.getElementById("ovTitle").textContent = t;
-        this.shadowRoot.getElementById("ovMsg").textContent = \`Pairs: \${this._matches} | Misses: \${this._misses}\`;
+        this.shadowRoot.getElementById("ovMsg").textContent = `Pairs: ${this._matches} | Misses: ${this._misses}`;
         this.$overlay.setAttribute("open", "");
         this.$timerPill.classList.remove("timer-urgent");
-
-        if (t === "Victory!") this._sfx("win");
-        else this._sfx("lose");
+        if (t === "Victory!") this._sfx("win"); else this._sfx("lose");
       }
     }
-
     customElements.define("chaos-memory", ChaosMemory);
-  } catch (e) {
-    console.error(e);
-  }
+  } catch (e) { console.error(e); }
 })();
 </script>
 {% endraw %}
