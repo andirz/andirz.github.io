@@ -4,7 +4,7 @@ title: "Death Roulette Challenge"
 parent: "Mods"
 icon: "fas fa-skull-crossbones"
 requirements: ["smart_core"]
-categories: [Death, Survival, Challenges, Cheats]
+categories: [Death, Survival, Challenges, Cheats, Patreon Exclusive]
 tagline: "Leave survival to fate with a high-stakes mechanic designed for dystopian storytelling and disaster scenarios."
 ---
 
