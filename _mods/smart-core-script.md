@@ -3,7 +3,7 @@ mod_id: smart_core_script
 title: Smart Core Script
 icon: fas fa-microchip
 files: [ts4script, package]
-categories: [Scripts, Injectors, Library]
+categories: [Scripts, Injectors, Core]
 tagline: "Script Core, required for many of my mods."
 ---
 
