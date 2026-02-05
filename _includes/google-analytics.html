@@ -1,18 +1,11 @@
-{% if jekyll.environment == 'production' %}
-<script>
-  if (localStorage.getItem('cookies-accepted') === 'true') {
-    // Nur laden, wenn Zustimmung vorliegt
-    var script = document.createElement('script');
-    script.async = true;
-    script.src = "https://www.googletagmanager.com/gtag/js?id=G-RTPTZC13KG";
-    document.head.appendChild(script);
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="6e234bdd-6d34-4321-8a5f-79670ccecfe2" type="text/javascript" async></script>
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    
-    // IP-Anonymisierung für besseren Datenschutz
-    gtag('config', 'G-RTPTZC13KG', { 'anonymize_ip': true });
-  }
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RTPTZC13KG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  // Diese Zeile hilft beim Datenschutz
+  gtag('config', 'G-RTPTZC13KG', { 'anonymize_ip': true });
 </script>
-{% endif %}
