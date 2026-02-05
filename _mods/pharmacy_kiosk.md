@@ -1,9 +1,9 @@
 ---
 mod_id: pharmacy_kiosk_object
 title: "Pharmacy Kiosk Object"
-icon: "fas fa-medkit"
+icon: "fas fa-staff-snake"
 packs: ["EP08"]
-categories: [Buy Mode, Decor, Medical, P.S.O.]
+categories: [Build/Buy, Decor, Medical, Kiosk]
 ---
 
 ## What does this mod do?

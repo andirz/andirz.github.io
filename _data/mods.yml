@@ -280,13 +280,9 @@
   status: "compatible"
 
 - id: pharmacy-kiosk-object
-  name: "Pharmacy Kiosk Object"
-  icon: "fas fa-staff-snake"
   version: "1.4.2"
   status: "compatible"
 
-- id: xmas-collection
-  name: "X-Mas Poster & Painting Collection"
-  icon: "fas fa-image"
+- id: x_mas_collection
   version: "2.1.0"
   status: "compatible"

@@ -1,8 +1,8 @@
 ---
 mod_id: x_mas_collection
-title: "X-Mas Painting Collection"
-icon: "fas fa-holly-berry"
-categories: [Buy Mode, Decor, Christmas]
+title: "X-Mas Poster & Painting Collection"
+icon: "fas fa-image"
+categories: [Build/Buy, Decor, Christmas]
 ---
 
 ## Mod Description
