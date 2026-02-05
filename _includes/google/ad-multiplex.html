@@ -1,10 +1,49 @@
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146635618193757"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="autorelaxed"
-     data-ad-client="ca-pub-2146635618193757"
-     data-ad-slot="3225129095"></ins>
+<!-- AdSense Multiplex / Auto-Relaxed -->
+<div class="ad-wrap ad-multiplex">
+  <ins class="adsbygoogle"
+       data-ad-client="ca-pub-2146635618193757"
+       data-ad-slot="3225129095"
+       data-ad-format="autorelaxed"></ins>
+</div>
+
+<!-- AdSense Script (nur einmal pro Seite nötig) -->
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146635618193757"
+        crossorigin="anonymous"></script>
+
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
+
+  // Auto height handling (0 if not loaded)
+  (() => {
+    const wrap = document.querySelector('.ad-multiplex');
+    const ad   = wrap?.querySelector('.adsbygoogle');
+    if (!wrap || !ad || !window.ResizeObserver) return;
+
+    // start collapsed
+    wrap.style.height = '0';
+    wrap.style.overflow = 'hidden';
+
+    const ro = new ResizeObserver(entries => {
+      const h = entries[0].contentRect.height;
+      wrap.style.height = h > 0 ? h + 'px' : '0';
+    });
+
+    ro.observe(ad);
+  })();
 </script>
+
+<style>
+  .ad-wrap {
+    display: block;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.25s ease;
+  }
+
+  .ad-wrap ins.adsbygoogle {
+    display: block;
+    width: 100%;
+  }
+</style>
