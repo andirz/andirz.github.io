@@ -44,7 +44,7 @@ layout: default
         {% assign compat_body = before_lang %}
       {% endif %}
 
-      <article class="mod-description" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px;">
+      <article class="mod-description">
         {{ before_compat }}
       </article>
 
@@ -55,7 +55,7 @@ layout: default
           </h2>
 
           {% if compat_body != "" %}
-            <div class="custom-compatibility-text" style="margin-bottom: 15px; line-height: 1.6; font-size: 1rem;">
+            <div class="custom-compatibility-text mod-description">
               {{ compat_body }}
             </div>
           {% endif %}
@@ -72,12 +72,12 @@ layout: default
         </h2>
 
         {% if lang_body != "" %}
-          <div class="custom-translation-text" style="margin-bottom: 15px; line-height: 1.6; font-size: 1rem;">
+          <div class="custom-translation-text mod-description">
             {{ lang_body }}
           </div>
         {% endif %}
 
-        <div class="translation-template-content" style="line-height: 1.6; font-size: 1rem;">
+        <div class="translation-template-content">
           {% if page.disable_translations == true or page.strings == false %}
             {% include translation/no_strings.md %}
           {% elsif page.files contains "bat" %}
@@ -94,10 +94,10 @@ layout: default
         <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
           Installation Guide
         </h2>
-        <p style="margin-top: 12px; font-weight: 600; font-size: 1rem; line-height: 1.6;">
+        <p style="margin-top: 12px; font-weight: 600;">
           Please note the following information:
         </p>
-        <div style="font-size: 1rem; line-height: 1.6;">
+        <div>
           {% if page.files contains "bat" %}
             {% include installation/bat_script.html %}
           {% elsif page.files contains "ts4script" %}
@@ -144,6 +144,12 @@ layout: default
 </div>
 
 <style>
+  .mod-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+  }
+
   .translation-template-content h2,
   .translation-template-content h3 {
     display: none !important;
