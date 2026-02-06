@@ -5,7 +5,7 @@ icon: "fas fa-pen-nib"
 parent: "Mods"
 icon: "fas fa-book"
 requirements: ["smart_core"]
-categories: [Gameplay Mods, Skills, Writing]
+categories: [Tweaks, Skills, Writing]
 ---
 
 ## About This Mod
@@ -14,7 +14,7 @@ categories: [Gameplay Mods, Skills, Writing]
 
 In the vanilla game, only Sims with the **Chronicler (Professorial)** trait can write manuals. This trait is locked behind the *Renaissance Sim* aspiration, which makes little sense from a gameplay perspective. This mod removes that artificial limitation in a clean and non-invasive way.
 
-## How it works
+## How it works?
 
 This mod does **not** overwrite any EA interactions.
 
@@ -38,23 +38,9 @@ This approach keeps the mod lightweight, compatible, and future-proof.
 This mod is **not** an adoption or modification of similar mods.  
 It was built from scratch with the clear goal of **not overwriting** existing game resources — a core principle of my modding approach.
 
-## Translations
+## Language & Translations
 
-- **English, German, Spanish, Russian** – by me  
-- **Italian** – vale93_games  
-- **Automatic translations:**  
-  Czech, Danish, Dutch, French, Norwegian, Polish, Portuguese, Swedish  
+- **English**, **German**, **Spanish**, **Russian** by me  
+- **Italian** by vale93_games  
+- **Czech**, **Danish**, **Dutch**, **French**, **Norwegian**, **Polish**, **Portuguese**, **Swedish** by Google Translate 
 
-All other languages fall back to English.  
-If you would like to contribute a translation, feel free to contact me.
-
-## Requirements
-
-- **Smart Core Script** – required (separate download)
-- **Script Mods** must be enabled in game options
-
-## Compatibility
-
-- No EA interactions or resources are overridden  
-- Uses a trait-based unlock system  
-- No compatibility issues are expected
