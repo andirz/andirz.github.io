@@ -1,17 +1,14 @@
 {%- comment -%}
-related-mods.html (NEW)
-- Uses real pages from site.mods (like categories.html should)
-- Matches by categories
-- Outputs 6 icon-only pills (2 rows × 3)
-- Forces links to stay clickable (z-index / pointer-events)
+related-mods.html (ALT CONCEPT)
+- Reuses the SAME pill markup/classes as categories.html: .cat-cloud + .cat-pill
+- Only mini overrides for 2×3 icon pills
+- Uses site.mods pages for links (most reliable)
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
 {%- assign count = 0 -%}
-
 {%- assign current_id = page.mod_id -%}
 
-{%- comment -%} Current categories: page first, then data fallback {%- endcomment -%}
 {%- assign current_categories = page.categories -%}
 {%- if current_categories == nil -%}
   {%- assign current_data = site.data.mods | where: "id", current_id | first -%}
@@ -21,102 +18,80 @@ related-mods.html (NEW)
   {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
-<section class="rm-wrap">
-  <div class="rm-title">Related Mods:</div>
+<div class="rm-related">
+  <strong class="rm-title">Related Mods:</strong>
 
-  <div class="rm-grid">
+  <div class="cat-cloud rm-cloud">
     {%- for p in site.mods -%}
-      {%- if count < max_items -%}
-        {%- if p.mod_id != current_id -%}
+      {%- if count < max_items and p.mod_id != current_id -%}
 
-          {%- assign p_categories = p.categories -%}
-          {%- if p_categories == nil -%}
-            {%- assign p_data = site.data.mods | where: "id", p.mod_id | first -%}
-            {%- assign p_categories = p_data.categories -%}
-          {%- endif -%}
-          {%- if p_categories == nil -%}
-            {%- assign p_categories = "" | split: "|" -%}
-          {%- endif -%}
-
-          {%- assign match = false -%}
-          {%- for c in p_categories -%}
-            {%- if current_categories contains c -%}
-              {%- assign match = true -%}
-            {%- endif -%}
-          {%- endfor -%}
-
-          {%- if match -%}
-            {%- assign p_name = p.title | default: p.name -%}
-            {%- if p_name == nil or p_name == "" -%}
-              {%- assign p_data2 = site.data.mods | where: "id", p.mod_id | first -%}
-              {%- assign p_name = p_data2.name -%}
-            {%- endif -%}
-
-            <a class="rm-pill" href="{{ p.url | relative_url }}" title="{{ p_name }}" aria-label="{{ p_name }}">
-              <i class="fas fa-puzzle-piece" aria-hidden="true"></i>
-            </a>
-
-            {%- assign count = count | plus: 1 -%}
-          {%- endif -%}
-
+        {%- assign p_categories = p.categories -%}
+        {%- if p_categories == nil -%}
+          {%- assign p_data = site.data.mods | where: "id", p.mod_id | first -%}
+          {%- assign p_categories = p_data.categories -%}
         {%- endif -%}
+        {%- if p_categories == nil -%}
+          {%- assign p_categories = "" | split: "|" -%}
+        {%- endif -%}
+
+        {%- assign match = false -%}
+        {%- for c in p_categories -%}
+          {%- if current_categories contains c -%}
+            {%- assign match = true -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if match -%}
+          {%- assign p_name = p.title | default: p.name -%}
+          {%- if p_name == nil or p_name == "" -%}
+            {%- assign p_data2 = site.data.mods | where: "id", p.mod_id | first -%}
+            {%- assign p_name = p_data2.name -%}
+          {%- endif -%}
+
+          <a class="cat-pill rm-pill" href="{{ p.url | relative_url }}" title="{{ p_name }}" aria-label="{{ p_name }}">
+            <i class="fas fa-puzzle-piece" aria-hidden="true"></i>
+            <span class="rm-sr">{{ p_name }}</span>
+          </a>
+
+          {%- assign count = count | plus: 1 -%}
+        {%- endif -%}
+
       {%- endif -%}
     {%- endfor -%}
   </div>
-</section>
+</div>
 
 <style>
-/* Minimal + robust: should not interfere with your layout */
-.rm-wrap{
-  margin-top: 1.1rem;
-  position: relative;
-  z-index: 2;              /* sit above annoying overlays */
+/* mini layout: 2 rows × 3 */
+.rm-cloud{
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 18px;
+  margin-top: 10px;
+}
+
+/* shrink the categories pill into icon-only */
+.cat-pill.rm-pill{
+  justify-content: center;
+  gap: 0;
+  width: 64px;
+  height: 40px;
+  padding: 0;
+}
+
+/* hide text but keep it accessible */
+.rm-sr{
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .rm-title{
-  font-weight: 900;
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-}
-
-/* 2 rows × 3 */
-.rm-grid{
-  display: grid;
-  grid-template-columns: repeat(3, 56px);
-  gap: 14px 16px;
-  position: relative;
-  z-index: 3;
-}
-
-/* Icon-only pill, always clickable */
-.rm-pill{
-  width: 56px;
-  height: 36px;
-  border-radius: 999px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  text-decoration: none !important;
-
-  background: rgba(0,0,0,0.035);
-  color: rgba(0,0,0,0.50);
-
-  position: relative;
-  z-index: 10;
-  pointer-events: auto !important;
-
-  transition: transform 120ms ease, background 120ms ease;
-}
-
-.rm-pill:hover{
-  background: rgba(0,0,0,0.07);
-  transform: translateY(-1px);
-}
-
-.rm-pill i{
-  font-size: 0.95rem;
-  opacity: 0.85;
+  display: block;
+  margin-bottom: 6px;
 }
 </style>
