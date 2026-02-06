@@ -10,32 +10,32 @@ Defaults:
 
 {% assign title = "Core Library Package" %}
 {% assign icon = "fa-cubes" %}
-{% assign text = "You only need to install this library if another mod explicitly requires it. If you don’t use any of my core-dependent mods, you don’t need this file in your Mods folder." %}
+{% assign text = "You only need to install this library if another mod explicitly requires it. If you don’t use any of my core-dependent mods, you do NOT need this file in your Mods folder." %}
 
 {% if t == "ts4script" %}
   {% assign title = "Core Library Script" %}
   {% assign icon = "fa-code" %}
-  {% assign text = "You only need to install this script library if another mod explicitly requires it. If you don’t use any of my mods that depend on this script, you don’t need this file in your Mods folder." %}
+  {% assign text = "You only need to install this script library if another mod explicitly requires it. If you don’t use any of my mods that depend on this script, you do NOT need this file in your Mods folder." %}
 {% endif %}
 
 <div class="install-box install-library-info"
      style="
-       background: rgba(59,130,246,0.08);
-       border: 1px solid rgba(59,130,246,0.25);
-       border-left: 4px solid #60a5fa;
-       padding: 16px 18px;
+       background: rgba(220,38,38,0.08);
+       border: 1px solid rgba(220,38,38,0.25);
+       border-left: 4px solid #dc2626;
+       padding: 14px 16px;
        border-radius: 10px;
        margin: 10px 0 14px 0;
      ">
 
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-    <i class="fas {{ icon }}" style="color:#60a5fa;font-size:1.15rem;"></i>
-    <strong style="font-size:1.05rem;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+    <i class="fas {{ icon }}" style="color:#dc2626;font-size:1.05rem;"></i>
+    <strong style="font-size:0.95rem;">
       {{ title }}
     </strong>
   </div>
 
-  <p class="mod-text" style="margin:0;">
+  <p style="margin:0;font-size:0.95rem;line-height:1.55;">
     {{ text }}
   </p>
 
