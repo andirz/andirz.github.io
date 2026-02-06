@@ -28,6 +28,7 @@ layout: default
       {% if lang_global_split.size > 1 %}
         {% assign lang_body = lang_global_split[1] %}
       {% endif %}
+      {% assign lang_body_clean = lang_body | strip %}
 
       {%- comment -%} 2) Compatibility aus dem Rest rauslösen (optional) {%- endcomment -%}
       {% assign compat_split = main_wo_language | split: '<h2 id="compatibility">Compatibility</h2>' %}
@@ -64,17 +65,11 @@ layout: default
           Language &amp; Translations
         </h2>
 
-        {% comment %}
-          Satz nur anzeigen, wenn wirklich irgendwas im Artikel-Block vorhanden ist
-          oder wenn die Standard-Templates aktiv sind (disable_translations nicht true).
-        {% endcomment %}
-        {% if lang_body != "" or page.disable_translations != true %}
+        {% if lang_body_clean != "" %}
           <p class="mod-description" style="margin-top: 10px;">
             The following translations are included in this mod:
           </p>
-        {% endif %}
 
-        {% if lang_body != "" %}
           <div class="custom-translation-text mod-description">
             {{ lang_body }}
           </div>
@@ -153,7 +148,6 @@ layout: default
     margin-bottom: 15px;
   }
 
-  /* Versteckt Überschriften innerhalb der geladenen Markdown-Templates */
   .translation-template-content h2,
   .translation-template-content h3 {
     display: none !important;
