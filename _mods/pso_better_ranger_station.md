@@ -7,7 +7,7 @@ requirements: ["smart_core", "pso_common"]
 categories: [Purchasing System, Kiosk, Gameplay]
 ---
 
-## What does this mod do?
+## About This Mod
 
 This mod expands the goods available at the Ranger Station in Granite Falls. Your Sims can now find a wider variety of items inspired by different themes and game packs, making their camping trips and outdoor adventures feel much more immersive.
 
