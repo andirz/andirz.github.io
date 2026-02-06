@@ -14,14 +14,12 @@ categories: [Tweaks, Skills, Writing]
 
 In the vanilla game, only Sims with the **Chronicler (Professorial)** trait can write manuals. This trait is locked behind the *Renaissance Sim* aspiration, which makes little sense from a gameplay perspective. This mod removes that artificial limitation in a clean and non-invasive way.
 
-## How it works
+## How it works?
 
-Sims with **Writing Skill level 5** and **Logic Skill level 2** unlock the **Skill Book Writing** interactions.
-
-This mod does **not** overwrite any EA interactions. Instead, it uses a lightweight activation system:
+Sims with **Writing Skill level 5** and **Logic Skill level 2** unlock the **Skill Book Writing** interactions. This mod does **not** overwrite any EA interactions. Instead, it uses a lightweight activation system:
 
 - When activated, the Sim is granted the **Chronicler** trait.
-- This trait unlocks all skill book writing options without modifying or replacing any EA tunings.
+- This trait unlocks all skill book writing options without modifying any EA tunings.
 
 All standard EA rules still apply:
 - A skill book for skill **X** can only be written once the Sim reaches **Skill level 5 in X**
