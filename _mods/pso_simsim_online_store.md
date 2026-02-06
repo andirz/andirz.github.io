@@ -38,17 +38,16 @@ After making a purchase in the online store, Sims may receive a variety of emoti
 Other emotional responses depend on the situation or are partially randomized, making each shopping experience feel a little different and more personal.
 
 ## Language & Translations
-The following translations are available:
-* **English**, **German**, **Spanish** and **Russian** by me
-* **Brazilian Portuguese** by Thamis4 and Nymphieta
-* **Chinese** and **Simplified Chinese** by Wanzi & Orchard team
-* **French** by Mollory
-* **Finnish** by Muffin
-* **Italian** by vale93_games
-* **Japanese** by Blackxxdahlia
-* **Polish** by Iskierka and Aarathiel
+* **English**, **German**, **Spanish** and **Russian** – by me
+* **Brazilian Portuguese** – by Thamis4 and Nymphieta
+* **Chinese** and **Simplified Chinese** – by Wanzi & Orchard team
+* **Finnish** – by Muffin
+* **French** – by Mollory
+* **Italian** – by vale93_games
+* **Japanese** – by Blackxxdahlia
+* **Polish** – by Iskierka and Aarathiel
 
-### FAQ
+## Frequently Asked Questions
 
 **How do I install the mod?**
 Please follow the [general tutorial on mod installation](https://andirz.io/tutorials/installation). Make sure that script files are not placed deeper than one subfolder.
