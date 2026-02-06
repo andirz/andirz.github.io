@@ -7,6 +7,7 @@ packs: ["EP07", "GP02"]
 requirements: ["xml_injector"]
 categories: [Activities, Wellness, Skills]
 tagline: "Find your inner peace on the sand with the ability to practice yoga directly on beach towels."
+strings: false
 ---
 
 ## About This Mod
