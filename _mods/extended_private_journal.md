@@ -7,6 +7,7 @@ packs: ["GP05"]
 requirements: ["lot51_core"]
 categories: [Gameplay, Storytelling, Skills, Writing, Adopted Mods]
 tagline: "Transform the diary into a powerful storytelling tool with new skill activities and deep emotional reflections for all ages."
+strings: false
 ---
 
 ## About This Mod
@@ -58,28 +59,11 @@ For children, Mental and Creativity skills are developed instead.
 
 The journal includes a new **Confess** category for personal reflections:
 
-- **Wants / Wishes** – requires **Snowy Escape (EP10)**  
 - **Fears** – Base Game  
 - **Wedding Fantasy** – Base Game  
 - **Romantic Memory** – Base Game  
+- **Wants / Wishes** – requires **Snowy Escape (EP10)**  
 
 These interactions provide emotional buffs only and do not affect skills or Life Skills, making them ideal for storytelling.
 
 If a required pack is not installed, the corresponding interaction will simply not appear.
-
-## Translations
-
-This mod almost exclusively uses existing in-game strings.  
-No additional translations are required.
-
-## Requirements
-
-- **Parenthood (GP05)** – required for Life Skills  
-- **Lot 51 Core Library Script** – required  
-- **Script Mods** must be enabled in game options
-
-## Compatibility
-
-- No game resources are overridden  
-- All interactions are added independently  
-- No compatibility issues are expected
