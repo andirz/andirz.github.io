@@ -4,7 +4,7 @@ title: "How to Submit Mod Support Requests?"
 order: 7
 ---
 
-When you need support with Sims 4 mods, providing clear and detailed information is essential for a quick resolution. This guide explains how to submit effective support requests, where to send them, and what information is required so issues can be resolved as efficiently as possible.
+When you need support with Sims 4 mods, providing clear and detailed information is essential for a quick resolution. A well-prepared support request allows for faster and more accurate diagnosis. Incomplete or vague requests usually result in additional questions and unnecessary back-and-forth, which delays solutions for everyone involved.
 
 {% include collection-toc.html
    collection="support"
@@ -33,15 +33,11 @@ Before asking for help, make sure the issue is actually caused by this mod and n
 
 ## Where to Submit Error Requests
 
-For the fastest and most effective support, [Discord]({{ site.data.globals.links.discord }}) is the preferred platform* for submitting error reports. Many common issues are already discussed there, so please check existing threads before opening a new request.
+For the fastest and most effective support, [Discord]({{ site.data.globals.links.discord }}) is the preferred platform for submitting error reports. Many common issues are already discussed there, so please check existing threads before opening a new request.
 
 Comments on **Patreon**, **CurseForge**, and **Itch.io** are **not suitable for technical support**. These platforms make it difficult to keep an overview of issues and do not reliably support uploading log files or screenshots. As a result, important information often gets lost.
 
 For errors, crashes, or script-related issues, always use the dedicated support channels on Discord so your request reaches the right place and can be handled efficiently.
-
-## Why Detailed Requests Matter
-
-A well-prepared support request allows for faster and more accurate diagnosis. Incomplete or vague requests usually result in additional questions and unnecessary back-and-forth, which delays solutions for everyone involved.
 
 ## Examples of Poor Requests
 
