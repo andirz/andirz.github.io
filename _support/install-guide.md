@@ -12,14 +12,15 @@ To use mods in The Sims 4, you first need to enable mod support within the game.
 
 ![](/assets/img/tutorials/support/img01.png)
 
-## 2. Find and Download Your Desired Mods
+## 2. Find and Download Mods
+To enhance your The Sims 4 gameplay, it's crucial to download mods from reputable sources. This ensures you're getting high-quality and original content. Here’s how to find and download mods safely:
 
-Always download mods from **reputable and trusted sources**. This is crucial for the security and stability of your game.
+* Visit trusted platforms like CurseForge or the official blogs and websites of mod creators to ensure you're downloading safe and high-quality mods.
+* Avoid collector sites that steal and redistribute mods from other sources to ensure you’re obtaining authentic content.
 
-* **Recommended Sources:** Look for mods on platforms like **CurseForge**, Mod The Sims, or directly from the mod creator's official website/blog. These sources usually host the latest versions and provide clear installation instructions.
-* **Avoid:** "Mod compilation" or "re-distribution" sites. These often host outdated, broken, or even malicious files without the original author's permission. Using such sites significantly increases the risk of game corruption or security issues.
+**Note:** I distribute my mods exclusively on *[Patreon](https://www.patreon.com/andirz)* and *[CurseForge](https://sims4andirz.my.curseforge.com)*. Any versions found on other platforms are stolen copies, and I do not take responsibility for them. While some creators may use other platforms, I recommend sticking to Patreon and CurseForge for secure and authorized downloads.
 
-### After Downloading:
+#### After Downloading:
 
 * Most mods come in a compressed format (like `.zip` or `.rar`). You will need a program like **WinRAR** or **7-Zip** to extract these files.
 * **Extract the contents** of the downloaded archive. Inside, you will typically find `.package` files, `.ts4script` files, or sometimes both.
@@ -34,41 +35,27 @@ The default path for this folder is:
 
 ![](/assets/img/tutorials/support/img02.png)
 
-### Important Folder Structure Rules:
-
-* **`.package` files:** These can be placed directly in the `Mods` folder or organized into subfolders. For example, `Mods/MyCustomHair/` or `Mods/Furniture/ModernSet/` is perfectly fine.
-* **`.ts4script` files:** This is a critical rule for script mods. They **must not be nested more than ONE subfolder deep** within the `Mods` folder.
-    * **Correct:** `Documents/Electronic Arts/The Sims 4/Mods/MyAwesomeScriptMod/my_script.ts4script`
-    * **Incorrect:** `Documents/Electronic Arts/The Sims 4/Mods/MyAwesomeScriptMod/SubFolder/my_script.ts4script` (This will likely prevent the script mod from loading).
-
 ## 4. Understanding Mod Types
 
 Knowing the difference between mod types can help you troubleshoot issues.
 
-* **`.package` files:** These typically contain custom content like clothing, hairstyles, objects, terrains, or overrides of existing game resources. They are generally considered safer as they do not execute complex code.
-* **`.ts4script` files:** These are Python script files that can introduce new gameplay mechanics, modify game logic, or add complex features. Because they execute code, it's vital to only download them from trusted creators.
+| File Type | Description & Content | Allowed Folder Depth |
+| :--- | :--- | :--- |
+| **.package** | **Tuning** (e.g. Traits, Buffs, Interactions, Loots), **Custom Objects** (e.g. Furniture, Decor) & **CAS** (e.g. Clothing, Hair, Skin Details). | **Unlimited** — You can organize these into as many subfolders as you like for better overview. |
+| **.ts4script** | **Script Files:** These contain Python code required for mods that change how the game works. They are necessary to inject new menus, custom logic, or complex systems that the standard game files cannot handle. | **Max. 1 Level** — These files must be placed either directly in the Mods folder or within exactly one subfolder. |
 
 ## 5. Keeping Your Mods and Game Healthy
 
-To maintain a stable game and enjoy your mods without issues:
+## Final Tips for Installing Mods
+To ensure a smooth modding experience in The Sims 4, here are some final tips to keep in mind when installing mods:
 
-* **Backup Your Saves:** Before installing any new mod, especially script mods, always make a backup of your entire `The Sims 4` folder in `Documents/Electronic Arts/`. This allows you to revert to a working state if something goes wrong.
-* **Keep Mods Updated:** Just like the game, mods receive updates. Always check the mod creator's page for the latest version, especially after a new game patch. Outdated mods are a primary cause of bugs, glitches, and crashes.
-* **Read Mod Instructions:** Every mod is different. Some have specific installation steps, dependencies (other mods or packs required), or known conflicts. Always read the mod author's documentation.
+* **Backup Your Saves:** Always back up your game saves before adding new mods. This protects your progress in case of mod-related issues.
+* **Keep Mods Updated:** Regularly check for updates to ensure compatibility with the latest game patches. Outdated mods can cause bugs or crashes!
+* **Read Instructions:** Carefully read the mod descriptions and any accompanying instructions. Some mods may require additional steps or dependencies.
 
----
+# 6. Mods Security Risks
+When modding The Sims 4, it's essential to be aware of potential risks. Here's what you need to know:
 
-## Watch the Video Guide
-
-Here's a detailed video guide walking you through the mod installation process:
-
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 30px;">
-    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-        src="https://www.youtube.com/embed/5aQj9M321_E" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
-</div>
-
----
+* **Script Mods (.ts4script files)** are executable programs written in Python. They can enhance your Sims 4 gameplay by adding new features and interactions. However, because they are executable, there is a risk of these files containing viruses or malware if downloaded from untrustworthy sources.
+* To mitigate these risks, always download script mods from **reputable sources**. Check the reputation of the mod author before downloading. Established creators with positive feedback are more likely to provide safe and reliable mods.
+* Unlike .ts4script files, **.package files** do not pose these security risks. They are safe to use and do not execute code, making them a simpler and safer option for customizing your game.
