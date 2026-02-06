@@ -1,117 +1,156 @@
-<div class="patch-status-badge-container">
-  <div class="patch-badge-flex">
-    <div class="status-pill v-patch" title="Aktuelle Spielversion">
-      <i class="fas fa-code-branch"></i>
-      <span>Patch {{ site.data.globals.latest_patch }}</span>
-    </div>
-    
-    <div class="status-pill v-release" title="Release Datum des Patches">
-      <i class="fas fa-calendar-alt"></i>
-      <span>{{ site.data.globals.patch_release_date | date: "%B %d, %Y" }}</span>
+<div class="patch-status-badge-container compact">
+  <div class="patch-compact-grid">
+
+    <!-- LEFT -->
+    <div class="patch-left">
+      <div class="patch-badge-flex">
+        <div class="status-pill v-patch" title="Aktuelle Spielversion">
+          <i class="fas fa-code-branch"></i>
+          <span>Patch {{ site.data.globals.latest_patch }}</span>
+        </div>
+
+        <div class="status-pill v-release" title="Release Datum des Patches">
+          <i class="fas fa-calendar-alt"></i>
+          <span>{{ site.data.globals.patch_release_date | date: "%b %d" }}</span>
+        </div>
+
+        <div class="status-pill v-check" title="Letzte Überprüfung der Tabelle">
+          <i class="fas fa-history"></i>
+          <span>{{ site.data.globals.last_checked | date: "%b %d" }}</span>
+        </div>
+      </div>
+
+      <div class="patch-mini-note">
+        <i class="fas fa-info-circle"></i>
+        <span>All specific mod statuses are listed in the table.</span>
+      </div>
     </div>
 
-    <div class="status-pill v-check" title="Letzte Überprüfung der Tabelle">
-      <i class="fas fa-history"></i>
-      <span>Last Checked: {{ site.data.globals.last_checked | date: "%B %d, %Y" }}</span>
+    <!-- RIGHT -->
+    <div class="patch-right">
+      <div class="patch-right-title">Support &amp; Guides</div>
+
+      <div class="patch-right-links">
+        <a href="https://andirz-mods.com/support/install-guide/" target="_blank" rel="noopener">
+          <i class="fas fa-book"></i> Install
+        </a>
+        <span class="sep">•</span>
+        <a href="https://andirz-mods.com/support/keep-functional/" target="_blank" rel="noopener">
+          <i class="fas fa-tools"></i> Updates
+        </a>
+        <span class="sep">•</span>
+        <a href="https://andirz-mods.com/support/requests/" target="_blank" rel="noopener">
+          <i class="fas fa-envelope"></i> Help
+        </a>
+      </div>
     </div>
-  </div>
 
-  <div class="patch-status-info">
-    <p class="main-status-text">
-      <i class="fas fa-info-circle"></i>
-      All specific mod statuses for konkrete mods are listed in the table below.
-    </p>   
-  </div>
-
-  <div class="patch-status-footer">
-    <a href="https://andirz-mods.com/support/keep-functional/" target="_blank" class="functional-link">
-      <i class="fas fa-tools"></i> Learn how to keep your game functional
-      <i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-left: 5px;"></i>
-    </a>
   </div>
 </div>
 
 <style>
-  .patch-status-badge-container {
-    margin: 20px 0;
-    padding: 20px;
-    background: rgba(46, 204, 113, 0.03);
-    border: 1px solid var(--border-color, #e2e8f0);
-    border-radius: 14px;
-  }
+/* Container */
+.patch-status-badge-container.compact{
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: rgba(46, 204, 113, 0.03);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 14px;
+}
 
-  .patch-badge-flex {
-    display: flex;
-    flex-wrap: wrap;
+/* Two columns, same height, minimal gap */
+.patch-compact-grid{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 16px;
+  align-items: start;
+}
+
+/* LEFT: badges one line if possible */
+.patch-badge-flex{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Pills smaller for less height */
+.status-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.35px;
+  line-height: 1.1;
+}
+
+.v-patch{ background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }
+.v-release{ background:#dbeafe; color:#1d4ed8; border:1px solid #bfdbfe; }
+.v-check{ background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; }
+
+/* Single short note (no extra paragraph spacing) */
+.patch-mini-note{
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.2;
+  font-weight: 650;
+}
+.patch-mini-note i{ opacity: 0.75; }
+
+/* RIGHT */
+.patch-right{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  white-space: nowrap;
+}
+
+.patch-right-title{
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: #334155;
+  line-height: 1.1;
+}
+
+.patch-right-links{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  line-height: 1.1;
+}
+
+.patch-right-links a{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  color: #3b82f6;
+}
+.patch-right-links a:hover{
+  text-decoration: underline;
+  color: #1d4ed8;
+}
+.sep{ opacity: 0.35; font-weight: 600; }
+
+/* Mobile: stack, still compact */
+@media (max-width: 640px){
+  .patch-compact-grid{
+    grid-template-columns: 1fr;
     gap: 10px;
-    margin-bottom: 20px;
   }
-
-  .status-pill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .v-patch { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-  .v-release { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
-  .v-check { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
-
-  .main-status-text {
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  /* Vertikales Layout für die Hinweise */
-  .patch-guidelines-vertical {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .guide-row {
-    display: flex;
-    gap: 12px;
-    font-size: 0.9rem;
-    color: #64748b;
-    line-height: 1.5;
-    align-items: flex-start;
-  }
-
-  .guide-row i {
-    margin-top: 4px;
-    font-size: 1rem;
-    opacity: 0.7;
-    width: 20px;
-    text-align: center;
-  }
-
-  .patch-status-footer {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px dashed #e2e8f0;
-  }
-
-  .functional-link {
-    color: #3b82f6;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-
-  .functional-link:hover {
-    color: #1d4ed8;
-    text-decoration: underline;
-  }
+  .patch-right{ white-space: normal; }
+}
 </style>
