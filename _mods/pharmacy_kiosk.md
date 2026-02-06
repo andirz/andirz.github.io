@@ -14,7 +14,6 @@ The kiosk is a modified version of the university pack kiosks and comes in two s
 * **Modern Version:** Perfect for a contemporary city or hospital setting.
 * **Antique Version:** Great for historic neighborhoods or charming old towns.
 
-## How to find it
 You can easily find the kiosks in Build Mode by searching for the keywords **“kiosk”** or **“pharmacy”**.
 
 ## Important Functional Note
