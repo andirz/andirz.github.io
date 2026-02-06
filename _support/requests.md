@@ -45,8 +45,6 @@ For errors, crashes, or script-related issues, always use the dedicated support 
 
 This tells me nothing. It does not explain what is broken, which mod is affected, which version is used, or whether any errors occur. Since many of my mods are related, it is also unclear **which mod you are even talking about**. Requests like this have zero diagnostic value and do not help anyone.
 
-![This log is USELESS!](/assets/img/tutorials/support/img03.png)
-
 ## Essential Information for a Support Request
 
 When submitting a support request, please include **all** of the following information.
@@ -85,6 +83,8 @@ Without logs, effective support is often impossible.
 ## How NOT to Send Logs
 
 Never send logs as screenshots. Logs must always be shared as **text files**, not images. Screenshots of logs are unreadable, unsearchable, and completely useless for debugging.
+
+![This log is USELESS!](/assets/img/tutorials/support/img03.png)
 
 ## Example of a Good Support Request
 
