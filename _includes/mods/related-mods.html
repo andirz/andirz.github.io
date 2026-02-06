@@ -2,7 +2,7 @@
 related-mods.html
 Card-style related mods (max 6) with:
 - icon + title + description
-- bottom meta row: type (icon + short label) + version "v. x.y.z" + pack icons (/assets/img/packs/blue/ep01.png etc.)
+- bottom meta row: type (icon + short label) + version "v. x.y.z" + pack icons (/assets/img/packs/ep01.png etc.)
 Matching: shared categories
 {%- endcomment -%}
 
@@ -108,7 +108,7 @@ Matching: shared categories
                           {%- assign pack_name = pack_data.en | default: pack_code -%}
                         {%- endif -%}
 
-                        {%- assign blue_icon_path = "/assets/img/packs/blue/" | append: pack_code | downcase | append: ".png" -%}
+                        {%- assign blue_icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
 
                         <img
                           class="rm-pack"
