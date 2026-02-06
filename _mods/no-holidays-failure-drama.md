@@ -4,7 +4,7 @@ title: "No Holidays Failure Drama"
 icon: "fas fa-calendar-times"
 requirements: ["smart_core"]
 packs: ["EP05"]
-categories: [Sim Personalization, Emotion Tweaks, Gameplay Mods]
+categories: [Emotion Tweaks, Sim Personalization, Holidays]
 tagline: "End robotic household-wide sadness by introducing diverse emotional outcomes for holidays based on Sim personality."
 ---
 
