@@ -73,18 +73,19 @@ layout: default
         {% assign files = page.files | default: empty %}
         {% assign files_size = files | size %}
 
-        {% assign has_bat = false %}
-        {% assign has_script = false %}
+        {% assign has_bat = files contains "bat" %}
+        {% assign has_script = files contains "ts4script" %}
 
-        {% if files contains "bat" %}
-          {% assign has_bat = true %}
-        {% endif %}
+        {% comment %}
+          HÖCHSTE PRIORITÄT:
+          Keine Strings = keine Übersetzungen
+        {% endcomment %}
+        {% if page.strings == false or mod.strings == false %}
+          <div class="translation-template-content mod-text">
+            {% include translation/no_strings.md %}
+          </div>
 
-        {% if files contains "ts4script" %}
-          {% assign has_script = true %}
-        {% endif %}
-
-        {% if has_bat and files_size == 1 %}
+        {% elsif has_bat and files_size == 1 %}
           <div class="translation-template-content mod-text">
             {% include translation/bat_script.md %}
           </div>
@@ -95,6 +96,8 @@ layout: default
           </div>
 
         {% else %}
+          {% comment %} Package / Script+Package / Default {% endcomment %}
+
           {% if lang_body_clean != "" %}
             <p class="mod-text" style="margin-top: 10px; margin-bottom: 10px;">
               This mod is available in the following languages:
