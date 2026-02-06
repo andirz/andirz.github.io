@@ -1,105 +1,113 @@
-{% comment %} 
-  Tipps mit Kategorien: Cheat, Mod, Gameplay
+{% comment %}
+Did you know – Tips Box
 {% endcomment %}
-{% assign tip_data = "Cheat|You can use <b>Shift + Click</b> on a Sim with 'TestingCheats true' to instantly reset them if they get stuck!,Mod|Keeping your Mod folder organized with subfolders (only 1 level deep for scripts!) makes updating much faster.,Cheat|The <b>bb.moveobjects</b> cheat allows you to place items anywhere—perfect for creating realistic homes.,Mod|Always delete your <b>localthumbcache.package</b> file after updating or removing mods to prevent glitches.,Gameplay|You can resize objects by using the <b>[</b> and <b>]</b> keys while holding an item in Build Mode!,Technical|If your game feels slow, check for outdated 'Tuning' mods—they are often the cause of performance drops." | split: "," %}
 
 <section class="did-you-know-box">
   <div class="tip-header">
     <div class="tip-badge" id="tipBadge">Tip</div>
     <span class="tip-title">Did you know?</span>
   </div>
-  
+
   <div class="tip-content" id="tipText">
-    "Loading Simlish wisdom..."
+    Loading Simlish wisdom…
   </div>
 
-  <div class="tip-footer" onclick="newTip()">
+  <div class="tip-footer" id="nextTipBtn">
     <i class="fas fa-redo-alt"></i> Next Tip
   </div>
 </section>
 
 <style>
-  .did-you-know-box {
-    margin-top: 60px;
-    padding: 35px;
-    background: #ffffff;
-    border: 3px solid #e2e8f0;
-    border-radius: 35px;
-    position: relative;
-    box-shadow: 0 10px 0 #f1f5f9; /* Sims-artiger Versatz-Schatten */
-  }
+.did-you-know-box{
+  margin-top:60px;
+  padding:35px;
+  background:#fff;
+  border:3px solid #e2e8f0;
+  border-radius:35px;
+  box-shadow:0 10px 0 #f1f5f9;
+}
+.tip-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+.tip-badge{
+  padding:4px 12px;
+  border-radius:10px;
+  font-size:.7rem;
+  font-weight:900;
+  text-transform:uppercase;
+  color:#fff;
+  background:var(--sims-blue);
+}
+.tip-title{
+  font-weight:900;
+  font-size:1.1rem;
+}
+.tip-content{
+  font-size:1.15rem;
+  line-height:1.6;
+  min-height:80px;
+  color:#475569;
+}
+.tip-footer{
+  margin-top:20px;
+  display:inline-flex;
+  gap:8px;
+  cursor:pointer;
+  font-weight:800;
+  font-size:.85rem;
+  color:var(--sims-blue);
+}
+.tip-footer:hover{ opacity:.7; }
 
-  .tip-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .tip-badge {
-    padding: 4px 12px;
-    border-radius: 10px;
-    font-size: 0.7rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: white;
-    background: var(--sims-blue);
-  }
-
-  .tip-title {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    color: var(--sims-dark);
-    font-size: 1.1rem;
-  }
-
-  .tip-content {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: #475569;
-    min-height: 80px;
-  }
-
-  .tip-footer {
-    margin-top: 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 800;
-    color: var(--sims-blue);
-    transition: opacity 0.2s;
-  }
-  
-  .tip-footer:hover { opacity: 0.7; }
-
-  /* Farben für Kategorien */
-  .badge-cheat { background: #f59e0b !important; }
-  .badge-mod { background: #8b5cf6 !important; }
-  .badge-gameplay { background: #10b981 !important; }
-  .badge-technical { background: #64748b !important; }
+.badge-cheat{ background:#f59e0b !important; }
+.badge-mod{ background:#8b5cf6 !important; }
+.badge-gameplay{ background:#10b981 !important; }
+.badge-technical{ background:#64748b !important; }
 </style>
 
 <script>
-  const allTips = [
-    {% for entry in tip_data %}
-      {% assign parts = entry | split: "|" %}
-      { category: "{{ parts[0] }}", text: "{{ parts[1] }}" }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
-
-  function newTip() {
-    const randomTip = allTips[Math.floor(Math.random() * allTips.length)];
-    const textElem = document.getElementById('tipText');
-    const badgeElem = document.getElementById('tipBadge');
-
-    textElem.innerHTML = randomTip.text;
-    badgeElem.innerText = randomTip.category;
-    
-    // Klasse für Farbe basierend auf Kategorie setzen
-    badgeElem.className = 'tip-badge badge-' + randomTip.category.toLowerCase();
+const allTips = [
+  {
+    category: "Cheat",
+    text: "Use <b>Shift + Click</b> on a Sim with <b>TestingCheats true</b> to instantly reset them if they get stuck."
+  },
+  {
+    category: "Mod",
+    text: "Keep your Mods folder organized with subfolders (only one level deep for scripts) to make updates easier."
+  },
+  {
+    category: "Cheat",
+    text: "The <b>bb.moveobjects</b> cheat lets you place objects anywhere for more realistic builds."
+  },
+  {
+    category: "Mod",
+    text: "Always delete <b>localthumbcache.package</b> after updating or removing mods to avoid glitches."
+  },
+  {
+    category: "Gameplay",
+    text: "Resize objects with the <b>[</b> and <b>]</b> keys while placing them in Build Mode."
+  },
+  {
+    category: "Technical",
+    text: "If the game feels slow, outdated tuning mods are often the main cause."
   }
+];
 
-  document.addEventListener('DOMContentLoaded', newTip);
+function showNewTip(){
+  const tip = allTips[Math.floor(Math.random() * allTips.length)];
+  const text = document.getElementById("tipText");
+  const badge = document.getElementById("tipBadge");
+
+  text.innerHTML = tip.text;
+  badge.textContent = tip.category;
+  badge.className = "tip-badge badge-" + tip.category.toLowerCase();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  showNewTip();
+  document.getElementById("nextTipBtn").addEventListener("click", showNewTip);
+});
 </script>
