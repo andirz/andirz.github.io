@@ -40,10 +40,13 @@ The default path for this folder is:
 
 Knowing the difference between mod types can help you troubleshoot issues.
 
-| File Type | Description & Content | Allowed Folder Depth |
-| :--- | :--- | :--- |
-| **.package** | **Tuning** (e.g. Traits, Buffs, Interactions, Loots), **Custom Objects** (e.g. Furniture, Decor) & **CAS** (e.g. Clothing, Hair, Skin Details). | **Unlimited** — You can organize these into as many subfolders as you like for better overview. |
-| **.ts4script** | **Script Files:** These contain Python code required for mods that change how the game works. They are necessary to inject new menus, custom logic, or complex systems that the standard game files cannot handle. | **Max. 1 Level** — These files must be placed either directly in the Mods folder or within exactly one subfolder. |
+* **File Type: .package**
+    * **Description & Content:** Tuning (e.g. Traits, Buffs, Interactions, Loots), Custom Objects (e.g. Furniture, Decor) & CAS (e.g. Clothing, Hair, Skin Details).
+    * **Allowed Folder Depth:** **Unlimited** — You can organize these into as many subfolders as you like for a better overview.
+
+* **File Type: .ts4script**
+    * **Description & Content:** Script Files containing Python code required for mods that change how the game works. They are necessary to inject new menus, custom logic, or complex systems that standard game files cannot handle.
+    * **Allowed Folder Depth:** **Max. 1 Level** — These files must be placed either directly in the `Mods` folder or within exactly **one** subfolder.
 
 ## 5. Keeping Your Mods and Game Healthy
 
