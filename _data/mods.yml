@@ -73,9 +73,10 @@
   status: "compatible"
   updated: "2025-10-07"
 
-- id: better_curio_shop
+- id: better_marketstall_curioshop
   version: "1.0.0"
   status: "compatible"
+  updated: "2025-10-09"
 
 - id: better_highschool_festivals
   version: "1.0.0"
@@ -87,11 +88,9 @@
   status: "compatible"
 
 - id: better_san_myshuno_festivals
-  name: "Better San Myshuno Festivals"
-  icon: "fas fa-city"
   version: "1.0.1"
-  packs: ["EP03"]
   status: "compatible"
+  updated: "2025-10-31"
 
 - id: better_sulani_kiosk
   version: "1.0.1"
