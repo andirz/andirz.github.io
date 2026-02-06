@@ -1,18 +1,53 @@
-<div class="install-box install-override-warning" style="background: var(--bg-secondary, #f9fafb); border: 1px solid var(--border-color, #e5e7eb); border-left: 4px solid #ef4444; padding: 18px; border-radius: 8px; margin: 1.5rem 0;">
-  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 1.2rem;"></i>
-    <strong style="color: var(--text-color, #111827); font-size: 1.1rem;">Override Mod – High Conflict Risk</strong>
+<div class="install-box install-override-warning"
+     style="
+       background: var(--bg-secondary, #f9fafb);
+       border: 1px solid var(--border-color, #e5e7eb);
+       border-left: 4px solid #dc2626;
+       padding: 18px;
+       border-radius: 8px;
+       margin-top: 10px;
+     ">
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <i class="fas fa-exclamation-triangle" style="color:#dc2626;font-size:1.2rem;"></i>
+    <strong style="font-size:1.05rem;">
+      Override Mod
+    </strong>
   </div>
 
-  <ul style="margin: 0; padding-left: 20px; font-size: 0.95rem; line-height: 1.6;">
-    <li><strong>Conflicts:</strong> This mod <strong>overwrites game resources</strong>. It will conflict with any other mod that edits the <em>same</em> resources.</li>
-    <li><strong>Rule of thumb:</strong> If two mods override the same thing, you usually can’t safely use both — <strong>pick one</strong>.</li>
-    <li><strong>Patch sensitivity:</strong> Overrides are often the first to break after a game update and may require a <strong>fast update</strong>.</li>
-    <li><strong>Symptoms:</strong> Missing UI, broken interactions, lastException spam, or “random” glitches can all be conflict signs.</li>
+  <p style="margin:0 0 10px 0;font-size:0.95rem;line-height:1.6;">
+    This mod <strong>overrides core game resources</strong> instead of adding new ones.
+  </p>
+
+  <ul style="margin:0;padding-left:20px;font-size:0.95rem;line-height:1.6;">
+    <li>
+      <strong>High conflict risk:</strong>
+      Any other mod that overrides the same resources will conflict with this mod.
+    </li>
+    <li>
+      <strong>One-override rule:</strong>
+      If two mods modify the same resource, usually only <strong>one</strong> can be used safely.
+    </li>
+    <li>
+      <strong>Patch sensitive:</strong>
+      Override mods are more likely to break after game updates and may require quick updates.
+    </li>
+    <li>
+      <strong>Typical symptoms:</strong>
+      Missing UI elements, broken interactions, LastException errors, or unexpected behavior.
+    </li>
   </ul>
 
-  <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); font-size: 0.9rem; color: var(--text-muted);">
-    <i class="fas fa-lightbulb" style="color: #f59e0b;"></i>
-    Tip: After patches, test this mod <strong>alone</strong> first, then add other mods back step-by-step. Clearing <code>localthumbcache.package</code> is recommended.
+  <div style="
+       margin-top:14px;
+       padding-top:10px;
+       border-top:1px solid rgba(0,0,0,0.06);
+       font-size:0.9rem;
+       color:var(--text-muted);
+     ">
+    <i class="fas fa-info-circle" style="color:#f59e0b;"></i>
+    Recommendation: test this mod <strong>alone</strong> after patches and clear
+    <code>localthumbcache.package</code>.
   </div>
+
 </div>
