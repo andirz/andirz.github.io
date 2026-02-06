@@ -54,7 +54,7 @@ Because this is not an academic profession, no university degrees are required f
 - Project Supervisor  
 - Head of Department  
 
-## Translations
+## Language & Translations
 
 - **English** and **Russian** – originally by YouLie, updated by me  
 - **German** and **Spanish** – by me  
