@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: Sims 4 Wiki
 icon: "fas fa-book"
 order: 5
