@@ -12,6 +12,10 @@ layout: default
         {% include google/ad-horizontal.html %}
       </div>
 
+      {% if page.categories contains "Injectors" or page.categories contains "Core" %}
+        {% include mods/library-info.html %}
+      {% endif %}
+
       {% comment %}
         SPLIT LOGIK: Zerlegung an den H2-IDs.
         Ziel: Original-H2 aus dem Content entfernen, damit Titel nicht doppelt erscheinen.
@@ -38,7 +42,7 @@ layout: default
         {% assign compat_body = compat_split[1] %}
       {% endif %}
 
-      <article class="mod-description">
+      <article class="mod-description mod-text">
         {{ before_compat }}
       </article>
 
@@ -49,7 +53,7 @@ layout: default
           </h2>
 
           {% if compat_body != "" %}
-            <div class="custom-compatibility-text mod-description">
+            <div class="custom-compatibility-text mod-text" style="margin-bottom: 15px;">
               {{ compat_body }}
             </div>
           {% endif %}
@@ -66,16 +70,16 @@ layout: default
         </h2>
 
         {% if lang_body_clean != "" %}
-          <p class="mod-description" style="margin-top: 10px;">
+          <p class="mod-text" style="margin-top: 10px; margin-bottom: 15px;">
             The following translations are included in this mod:
           </p>
 
-          <div class="custom-translation-text mod-description">
+          <div class="custom-translation-text mod-text" style="margin-bottom: 15px;">
             {{ lang_body }}
           </div>
         {% endif %}
 
-        <div class="translation-template-content mod-description">
+        <div class="translation-template-content mod-text">
           {% if page.disable_translations == true or page.strings == false %}
             {% include translation/no_strings.md %}
           {% elsif page.files contains "bat" %}
@@ -92,10 +96,10 @@ layout: default
         <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
           Installation Guide
         </h2>
-        <p class="mod-description" style="margin-top: 12px; font-weight: 600;">
+        <p class="mod-text" style="margin-top: 12px; margin-bottom: 15px; font-weight: 600;">
           Please note the following information:
         </p>
-        <div class="mod-description">
+        <div class="mod-text">
           {% if page.files contains "bat" %}
             {% include installation/bat_script.html %}
           {% elsif page.files contains "ts4script" %}
@@ -115,7 +119,7 @@ layout: default
       {% if content contains 'id="frequently-asked-questions"' %}
         <section class="mod-faq-container" style="margin-top: 50px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
           <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
-          <div class="faq-content mod-description">
+          <div class="faq-content mod-text">
             {{ content_parts[1] }}
           </div>
         </section>
@@ -142,9 +146,12 @@ layout: default
 </div>
 
 <style>
-  .mod-description {
+  .mod-text {
     font-size: 1.1rem;
     line-height: 1.7;
+  }
+
+  .mod-description {
     margin-bottom: 15px;
   }
 

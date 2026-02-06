@@ -15,9 +15,7 @@ This download consists of a standalone script library. The included package file
 ### Why is this required?
 If you’re viewing this page, chances are you’re installing one of my gameplay mods. Those mods depend on Smart Core Script to handle advanced features that the base game cannot provide on its own. Without this library installed, those mods will simply not function.
 
-> **Important:** You only need to install this library if a mod’s requirements specifically state that it is required! If you don’t use any of my core-dependent mods, you don’t need this file in your folder.
-
-## Key Features
+### Key Features
 * **Engine Extensions:** Adds vital script injections and logic that are missing from the original game engine, enabling complex mod features.
 * **Version Validation:** Automatically checks if the script is outdated and notifies you to ensure your game stays stable after patches.
 * **Optimized Performance:** Built for efficiency with minimal impact on game loading times and frame rates.
@@ -25,7 +23,7 @@ If you’re viewing this page, chances are you’re installing one of my gamepla
 * **Centralized Logging:** Provides a unified error reporting system, making it easier to diagnose and fix conflicts.
 
 ## Language & Translations
-* **English**, **German**, **Spanisch**, and **Russian** by me
-* **Brazilian Portuguese** by Nymphieta
-* **Italian** by vale93_games
-* **Chinese** and **Simplified Chinese** by Orchard Team
+* **English**, **German**, **Spanisch**, and **Russian** – by me
+* **Brazilian Portuguese** – by Nymphieta
+* **Italian** – by vale93_games
+* **Chinese** and **Simplified Chinese** – by Orchard Team
