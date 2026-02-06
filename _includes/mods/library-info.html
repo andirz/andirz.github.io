@@ -1,24 +1,42 @@
+{% comment %}
+Usage:
+- {% include mods/library-info.html type="ts4script" %}
+- {% include mods/library-info.html type="package" %}
+Defaults:
+- type defaults to "package"
+{% endcomment %}
+
+{% assign t = include.type | default: "package" %}
+
+{% assign title = "Core Library Package" %}
+{% assign icon = "fa-cubes" %}
+{% assign text = "You only need to install this library if another mod explicitly requires it. If you don’t use any of my core-dependent mods, you don’t need this file in your Mods folder." %}
+
+{% if t == "ts4script" %}
+  {% assign title = "Core Library Script" %}
+  {% assign icon = "fa-code" %}
+  {% assign text = "You only need to install this script library if another mod explicitly requires it. If you don’t use any of my mods that depend on this script, you don’t need this file in your Mods folder." %}
+{% endif %}
+
 <div class="install-box install-library-info"
      style="
-       background: var(--bg-secondary, #f9fafb);
-       border: 1px solid var(--border-color, #e5e7eb);
-       border-left: 4px solid #3b82f6;
-       padding: 18px;
-       border-radius: 8px;
-       margin-top: 10px;
+       background: rgba(59,130,246,0.08);
+       border: 1px solid rgba(59,130,246,0.25);
+       border-left: 4px solid #60a5fa;
+       padding: 16px 18px;
+       border-radius: 10px;
+       margin: 10px 0 14px 0;
      ">
 
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-    <i class="fas fa-cubes" style="color:#3b82f6;font-size:1.2rem;"></i>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+    <i class="fas {{ icon }}" style="color:#60a5fa;font-size:1.15rem;"></i>
     <strong style="font-size:1.05rem;">
-      Core / Library File
+      {{ title }}
     </strong>
   </div>
 
-  <p class="mod-description" style="margin:0;">
-    <strong>You only need to install this library if another mod explicitly requires it.</strong><br>
-    If you are not using any of my mods that depend on this core/library,
-    you do <strong>not</strong> need to keep this file in your Mods folder.
+  <p class="mod-text" style="margin:0;">
+    {{ text }}
   </p>
 
 </div>

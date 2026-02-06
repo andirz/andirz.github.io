@@ -13,7 +13,11 @@ layout: default
       </div>
 
       {% if page.categories contains "Injectors" or page.categories contains "Core" %}
-        {% include mods/library-info.html %}
+        {% if page.files contains "ts4script" %}
+          {% include mods/library-info.html type="ts4script" %}
+        {% else %}
+          {% include mods/library-info.html type="package" %}
+        {% endif %}
       {% endif %}
 
       {% comment %}
