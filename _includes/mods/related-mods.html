@@ -1,19 +1,48 @@
-{% assign current_id = page.mod_id %}
-{% assign current_cats = page.categories %}
-{% assign max_items = 3 %}
-{% assign gallery_count = 0 %}
+{%- comment -%}
+related-mods.html
+- Shows up to max_items mods "related" by category (priority order = current mod categories order)
+- Category source priority mirrors your categories.html style:
+  Page categories -> Data categories fallback
+{%- endcomment -%}
 
-{% comment %}
-Track IDs as a comma-wrapped string for safe exclusion (includes current mod).
-Comma-guard prevents partial substring matches.
-{% endcomment %}
-{% assign shown_ids = "," | append: current_id | append: "," %}
+{%- assign max_items = 3 -%}
+{%- assign gallery_count = 0 -%}
+
+{%- assign current_id = page.mod_id -%}
+{%- assign current_page = site.mods | where: "mod_id", current_id | first -%}
+{%- assign current_cats = page.categories | default: current_page.categories -%}
+
+{%- if current_cats == nil or current_cats == "" -%}
+  {%- assign current_data = site.data.mods | where: "id", current_id | first -%}
+  {%- assign current_cats = current_data.categories -%}
+{%- endif -%}
+
+{%- if current_cats == nil -%}
+  {%- assign current_cats = "" | split: "|" -%}
+{%- endif -%}
+
+{%- comment -%}
+Normalize categories to an array of trimmed strings (handles accidental string values)
+{%- endcomment -%}
+{%- if current_cats and current_cats.first == nil and current_cats != "" -%}
+  {%- assign current_cats = current_cats | split: "|" -%}
+{%- endif -%}
+
+{%- assign normalized_cats = "" | split: "|" -%}
+{%- for c in current_cats -%}
+  {%- assign c_clean = c | strip -%}
+  {%- if c_clean != "" -%}
+    {%- assign normalized_cats = normalized_cats | push: c_clean -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign shown_ids = "," | append: current_id | append: "," -%}
 
 <section id="recommended-mods" class="related-mods">
   <div class="related-mods-head">
     <div class="related-mods-titlewrap">
       <h2 class="related-mods-title">
-        More from {{ current_cats | first | default: "this category" }}
+        More from {{ normalized_cats | first | default: "this category" }}
       </h2>
       <p class="related-mods-sub">Recommended based on your interests:</p>
     </div>
@@ -25,61 +54,70 @@ Comma-guard prevents partial substring matches.
   </div>
 
   <div class="related-mods-grid">
-    {% assign all_mods = site.data.mods %}
 
-    {% comment %}
-    STAGE A (weighted): iterate categories in order.
-    Next category is used ONLY if previous couldn't fill to 3.
-    {% endcomment %}
+    {%- assign all_mods = site.data.mods -%}
 
-    {% for cat in current_cats %}
-      {% if gallery_count < max_items %}
-        {% assign target_cat = cat | strip %}
+    {%- comment -%}
+    STAGE A (weighted): iterate current categories in order. Next category only if not filled.
+    Matching logic: (page categories -> data categories fallback) contains target_cat
+    {%- endcomment -%}
 
-        {% for g_mod in all_mods %}
-          {% if gallery_count < max_items %}
-            {% assign check_id = "," | append: g_mod.id | append: "," %}
+    {%- for cat in normalized_cats -%}
+      {%- if gallery_count < max_items -%}
+        {%- assign target_cat = cat | strip -%}
 
-            {% unless shown_ids contains check_id %}
-              {% assign cat_match = false %}
+        {%- for g_mod in all_mods -%}
+          {%- if gallery_count < max_items -%}
+            {%- assign check_id = "," | append: g_mod.id | append: "," -%}
+            {%- unless shown_ids contains check_id -%}
 
-              {% if g_mod.categories and g_mod.categories.size > 0 %}
-                {% for mcat in g_mod.categories %}
-                  {% if mcat == target_cat %}
-                    {% assign cat_match = true %}
-                  {% endif %}
-                {% endfor %}
-              {% endif %}
+              {%- assign g_page = site.mods | where: "mod_id", g_mod.id | first -%}
+              {%- assign g_cats = g_page.categories | default: g_mod.categories -%}
 
-              {% if cat_match %}
-                {% assign gallery_count = gallery_count | plus: 1 %}
-                {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
-                {% include home/gallery-card-item.html mod_data=g_mod %}
-              {% endif %}
-            {% endunless %}
-          {% endif %}
-        {% endfor %}
+              {%- if g_cats == nil -%}
+                {%- assign g_cats = "" | split: "|" -%}
+              {%- endif -%}
 
-      {% endif %}
-    {% endfor %}
+              {%- if g_cats and g_cats.first == nil and g_cats != "" -%}
+                {%- assign g_cats = g_cats | split: "|" -%}
+              {%- endif -%}
 
-    {% comment %}
-    STAGE B (fallback): if still not enough, fill with any other mods.
-    {% endcomment %}
+              {%- assign cat_match = false -%}
+              {%- for mcat in g_cats -%}
+                {%- if mcat | strip == target_cat -%}
+                  {%- assign cat_match = true -%}
+                {%- endif -%}
+              {%- endfor -%}
 
-    {% if gallery_count < max_items %}
-      {% for g_mod in all_mods %}
-        {% if gallery_count < max_items %}
-          {% assign check_id = "," | append: g_mod.id | append: "," %}
+              {%- if cat_match -%}
+                {%- assign gallery_count = gallery_count | plus: 1 -%}
+                {%- assign shown_ids = shown_ids | append: g_mod.id | append: "," -%}
+                {%- include home/gallery-card-item.html mod_data=g_mod -%}
+              {%- endif -%}
 
-          {% unless shown_ids contains check_id %}
-            {% assign gallery_count = gallery_count | plus: 1 %}
-            {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
-            {% include home/gallery-card-item.html mod_data=g_mod %}
-          {% endunless %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- comment -%}
+    STAGE B (fallback): if still not enough, fill with any other mods (excluding already shown).
+    {%- endcomment -%}
+
+    {%- if gallery_count < max_items -%}
+      {%- for g_mod in all_mods -%}
+        {%- if gallery_count < max_items -%}
+          {%- assign check_id = "," | append: g_mod.id | append: "," -%}
+          {%- unless shown_ids contains check_id -%}
+            {%- assign gallery_count = gallery_count | plus: 1 -%}
+            {%- assign shown_ids = shown_ids | append: g_mod.id | append: "," -%}
+            {%- include home/gallery-card-item.html mod_data=g_mod -%}
+          {%- endunless -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
 
   </div>
 </section>
