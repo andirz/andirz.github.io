@@ -60,13 +60,13 @@
     {% endfor %}
   </div>
 
-  <div style="display:flex; align-items:flex-start; gap:22px; flex-wrap:wrap;">
+  <div style="display:flex; align-items:center; gap:22px; flex-wrap:wrap;">
 
     {% assign first_file = page.files | first %}
 
     <!-- FILE TYPE -->
-    <div style="display:flex; align-items:flex-start; gap:14px;">
-      <div style="color:#cbd5e1; font-size:1.3rem; width:22px; text-align:center; margin-top:6px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div style="color:#cbd5e1; font-size:1.15rem; width:22px; height:32px; display:flex; align-items:center; justify-content:center; text-align:center;">
         {% if first_file == "ts4script" %}
           <i class="fas fa-file-code"></i>
         {% elsif first_file == "bat" %}
@@ -86,21 +86,25 @@
     </div>
 
     <!-- VERSION -->
-    <div style="display:flex; align-items:flex-start; gap:14px; padding-left:22px; border-left:1px solid #f1f5f9;">
-      <i class="fas fa-code-branch" style="color:#cbd5e1; font-size:1.1rem; margin-top:6px;"></i>
+    <div style="display:flex; align-items:center; gap:14px; padding-left:22px; border-left:1px solid #f1f5f9;">
+      <div style="color:#cbd5e1; font-size:1.05rem; width:22px; height:32px; display:flex; align-items:center; justify-content:center;">
+        <i class="fas fa-code-branch"></i>
+      </div>
       <div style="display:flex; flex-direction:column; line-height:1.25;">
         <span style="text-transform:uppercase; font-size:.65rem; color:#94a3b8; font-weight:700;">
           Version
         </span>
         <span style="font-weight:600; color:#334155; font-size:1.05rem;">
-          v{{ current_version }}
+          v. {{ current_version }}
         </span>
       </div>
     </div>
 
     <!-- LAST UPDATE -->
-    <div style="display:flex; align-items:flex-start; gap:14px; padding-left:22px; border-left:1px solid #f1f5f9;">
-      <i class="fas fa-calendar-alt" style="color:#cbd5e1; font-size:1.1rem; margin-top:6px;"></i>
+    <div style="display:flex; align-items:center; gap:14px; padding-left:22px; border-left:1px solid #f1f5f9;">
+      <div style="color:#cbd5e1; font-size:1.05rem; width:22px; height:32px; display:flex; align-items:center; justify-content:center;">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
       <div style="display:flex; flex-direction:column; line-height:1.25;">
         <span style="text-transform:uppercase; font-size:.65rem; color:#94a3b8; font-weight:700;">
           Last Update
@@ -126,7 +130,7 @@
     {% endfor %}
 
     {% if required_pack_codes.size > 0 %}
-      <div style="display:flex; align-items:flex-start; gap:10px; padding-left:22px; border-left:1px solid #f1f5f9; margin-top:2px;">
+      <div style="display:flex; align-items:center; gap:10px; padding-left:22px; border-left:1px solid #f1f5f9;">
         {% for pack_code in required_pack_codes %}
           {% assign pack_data = site.data.packs[pack_code] %}
           {% assign pack_name = pack_data.en | default: pack_code %}
