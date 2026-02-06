@@ -16,7 +16,7 @@
         {% assign mod_page = site.mods | where: "mod_id", mod_id_clean | first %}
 
         {% if mod_page and g_mod %}
-          {% include gallery-card-item.html mod_data=g_mod %}
+          {% include home/gallery-card-item.html mod_data=g_mod %}
         {% endif %}
       {% endfor %}
     </div>

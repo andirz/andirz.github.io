@@ -4,15 +4,17 @@
 {% assign gallery_count = 0 %}
 
 {% comment %}
-Tracke IDs als String für sicheren Ausschluss (inkl. aktuelle Mod)
-Komma-Guard verhindert Teilstring-Treffer.
+Track IDs as a comma-wrapped string for safe exclusion (includes current mod).
+Comma-guard prevents partial substring matches.
 {% endcomment %}
 {% assign shown_ids = "," | append: current_id | append: "," %}
 
 <section id="recommended-mods" class="related-mods">
   <div class="related-mods-head">
     <div class="related-mods-titlewrap">
-      <h2 class="related-mods-title">More from {{ current_cats | first }}</h2>
+      <h2 class="related-mods-title">
+        More from {{ current_cats | first | default: "this category" }}
+      </h2>
       <p class="related-mods-sub">Recommended based on your interests:</p>
     </div>
 
@@ -23,12 +25,11 @@ Komma-Guard verhindert Teilstring-Treffer.
   </div>
 
   <div class="related-mods-grid">
-
     {% assign all_mods = site.data.mods %}
 
     {% comment %}
-    STUFE A (Gewichtung): Kategorien in Reihenfolge abarbeiten.
-    Nächste Kategorie wird NUR benutzt, wenn es mit der vorherigen nicht für 3 reicht.
+    STAGE A (weighted): iterate categories in order.
+    Next category is used ONLY if previous couldn't fill to 3.
     {% endcomment %}
 
     {% for cat in current_cats %}
@@ -41,6 +42,7 @@ Komma-Guard verhindert Teilstring-Treffer.
 
             {% unless shown_ids contains check_id %}
               {% assign cat_match = false %}
+
               {% if g_mod.categories and g_mod.categories.size > 0 %}
                 {% for mcat in g_mod.categories %}
                   {% if mcat == target_cat %}
@@ -52,7 +54,7 @@ Komma-Guard verhindert Teilstring-Treffer.
               {% if cat_match %}
                 {% assign gallery_count = gallery_count | plus: 1 %}
                 {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
-                {% include gallery-card-item.html mod_data=g_mod %}
+                {% include home/gallery-card-item.html mod_data=g_mod %}
               {% endif %}
             {% endunless %}
           {% endif %}
@@ -62,7 +64,7 @@ Komma-Guard verhindert Teilstring-Treffer.
     {% endfor %}
 
     {% comment %}
-    STUFE B (Fallback): Wenn trotz Gewichtung nicht genug gefunden wurde, auffüllen mit beliebigen Mods.
+    STAGE B (fallback): if still not enough, fill with any other mods.
     {% endcomment %}
 
     {% if gallery_count < max_items %}
@@ -73,7 +75,7 @@ Komma-Guard verhindert Teilstring-Treffer.
           {% unless shown_ids contains check_id %}
             {% assign gallery_count = gallery_count | plus: 1 %}
             {% assign shown_ids = shown_ids | append: g_mod.id | append: "," %}
-            {% include gallery-card-item.html mod_data=g_mod %}
+            {% include home/gallery-card-item.html mod_data=g_mod %}
           {% endunless %}
         {% endif %}
       {% endfor %}
@@ -147,7 +149,7 @@ Komma-Guard verhindert Teilstring-Treffer.
   }
 
   .related-mods-grid{
-    display:grid;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 18px;
   }
