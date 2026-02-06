@@ -4,31 +4,34 @@
   Builds a TOC-like list from any Jekyll collection and places it top-right (sticky).
 
   Parameters:
-  - collection: required (e.g. "support", "wiki", "tutorials")
-  - title:      optional (default: "On this page")
-  - sort:       optional (default: "title")
-  - order:      optional "asc" | "desc" (default: "asc")
-  - where_key:  optional (e.g. "toc")
-  - where_val:  optional (e.g. true)
-  - limit:      optional number
-  - show_desc:  optional true|false (default: false)
-  - max_desc:   optional (default: 90)
-  - width:      optional (default: "min(320px, 36%)") e.g. "280px" or "30%" or "min(300px, 32%)"
-  - class:      optional extra class on wrapper
+  - collection:  required (e.g. "support", "wiki", "tutorials")
+  - title:       optional (default: "On this page")
+  - sort:        optional (default: "order")
+  - order:       optional "asc" | "desc" (default: "asc")
+  - where_key:   optional (e.g. "toc")
+  - where_val:   optional (e.g. true)
+  - limit:       optional number
+  - show_desc:   optional true|false (default: false)
+  - show_icons:  optional true|false (default: true)
+  - max_desc:    optional (default: 90)
+  - width:       optional (default: "min(320px, 36%)")
 
   Notes:
   - Current page is INCLUDED but rendered as dark, non-linked text.
-  - Icons are taken from each page frontmatter "icon", with a fallback.
 {% endcomment %}
 
 {% assign _col = include.collection | to_s %}
 {% assign _title = include.title | default: "On this page" %}
-{% assign _sort = include.sort | default: "title" %}
+{% assign _sort = include.sort | default: "order" %}
 {% assign _order = include.order | default: "asc" %}
+
 {% assign _show_desc = include.show_desc %}
 {% if _show_desc == nil %}{% assign _show_desc = false %}{% endif %}
+
+{% assign _show_icons = include.show_icons %}
+{% if _show_icons == nil %}{% assign _show_icons = true %}{% endif %}
+
 {% assign _max_desc = include.max_desc | default: 90 %}
-{% assign _class = include.class | default: "" %}
 {% assign _width = include.width | default: "min(320px, 36%)" %}
 
 {% assign _items = site[_col] %}
@@ -37,7 +40,7 @@
   <!-- collection-toc: Collection '{{ _col }}' not found -->
 {% else %}
 
-  {% if include.where_key and include.where_val %}
+  {% if include.where_key %}
     {% assign _items = _items | where: include.where_key, include.where_val %}
   {% endif %}
 
@@ -53,12 +56,12 @@
     {% assign _items = _items | slice: 0, include.limit %}
   {% endif %}
 
-  <aside class="collection-toc {{ _class | escape }}" style="width: {{ _width }};">
+  <aside class="collection-toc" style="width: {{ _width }};">
     <div class="collection-toc__head">
       <span class="collection-toc__title">{{ _title }}</span>
     </div>
 
-    <ul class="collection-toc__list">
+    <ul class="collection-toc__list {% if _show_icons == false %}no-icons{% endif %}">
       {% for p in _items %}
         {% assign is_current = p.url == page.url %}
         {% assign icon = p.icon | default: "fas fa-file-alt" %}
@@ -66,12 +69,16 @@
         <li class="collection-toc__item {% if is_current %}is-current{% endif %}">
           {% if is_current %}
             <span class="collection-toc__current">
-              <i class="{{ icon }}" aria-hidden="true"></i>
+              {% if _show_icons %}
+                <i class="{{ icon }}" aria-hidden="true"></i>
+              {% endif %}
               <span class="collection-toc__text">{{ p.toc_title | default: p.title }}</span>
             </span>
           {% else %}
             <a class="collection-toc__link" href="{{ p.url | relative_url }}">
-              <i class="{{ icon }}" aria-hidden="true"></i>
+              {% if _show_icons %}
+                <i class="{{ icon }}" aria-hidden="true"></i>
+              {% endif %}
               <span class="collection-toc__text">{{ p.toc_title | default: p.title }}</span>
             </a>
           {% endif %}
@@ -92,14 +99,11 @@
   </aside>
 
   <style>
-    /* Collection TOC (top-right, list style) */
     .collection-toc{
       float: right;
       margin: 0 0 1rem 1.25rem;
-
       position: sticky;
       top: 1rem;
-
       padding: 0.85rem 0.9rem;
       border: 1px solid rgba(0,0,0,0.12);
       border-radius: 14px;
@@ -110,7 +114,6 @@
     .collection-toc__head{
       display:flex;
       align-items:center;
-      justify-content:space-between;
       margin-bottom: 0.65rem;
       padding-bottom: 0.55rem;
       border-bottom: 1px solid rgba(0,0,0,0.08);
@@ -129,17 +132,19 @@
       gap: 0.35rem;
     }
 
-    .collection-toc__item{
-      margin: 0;
-      padding: 0;
-    }
-
     .collection-toc__link,
     .collection-toc__current{
       display: flex;
       align-items: center;
       gap: 0.55rem;
       line-height: 1.25;
+    }
+
+    .collection-toc__list.no-icons
+    .collection-toc__link,
+    .collection-toc__list.no-icons
+    .collection-toc__current{
+      gap: 0;
     }
 
     .collection-toc__link{
@@ -153,18 +158,16 @@
       text-align: center;
     }
 
-    .collection-toc__text{
-      display: inline-block;
-    }
-
     .collection-toc__desc{
-      margin-top: 0.15rem;
       margin-left: calc(1.1rem + 0.55rem);
       font-size: 0.88rem;
       opacity: 0.75;
     }
 
-    /* Current page: dark + not linked */
+    .collection-toc__list.no-icons .collection-toc__desc{
+      margin-left: 0;
+    }
+
     .collection-toc__current{
       color: rgba(0,0,0,0.45);
       cursor: default;
@@ -175,15 +178,6 @@
       opacity: 0.8;
     }
 
-    .collection-toc__item.is-current i{
-      opacity: 0.4;
-    }
-
-    .collection-toc__link:hover i{
-      opacity: 1;
-    }
-
-    /* Mobile: no floating/sticky sidebar */
     @media (max-width: 980px){
       .collection-toc{
         float: none;
@@ -193,13 +187,6 @@
         top: auto;
       }
     }
-
-    /* Optional ultra-compact on very small screens */
-    /*
-    @media (max-width: 420px){
-      .collection-toc__text{ display:none; }
-    }
-    */
   </style>
 
 {% endif %}

@@ -4,6 +4,13 @@ title: "How to Install Mods in Sims 4?"
 order: 1
 ---
 
+{% include collection-toc.html
+   collection="support"
+   title="Support"
+   width="min(300px, 32%)"
+%}
+
+
 This guide will walk you through the process of installing mods for The Sims 4. Please read the instructions carefully to ensure a smooth modding experience.
 
 ## 1. Enable Mods in The Sims 4 Settings
