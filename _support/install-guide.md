@@ -8,19 +8,9 @@ This guide will walk you through the process of installing mods for The Sims 4. 
 
 ## 1. Enable Mods in The Sims 4 Settings
 
-Before you can use any custom content or mods, you need to enable them within the game itself. By default, these options are turned off.
+To use mods in The Sims 4, you first need to enable mod support within the game. To enable mods in The Sims 4, launch the game and go to the "Options" menu. Under "Game Options" and then "Other", check the boxes for *"Enable Custom Content and Mods"* and, if needed, *"Script Mods Allowed".* Apply the changes and restart the game. Your mods should now be active and available in the game.
 
-1.  **Launch The Sims 4** on your computer.
-2.  Once in the game, open the **Options Menu**. You can usually find this by clicking the "..." icon in the top right corner.
-3.  Navigate to **Game Options** in the menu.
-4.  Click on the **"Other"** tab on the left side.
-5.  You will see two important checkboxes:
-    * **"Enable Custom Content and Mods"**: This must be checked to allow `.package` files (like custom clothing, hair, objects) to appear in your game.
-    * **"Script Mods Allowed"**: This must be checked for any `.ts4script` files (which are more complex mods that add new gameplay mechanics or alter existing ones) to function.
-6.  Click **"Apply Changes"** at the bottom right.
-7.  **Restart The Sims 4** completely for these settings to take effect. If you don't restart, the mods will not load.
-
-> **Important Note:** After every major game update or patch, The Sims 4 tends to disable these settings automatically for safety reasons. Always check these options after updating your game to ensure your mods are still enabled.
+![](/assents/img/tutorials/supportimg01.png)
 
 ## 2. Find and Download Your Desired Mods
 
