@@ -16,14 +16,9 @@ In the vanilla game, only Sims with the **Chronicler (Professorial)** trait can 
 
 ## How it works?
 
-This mod does **not** overwrite any EA interactions.
+This mod does **not** overwrite any EA interactions. Instead, it uses an activation system:
 
-Instead, it uses an activation system:
-
-- Sims with at least  
-  - **Writing Skill level 5**  
-  - **Logic Skill level 2**  
-  can unlock the **Skill Book Writing** interactions.
+- Sims with at least **Writing Skill level 5** and **Logic Skill level 2** can unlock the **Skill Book Writing** interactions.
 - When activated, the Sim is temporarily granted the **Chronicler** trait.
 - This unlocks all skill book writing options without modifying or replacing EA tunings.
 
@@ -35,8 +30,7 @@ This approach keeps the mod lightweight, compatible, and future-proof.
 
 ## Design Philosophy
 
-This mod is **not** an adoption or modification of similar mods.  
-It was built from scratch with the clear goal of **not overwriting** existing game resources — a core principle of my modding approach.
+This mod is **not** an adoption or modification of similar mods. It was built from scratch with the clear goal of **not overwriting** existing game resources — a core principle of my modding approach.
 
 ## Language & Translations
 

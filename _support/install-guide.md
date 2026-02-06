@@ -64,6 +64,6 @@ To ensure a smooth modding experience in The Sims 4, here are some final tips to
 ## 6. Mods Security Risks
 When modding The Sims 4, it's essential to be aware of potential risks. Here's what you need to know:
 
-* **Script Mods (.ts4script files)** are executable programs written in Python. They can enhance your Sims 4 gameplay by adding new features and interactions. However, because they are executable, there is a risk of these files containing viruses or malware if downloaded from untrustworthy sources.
+* Script Mods (`.ts4script` files) are executable programs written in Python. They can enhance your Sims 4 gameplay by adding new features and interactions. However, because they are executable, there is a risk of these files containing viruses or malware if downloaded from untrustworthy sources.
 * To mitigate these risks, always download script mods from **reputable sources**. Check the reputation of the mod author before downloading. Established creators with positive feedback are more likely to provide safe and reliable mods.
-* Unlike .ts4script files, **.package files** do not pose these security risks. They are safe to use and do not execute code, making them a simpler and safer option for customizing your game.
+* Unlike `.ts4script` files, `.package` files do not pose these security risks. They are safe to use and do not execute code, making them a simpler and safer option for customizing your game.
