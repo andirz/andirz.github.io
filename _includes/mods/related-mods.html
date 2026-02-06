@@ -1,207 +1,94 @@
 {%- comment -%}
 related-mods.html
-- Shows up to max_items mods "related" by category (priority order = current mod categories order)
-- Category source priority mirrors your categories.html style:
-  Page categories -> Data categories fallback
+Inline related mods (category style)
+Icons instead of images
+2 rows × 3 items
 {%- endcomment -%}
 
-{%- assign max_items = 3 -%}
-{%- assign gallery_count = 0 -%}
-
+{%- assign max_items = 6 -%}
+{%- assign count = 0 -%}
 {%- assign current_id = page.mod_id -%}
-{%- assign current_page = site.mods | where: "mod_id", current_id | first -%}
-{%- assign current_cats = page.categories | default: current_page.categories -%}
 
-{%- if current_cats == nil or current_cats == "" -%}
+{%- assign current_categories = page.categories -%}
+{%- if current_categories == nil -%}
   {%- assign current_data = site.data.mods | where: "id", current_id | first -%}
-  {%- assign current_cats = current_data.categories -%}
+  {%- assign current_categories = current_data.categories -%}
 {%- endif -%}
 
-{%- if current_cats == nil -%}
-  {%- assign current_cats = "" | split: "|" -%}
+{%- if current_categories == nil -%}
+  {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
-{%- comment -%}
-Normalize categories to an array of trimmed strings (handles accidental string values)
-{%- endcomment -%}
-{%- if current_cats and current_cats.first == nil and current_cats != "" -%}
-  {%- assign current_cats = current_cats | split: "|" -%}
-{%- endif -%}
+<section class="related-mods-inline">
 
-{%- assign normalized_cats = "" | split: "|" -%}
-{%- for c in current_cats -%}
-  {%- assign c_clean = c | strip -%}
-  {%- if c_clean != "" -%}
-    {%- assign normalized_cats = normalized_cats | push: c_clean -%}
-  {%- endif -%}
-{%- endfor -%}
-
-{%- assign shown_ids = "," | append: current_id | append: "," -%}
-
-<section id="recommended-mods" class="related-mods">
-  <div class="related-mods-head">
-    <div class="related-mods-titlewrap">
-      <h2 class="related-mods-title">
-        More from {{ normalized_cats | first | default: "this category" }}
-      </h2>
-      <p class="related-mods-sub">Recommended based on your interests:</p>
-    </div>
-
-    <a class="related-mods-link" href="{{ '/mods/' | relative_url }}">
-      <span>View all Mods</span>
-      <i class="fas fa-arrow-right"></i>
-    </a>
-  </div>
+  <strong>Related Mods:</strong>
 
   <div class="related-mods-grid">
+    {%- for mod in site.data.mods -%}
+      {%- if count < max_items and mod.id != current_id -%}
 
-    {%- assign all_mods = site.data.mods -%}
+        {%- assign mod_page = site.mods | where: "mod_id", mod.id | first -%}
+        {%- assign mod_categories = mod_page.categories | default: mod.categories -%}
 
-    {%- comment -%}
-    STAGE A (weighted): iterate current categories in order. Next category only if not filled.
-    Matching logic: (page categories -> data categories fallback) contains target_cat
-    {%- endcomment -%}
-
-    {%- for cat in normalized_cats -%}
-      {%- if gallery_count < max_items -%}
-        {%- assign target_cat = cat | strip -%}
-
-        {%- for g_mod in all_mods -%}
-          {%- if gallery_count < max_items -%}
-            {%- assign check_id = "," | append: g_mod.id | append: "," -%}
-            {%- unless shown_ids contains check_id -%}
-
-              {%- assign g_page = site.mods | where: "mod_id", g_mod.id | first -%}
-              {%- assign g_cats = g_page.categories | default: g_mod.categories -%}
-
-              {%- if g_cats == nil -%}
-                {%- assign g_cats = "" | split: "|" -%}
-              {%- endif -%}
-
-              {%- if g_cats and g_cats.first == nil and g_cats != "" -%}
-                {%- assign g_cats = g_cats | split: "|" -%}
-              {%- endif -%}
-
-              {%- assign cat_match = false -%}
-              {%- for mcat in g_cats -%}
-                {%- if mcat | strip == target_cat -%}
-                  {%- assign cat_match = true -%}
-                {%- endif -%}
-              {%- endfor -%}
-
-              {%- if cat_match -%}
-                {%- assign gallery_count = gallery_count | plus: 1 -%}
-                {%- assign shown_ids = shown_ids | append: g_mod.id | append: "," -%}
-                {%- include home/gallery-card-item.html mod_data=g_mod -%}
-              {%- endif -%}
-
-            {%- endunless -%}
+        {%- assign match = false -%}
+        {%- for cat in mod_categories -%}
+          {%- if current_categories contains cat -%}
+            {%- assign match = true -%}
           {%- endif -%}
         {%- endfor -%}
 
+        {%- if match and mod_page -%}
+          <a href="{{ mod_page.url | relative_url }}" class="related-mod-badge">
+            <i class="fas fa-puzzle-piece"></i>
+            {{ mod.name }}
+          </a>
+          {%- assign count = count | plus: 1 -%}
+        {%- endif -%}
+
       {%- endif -%}
     {%- endfor -%}
-
-    {%- comment -%}
-    STAGE B (fallback): if still not enough, fill with any other mods (excluding already shown).
-    {%- endcomment -%}
-
-    {%- if gallery_count < max_items -%}
-      {%- for g_mod in all_mods -%}
-        {%- if gallery_count < max_items -%}
-          {%- assign check_id = "," | append: g_mod.id | append: "," -%}
-          {%- unless shown_ids contains check_id -%}
-            {%- assign gallery_count = gallery_count | plus: 1 -%}
-            {%- assign shown_ids = shown_ids | append: g_mod.id | append: "," -%}
-            {%- include home/gallery-card-item.html mod_data=g_mod -%}
-          {%- endunless -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-
   </div>
+
 </section>
 
 <style>
-  .related-mods{
-    margin-top: 26px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(0,0,0,0.06);
-  }
+.related-mods-inline {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
 
-  .related-mods-head{
-    display:flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
+.related-mods-grid {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: 8px 10px;
+  margin-top: 6px;
+}
 
-  .related-mods-titlewrap{
-    display:flex;
-    flex-direction: column;
-    gap: 4px;
-  }
+.related-mod-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  background: rgba(0,0,0,0.05);
+  color: var(--text-color);
+  white-space: nowrap;
+}
 
-  .related-mods-title{
-    margin:0;
-    font-size: 1.25rem;
-    font-weight: 900;
-    color: var(--text-color);
-  }
+.related-mod-badge i {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
 
-  .related-mods-sub{
-    margin:0;
-    font-size: 0.9rem;
-    color: var(--text-color);
-    opacity: 0.65;
-  }
+.related-mod-badge:hover {
+  background: rgba(0,0,0,0.12);
+}
 
-  .related-mods-link{
-    display:flex;
-    align-items:center;
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    text-decoration:none;
-    font-weight: 900;
-    font-size: 0.86rem;
-
-    color: var(--text-color);
-    background: rgba(0,0,0,0.02);
-    border: 1px solid rgba(0,0,0,0.08);
-    transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease, background 140ms ease;
+@media (max-width: 700px) {
+  .related-mods-grid {
+    grid-template-columns: repeat(2, max-content);
   }
-
-  .related-mods-link i{
-    font-size: 0.72rem;
-    opacity: 0.8;
-  }
-
-  .related-mods-link:hover{
-    transform: translateY(-1px);
-    border-color: rgba(0,0,0,0.16);
-    background: rgba(0,0,0,0.03);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
-  }
-
-  .related-mods-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 18px;
-  }
-
-  @media (max-width: 700px){
-    .related-mods{
-      margin-top: 18px;
-      padding-top: 14px;
-    }
-    .related-mods-title{
-      font-size: 1.15rem;
-    }
-    .related-mods-grid{
-      gap: 14px;
-    }
-  }
+}
 </style>
