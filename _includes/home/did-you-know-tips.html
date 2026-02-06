@@ -19,7 +19,7 @@ Did you know – Tips Box
 
 <style>
 .did-you-know-box{
-  margin-top:60px;
+  margin-top:20px;
   padding:35px;
   background:#fff;
   border:3px solid #e2e8f0;
@@ -70,30 +70,40 @@ Did you know – Tips Box
 
 <script>
 const allTips = [
-  {
-    category: "Cheat",
-    text: "Use <b>Shift + Click</b> on a Sim with <b>TestingCheats true</b> to instantly reset them if they get stuck."
-  },
-  {
-    category: "Mod",
-    text: "Keep your Mods folder organized with subfolders (only one level deep for scripts) to make updates easier."
-  },
-  {
-    category: "Cheat",
-    text: "The <b>bb.moveobjects</b> cheat lets you place objects anywhere for more realistic builds."
-  },
-  {
-    category: "Mod",
-    text: "Always delete <b>localthumbcache.package</b> after updating or removing mods to avoid glitches."
-  },
-  {
-    category: "Gameplay",
-    text: "Resize objects with the <b>[</b> and <b>]</b> keys while placing them in Build Mode."
-  },
-  {
-    category: "Technical",
-    text: "If the game feels slow, outdated tuning mods are often the main cause."
-  }
+  { category:"Cheat", text:"Use <b>Shift + Click</b> on a Sim with <b>TestingCheats true</b> to instantly reset them if they get stuck." },
+  { category:"Cheat", text:"The <b>bb.moveobjects</b> cheat allows you to freely place objects anywhere, even overlapping others." },
+  { category:"Cheat", text:"Hold <b>Alt</b> while placing objects to ignore grid snapping in Build Mode." },
+  { category:"Cheat", text:"Use <b>cas.fulleditmode</b> to fully edit Sims in Create-a-Sim, including traits and body shape." },
+  { category:"Cheat", text:"Press <b>Ctrl + Shift + C</b> to open the cheat console at any time." },
+
+  { category:"Gameplay", text:"Resize objects using the <b>[</b> and <b>]</b> keys while placing them in Build Mode." },
+  { category:"Gameplay", text:"Holding <b>0</b> or <b>9</b> lets you raise or lower objects vertically." },
+  { category:"Gameplay", text:"You can press <b>Tab</b> to enter Camera Mode and create cinematic screenshots." },
+  { category:"Gameplay", text:"Sims gain skills faster when inspired, focused, or energized—mood matters!" },
+  { category:"Gameplay", text:"Toddlers learn skills faster when an adult Sim helps them." },
+
+  { category:"Mod", text:"Keep your Mods folder organized with subfolders—scripts should only be one level deep." },
+  { category:"Mod", text:"Always delete <b>localthumbcache.package</b> after updating or removing mods." },
+  { category:"Mod", text:"Avoid mixing mods that change the same systems, like autonomy or interactions." },
+  { category:"Mod", text:"Script mods usually break after patches—cosmetic mods often survive." },
+  { category:"Mod", text:"Too many outdated mods are the #1 cause of strange in-game bugs." },
+
+  { category:"Technical", text:"If your game feels slow, outdated tuning mods are often the main reason." },
+  { category:"Technical", text:"Clear the cache folders when troubleshooting weird UI or interaction issues." },
+  { category:"Technical", text:"Broken mods can silently block interactions without throwing errors." },
+  { category:"Technical", text:"Check <b>lastException.txt</b> files to identify problematic mods." },
+  { category:"Technical", text:"After big patches, always test the game with mods disabled first." },
+
+  { category:"Cheat", text:"Use <b>money 0</b> to start a true rags-to-riches challenge." },
+  { category:"Gameplay", text:"Sims cook faster and better when counters are placed close to the stove." },
+  { category:"Gameplay", text:"Autonomy can be toggled per household in the gameplay settings." },
+  { category:"Mod", text:"Less is more—having fewer, well-maintained mods improves stability." },
+  { category:"Technical", text:"If the UI disappears, a broken UI-mod is almost always the cause." },
+
+  { category:"Cheat", text:"Use <b>stats.set_skill_level</b> to instantly test gameplay features tied to skills." },
+  { category:"Gameplay", text:"Lot traits and challenges dramatically change how Sims behave on a lot." },
+  { category:"Mod", text:"Always read mod descriptions—many issues come from ignored requirements." },
+  { category:"Technical", text:"When debugging, remove mods in batches instead of one by one." }
 ];
 
 function showNewTip(){
