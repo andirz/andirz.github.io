@@ -15,7 +15,7 @@
   - show_desc:   optional true|false (default: false)
   - show_icons:  optional true|false (default: true)
   - max_desc:    optional (default: 90)
-  - width:       optional (default: "min(400px, 32%)")
+  - width:       optional (default: "600px")
 {% endcomment %}
 
 {% assign _col = include.collection | to_s %}
@@ -30,7 +30,7 @@
 {% if _show_icons == nil %}{% assign _show_icons = true %}{% endif %}
 
 {% assign _max_desc = include.max_desc | default: 90 %}
-{% assign _width = include.width | default: "min(400px, 32%)" %}
+{% assign _width = include.width | default: "600px" %}
 
 {% assign _items = site[_col] %}
 
