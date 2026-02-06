@@ -11,13 +11,13 @@ This guide will walk you through the process of installing mods for The Sims 4. 
    title="All Support Tutorials"
 %}
 
-## 1. Enable Mods in The Sims 4 Settings
+## Enable Mods in The Sims 4 Settings
 
 To use mods in The Sims 4, you first need to enable mod support within the game. To enable mods in The Sims 4, launch the game and go to the "Options" menu. Under "Game Options" and then "Other", check the boxes for *"Enable Custom Content and Mods"* and, if needed, *"Script Mods Allowed".* Apply the changes and restart the game. Your mods should now be active and available in the game.
 
 <img src="/assets/img/tutorials/support/img01.png?raw=true" width="750" alt="Enable Mods in The Sims 4 Settings">
 
-## 2. Find and Download Mods
+## Find and Download Mods
 To enhance your The Sims 4 gameplay, it's crucial to download mods from reputable sources. This ensures you're getting high-quality and original content. Here’s how to find and download mods safely:
 
 * Visit trusted platforms like CurseForge or the official blogs and websites of mod creators to ensure you're downloading safe and high-quality mods.
@@ -30,7 +30,7 @@ To enhance your The Sims 4 gameplay, it's crucial to download mods from reputabl
 * Most mods come in a compressed format (like `.zip` or `.rar`). You will need a program like **WinRAR** or **7-Zip** to extract these files.
 * **Extract the contents** of the downloaded archive. Inside, you will typically find `.package` files, `.ts4script` files, or sometimes both.
 
-## 3. Placing Mods in the Correct Folder
+## Placing Mods in the Correct Folder
 
 Once you have extracted your mod files, you need to place them into The Sims 4's designated Mods folder.
 
@@ -40,7 +40,7 @@ The default path for this folder is:
 
 ![Placing Mods in the Correct Folder](/assets/img/tutorials/support/img02.png)
 
-## 4. Understanding Mod Types
+## Understanding Mod Types
 
 Knowing the difference between mod types can help you troubleshoot issues.
 
@@ -52,7 +52,7 @@ Knowing the difference between mod types can help you troubleshoot issues.
     * **Description & Content:** Script Files containing Python code required for mods that change how the game works. They are necessary to inject new menus, custom logic, or complex systems that standard game files cannot handle.
     * **Allowed Folder Depth:** **Max. 1 Level** — These files must be placed either directly in the `Mods` folder or within exactly **one** subfolder.
 
-## 5. Keeping Your Mods and Game Healthy
+## Keeping Your Mods and Game Healthy
 
 To ensure a smooth modding experience in The Sims 4, here are some final tips to keep in mind when installing mods:
 
@@ -60,7 +60,7 @@ To ensure a smooth modding experience in The Sims 4, here are some final tips to
 * **Keep Mods Updated:** Regularly check for updates to ensure compatibility with the latest game patches. Outdated mods can cause bugs or crashes!
 * **Read Instructions:** Carefully read the mod descriptions and any accompanying instructions. Some mods may require additional steps or dependencies.
 
-## 6. Mods Security Risks
+## Mods Security Risks
 When modding The Sims 4, it's essential to be aware of potential risks. Here's what you need to know:
 
 * Script Mods (`.ts4script` files) are executable programs written in Python. They can enhance your Sims 4 gameplay by adding new features and interactions. However, because they are executable, there is a risk of these files containing viruses or malware if downloaded from untrustworthy sources.

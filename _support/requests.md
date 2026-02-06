@@ -6,6 +6,11 @@ order: 7
 
 If you are experiencing issues with any of my mods, I am here to help! To provide you with the fastest and most accurate assistance, please follow these guidelines when submitting a support request.
 
+{% include collection-toc.html
+   collection="support"
+   title="All Support Tutorials"
+%}
+
 ## Before You Submit a Request
 
 Before reaching out, please ensure you have performed the following basic troubleshooting steps:
@@ -27,15 +32,15 @@ The best and fastest way to receive support is through my official **Discord Ser
 
 To help me diagnose the problem, please provide as much information as possible. A good support request includes:
 
-### 1. Clear Description of the Issue
+### Clear Description of the Issue
 What exactly is happening? When does it happen? (e.g., "The game crashes when I click on the SimSim Online Store on the computer").
 
-### 2. Your Environment
+### Your Environment
 * **Game Version:** (e.g., 1.110.xxx)
 * **Mod Version:** (e.g., 1.2.5)
 * **Installed DLCs:** Mention if you are missing any packs required by the mod.
 
-### 3. Log Files (Crucial for Script Mods)
+### Log Files (Crucial for Script Mods)
 If you are reporting a script error or a crash, please attach the following files found in your `The Sims 4` folder:
 * `LastException.txt`
 * `LastUIException.txt`

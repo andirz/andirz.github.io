@@ -4,7 +4,12 @@ title: "How to find broken mods with the 50-50 method?"
 order: 5
 ---
 
-*If your game is glitching, crashing, or showing "Last Exception" errors, the 50/50 method is the fastest way to pinpoint exactly which mod is causing the problem without checking every single file one by one.*
+If your game is glitching, crashing, or showing "Last Exception" errors, the 50/50 method is the fastest way to pinpoint exactly which mod is causing the problem without checking every single file one by one.
+
+{% include collection-toc.html
+   collection="support"
+   title="All Support Tutorials"
+%}
 
 ## Why Use the 50/50 Method?
 When you have hundreds or thousands of mods, testing them individually would take days. The 50/50 method uses a process of elimination to narrow down the culprit in just a few steps.
