@@ -1,15 +1,13 @@
 {% comment %}
   Include: collection-toc.html
 
-  Builds a TOC-like list from any Jekyll collection and places it top-right (sticky).
-
   Parameters:
   - collection:  required (e.g. "support", "wiki", "tutorials")
   - title:       optional (default: "On this page")
   - sort:        optional (default: "order")
   - order:       optional "asc" | "desc" (default: "asc")
   - where_key:   optional (e.g. "toc")
-  - where_val:   optional (e.g. true)
+  - where_val:   optional (e.g. true / false / "install" etc.)
   - limit:       optional number
   - show_desc:   optional true|false (default: false)
   - show_icons:  optional true|false (default: true)
@@ -99,11 +97,14 @@
   </aside>
 
   <style>
+    /* Box oben rechts, NICHT sticky */
     .collection-toc{
       float: right;
       margin: 0 0 1rem 1.25rem;
-      position: sticky;
-      top: 1rem;
+
+      position: relative;     /* wichtig: verhindert seltsame Overlay-Effekte */
+      z-index: 5;             /* Links bleiben klickbar, falls irgendwas drüber liegt */
+
       padding: 0.85rem 0.9rem;
       border: 1px solid rgba(0,0,0,0.12);
       border-radius: 14px;
@@ -140,15 +141,16 @@
       line-height: 1.25;
     }
 
-    .collection-toc__list.no-icons
-    .collection-toc__link,
-    .collection-toc__list.no-icons
-    .collection-toc__current{
-      gap: 0;
-    }
-
+    /* Links explizit klickbar machen */
     .collection-toc__link{
       text-decoration: none;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .collection-toc__list.no-icons .collection-toc__link,
+    .collection-toc__list.no-icons .collection-toc__current{
+      gap: 0;
     }
 
     .collection-toc i{
@@ -156,6 +158,7 @@
       opacity: 0.75;
       width: 1.1rem;
       text-align: center;
+      flex: 0 0 auto;
     }
 
     .collection-toc__desc{
@@ -168,6 +171,7 @@
       margin-left: 0;
     }
 
+    /* Current page: dark + not linked */
     .collection-toc__current{
       color: rgba(0,0,0,0.45);
       cursor: default;
@@ -178,13 +182,12 @@
       opacity: 0.8;
     }
 
+    /* Mobile: kein float */
     @media (max-width: 980px){
       .collection-toc{
         float: none;
         width: 100% !important;
         margin: 0 0 1rem 0;
-        position: relative;
-        top: auto;
       }
     }
   </style>
