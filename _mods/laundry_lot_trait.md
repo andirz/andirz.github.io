@@ -10,33 +10,25 @@ tagline: "Create functional public laundromats or rental businesses by requiring
 
 ## About This Mod
 
-The **Laundromat Service** mod introduces the "Self-Service Paid Laundry" lot trait (found under Lot Challenges), which makes all washing machines and dryers on the lot require a fee to operate.
+The new **Self-Service Paid Laundry** lot challenge makes every washing machine and dryer on the lot require payment! Your Sims won’t be able to use them until they **drop in a coin**. Now, your Sims can actively visit a laundromat and wash their clothes in person! You can find this trait in the **Lot Challenges** menu.
 
-* **Paid Usage:** Sims must pay before they can use the machines, allowing you to create functional laundromats where Sims wash their clothes in person.
-* **Passive Income:** If your Sim owns the lot (Rental, Business, or University lots), they can collect the earnings generated whenever other Sims use the machines.
-* **Versatile Application:** While designed for rentals and businesses, it can be applied to any lot, including public venues like parks or gyms.
+### Monetize Your Lots
+You can enable this lot challenge on rental lots, university housing, or your own business lot. The lot owner can also **collect the earnings**! 💰 Turn your property into a profitable laundromat and generate passive income whenever other Sims use the machines. 
 
-## Gameplay Details
+> **Note:** This feature also works on residential lots, but keep in mind that you will have to pay for using the machines on your own lot, which is essentially paying yourself.
 
-- **Owner Earnings:** Lot owners can actively collect the money accumulated in the machines. 
-- **Residential Use:** You can use it on residential lots, but your own Sims will have to pay as well (essentially paying themselves).
-- **Autonomy:** To prevent Sims from becoming obsessed with laundry, this mod does not add extra autonomy; it is focused on storytelling and economic realism.
+### Compatibility & Testing
+This feature has been tested on rental lots, business lots, and university lots. Theoretically, you can apply it to any lot. It also works on public venues, such as parks or gyms, where Sims are charged for using the machines. However, since these lots do not have an owner, nobody can collect the earnings. 
 
-## Requirements
+I have not yet tested whether this works on **custom venues** created by other modders. If you try it out, feel free to share your experience!
 
-* **Laundry Day Stuff (SP13)** pack is required.
-* **Lot51 Core Library** is strictly required for the payment and ownership logic.
-* **Script Mods** must be enabled in your game settings.
+### Gameplay Focus
+To prevent Sims from becoming obsessed with laundry, this mod **does not increase autonomy**. This is designed primarily for **storytellers** and players who want to add financial realism to the washing and drying process.
 
-## Translations
+## Language & Translations
 
-* **English, German, Spanish, and Russian** – by me.
-* **Brazilian Portuguese** – by Nymphieta.
-* **French** – by Mollory.
-* **Italian** – by vale93_games.
-* **Polish** – by Aarathiel.
-
-## Compatibility
-
-* **No Overrides:** The mod does not overwrite any game resources and is designed for maximum compatibility.
-* **Related Mods:** Complements *Soapy Llama Laundry Service* and *Laundry Interactions*.
+* **English, German, Spanish, and Russian** – by me
+* **Brazilian Portuguese** – by Nymphieta
+* **French** – by Mollory
+* **Italian** – by vale93_games
+* **Polish** – by Aarathiel
