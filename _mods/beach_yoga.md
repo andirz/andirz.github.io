@@ -5,7 +5,7 @@ parent: "Mods"
 icon: "fas fa-spa"
 packs: ["EP07", "GP02"]
 requirements: ["xml_injector"]
-categories: [Gameplay, Activities, Wellness, Skills]
+categories: [Activities, Wellness, Skills]
 tagline: "Find your inner peace on the sand with the ability to practice yoga directly on beach towels."
 ---
 
@@ -18,10 +18,10 @@ This mod was previously part of another project and has been slightly updated an
 
 ## Gameplay Details
 
-- Yoga can be performed **directly on beach towels**
-- Yoga mats can be used **as beach towels**
-- Fully integrated into existing yoga interactions
-- No custom UI and no custom strings
+- Yoga can be performed **directly on beach towels**.
+- Yoga mats can be used **as beach towels**.
+- Fully integrated into existing yoga interactions.
+- No custom UI and no custom strings.
 
 ## Important Notice – Beach Towel Game Bug
 
@@ -31,8 +31,3 @@ To use this mod properly, you **must** install the **Beach Towel Fix** by Biench
 For convenience, the fix is also provided here as a separate download.
 
 Full credit goes to Bienchen for identifying and resolving this issue.
-
-## Compatibility
-
-No compatibility issues are expected.  
-This mod does not override any game resources.
