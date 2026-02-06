@@ -1,5 +1,3 @@
-{% assign discord_url = site.data.globals.discord | default: "" | strip %}
-
 <div class="install-box install-translation-info"
      style="
        background: rgba(59,130,246,0.08);
@@ -14,16 +12,11 @@
      ">
 
   <i class="fas fa-language"
-     style="color:#60a5fa;font-size:1.15rem;margin-top:2px;"></i>
+     style="color:#60a5fa;font-size:1rem;margin-top:2px;"></i>
 
   <p class="mod-text" style="margin:0;">
     This mod is available in multiple languages. Missing translations fall back to English.
-    You can help by adding <strong>new translations</strong> or improving existing ones —
-    {% if discord_url != "" %}
-      <a href="{{ discord_url }}" class="tutorial-link">join my Discord</a>.
-    {% else %}
-      join my Discord.
-    {% endif %}
+    You can help by adding new translations or improving existing ones.
   </p>
 
 </div>
