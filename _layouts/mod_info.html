@@ -50,7 +50,9 @@ layout: default
 
       {% if compat_split.size > 1 %}
         <section class="mod-compatibility-section" style="margin-top: 30px;">
-          <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Compatibility</h2>
+          <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
+            Compatibility
+          </h2>
 
           {% if compat_body != "" %}
             <div class="custom-compatibility-text" style="margin-bottom: 15px; line-height: 1.6; font-size: 1rem;">
@@ -58,14 +60,16 @@ layout: default
             </div>
           {% endif %}
 
-          {% if page.overrides == true %}
+          {% if page.categories contains "Overrides" %}
             {% include mods/overrides.html %}
           {% endif %}
         </section>
       {% endif %}
 
       <section class="mod-translation-section" style="margin-top: 30px;">
-        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Language &amp; Translations</h2>
+        <h2 style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
+          Language &amp; Translations
+        </h2>
 
         {% if lang_body != "" %}
           <div class="custom-translation-text" style="margin-bottom: 15px; line-height: 1.6; font-size: 1rem;">
@@ -87,8 +91,12 @@ layout: default
       </section>
 
       <section class="mod-installation-section" style="margin-top: 40px;">
-        <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Installation Guide</h2>
-        <p style="margin-top: 12px; font-weight: 600; font-size: 1rem; line-height: 1.6;">Please note the following information:</p>
+        <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
+          Installation Guide
+        </h2>
+        <p style="margin-top: 12px; font-weight: 600; font-size: 1rem; line-height: 1.6;">
+          Please note the following information:
+        </p>
         <div style="font-size: 1rem; line-height: 1.6;">
           {% if page.files contains "bat" %}
             {% include installation/bat_script.html %}
