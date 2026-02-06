@@ -32,6 +32,8 @@ The default path for this folder is:
 
 `Documents > Electronic Arts > The Sims 4 > Mods`
 
+![](/assets/img/tutorials/support/img02.png)
+
 ### Important Folder Structure Rules:
 
 * **`.package` files:** These can be placed directly in the `Mods` folder or organized into subfolders. For example, `Mods/MyCustomHair/` or `Mods/Furniture/ModernSet/` is perfectly fine.
