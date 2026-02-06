@@ -10,8 +10,7 @@ This guide will walk you through the process of installing mods for The Sims 4. 
 
 To use mods in The Sims 4, you first need to enable mod support within the game. To enable mods in The Sims 4, launch the game and go to the "Options" menu. Under "Game Options" and then "Other", check the boxes for *"Enable Custom Content and Mods"* and, if needed, *"Script Mods Allowed".* Apply the changes and restart the game. Your mods should now be active and available in the game.
 
-<img src="/assets/img/tutorials/support/img01.png?raw=true" width="400" alt="Enable Mods in The Sims 4 Settings">
-<img src="/assets/img/tutorials/support/img01.png" width="400" alt="Enable Mods in The Sims 4 Settings">
+<img src="/assets/img/tutorials/support/img01.png?raw=true" width="500" alt="Enable Mods in The Sims 4 Settings">
 
 ## 2. Find and Download Mods
 To enhance your The Sims 4 gameplay, it's crucial to download mods from reputable sources. This ensures you're getting high-quality and original content. Here’s how to find and download mods safely:
@@ -34,7 +33,7 @@ The default path for this folder is:
 
 `Documents > Electronic Arts > The Sims 4 > Mods`
 
-![](/assets/img/tutorials/support/img02.png){width=300px}
+<img src="/assets/img/tutorials/support/img02.png?raw=true" width="500" alt="Placing Mods in the Correct Folder">
 
 ## 4. Understanding Mod Types
 
@@ -50,14 +49,13 @@ Knowing the difference between mod types can help you troubleshoot issues.
 
 ## 5. Keeping Your Mods and Game Healthy
 
-## Final Tips for Installing Mods
 To ensure a smooth modding experience in The Sims 4, here are some final tips to keep in mind when installing mods:
 
 * **Backup Your Saves:** Always back up your game saves before adding new mods. This protects your progress in case of mod-related issues.
 * **Keep Mods Updated:** Regularly check for updates to ensure compatibility with the latest game patches. Outdated mods can cause bugs or crashes!
 * **Read Instructions:** Carefully read the mod descriptions and any accompanying instructions. Some mods may require additional steps or dependencies.
 
-# 6. Mods Security Risks
+## 6. Mods Security Risks
 When modding The Sims 4, it's essential to be aware of potential risks. Here's what you need to know:
 
 * **Script Mods (.ts4script files)** are executable programs written in Python. They can enhance your Sims 4 gameplay by adding new features and interactions. However, because they are executable, there is a risk of these files containing viruses or malware if downloaded from untrustworthy sources.
