@@ -69,11 +69,34 @@ layout: default
           Language &amp; Translations
         </h2>
 
-        {% if lang_body_clean != "" %}
-          <p class="mod-text" style="margin-top: 10px; margin-bottom: 15px;">
-            The following translations are included in this mod:
-          </p>
+        {% comment %} Mod-Typ bestimmen (inkl. Sonderfall: Script + Package) {% endcomment %}
+        {% assign has_bat = page.files contains "bat" %}
+        {% assign has_script = page.files contains "ts4script" %}
+        {% assign is_script_only = has_script and page.files.size == 1 %}
+        {% assign is_bat_mod = has_bat %}
 
+        {% comment %}
+          "Package-like" bedeutet: entweder reiner Package-Mod ODER Script+Package.
+          Also alles, was NICHT bat ist und NICHT script-only ist.
+        {% endcomment %}
+        {% assign is_package_like = true %}
+        {% if is_bat_mod or is_script_only %}
+          {% assign is_package_like = false %}
+        {% endif %}
+
+        {% comment %}
+          Hellblauer Info-Badge NUR wenn:
+          - Language-Abschnitt existiert (lang_body_clean != "")
+          - UND package-like (package-only oder script+package)
+        {% endcomment %}
+        {% if lang_body_clean != "" and is_package_like %}
+          {% include translation/translation-info.html %}
+        {% endif %}
+
+        {% comment %}
+          Text aus der Seite nur zeigen, wenn er wirklich existiert.
+        {% endcomment %}
+        {% if lang_body_clean != "" %}
           <div class="custom-translation-text mod-text" style="margin-bottom: 15px;">
             {{ lang_body }}
           </div>
@@ -82,11 +105,12 @@ layout: default
         <div class="translation-template-content mod-text">
           {% if page.disable_translations == true or page.strings == false %}
             {% include translation/no_strings.md %}
-          {% elsif page.files contains "bat" %}
+          {% elsif is_bat_mod %}
             {% include translation/bat_script.md %}
-          {% elsif page.files contains "ts4script" and page.files.size == 1 %}
+          {% elsif is_script_only %}
             {% include translation/python_script.md %}
           {% else %}
+            {% comment %} package-only UND script+package landen beide hier {% endcomment %}
             {% include translation/package.md %}
           {% endif %}
         </div>
