@@ -10,7 +10,7 @@ This guide will walk you through the process of installing mods for The Sims 4. 
 
 To use mods in The Sims 4, you first need to enable mod support within the game. To enable mods in The Sims 4, launch the game and go to the "Options" menu. Under "Game Options" and then "Other", check the boxes for *"Enable Custom Content and Mods"* and, if needed, *"Script Mods Allowed".* Apply the changes and restart the game. Your mods should now be active and available in the game.
 
-![](/assents/img/tutorials/supportimg01.png)
+![](/assets/img/tutorials/support/img01.png)
 
 ## 2. Find and Download Your Desired Mods
 
