@@ -17,11 +17,11 @@ Keep the Christmas spirit alive in your Sims 4 game with this festive collection
 * **Vol 4: Huge Christmas Wall Motifs** – striking, large wall motifs in 12 swatches for maximum holiday spirit.
 * **Exclusive Paintings** – Six exclusive Christmas paintings, each with 13 different frame colors.
 
-## Language & Translations
-
-The mod includes strings for the following languages:
-* **English, German, Russian, Spanish** by me 
-
 ## Credits & Copyright
 
 All motifs used in this collection are taken from **Pixabay.com** under free licenses.
+
+## Language & Translations
+
+The mod includes strings for the following languages:
+* **English, German, Russian, Spanish** by me
