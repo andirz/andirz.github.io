@@ -14,34 +14,27 @@ layout: default
 
       {% comment %}
         SPLIT LOGIK: Zerlegung an den H2-IDs.
-        Reihenfolge: Compatibility -> Language -> FAQ
+        Ziel: Original-H2 aus dem Content entfernen, damit Titel nicht doppelt erscheinen.
+        Reihenfolge: Language -> Compatibility -> FAQ
       {% endcomment %}
 
       {% assign content_parts = content | split: '<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>' %}
       {% assign main_content = content_parts[0] %}
 
-      {% assign compat_split = main_content | split: '<h2 id="compatibility">Compatibility</h2>' %}
-      {% assign before_compat = compat_split[0] %}
-      {% assign after_compat = "" %}
-      {% if compat_split.size > 1 %}
-        {% assign after_compat = compat_split[1] %}
-      {% endif %}
-
-      {% assign lang_source = main_content %}
-      {% if compat_split.size > 1 %}
-        {% assign lang_source = after_compat %}
-      {% endif %}
-
-      {% assign lang_split = lang_source | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
-      {% assign before_lang = lang_split[0] %}
+      {%- comment -%} 1) Language global rauslösen (damit H2 nicht doppelt erscheint) {%- endcomment -%}
+      {% assign lang_global_split = main_content | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
+      {% assign main_wo_language = lang_global_split[0] %}
       {% assign lang_body = "" %}
-      {% if lang_split.size > 1 %}
-        {% assign lang_body = lang_split[1] %}
+      {% if lang_global_split.size > 1 %}
+        {% assign lang_body = lang_global_split[1] %}
       {% endif %}
 
+      {%- comment -%} 2) Compatibility aus dem Rest rauslösen (optional) {%- endcomment -%}
+      {% assign compat_split = main_wo_language | split: '<h2 id="compatibility">Compatibility</h2>' %}
+      {% assign before_compat = compat_split[0] %}
       {% assign compat_body = "" %}
       {% if compat_split.size > 1 %}
-        {% assign compat_body = before_lang %}
+        {% assign compat_body = compat_split[1] %}
       {% endif %}
 
       <article class="mod-description">
@@ -72,7 +65,8 @@ layout: default
         </h2>
 
         {% comment %}
-          Hinweistext nur anzeigen, wenn tatsächlich Übersetzungen / Inhalte existieren
+          Satz nur anzeigen, wenn wirklich irgendwas im Artikel-Block vorhanden ist
+          oder wenn die Standard-Templates aktiv sind (disable_translations nicht true).
         {% endcomment %}
         {% if lang_body != "" or page.disable_translations != true %}
           <p class="mod-description" style="margin-top: 10px;">
@@ -159,6 +153,7 @@ layout: default
     margin-bottom: 15px;
   }
 
+  /* Versteckt Überschriften innerhalb der geladenen Markdown-Templates */
   .translation-template-content h2,
   .translation-template-content h3 {
     display: none !important;
