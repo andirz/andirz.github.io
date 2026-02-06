@@ -40,7 +40,7 @@ The default path for this folder is:
 
 `Documents > Electronic Arts > The Sims 4 > Mods`
 
-<img src="/assets/img/tutorials/support/img02.png?raw=true" alt="Placing Mods in the Correct Folder">
+![Placing Mods in the Correct Folder](/assets/img/tutorials/support/img02.png)
 
 ## 4. Understanding Mod Types
 

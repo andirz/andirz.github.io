@@ -121,7 +121,7 @@ sitemap: false
     <p>The following information is provided in accordance with § 5 TMG.</p>
 
     <div class="contact-card">
-      <strong>Website Provider</strong>
+      <strong>Website Provider</strong><br/>
       <span class="crypt">zaaR<span class="noise">_legal_</span> saerdnA</span><br>
       <span class="crypt">071<span class="noise">777</span> eellA reualznerP</span><br>
       <span class="crypt">nilreB 90401</span><br>
@@ -169,7 +169,7 @@ sitemap: false
     <p>Angaben gemäß § 5 TMG.</p>
 
     <div class="contact-card">
-      <strong>Dienstanbieter</strong>
+      <strong>Dienstanbieter</strong><br/>
       <span class="crypt">zaaR saerdnA</span><br>
       <span class="crypt">071 eellA reualznerP</span><br>
       <span class="crypt">nilreB 90401</span><br>
