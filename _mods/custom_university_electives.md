@@ -9,9 +9,7 @@ tagline: "Bridge the gap between academics and passion with over 35 new elective
 
 ## About This Mod
 
-I believe different mods shouldn't stay isolated but should be integrated into the common gameplay. This mod adds various new elective courses to both universities, including forgotten EA skills and custom skills from popular community mods.
-
-**Custom University Electives** is fully compatible with Zer0's *University Custom Degrees* mod. Each course concludes with either a final exam or a written assignment; no presentations are included.
+I believe different mods shouldn't stay isolated but should be integrated into the common gameplay. This mod adds various new elective courses to both universities, including forgotten EA skills and custom skills from popular community mods. Each course concludes with either a final exam or a written assignment; no presentations are included.
 
 ## Supported Skills and Electives
 
@@ -85,6 +83,9 @@ The files are organized by skill type so you can keep only what you use:
 * **Adult Skills** (Basemental/WickedWhims - available separately on Patreon/Nexus)
 
 > **Important:** Do not install course files for third-party mods you do not have installed. Removing a mod or a course file while a Sim is currently enrolled in that specific class may cause loading errors.
+
+## Compatibility
+This mod is fully compatible with Zer0's University Custom Degrees mod. 
 
 ## Language & Translations
 * **English**, **German**, **Spanish**, and **Russian** – by me
