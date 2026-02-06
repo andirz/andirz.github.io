@@ -13,33 +13,48 @@ tagline: "Add realism to your chores with brand new interactions like smelling f
 
 The **Laundry Interactions** mod expands the gameplay of *Laundry Day Stuff* by adding a variety of new, realistic, and sometimes humorous interactions to laundry objects. Originally part of the *Laundry Service* mod, these features have been separated and significantly expanded to provide more depth for clean-obsessed Sims and storytelling.
 
-### New Features by Object:
+Whether you're looking for more realism or just a bit of chaos, these new options will breathe fresh life into your Sims' chore routines. Have fun with it!
 
-* **Laundry Pile:** * Fold Up Clothes and Re-Wash Clean Laundry.
-    * Smell the Laundry (includes custom buffs).
-    * Instantly Clean Clothes (Cheat).
-* **Folded Stack:** * Mess Up Laundry, Re-Wash, or Smell the Laundry.
-* **Hamper:** * Transfer laundry to inventory or fold dirty laundry directly from the hamper.
-    * Replace stinky bags, spray freshener on empty hampers, or even vomit in the hamper (under certain requirements).
-    * New Cheat category for filling or emptying the hamper.
-* **Washing Machine & Dryer:** * Add fragrance additives, undress and wash clothes (for non-residential venues), and run additional dry cycles.
-    * Toggle power on/off to fix "unusable" machines.
-    * Instant Upgrade cheats.
+### **Laundry Pile**
+* **Instantly Clean Clothes (Cheat)**
+* **Fold Up Clothes**
+* **Re-Wash Clean Laundry**
+* **Smell the Laundry** (with unique buffs)
 
-## Requirements
+### **Folded Stack**
+* **Instantly Clean Clothes (Cheat)**
+* **Mess Up Laundry**
+* **Re-Wash Clean Laundry**
+* **Smell the Laundry** (with unique buffs)
 
-* **Laundry Day Stuff (SP13)** pack is required.
-* **Lot51 Core Library** is required for the menu and logic systems.
-* **Script Mods** must be enabled in your game settings.
+### **Hamper**
+* **Transfer Laundry** to the Sim’s inventory
+* **Fold Dirty Laundry** directly from the hamper
+* **Replace the Stinky Laundry Bag**
+* **Spray Freshener** on empty hampers
+* **Smell the Hamper** (with unique buffs)
+* **Re-Wash Clean Laundry** from the hamper
+* **Fill Hamper with Dirty Laundry (Cheat)**
+* **Vomit in the Hamper** (requires certain conditions)
 
-## Translations
+### **Washing Machine**
+* **Instant Upgrade (Cheat)**
+* **Turn On/Off** (manually reset machines if they become stuck)
+* **Add Fragrance Additive**
+* **Re-Wash Clean Laundry**
+* **Undress and Wash Clothes** (perfect for non-residential venues)
 
-* **English, German, Spanish, and Russian** – by me.
-* **French** – by Mollory.
-* **Italian** – by vale93_games.
-* **Polish** – by Aarathiel.
+### **Dryer**
+* **Instant Upgrade (Cheat)**
+* **Run Another Dry Cycle**
 
-## Compatibility
+Many of these new interactions are perfect for **storytelling**, especially for your **clean-obsessed Sims**. Additionally, all cheat interactions that were previously limited to laundry piles are now available directly on the hamper. I’ve also reorganized the cheat category into clearer groups for better navigation.
 
-* **No Overrides:** This mod does not overwrite any game resources and is designed for maximum compatibility.
-* **Related Mods:** Works perfectly alongside *Soapy Llama Laundry Service* and the *Laundromat Service Lot Trait*.
+Enjoy the cleaner (or messier) gameplay!
+
+## Language & Translations
+
+* **English**, **German**, **Spanish**, and **Russian** – by me
+* **French** – by Mollory
+* **Italian** – by vale93_games
+* **Polish** – by Aarathiel
