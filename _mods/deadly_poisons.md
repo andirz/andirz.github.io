@@ -30,17 +30,6 @@ All poisons and antidotes can be ordered via the computer in the "Purchase Poiso
 * **Symptoms:** Poisoned Sims suffer from severe symptoms before fate (or an antidote) decides their outcome.
 * **Pregnant Sims:** In an optional add-on, the pregnant trait is overwritten to allow pregnant Sims to be susceptible to the poisons.
 
-## Requirements
-
-* **Jungle Adventures (GP06)** and **Get To Work (EP01)** are required.
-* **XML Injector** by Scumbumbo is required for full functionality.
-* **Script Mods** must be enabled in your game settings.
-
-## Translations
-
+## Language & Translations
 * **English** – by me
 * **Italian** – by vale93_games
-
-## Compatibility
-
-This mod is designed to be as non-intrusive as possible. It does not overwrite any game resources, except for the optional pregnant trait override in the add-on. No other compatibility issues are expected.

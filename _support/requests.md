@@ -4,7 +4,7 @@ title: "How to Submit Mod Support Requests?"
 order: 7
 ---
 
-When you need support with Sims 4 mods, providing detailed and clear information is crucial for a quick resolution. This tutorial will show you how to craft effective support requests to get the help you need as swiftly as possible.
+When you need support with Sims 4 mods, providing clear and detailed information is essential for a quick resolution. This guide explains how to submit effective support requests, where to send them, and what information is required so issues can be resolved as efficiently as possible.
 
 {% include collection-toc.html
    collection="support"
@@ -13,86 +13,95 @@ When you need support with Sims 4 mods, providing detailed and clear information
 
 ## Before You Submit a Support Request
 
-Before reaching out for support, please make sure you have completed the following **basic troubleshooting steps**. This helps avoid unnecessary back-and-forth and ensures issues can be resolved faster.
+Before reaching out for support, please make sure you have completed the following basic troubleshooting steps. This helps avoid unnecessary back-and-forth and ensures issues can be resolved faster.
 
 ### Basic Checks
-- **Check the Mod Status Dashboard**  
-  Verify that the mod is marked as **Compatible** or **Updated** for the current game patch.
-- **Update the Mod**  
-  Make sure you are using the **latest available version** of the mod.
-- **Check Dependencies & DLC Requirements**  
-  Confirm that all required scripts (e.g. *Smart Core Script*) and necessary DLCs are installed.
-- **Clear the Game Cache**  
-  Delete the `localthumbcache.package` file from your *The Sims 4* folder.
-- **Disable OneDrive (if used)**  
-  OneDrive syncing can interfere with mods. Ensure your Sims 4 folder is not managed by OneDrive.
+- **Check the Mod Status Dashboard:** Verify that the mod is marked as Compatible or Updated for the current game patch.
+- **Update the Mod:** Make sure you are using the absolute latest version of the mod.
+- **Check Dependencies & DLC Requirements:** Confirm that all required scripts (e.g. Smart Core Script) and necessary DLCs are installed.
+- **Clear the Game Cache:** Delete the `localthumbcache.package` file from your The Sims 4 folder.
+- **Disable Cloud-Synced Mod Folders (OneDrive, etc.):** Ensure your Mods folder is stored locally on your hard drive and not inside any cloud-synced directory, as mods must be loaded from a physical local path.
 
 ### Rule Out Mod Conflicts
-Before asking for help, ensure the issue is **actually caused by this mod** and not by conflicts with other mods or game settings.
 
-- **Test with Only This Mod**  
-  Run the game using *only* the problematic mod and its required dependencies.
-- **Identify the Source via Logs**  
-  Check error log files for script names or folder paths that indicate which mod is causing the issue.
-- **Confirm Game Version**  
-  Make sure your game is fully up to date. Outdated game versions can cause unexpected errors.
-- **Search for Existing Solutions**  
-  Check Google, forums, Discord servers, and mod comment sections to see if the issue has already been reported and solved.
+Before asking for help, make sure the issue is actually caused by this mod and not by conflicts with other mods or game settings.
 
-### When You Are Ready to Ask for Help
-If you are confident the issue is caused by this mod, please include the following information in your request:
+- **Test with Only This Mod:** Run the game using only the problematic mod and its required dependencies.
+- **Identify the Source via Logs:** Check error log files for script names or folder paths that indicate which mod is causing the issue.
+- **Confirm Game Version:** Make sure your game is fully up to date, as outdated game versions can cause unexpected errors.
+- **Search for Existing Solutions:** Check Google, forums, Discord servers, and mod comment sections to see if your issue has already been reported and resolved.
 
-- A **clear and detailed description** of the problem
-- Your **game version** and **mod version**
-- Relevant **error logs** (if available)
-- A list of **troubleshooting steps** you have already tried
+## Where to Submit Error Requests
 
-The more complete your report is, the faster and more accurately the issue can be identified and resolved.
+For the fastest and most effective support, **Discord is the preferred platform** for submitting error reports. Many common issues are already discussed there, so please check existing threads before opening a new request.
 
-## Where to Get Support
+Comments on **Patreon**, **CurseForge**, and **Itch.io** are meant for feedback or appreciation, not for detailed technical support. For errors, crashes, or script issues, always use the dedicated support channels on Discord so your request reaches the right place.
 
-The best and fastest way to receive support is through my official **Discord Server**. Using Discord allows for easier file sharing (like logs) and real-time communication.
+- **Discord:** [Join the Andirz Mods Discord]({{ site.data.globals.links.discord }})
+- **Alternative:** CurseForge mod pages (comments or Issues tab)
 
-* **Discord:** [Join the Andirz Mods Discord](https://discord.com/) (Link zu deinem Discord einfügen)
-* **Alternative:** You can also report issues on the specific mod page on **CurseForge** via the comments or "Issues" tab.
+## Why Detailed Requests Matter
 
-## What to Include in Your Request
+A well-prepared support request allows for faster and more accurate diagnosis. Incomplete or vague requests usually result in additional questions and unnecessary back-and-forth, which delays solutions for everyone involved.
 
-To help me diagnose the problem, please provide as much information as possible. A good support request includes:
+## Examples of Poor Requests
 
-### Clear Description of the Issue
-What exactly is happening? When does it happen? (e.g., "The game crashes when I click on the SimSim Online Store on the computer").
+> *“Your shopping mod isn’t working. I did everything right and nothing happens!”*
 
-### Your Environment
-* **Game Version:** (e.g., 1.110.xxx)
-* **Mod Version:** (e.g., 1.2.5)
-* **Installed DLCs:** Mention if you are missing any packs required by the mod.
+This tells me nothing. It does not explain what is broken, which mod is affected, which version is used, or whether any errors occur. Since many of my mods are related, it is also unclear **which mod you are even talking about**. Requests like this have zero diagnostic value and do not help anyone.
+
+## Essential Information for a Support Request
+
+When submitting a support request, please include **all** of the following information.
+
+- **Game Version:** Your current Sims 4 version (e.g. 1.110.xxx)
+- **Mod Name:** Which mod is causing the issue
+- **Mod Version:** The exact version you are using
+- **Download Source:** Where you downloaded the mod (Patreon, CurseForge, Itch.io, etc.)
+- **Required Libraries:** Installed script libraries and their versions (e.g. Smart Core Script, XML Injector, Lot51 Core)
+- **Problem Description:** What exactly is happening, when it happens, and what you were doing when the error occurred
+- **Before or After Update:** Whether the issue started after a game or mod update
+- **Additional Files:** Screenshots, videos, or other relevant files
+- **LE Errors:** Screenshots of orange LastException messages shown in-game
 
 ### Log Files (Crucial for Script Mods)
-If you are reporting a script error or a crash, please attach the following files found in your `The Sims 4` folder:
-* `LastException.txt`
-* `LastUIException.txt`
-* Any log files generated by the mod itself (e.g., `Andirz_SmartCore_Log.txt`).
 
-### 4. Screenshots or Video
-Visual evidence is incredibly helpful. Take a screenshot of the error message or a short video of the glitch occurring.
+Always attach relevant logs from your `The Sims 4` folder, such as:
+- `LastException.txt`
+- `LastUIException.txt`
+- MCCC logs
+- Better Exceptions logs
+- Lot51 Core Library logs
+- Any logs generated by the mod itself
 
----
+## Why Logs Are Important
 
-## Watch the Video Guide
+Logs contain detailed background information that is not visible in-game. They allow precise diagnosis of what went wrong and where.
 
-If you are unsure how to find your log files or use Discord for support, watch this video guide:
+**Benefits of providing logs:**
+- Faster problem resolution
+- More accurate diagnosis
+- Fewer follow-up questions
+- Less wasted time for both of us
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 30px;">
-    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-        src="https://www.youtube.com/embed/5aQj9M321_E" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
-</div>
+Without logs, effective support is often impossible.
 
----
+## How NOT to Send Logs
 
-## Why Good Bug Reports Matter
-By providing detailed information, you help me identify and fix bugs much faster. This not only solves your problem but improves the mod for everyone in the community!
+Never send logs as screenshots. Logs must always be shared as **text files**, not images. Screenshots of logs are unreadable, unsearchable, and completely useless for debugging.
+
+## Example of a Good Support Request
+
+> Hello! I have an issue with your *SimSim Online Store* mod version 5.0.0 downloaded from CurseForge. After installing it according to the instructions, I get an LE error every time I try to buy guitars via the artist items section. The selection menu never appears and the error occurs consistently. This only started after updating from version 4.9.7, which worked fine. I have attached the latest MCCC, Better Exceptions, and Smart Core logs, as well as a screenshot of the LE message. Thank you!
+
+## And Finally…
+
+Before submitting a support request, double-check that you followed all installation instructions correctly. Roughly **95% of reported issues** are caused by incorrect installation, missing dependencies, outdated versions, or mod conflicts.
+
+Always test the suspected mod **alone in a fresh save** to rule out conflicts. If you suspect another mod is involved, tell me its name, version, and download source so I can test it properly instead of guessing.
+
+## Summary
+
+Clear, detailed, and well-prepared support requests lead to faster and better help. By providing all relevant information upfront, you help streamline the support process and allow me to spend more time improving mods instead of extracting basic details.
+
+Thank you for your cooperation and understanding.
