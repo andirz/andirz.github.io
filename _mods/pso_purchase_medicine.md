@@ -14,24 +14,24 @@ This mod includes all items from the **Sims 4 Base Game** and all released packs
 
 This mod includes all items from:
 
-- *AEP* by Ksuihuh
-- *Allergic to Fur and More Traits* by ilkaSimming
-- *Automatic Sunburns* by Flerb
-- *[Child Birth](https://www.pandasama.com/child-birth-mod/)* by Pandasama
-- *[Basemental Drugs](https://basementalcc.com/adult_mods/basemental-drugs/)* (excluding illegal drugs)
-- *Deadly Dickensian Sicknesses* by Zero
-- *[Deadly Poisons](https://andirz.itch.io/deadly-poisons)* by Andirz
-- *Divergent Sims* by a.deep.indigo
-- *Healthcare Redux* by a.deep.indigo
-- *Hormone Replacement Therapy* by Zero
-- *[Males Interactions](https://wicked.cc/mods/khlas/kmi-khlas-males-interactions-wcc/)* by Khlas \[18+\]
-- *Mental Health* by Zero
-- *Mental Health Medications* by Simularity
-- *[Private Practice](https://simrealist.itch.io/private-practice-public)* by SimRealist
-- *Relationship & Pregnancy Overhaul* by Lumpinou
-- *Senior Living* by Wicked Pixxel
-- *[Wicked Whims](https://wickedwhimsmod.com/index)* by TurboDriver 
-- *[Wonderful Whims](https://wonderfulwhims.com/)* by TurboDriver
+- **AEP** by Ksuihuh
+- **Allergic to Fur and More Traits** by ilkaSimming
+- **Automatic Sunburns** by Flerb
+- **[Child Birth](https://www.pandasama.com/child-birth-mod/)** by Pandasama
+- **[Basemental Drugs](https://basementalcc.com/adult_mods/basemental-drugs/)** (excluding illegal drugs)
+- **Deadly Dickensian Sicknesses** by Zero
+- **[Deadly Poisons](https://andirz.itch.io/deadly-poisons)** by Andirz
+- **Divergent Sims** by a.deep.indigo
+- **Healthcare Redux** by a.deep.indigo
+- **Hormone Replacement Therapy** by Zero
+- **[Males Interactions](https://wicked.cc/mods/khlas/kmi-khlas-males-interactions-wcc/)** by Khlas <i class="fa-solid fa-triangle-exclamation" title="18+ content"></i>
+- **Mental Health** by Zero
+- **Mental Health Medications** by Simularity
+- **[Private Practice](https://simrealist.itch.io/private-practice-public)** by SimRealist
+- **Relationship & Pregnancy Overhaul** by Lumpinou
+- **Senior Living** by Wicked Pixxel
+- **[Wicked Whims](https://wickedwhimsmod.com/index)** by TurboDriver <i class="fa-solid fa-triangle-exclamation" title="18+ content"></i>
+- **[Wonderful Whims](https://wonderfulwhims.com/)** by TurboDriver
 
 Items are only displayed if you actually have the corresponding packs or mods installed. If you don't use a specific mod, those items remain hidden to keep your shop clean.
 
