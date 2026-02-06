@@ -1,5 +1,5 @@
 ---
-mod_id: medical_decorations-kit
+mod_id: medical_decorations_kit
 title: "Medical Decorations Kit"
 icon: "fas fa-briefcase-medical"
 categories: [Build/Buy, Decor, Medical]
