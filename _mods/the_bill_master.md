@@ -3,7 +3,7 @@ mod_id: the_bill_master
 title: "The Bill Master"
 icon: "fas fa-money-bill-wave"
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Money, Adopted Mods]
+categories: [Money, Activities, Skills, Adopted Mods]
 ---
 
 ## About This Mod
@@ -54,18 +54,9 @@ Three new bill-related interactions are added:
 - Currently unchanged from the original version
 - Planned to receive additional depth and variability in a future update
 
-## Packs & Gameplay Requirements
-- **Seasons (EP05)** – optional
-- **Realm of Magic (GP04)** – optional 
-
-## Translations
-- **English, German, Spanish, Russian** – by me  
-- **French** – Heidi (Luniversims team)  
-- **Italian** – vale93_games  
-- **Portuguese** – Nymphieta  
-- **Chinese & Simplified Chinese** – Orchard team
-
-## Compatibility
-- No game resources are overridden
-- All interactions are added independently
-- No compatibility issues are expected
+## Language & Translations
+* **English**, **German**, **Spanish**, and **Russian** – by me 
+* **Chinese** and **Simplified Chinese** – by Orchard team 
+* **French** – by Heidi (Luniversims team)  
+* **Italian** – by vale93_games  
+* **Portuguese** – by Nymphieta  
