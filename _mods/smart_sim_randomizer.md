@@ -18,28 +18,29 @@ The randomization isn't just a dice roll; it's a probability-based system:
 
 ## Key Features
 
-### 1. Automatic Likes & Dislikes
+### Automatic Likes & Dislikes
 Upon appearing in the game, Sims receive a balanced set of preferences covering:
 * Characteristics & Conversation Topics
 * Activities, Colors & Music Genres
 * Fashion & Décor
 * **Bonus:** Supports custom preferences like *Pizza* (Kuttoe) and *Animals* (ChippedSim).
 
-### 2. Hidden Preferences & Values
+### Hidden Preferences & Values
 Automated generation also affects:
 * **Movie Genres & Weather:** Based on traits (e.g., Romantics love Romance movies).
 * **Life Choices:** Umbrella usage, eating with chopsticks vs. forks, political positions.
 * **Character Values:** Automatically assigns values from *EP Parenthood* to YA, Adults, and Elders (if they don't have them yet).
 
-### 3. Manual Control & University Degrees
+### Manual Control & University Degrees
 Shift-click any Sim to access the **Cheat Menu**:
 * **Toggle Automation:** Disable randomization for specific Sims using the "No Auto Randomness" trait.
 * **Instant Assignment:** Re-roll all preferences or character values with one click.
 * **University Degrees:** Generate "Fake" (no skills) or "Real" (with skills) degrees intelligently.
 
-## Translations
-The mod uses strings from the **Smart Shared Core**. Thanks to the community, it is available in:
-* English, German, Spanish, Russian (by Andirz)
-* Brazilian Portuguese (Nymphieta)
-* Chinese & Simplified Chinese (Orchard Team)
-* French (Mollory), Italian (vale93_games), Polish (Aarathiel)
+## Language & Translations
+* **English**, **German**, **Spanish**, and **Russian** – by me
+* **Brazilian Portuguese** – by Nymphieta.
+* **Chinese** and **Simplified Chinese** – by Orchard Team
+* **French** translation – by Mollory
+* **Italian** translation – by vale93_games
+* **Polnish** translation – by Aarathiel
