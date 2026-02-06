@@ -2,7 +2,7 @@
 
 <section id="featured-mods" class="gallery-wrapper" style="padding: 20px 0 60px 0; background: #f8fafc;">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-    
+
     <div style="margin-bottom: 30px; text-align: center;">
       <h2 style="font-size: 2.25rem; font-weight: 900; color: #1e293b; margin: 0; letter-spacing: -0.025em;">Popular Mods</h2>
       <p style="color: #64748b; margin: 5px 0 0 0; font-size: 1.1rem;">The most downloaded mods for your game.</p>
@@ -12,17 +12,41 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
       {% for f_id in featured_ids %}
         {% assign mod_id_clean = f_id | strip %}
+
+        {%- comment -%}
+          1) Daten aus _data (Metadata)
+        {%- endcomment -%}
         {% assign g_mod = site.data.mods | where: "id", mod_id_clean | first %}
-        {% assign mod_page = site.mods | where: "mod_id", mod_id_clean | first %}
+
+        {%- comment -%}
+          2) Seite aus der Collection /mods/ finden – NICHT über URL,
+             sondern indem wir die gesamte Collection durchgehen und nur mod_id matchen.
+        {%- endcomment -%}
+        {% assign mod_page = nil %}
+        {% for p in site.mods %}
+          {% if p.mod_id == mod_id_clean %}
+            {% assign mod_page = p %}
+          {% endif %}
+        {% endfor %}
 
         {% if mod_page and g_mod %}
-          {% include home/gallery-card-item.html mod_data=g_mod %}
+          {%- comment -%}
+            mod_url explizit aus der Collection-Seite nehmen
+          {%- endcomment -%}
+          {% assign mod_url = mod_page.url | relative_url %}
+
+          {%- comment -%}
+            Wenn dein Card-Include den Link intern baut, gib ihm die URL mit:
+            - mod_page (falls du dort p.url nutzt)
+            - mod_url (falls du direkt eine URL-Override nutzen willst)
+          {%- endcomment -%}
+          {% include home/gallery-card-item.html mod_data=g_mod mod_page=mod_page mod_url=mod_url %}
         {% endif %}
       {% endfor %}
     </div>
 
     <div style="margin-top: 40px; text-align: center;">
-      <a href="{{ '/mods/' | relative_url }}" class="view-all-button" 
+      <a href="{{ '/mods/' | relative_url }}" class="view-all-button"
          style="display: inline-flex; align-items: center; gap: 12px; padding: 14px 28px; background: #1e293b; color: white; text-decoration: none; border-radius: 14px; font-weight: 700;">
         Explore Full Catalog <i class="fas fa-arrow-right"></i>
       </a>
