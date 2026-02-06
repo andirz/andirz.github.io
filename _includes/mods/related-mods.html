@@ -1,8 +1,8 @@
 {%- comment -%}
-related-mods.html (ALT CONCEPT)
-- Reuses the SAME pill markup/classes as categories.html: .cat-cloud + .cat-pill
-- Only mini overrides for 2×3 icon pills
-- Uses site.mods pages for links (most reliable)
+related-mods.html
+Shows up to 6 related mods (by shared categories)
+Card layout: icon + title + desc + (type + version + packs)
+Data precedence: page (site.mods) first, then site.data.mods fallback
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
@@ -21,36 +21,97 @@ related-mods.html (ALT CONCEPT)
 <div class="rm-related">
   <strong class="rm-title">Related Mods:</strong>
 
-  <div class="cat-cloud rm-cloud">
-    {%- for p in site.mods -%}
-      {%- if count < max_items and p.mod_id != current_id -%}
+  <div class="rm-grid">
+    {%- for mod_page in site.mods -%}
+      {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id -%}
 
-        {%- assign p_categories = p.categories -%}
-        {%- if p_categories == nil -%}
-          {%- assign p_data = site.data.mods | where: "id", p.mod_id | first -%}
-          {%- assign p_categories = p_data.categories -%}
-        {%- endif -%}
-        {%- if p_categories == nil -%}
-          {%- assign p_categories = "" | split: "|" -%}
+        {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
+
+        {%- assign rel_categories = mod_page.categories | default: mod_data.categories -%}
+        {%- if rel_categories == nil -%}
+          {%- assign rel_categories = "" | split: "|" -%}
         {%- endif -%}
 
         {%- assign match = false -%}
-        {%- for c in p_categories -%}
+        {%- for c in rel_categories -%}
           {%- if current_categories contains c -%}
             {%- assign match = true -%}
           {%- endif -%}
         {%- endfor -%}
 
         {%- if match -%}
-          {%- assign p_name = p.title | default: p.name -%}
-          {%- if p_name == nil or p_name == "" -%}
-            {%- assign p_data2 = site.data.mods | where: "id", p.mod_id | first -%}
-            {%- assign p_name = p_data2.name -%}
+
+          {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
+          {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-box" -%}
+
+          {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
+          {%- if display_desc == nil or display_desc == "" -%}
+            {%- assign display_desc = mod_page.excerpt -%}
           {%- endif -%}
 
-          <a class="cat-pill rm-pill" href="{{ p.url | relative_url }}" title="{{ p_name }}" aria-label="{{ p_name }}">
-            <i class="fas fa-puzzle-piece" aria-hidden="true"></i>
-            <span class="rm-sr">{{ p_name }}</span>
+          {%- assign display_version = mod_page.version | default: mod_data.version -%}
+
+          {%- assign packs = mod_page.packs | default: mod_data.packs -%}
+          {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}
+            {%- assign packs = packs | split: "," -%}
+          {%- endif -%}
+
+          {%- assign files = mod_page.files -%}
+          {%- assign file_type = files | first -%}
+          {%- if file_type == nil or file_type == "" -%}
+            {%- assign file_type = "package" -%}
+          {%- endif -%}
+          {%- assign type_label = file_type
+            | replace: "ts4script","Script"
+            | replace: "bat","Batch"
+            | replace: "package","Package"
+          -%}
+
+          <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
+            <span class="rm-icon" aria-hidden="true">
+              <i class="{{ display_icon }}"></i>
+            </span>
+
+            <span class="rm-main">
+              <span class="rm-name">{{ display_title }}</span>
+
+              {%- if display_desc and display_desc != "" -%}
+                <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 140 }}</span>
+              {%- endif -%}
+
+              <span class="rm-meta">
+                <span class="rm-type">
+                  {{ type_label }}
+                </span>
+
+                {%- if display_version and display_version != "" -%}
+                  <span class="rm-ver">v{{ display_version }}</span>
+                {%- endif -%}
+
+                {%- if packs and packs.size > 0 -%}
+                  <span class="rm-packs" aria-label="Required packs">
+                    {%- for pack_code_raw in packs -%}
+                      {%- assign pack_code = pack_code_raw | strip -%}
+                      {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
+                        {%- assign pack_data = site.data.packs[pack_code] -%}
+                        {%- assign pack_name = pack_code -%}
+                        {%- if pack_data -%}
+                          {%- assign pack_name = pack_data.en | default: pack_code -%}
+                        {%- endif -%}
+
+                        {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
+                        <img
+                          class="rm-pack"
+                          src="{{ site.baseurl }}{{ icon_path }}"
+                          alt="{{ pack_name }} ({{ pack_code }})"
+                          title="{{ pack_name }} ({{ pack_code }})"
+                        >
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </span>
+                {%- endif -%}
+              </span>
+            </span>
           </a>
 
           {%- assign count = count | plus: 1 -%}
@@ -62,36 +123,117 @@ related-mods.html (ALT CONCEPT)
 </div>
 
 <style>
-/* mini layout: 2 rows × 3 */
-.rm-cloud{
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px 18px;
-  margin-top: 10px;
-}
-
-/* shrink the categories pill into icon-only */
-.cat-pill.rm-pill{
-  justify-content: center;
-  gap: 0;
-  width: 64px;
-  height: 40px;
-  padding: 0;
-}
-
-/* hide text but keep it accessible */
-.rm-sr{
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .rm-title{
-  display: block;
-  margin-bottom: 6px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.rm-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 18px;
+}
+
+.rm-card{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding:16px 18px;
+  border-radius:18px;
+  background: var(--bg-primary, #fff);
+  border:1px solid var(--border-color, #eef2f7);
+  box-shadow: 0 10px 26px rgba(15,23,42,.06);
+  text-decoration:none;
+  color:inherit;
+}
+
+.rm-card:hover{
+  border-color: rgba(0,0,0,.18);
+  box-shadow: 0 0 0 3px rgba(0,0,0,.05), 0 14px 34px rgba(15,23,42,.08);
+}
+
+.rm-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: var(--bg-secondary, #f8fafc);
+  border:1px solid var(--border-color, #e2e8f0);
+  color: var(--accent-color, #1e40af);
+  flex:0 0 auto;
+  margin-top:2px;
+  font-size:1.05rem;
+}
+
+.rm-main{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:0;
+  width:100%;
+}
+
+.rm-name{
+  font-weight:800;
+  color: var(--link-color, #1e3a8a);
+  font-size:1.15rem;
+  line-height:1.15;
+}
+
+.rm-desc{
+  color: var(--text-color, #334155);
+  font-size:.95rem;
+  line-height:1.35;
+}
+
+.rm-meta{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
+
+.rm-type{
+  font-size:.78rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color: var(--text-muted, #64748b);
+  background: rgba(128,128,128,.08);
+  border: 1px solid rgba(128,128,128,.18);
+  padding:5px 10px;
+  border-radius:999px;
+}
+
+.rm-ver{
+  font-weight:800;
+  color: var(--text-color, #0f172a);
+  font-size:.95rem;
+}
+
+.rm-packs{
+  display:inline-flex;
+  gap:6px;
+  align-items:center;
+}
+
+.rm-pack{
+  width:28px;
+  height:28px;
+  object-fit:contain;
+  border-radius:8px;
+  border:1px solid var(--border-color, #e2e8f0);
+  background: var(--bg-secondary, #f8fafc);
+  padding:2px;
+}
+
+@media (max-width: 900px){
+  .rm-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px){
+  .rm-grid{ grid-template-columns: 1fr; }
 }
 </style>
