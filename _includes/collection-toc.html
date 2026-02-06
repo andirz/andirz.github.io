@@ -1,8 +1,8 @@
 {% comment %}
   Include: collection-toc.html
 
-  Simple TOC from a collection.
-  All entries are ALWAYS clickable.
+  Inline TOC block for collections.
+  Integrated into content flow (not sticky, not floating).
 
   Parameters:
   - collection:  required (e.g. "support", "wiki", "tutorials")
@@ -15,7 +15,7 @@
   - show_desc:   optional true|false (default: false)
   - show_icons:  optional true|false (default: true)
   - max_desc:    optional (default: 90)
-  - width:       optional (default: "min(320px, 36%)")
+  - width:       optional (default: "min(400px, 32%)")
 {% endcomment %}
 
 {% assign _col = include.collection | to_s %}
@@ -30,7 +30,7 @@
 {% if _show_icons == nil %}{% assign _show_icons = true %}{% endif %}
 
 {% assign _max_desc = include.max_desc | default: 90 %}
-{% assign _width = include.width | default: "min(320px, 36%)" %}
+{% assign _width = include.width | default: "min(400px, 32%)" %}
 
 {% assign _items = site[_col] %}
 
@@ -49,7 +49,7 @@
     {% assign _items = _items | slice: 0, include.limit %}
   {% endif %}
 
-  <aside class="collection-toc" style="width: {{ _width }};">
+  <aside class="collection-toc" style="max-width: {{ _width }};">
     <div class="collection-toc__head">
       <span class="collection-toc__title">{{ _title }}</span>
     </div>
@@ -84,29 +84,26 @@
   </aside>
 
   <style>
+    /* Soft badge / hint block */
     .collection-toc{
-      float: right;
-      margin: 0 0 1rem 1.25rem;
+      margin: 0 0 1.5rem 0;
+      padding: 0.75rem 0.85rem;
+
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      background: rgba(0,0,0,0.015);
+
       position: relative;
-      z-index: 10;
-      padding: 0.85rem 0.9rem;
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 14px;
-      background: var(--card-bg, #fff);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
     }
 
     .collection-toc__head{
-      display:flex;
-      align-items:center;
-      margin-bottom: 0.65rem;
-      padding-bottom: 0.55rem;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
+      margin-bottom: 0.5rem;
     }
 
     .collection-toc__title{
-      font-weight: 650;
-      letter-spacing: -0.2px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      opacity: 0.85;
     }
 
     .collection-toc__list{
@@ -120,10 +117,9 @@
     .collection-toc__link{
       display: flex;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.5rem;
       line-height: 1.25;
       text-decoration: none;
-      pointer-events: auto;
       cursor: pointer;
     }
 
@@ -132,28 +128,25 @@
     }
 
     .collection-toc i{
-      font-size: 0.95rem;
-      opacity: 0.75;
-      width: 1.1rem;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      width: 1.05rem;
       text-align: center;
+      flex: 0 0 auto;
+    }
+
+    .collection-toc__text{
+      display: inline-block;
     }
 
     .collection-toc__desc{
-      margin-left: calc(1.1rem + 0.55rem);
+      margin-left: calc(1.05rem + 0.5rem);
       font-size: 0.88rem;
-      opacity: 0.75;
+      opacity: 0.7;
     }
 
     .collection-toc__list.no-icons .collection-toc__desc{
       margin-left: 0;
-    }
-
-    @media (max-width: 980px){
-      .collection-toc{
-        float: none;
-        width: 100% !important;
-        margin: 0 0 1rem 0;
-      }
     }
   </style>
 
