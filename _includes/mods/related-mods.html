@@ -1,8 +1,7 @@
 {%- comment -%}
 related-mods.html
-Inline related mods (category style)
-Icons instead of images
-2 rows × 3 items
+Icon-only related mods (2 × 3)
+Same logic as categories
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
@@ -19,9 +18,9 @@ Icons instead of images
   {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
-<section class="related-mods-inline">
+<section class="related-mods-icons">
 
-  <strong>Related Mods:</strong>
+  <strong class="related-title">Related Mods:</strong>
 
   <div class="related-mods-grid">
     {%- for mod in site.data.mods -%}
@@ -38,9 +37,13 @@ Icons instead of images
         {%- endfor -%}
 
         {%- if match and mod_page -%}
-          <a href="{{ mod_page.url | relative_url }}" class="related-mod-badge">
+          <a
+            href="{{ mod_page.url | relative_url }}"
+            class="related-mod-icon"
+            title="{{ mod.name }}"
+            aria-label="{{ mod.name }}"
+          >
             <i class="fas fa-puzzle-piece"></i>
-            {{ mod.name }}
           </a>
           {%- assign count = count | plus: 1 -%}
         {%- endif -%}
@@ -52,43 +55,49 @@ Icons instead of images
 </section>
 
 <style>
-.related-mods-inline {
-  margin-top: 1rem;
-  font-size: 0.9rem;
+.related-mods-icons {
+  margin-top: 1.2rem;
+}
+
+.related-title {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 800;
 }
 
 .related-mods-grid {
   display: grid;
-  grid-template-columns: repeat(3, max-content);
-  gap: 8px 10px;
-  margin-top: 6px;
+  grid-template-columns: repeat(3, 42px);
+  gap: 10px 12px;
 }
 
-.related-mod-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+.related-mod-icon {
+  width: 42px;
+  height: 30px;
   border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
-  font-weight: 600;
-  background: rgba(0,0,0,0.05);
-  color: var(--text-color);
-  white-space: nowrap;
+
+  background: rgba(0,0,0,0.04);
+  color: rgba(0,0,0,0.45);
+
+  transition: background 120ms ease, transform 120ms ease;
 }
 
-.related-mod-badge i {
-  font-size: 0.8em;
-  opacity: 0.7;
+.related-mod-icon i {
+  font-size: 0.9rem;
 }
 
-.related-mod-badge:hover {
-  background: rgba(0,0,0,0.12);
+.related-mod-icon:hover {
+  background: rgba(0,0,0,0.08);
+  transform: translateY(-1px);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .related-mods-grid {
-    grid-template-columns: repeat(2, max-content);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 </style>
