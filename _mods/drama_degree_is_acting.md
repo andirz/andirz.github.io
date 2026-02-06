@@ -34,11 +34,12 @@ There are two versions of this mod. **Please install only one!**
 
 Bonus for Variant B: I also replaced the EA Acting Skill in the *Acting Elective Course* with the Road To Fame Acting Skill. This allows you to take Acting as an elective even if you don't own the Get Famous EP!
 
-## Compatibility
+## Requirements
 * **Discover University** Expansion Pack is **required**.
 * **Get Famous** EP is recommended (for Variant A).
 * **Road To Fame Mod** is required if you do not have Get Famous (for Variant B).
 
+## Compatibility
 This mod overrides specific internal Tuning IDs. It will conflict with any other mod that modifies the same course resources:
 * `university_CourseData_Drama_ClassA` (ID: 219446)
 * `university_CourseData_Drama_ClassH` (ID: 219453)
