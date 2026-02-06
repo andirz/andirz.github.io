@@ -25,7 +25,6 @@ layout: default
       {% assign content_parts = content | split: '<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>' %}
       {% assign main_content = content_parts[0] %}
 
-      {%- comment -%} 1) Language global rauslösen (damit H2 nicht doppelt erscheint) {%- endcomment -%}
       {% assign lang_global_split = main_content | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
       {% assign main_wo_language = lang_global_split[0] %}
       {% assign lang_body = "" %}
@@ -34,7 +33,6 @@ layout: default
       {% endif %}
       {% assign lang_body_clean = lang_body | strip %}
 
-      {%- comment -%} 2) Compatibility aus dem Rest rauslösen (optional) {%- endcomment -%}
       {% assign compat_split = main_wo_language | split: '<h2 id="compatibility">Compatibility</h2>' %}
       {% assign before_compat = compat_split[0] %}
       {% assign compat_body = "" %}
@@ -69,18 +67,6 @@ layout: default
           Language &amp; Translations
         </h2>
 
-        {% comment %}
-          Regeln:
-          - files = ["bat"] => nur bat text
-          - files = ["ts4script"] => nur script text
-          - ts4script + package => wie package behandelt
-          - enthält package => package
-          - files fehlt/leer => wie package (Default)
-          - package-like:
-              wenn Seiten-Text existiert => Satz + lang_body + Info-Badge
-              sonst => nur package.md
-        {% endcomment %}
-
         {% assign files_size = page.files | size %}
         {% assign has_bat = page.files contains "bat" %}
         {% assign has_script = page.files contains "ts4script" %}
@@ -99,8 +85,6 @@ layout: default
           </div>
 
         {% else %}
-          {% comment %} package / script+package / default (keine files) {% endcomment %}
-
           {% if lang_body_clean != "" %}
             <p class="mod-text" style="margin-top: 10px; margin-bottom: 12px; font-weight: 600;">
               This mod is available in the following languages:
@@ -120,11 +104,11 @@ layout: default
         {% endif %}
       </section>
 
-      <section class="mod-installation-section" style="margin-top: 40px;">
+      <section class="mod-installation-section" style="margin-top: 36px;">
         <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
           Installation Guide
         </h2>
-        <p class="mod-text" style="margin-top: 12px; margin-bottom: 15px; font-weight: 600;">
+        <p class="mod-text" style="margin-top: 12px; margin-bottom: 14px; font-weight: 600;">
           Please note the following information:
         </p>
         <div class="mod-text">
@@ -138,14 +122,15 @@ layout: default
         </div>
       </section>
 
-      <div class="ad-container-multiplex" style="margin-top: 40px; margin-bottom: 20px;">
+      <div class="ad-container-multiplex" style="margin-top: 24px; margin-bottom: 12px;">
         {% include google/ad-multiplex.html %}
       </div>
 
-      <hr style="border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0,0,0,0), var(--border-color), rgba(0,0,0,0)); margin: 50px 0;">
+      <hr style="border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0,0,0,0), var(--border-color), rgba(0,0,0,0)); margin: 24px 0;">
 
       {% if content contains 'id="frequently-asked-questions"' %}
-        <section class="mod-faq-container" style="margin-top: 50px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
+        <section class="mod-faq-container"
+                 style="margin-top: 24px; padding: 24px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
           <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
           <div class="faq-content mod-text">
             {{ content_parts[1] }}
@@ -158,7 +143,8 @@ layout: default
     <aside style="flex: 1; min-width: 280px; position: sticky; top: 20px;">
       {% include mods/sidebar-info.html %}
 
-      <div class="ad-container-sidebar" style="margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px;">
+      <div class="ad-container-sidebar"
+           style="margin-top: 25px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px;">
         {% include google/ad-square.html %}
       </div>
     </aside>
@@ -168,7 +154,8 @@ layout: default
   {% include mods/related-mods.html %}
   {% include mods/policy.html %}
 
-  <div class="ad-container-footer" style="margin: 40px 0 20px 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px;">
+  <div class="ad-container-footer"
+       style="margin: 32px 0 20px 0; text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px;">
     {% include google/ad-horizontal.html %}
   </div>
 </div>
@@ -210,7 +197,7 @@ layout: default
   }
 
   .adsbygoogle[data-ad-status="filled"] {
-    margin: 20px 0;
+    margin: 16px 0;
   }
   .adsbygoogle[data-ad-status="unfilled"] {
     display: none !important;
