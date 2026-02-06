@@ -279,7 +279,7 @@
   status: "compatible"
   updated: "2022-05-01"
 
-- id: pharmacy_kiosk_object
+- id: pharmacy_kiosk
   version: "1.4.2"
   status: "compatible"
   updated: "2024-12-03"

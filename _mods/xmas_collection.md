@@ -5,7 +5,7 @@ icon: "fas fa-image"
 categories: [Build/Buy, Decor, Holidays]
 ---
 
-## Mod Description
+## About This Mod
 
 Keep the Christmas spirit alive in your Sims 4 game with this festive collection of Christmas-themed paintings and posters! This mod offers a variety of Christmas decorations to bring joy and a festive atmosphere to your Sims' homes. All items are purely decorative and can be found in Build Mode.
 
