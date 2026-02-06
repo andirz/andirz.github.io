@@ -14,17 +14,18 @@ categories: [Tweaks, Skills, Writing]
 
 In the vanilla game, only Sims with the **Chronicler (Professorial)** trait can write manuals. This trait is locked behind the *Renaissance Sim* aspiration, which makes little sense from a gameplay perspective. This mod removes that artificial limitation in a clean and non-invasive way.
 
-## How it works?
+## How it works
 
-This mod does **not** overwrite any EA interactions. Instead, it uses an activation system:
+Sims with **Writing Skill level 5** and **Logic Skill level 2** unlock the **Skill Book Writing** interactions.
 
-- Sims with at least **Writing Skill level 5** and **Logic Skill level 2** can unlock the **Skill Book Writing** interactions.
-- When activated, the Sim is temporarily granted the **Chronicler** trait.
-- This unlocks all skill book writing options without modifying or replacing EA tunings.
+This mod does **not** overwrite any EA interactions. Instead, it uses a lightweight activation system:
 
-All EA rules still apply:
-- A skill book for Skill **X** can only be written from **Skill level 5 in X**
-- **Archaeology** books still require **Skill level 8** (EA behavior)
+- When activated, the Sim is granted the **Chronicler** trait.
+- This trait unlocks all skill book writing options without modifying or replacing any EA tunings.
+
+All standard EA rules still apply:
+- A skill book for skill **X** can only be written once the Sim reaches **Skill level 5 in X**
+- **Archaeology** skill books still require **Skill level 8** (default EA behavior)
 
 This approach keeps the mod lightweight, compatible, and future-proof.
 
@@ -34,7 +35,6 @@ This mod is **not** an adoption or modification of similar mods. It was built fr
 
 ## Language & Translations
 
-- **English**, **German**, **Spanish**, **Russian** by me  
-- **Italian** by vale93_games  
-- **Czech**, **Danish**, **Dutch**, **French**, **Norwegian**, **Polish**, **Portuguese**, **Swedish** by Google Translate 
-
+- **English**, **German**, **Spanish**, **Russian** – by me  
+- **Italian** – by vale93_games  
+- **Czech**, **Danish**, **Dutch**, **French**, **Norwegian**, **Polish**, **Portuguese**, **Swedish** – machine-translated (Google Translate)

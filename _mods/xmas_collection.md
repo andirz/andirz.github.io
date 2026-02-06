@@ -24,4 +24,4 @@ All motifs used in this collection are taken from **Pixabay.com** under free lic
 ## Language & Translations
 
 The mod includes strings for the following languages:
-* **English, German, Russian, Spanish** by me
+* **English, German, Russian, Spanish** – by me
