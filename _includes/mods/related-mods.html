@@ -2,7 +2,7 @@
 related-mods.html
 Card-style related mods (max 6) with:
 - icon + title + description
-- bottom meta row: type icon only + version "v. x.y.z" + pack icons (no badge)
+- bottom meta row: type (icon + short label) + version "v. x.y.z" + pack icons (/assets/img/packs/blue/ep01.png etc.)
 Matching: shared categories
 {%- endcomment -%}
 
@@ -59,18 +59,18 @@ Matching: shared categories
             {%- assign packs = packs | split: "," -%}
           {%- endif -%}
 
-          {%- assign file_type = mod_page.files | first -%}
-          {%- if file_type == nil or file_type == "" -%}
-            {%- assign file_type = "package" -%}
-          {%- endif -%}
-
+          {%- assign files_list = mod_page.files -%}
           {%- assign type_icon = "fas fa-box" -%}
+          {%- assign type_label = "Package" -%}
           {%- assign type_title = "Package Mod" -%}
-          {%- if mod_page.files contains "ts4script" -%}
+
+          {%- if files_list contains "ts4script" -%}
             {%- assign type_icon = "fas fa-code" -%}
+            {%- assign type_label = "Script" -%}
             {%- assign type_title = "Script Mod" -%}
-          {%- elsif mod_page.files contains "bat" -%}
+          {%- elsif files_list contains "bat" -%}
             {%- assign type_icon = "fas fa-terminal" -%}
+            {%- assign type_label = "Batch Tool" -%}
             {%- assign type_title = "Batch Tool" -%}
           {%- endif -%}
 
@@ -87,9 +87,9 @@ Matching: shared categories
               {%- endif -%}
 
               <span class="rm-meta">
-                <span class="rm-type" aria-label="{{ type_title }}" title="{{ type_title }}">
-                  <i class="{{ type_icon }}"></i>
-                  <span class="rm-type-sr">{{ type_title }}</span>
+                <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
+                  <i class="{{ type_icon }}" aria-hidden="true"></i>
+                  <span class="rm-type-text">{{ type_label }}</span>
                 </span>
 
                 {%- if display_version and display_version != "" -%}
@@ -101,16 +101,18 @@ Matching: shared categories
                     {%- for pack_code_raw in packs -%}
                       {%- assign pack_code = pack_code_raw | strip -%}
                       {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
+
                         {%- assign pack_data = site.data.packs[pack_code] -%}
                         {%- assign pack_name = pack_code -%}
                         {%- if pack_data -%}
                           {%- assign pack_name = pack_data.en | default: pack_code -%}
                         {%- endif -%}
 
-                        {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
+                        {%- assign blue_icon_path = "/assets/img/packs/blue/" | append: pack_code | downcase | append: ".png" -%}
+
                         <img
                           class="rm-pack"
-                          src="{{ site.baseurl }}{{ icon_path }}"
+                          src="{{ site.baseurl }}{{ blue_icon_path }}"
                           alt="{{ pack_name }} ({{ pack_code }})"
                           title="{{ pack_name }} ({{ pack_code }})"
                         >
@@ -222,25 +224,19 @@ Matching: shared categories
 .rm-type{
   display:inline-flex;
   align-items:center;
-  justify-content:center;
-  width:32px;
-  height:26px;
-  border-radius:8px;
-  background:transparent;
+  gap:6px;
+  color:#64748b;
+  font-weight:700;
+  font-size:.85rem;
+  white-space:nowrap;
+}
+.rm-type i{
   color:#cbd5e1;
-  font-size:0.95rem;
+  font-size:.95rem;
   line-height:1;
 }
-
-/* hide label but keep it for screen readers */
-.rm-type-sr{
-  position:absolute;
-  width:1px; height:1px;
-  padding:0; margin:-1px;
-  overflow:hidden;
-  clip:rect(0,0,0,0);
-  white-space:nowrap;
-  border:0;
+.rm-type-text{
+  font-weight:700;
 }
 
 .rm-ver{
@@ -250,7 +246,7 @@ Matching: shared categories
   white-space:nowrap;
 }
 
-/* packs icons: no badge/border/background */
+/* packs icons: plain icons, no badge */
 .rm-packs{
   display:inline-flex;
   gap:6px;
