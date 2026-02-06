@@ -20,9 +20,6 @@ Sims with a low **Obscura Skill** level are at the mercy of the network’s puni
 * **New Minor Skill:** Obscura Network Skill (5 levels) to master the dangers.
 * **New Fear:** Fear of Obscura—a psychological toll for those who fail.
 
-## Compatibility
-This mod does not overwrite any game files, so no compatibility issues are to be expected.
-
 ## Feedback
 Many features are still in their early stages of development. I would love to hear from you:
 * Do negative effects occur too often or too rarely?
@@ -30,3 +27,7 @@ Many features are still in their early stages of development. I would love to he
 * Have you encountered any bugs or police interactions?
 
 Please share your feedback and suggestions on Discord!
+
+## Language & Translations
+* **English**, **German**, and **Russian** – by me
+* **French** – by 𝓢ღ
