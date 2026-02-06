@@ -146,14 +146,14 @@ sitemap: false
     <div class="legal-box">
       Detailed information is provided in separate documents:
       <ul>
-        <li><strong>Privacy Policy:</strong> <a href="/privacy/">/privacy/</a></li>
-        <li><strong>Cookie Policy:</strong> <a href="/cookies/">/cookies/</a></li>
+        <li><strong><a href="/privacy/">Privacy Policy</a></strong></li>
+        <li><strong><a href="/cookies/">Cookie Policy</a></strong></li>
       </ul>
     </div>
 
     <h2>Disclaimer</h2>
     <p>
-      As a service provider, I am responsible for my own content under § 7 para. 1 TMG.
+      As a service provider, I am responsible for my own content under § 7 para. 1 TMG.<br/>
       According to §§ 8–10 TMG, I am not obliged to monitor third-party information.
     </p>
 
@@ -191,16 +191,16 @@ sitemap: false
 
     <h2>Datenschutz & Cookies</h2>
     <div class="legal-box">
-      Weitere Informationen findest du hier:
+      Weitere Informationen finden Sie hier:
       <ul>
-        <li><strong>Datenschutzerklärung:</strong> <a href="/privacy/">/privacy/</a></li>
-        <li><strong>Cookie-Richtlinie:</strong> <a href="/cookies/">/cookies/</a></li>
+        <li><strong><a href="/privacy/">Datenschutzerklärung</a></strong></li>
+        <li><strong><a href="/cookies/">Cookie-Richtlinie</a></strong></li>
       </ul>
     </div>
 
     <h2>Haftungsausschluss</h2>
     <p>
-      Gemäß § 7 Abs. 1 TMG bin ich für eigene Inhalte verantwortlich.
+      Gemäß § 7 Abs. 1 TMG bin ich für eigene Inhalte verantwortlich.<br/>
       Eine Haftung für fremde Inhalte besteht erst ab Kenntnis.
     </p>
 
