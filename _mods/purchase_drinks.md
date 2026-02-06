@@ -5,7 +5,7 @@ icon: "fas fa-wine-bottle"
 packs: ["EP09", "EP14"]
 require_any_pack: true
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Gameplay Mods, Food & Drinks]
+categories: [Purchasing System, Food & Drinks]
 strings: false
 ---
 

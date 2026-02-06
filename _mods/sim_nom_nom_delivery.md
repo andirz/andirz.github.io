@@ -3,7 +3,7 @@ mod_id: sim_nom_nom_delivery
 title: "Sim-Nom-Nom Food Delivery"
 icon: fas fa-utensils
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Gameplay Mods, Phone App, Food & Drinks]
+categories: [Purchasing System, Phone App, Food & Drinks]
 ---
 
 ## About This Mod

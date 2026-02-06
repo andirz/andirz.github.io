@@ -4,7 +4,7 @@ title: "Laundromat Service Lot Trait"
 icon: "fas fa-soap"
 packs: ["SP13"]
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Lot Traits, Laundry, Realism, Money]
+categories: [Lot Traits, Laundry, Realism, Making Money]
 tagline: "Create functional public laundromats or rental businesses by requiring a fee for every wash and dry cycle."
 ---
 

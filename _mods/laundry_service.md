@@ -4,7 +4,7 @@ title: "Laundry Service"
 icon: "fas fa-tshirt"
 packs: ["SP13"]
 requirements: ["lot51_core"]
-categories: [Gameplay Mods, Laundry, Activities, Realism, Adopted Mods]
+categories: [Laundry, Activities, Realism, Services, Adopted Mods]
 tagline: "Save time by sending your laundry to the 'Soapy Llama' professional cleaners for a quick and fragrant turnaround."
 ---
 
