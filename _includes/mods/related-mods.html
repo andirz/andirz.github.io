@@ -1,7 +1,8 @@
 {%- comment -%}
 related-mods.html
-Icon-only related mods (2 × 3)
-Same logic as categories
+- icon pills (2 rows × 3)
+- category-based matching (like categories)
+- "force clickable" styles against overlays/global CSS
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
@@ -13,91 +14,110 @@ Same logic as categories
   {%- assign current_data = site.data.mods | where: "id", current_id | first -%}
   {%- assign current_categories = current_data.categories -%}
 {%- endif -%}
-
 {%- if current_categories == nil -%}
   {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
-<section class="related-mods-icons">
-
-  <strong class="related-title">Related Mods:</strong>
+<section class="related-mods-icons" aria-label="Related mods">
+  <div class="related-mods-head">
+    <strong class="related-title">Related Mods:</strong>
+  </div>
 
   <div class="related-mods-grid">
     {%- for mod in site.data.mods -%}
       {%- if count < max_items and mod.id != current_id -%}
 
         {%- assign mod_page = site.mods | where: "mod_id", mod.id | first -%}
-        {%- assign mod_categories = mod_page.categories | default: mod.categories -%}
+        {%- if mod_page -%}
+          {%- assign mod_categories = mod_page.categories | default: mod.categories -%}
 
-        {%- assign match = false -%}
-        {%- for cat in mod_categories -%}
-          {%- if current_categories contains cat -%}
-            {%- assign match = true -%}
+          {%- assign match = false -%}
+          {%- for cat in mod_categories -%}
+            {%- if current_categories contains cat -%}
+              {%- assign match = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if match -%}
+            <a
+              class="related-mod-pill"
+              href="{{ mod_page.url | relative_url }}"
+              title="{{ mod.name }}"
+              aria-label="{{ mod.name }}"
+            >
+              <i class="fas fa-puzzle-piece" aria-hidden="true"></i>
+            </a>
+            {%- assign count = count | plus: 1 -%}
           {%- endif -%}
-        {%- endfor -%}
-
-        {%- if match and mod_page -%}
-          <a
-            href="{{ mod_page.url | relative_url }}"
-            class="related-mod-icon"
-            title="{{ mod.name }}"
-            aria-label="{{ mod.name }}"
-          >
-            <i class="fas fa-puzzle-piece"></i>
-          </a>
-          {%- assign count = count | plus: 1 -%}
         {%- endif -%}
 
       {%- endif -%}
     {%- endfor -%}
   </div>
-
 </section>
 
 <style>
-.related-mods-icons {
-  margin-top: 1.2rem;
+/* Container darf NICHT Klicks schlucken */
+.related-mods-icons{
+  position: relative;
+  z-index: 2;
 }
 
-.related-title {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 800;
+/* Head wie im Mockup */
+.related-mods-head{
+  margin-bottom: 10px;
 }
 
-.related-mods-grid {
+.related-title{
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+/* 2×3 Pills */
+.related-mods-grid{
   display: grid;
-  grid-template-columns: repeat(3, 42px);
-  gap: 10px 12px;
+  grid-template-columns: repeat(3, 56px);
+  gap: 14px 16px;
 }
 
-.related-mod-icon {
-  width: 42px;
-  height: 30px;
+/* Pill-Button: "force clickable" */
+.related-mod-pill{
+  position: relative;
+  z-index: 5;
+  pointer-events: auto !important;
+
+  width: 56px;
+  height: 36px;
   border-radius: 999px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
 
-  background: rgba(0,0,0,0.04);
+  text-decoration: none !important;
+  background: rgba(0,0,0,0.035);
   color: rgba(0,0,0,0.45);
 
-  transition: background 120ms ease, transform 120ms ease;
+  transition: transform 120ms ease, background 120ms ease;
 }
 
-.related-mod-icon i {
-  font-size: 0.9rem;
-}
-
-.related-mod-icon:hover {
-  background: rgba(0,0,0,0.08);
+.related-mod-pill:hover{
+  background: rgba(0,0,0,0.07);
   transform: translateY(-1px);
 }
 
-@media (max-width: 600px) {
-  .related-mods-grid {
-    grid-template-columns: repeat(3, 1fr);
+.related-mod-pill i{
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* Mobile: bleibt 3 pro Reihe, aber flexibel */
+@media (max-width: 520px){
+  .related-mods-grid{
+    grid-template-columns: repeat(3, minmax(52px, 1fr));
+  }
+  .related-mod-pill{
+    width: 100%;
   }
 }
 </style>
