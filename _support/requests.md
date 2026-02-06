@@ -4,22 +4,50 @@ title: "How to Submit Mod Support Requests?"
 order: 7
 ---
 
-If you are experiencing issues with any of my mods, I am here to help! To provide you with the fastest and most accurate assistance, please follow these guidelines when submitting a support request.
+When you need support with Sims 4 mods, providing detailed and clear information is crucial for a quick resolution. This tutorial will show you how to craft effective support requests to get the help you need as swiftly as possible.
 
 {% include collection-toc.html
    collection="support"
    title="All Support Tutorials"
 %}
 
-## Before You Submit a Request
+## Before You Submit a Support Request
 
-Before reaching out, please ensure you have performed the following basic troubleshooting steps:
+Before reaching out for support, please make sure you have completed the following **basic troubleshooting steps**. This helps avoid unnecessary back-and-forth and ensures issues can be resolved faster.
 
-1.  **Check the Mod Status Dashboard:** Ensure the mod you are using is marked as "Compatible" or "Updated" for the current game patch.
-2.  **Update the Mod:** Make sure you have the absolute latest version of the mod installed.
-3.  **Check Dependencies:** Double-check if the mod requires other scripts (like **Smart Core Script**) or specific DLCs to function.
-4.  **Clear Game Cache:** Delete the `localthumbcache.package` file from your `The Sims 4` folder.
-5.  **Test Without Other Mods:** Try running the game with *only* the problematic mod and its requirements to rule out conflicts with other creators' content.
+### Basic Checks
+- **Check the Mod Status Dashboard**  
+  Verify that the mod is marked as **Compatible** or **Updated** for the current game patch.
+- **Update the Mod**  
+  Make sure you are using the **latest available version** of the mod.
+- **Check Dependencies & DLC Requirements**  
+  Confirm that all required scripts (e.g. *Smart Core Script*) and necessary DLCs are installed.
+- **Clear the Game Cache**  
+  Delete the `localthumbcache.package` file from your *The Sims 4* folder.
+- **Disable OneDrive (if used)**  
+  OneDrive syncing can interfere with mods. Ensure your Sims 4 folder is not managed by OneDrive.
+
+### Rule Out Mod Conflicts
+Before asking for help, ensure the issue is **actually caused by this mod** and not by conflicts with other mods or game settings.
+
+- **Test with Only This Mod**  
+  Run the game using *only* the problematic mod and its required dependencies.
+- **Identify the Source via Logs**  
+  Check error log files for script names or folder paths that indicate which mod is causing the issue.
+- **Confirm Game Version**  
+  Make sure your game is fully up to date. Outdated game versions can cause unexpected errors.
+- **Search for Existing Solutions**  
+  Check Google, forums, Discord servers, and mod comment sections to see if the issue has already been reported and solved.
+
+### When You Are Ready to Ask for Help
+If you are confident the issue is caused by this mod, please include the following information in your request:
+
+- A **clear and detailed description** of the problem
+- Your **game version** and **mod version**
+- Relevant **error logs** (if available)
+- A list of **troubleshooting steps** you have already tried
+
+The more complete your report is, the faster and more accurately the issue can be identified and resolved.
 
 ## Where to Get Support
 

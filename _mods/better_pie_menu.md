@@ -18,10 +18,10 @@ The **Better Pie Menu (BPM)** mod is designed to bring order to the chaos of the
 * **New Categories:** Thoughtful reorganization of sub-folders for a cleaner interface.
 * **Base Game Compatible:** Works perfectly without any DLCs!
 
-## Compatibility & Conflicts
+## Compatibility
 BPM uses a script to reorganize menus via **Pie Menu Category Tuning**. It does not overwrite individual interactions, making it highly flexible.
 
-#### ✅ Tested & Compatible
+#### Tested & Compatible
 * **Smarter Pie Menu** by TwistedMexi
 
 #### Known Issues & Troubleshooting
