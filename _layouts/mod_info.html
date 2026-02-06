@@ -21,19 +21,18 @@ layout: default
       {% endif %}
 
       {% comment %}
-        SPLIT LOGIK: Zerlegung an den H2-IDs.
-        Ziel: Original-H2 aus dem Content entfernen, damit Titel nicht doppelt erscheinen.
-        Reihenfolge: Language -> Compatibility -> FAQ
+        CONTENT SPLIT
+        Reihenfolge: Description -> Compatibility -> Language -> FAQ
       {% endcomment %}
 
       {% assign content_parts = content | split: '<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>' %}
       {% assign main_content = content_parts[0] %}
 
-      {% assign lang_global_split = main_content | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
-      {% assign main_wo_language = lang_global_split[0] %}
+      {% assign lang_split = main_content | split: '<h2 id="language--translations">Language &amp; Translations</h2>' %}
+      {% assign main_wo_language = lang_split[0] %}
       {% assign lang_body = "" %}
-      {% if lang_global_split.size > 1 %}
-        {% assign lang_body = lang_global_split[1] %}
+      {% if lang_split.size > 1 %}
+        {% assign lang_body = lang_split[1] %}
       {% endif %}
       {% assign lang_body_clean = lang_body | strip %}
 
@@ -71,26 +70,33 @@ layout: default
           Language &amp; Translations
         </h2>
 
-        {% assign files_size = page.files | size %}
-        {% assign has_bat = page.files contains "bat" %}
-        {% assign has_script = page.files contains "ts4script" %}
+        {% assign files = page.files | default: empty %}
+        {% assign files_size = files | size %}
 
-        {% assign is_bat_only = has_bat and files_size == 1 %}
-        {% assign is_script_only = has_script and files_size == 1 %}
+        {% assign has_bat = false %}
+        {% assign has_script = false %}
 
-        {% if is_bat_only %}
+        {% if files contains "bat" %}
+          {% assign has_bat = true %}
+        {% endif %}
+
+        {% if files contains "ts4script" %}
+          {% assign has_script = true %}
+        {% endif %}
+
+        {% if has_bat and files_size == 1 %}
           <div class="translation-template-content mod-text">
             {% include translation/bat_script.md %}
           </div>
 
-        {% elsif is_script_only %}
+        {% elsif has_script and files_size == 1 %}
           <div class="translation-template-content mod-text">
             {% include translation/python_script.md %}
           </div>
 
         {% else %}
           {% if lang_body_clean != "" %}
-            <p class="mod-text" style="margin-top: 10px; margin-bottom: 10px; ">
+            <p class="mod-text" style="margin-top: 10px; margin-bottom: 10px;">
               This mod is available in the following languages:
             </p>
 
@@ -112,9 +118,11 @@ layout: default
         <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
           Installation Guide
         </h2>
-        <p class="mod-text" style="margin-top: 12px; margin-bottom: 10px; ">
+
+        <p class="mod-text" style="margin-top: 12px; margin-bottom: 10px;">
           Please note the following information:
         </p>
+
         <div class="mod-text">
           {% if page.files contains "bat" %}
             {% include installation/bat_script.html %}
@@ -185,6 +193,7 @@ layout: default
     text-decoration: none;
     transition: all 0.2s ease;
   }
+
   .tutorial-link:hover {
     color: var(--accent-hover-color, #ff4500) !important;
     text-decoration: underline !important;
@@ -203,6 +212,7 @@ layout: default
   .adsbygoogle[data-ad-status="filled"] {
     margin: 16px 0;
   }
+
   .adsbygoogle[data-ad-status="unfilled"] {
     display: none !important;
   }
