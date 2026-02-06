@@ -71,13 +71,22 @@ layout: default
           Language &amp; Translations
         </h2>
 
+        {% comment %}
+          Hinweistext nur anzeigen, wenn tatsächlich Übersetzungen / Inhalte existieren
+        {% endcomment %}
+        {% if lang_body != "" or page.disable_translations != true %}
+          <p class="mod-description" style="margin-top: 10px;">
+            The following translations are included in this mod:
+          </p>
+        {% endif %}
+
         {% if lang_body != "" %}
           <div class="custom-translation-text mod-description">
             {{ lang_body }}
           </div>
         {% endif %}
 
-        <div class="translation-template-content">
+        <div class="translation-template-content mod-description">
           {% if page.disable_translations == true or page.strings == false %}
             {% include translation/no_strings.md %}
           {% elsif page.files contains "bat" %}
@@ -94,10 +103,10 @@ layout: default
         <h2 id="installation-guide" style="border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">
           Installation Guide
         </h2>
-        <p style="margin-top: 12px; font-weight: 600;">
+        <p class="mod-description" style="margin-top: 12px; font-weight: 600;">
           Please note the following information:
         </p>
-        <div>
+        <div class="mod-description">
           {% if page.files contains "bat" %}
             {% include installation/bat_script.html %}
           {% elsif page.files contains "ts4script" %}
@@ -117,7 +126,7 @@ layout: default
       {% if content contains 'id="frequently-asked-questions"' %}
         <section class="mod-faq-container" style="margin-top: 50px; padding: 25px; background: rgba(0,0,0,0.03); border-radius: 15px; border-left: 5px solid var(--accent-color);">
           <h2 style="margin-top: 0;">Frequently Asked Questions</h2>
-          <div class="faq-content">
+          <div class="faq-content mod-description">
             {{ content_parts[1] }}
           </div>
         </section>
