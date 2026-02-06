@@ -3,7 +3,7 @@ mod_id: object_tuning_replacement
 title: Object Tuning Replacement
 icon: fas fa-chair
 files: ["ts4script"]
-categories: [Scripts, Tweaks, Replacement]
+categories: [Scripts, Object Tweaks, Replacement]
 tagline: "Fixes hundreds of EA objects on the fly, making chairs, lamps, and gear portable and live-drag compatible without overrides."
 ---
 

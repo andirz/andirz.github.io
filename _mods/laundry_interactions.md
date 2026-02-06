@@ -5,7 +5,7 @@ parent: "Mods"
 icon: "fas fa-hands-wash"
 packs: ["SP13"]
 requirements: ["lot51_core"]
-categories: [Laundry, Activities, Realism]
+categories: [Laundry, Activities, Realism, Object Tweaks]
 tagline: "Add realism to your chores with brand new interactions like smelling fresh laundry, folding piles, and fixing broken machines."
 ---
 

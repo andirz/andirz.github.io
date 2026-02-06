@@ -5,7 +5,7 @@ parent: "Mods"
 icon: "fas fa-book-open"
 packs: ["GP05"]
 requirements: ["lot51_core"]
-categories: [Writing, Skills, Storytelling, Adopted Mods]
+categories: [Writing, Skills, Storytelling, Object Tweaks, Adopted Mods]
 tagline: "Transform the diary into a powerful storytelling tool with new skill activities and deep emotional reflections for all ages."
 strings: false
 ---
