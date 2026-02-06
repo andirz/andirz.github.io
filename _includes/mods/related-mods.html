@@ -1,14 +1,17 @@
 {%- comment -%}
-related-mods.html
-- icon pills (2 rows × 3)
-- category-based matching (like categories)
-- "force clickable" styles against overlays/global CSS
+related-mods.html (NEW)
+- Uses real pages from site.mods (like categories.html should)
+- Matches by categories
+- Outputs 6 icon-only pills (2 rows × 3)
+- Forces links to stay clickable (z-index / pointer-events)
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
 {%- assign count = 0 -%}
+
 {%- assign current_id = page.mod_id -%}
 
+{%- comment -%} Current categories: page first, then data fallback {%- endcomment -%}
 {%- assign current_categories = page.categories -%}
 {%- if current_categories == nil -%}
   {%- assign current_data = site.data.mods | where: "id", current_id | first -%}
@@ -18,74 +21,75 @@ related-mods.html
   {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
-<section class="related-mods-icons" aria-label="Related mods">
-  <div class="related-mods-head">
-    <strong class="related-title">Related Mods:</strong>
-  </div>
+<section class="rm-wrap">
+  <div class="rm-title">Related Mods:</div>
 
-  <div class="related-mods-grid">
-    {%- for mod in site.data.mods -%}
-      {%- if count < max_items and mod.id != current_id -%}
+  <div class="rm-grid">
+    {%- for p in site.mods -%}
+      {%- if count < max_items -%}
+        {%- if p.mod_id != current_id -%}
 
-        {%- assign mod_page = site.mods | where: "mod_id", mod.id | first -%}
-        {%- if mod_page -%}
-          {%- assign mod_categories = mod_page.categories | default: mod.categories -%}
+          {%- assign p_categories = p.categories -%}
+          {%- if p_categories == nil -%}
+            {%- assign p_data = site.data.mods | where: "id", p.mod_id | first -%}
+            {%- assign p_categories = p_data.categories -%}
+          {%- endif -%}
+          {%- if p_categories == nil -%}
+            {%- assign p_categories = "" | split: "|" -%}
+          {%- endif -%}
 
           {%- assign match = false -%}
-          {%- for cat in mod_categories -%}
-            {%- if current_categories contains cat -%}
+          {%- for c in p_categories -%}
+            {%- if current_categories contains c -%}
               {%- assign match = true -%}
             {%- endif -%}
           {%- endfor -%}
 
           {%- if match -%}
-            <a
-              class="related-mod-pill"
-              href="{{ mod_page.url | relative_url }}"
-              title="{{ mod.name }}"
-              aria-label="{{ mod.name }}"
-            >
+            {%- assign p_name = p.title | default: p.name -%}
+            {%- if p_name == nil or p_name == "" -%}
+              {%- assign p_data2 = site.data.mods | where: "id", p.mod_id | first -%}
+              {%- assign p_name = p_data2.name -%}
+            {%- endif -%}
+
+            <a class="rm-pill" href="{{ p.url | relative_url }}" title="{{ p_name }}" aria-label="{{ p_name }}">
               <i class="fas fa-puzzle-piece" aria-hidden="true"></i>
             </a>
+
             {%- assign count = count | plus: 1 -%}
           {%- endif -%}
-        {%- endif -%}
 
+        {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
   </div>
 </section>
 
 <style>
-/* Container darf NICHT Klicks schlucken */
-.related-mods-icons{
+/* Minimal + robust: should not interfere with your layout */
+.rm-wrap{
+  margin-top: 1.1rem;
   position: relative;
-  z-index: 2;
+  z-index: 2;              /* sit above annoying overlays */
 }
 
-/* Head wie im Mockup */
-.related-mods-head{
+.rm-title{
+  font-weight: 900;
+  font-size: 1.1rem;
   margin-bottom: 10px;
 }
 
-.related-title{
-  font-weight: 900;
-  font-size: 1.1rem;
-}
-
-/* 2×3 Pills */
-.related-mods-grid{
+/* 2 rows × 3 */
+.rm-grid{
   display: grid;
   grid-template-columns: repeat(3, 56px);
   gap: 14px 16px;
+  position: relative;
+  z-index: 3;
 }
 
-/* Pill-Button: "force clickable" */
-.related-mod-pill{
-  position: relative;
-  z-index: 5;
-  pointer-events: auto !important;
-
+/* Icon-only pill, always clickable */
+.rm-pill{
   width: 56px;
   height: 36px;
   border-radius: 999px;
@@ -95,29 +99,24 @@ related-mods.html
   justify-content: center;
 
   text-decoration: none !important;
+
   background: rgba(0,0,0,0.035);
-  color: rgba(0,0,0,0.45);
+  color: rgba(0,0,0,0.50);
+
+  position: relative;
+  z-index: 10;
+  pointer-events: auto !important;
 
   transition: transform 120ms ease, background 120ms ease;
 }
 
-.related-mod-pill:hover{
+.rm-pill:hover{
   background: rgba(0,0,0,0.07);
   transform: translateY(-1px);
 }
 
-.related-mod-pill i{
+.rm-pill i{
   font-size: 0.95rem;
   opacity: 0.85;
-}
-
-/* Mobile: bleibt 3 pro Reihe, aber flexibel */
-@media (max-width: 520px){
-  .related-mods-grid{
-    grid-template-columns: repeat(3, minmax(52px, 1fr));
-  }
-  .related-mod-pill{
-    width: 100%;
-  }
 }
 </style>
