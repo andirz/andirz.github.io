@@ -3,7 +3,7 @@ mod_id: better_pie_menu
 title: "Better Pie Menu"
 icon: "fas fa-list-ul"
 requirements: ["lot51_core"]
-categories: [UI Tweaks, Optimization, Overrides]
+categories: [UI Tweaks, Overrides]
 tagline: "End the clutter and find your favorite interactions faster with a beautifully reorganized and color-coded UI."
 strings: false
 ---
