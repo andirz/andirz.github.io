@@ -8,10 +8,6 @@ layout: page
     <main style="flex: 2; min-width: 320px;">
       {% include mods/hero-header.html %}
 
-      <div class="ad-container-hero-below" style="margin: 20px 0; text-align: center; width: 100%;">
-        {% include google/ad-horizontal.html %}
-      </div>
-
       {% if page.categories contains "Injectors" or page.categories contains "Core" %}
         {% if page.files contains "ts4script" %}
           {% include mods/library-info.html type="ts4script" %}
@@ -35,6 +31,9 @@ layout: page
         {% assign lang_body = lang_split[1] %}
       {% endif %}
       {% assign lang_body_clean = lang_body | strip %}
+
+
+      {% include google/ad-horizontal.html %}
 
       {% assign compat_split = main_wo_language | split: '<h2 id="compatibility">Compatibility</h2>' %}
       {% assign before_compat = compat_split[0] %}
