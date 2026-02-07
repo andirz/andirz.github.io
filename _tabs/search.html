@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Search
+permalink: /search/
 description: 'Tip: try words like “core”, “pso”, “skill”, “install”…'
 ---
 
@@ -33,12 +34,14 @@ description: 'Tip: try words like “core”, “pso”, “skill”, “install
 </style>
 
 <script>
-(() => {
+document.addEventListener('DOMContentLoaded', () => {
   const input  = document.getElementById('q');
   const status = document.getElementById('status');
   const groups = document.getElementById('groups');
 
-  // Reihenfolge + Anzeige-Labels (pass gern an)
+  // Sofort sichtbares Lebenszeichen:
+  status.textContent = 'Search script loaded. Loading index…';
+
   const ORDER = [
     ['mods',  'Mods'],
     ['wiki',  'Sims 4 Wiki'],
@@ -64,9 +67,7 @@ description: 'Tip: try words like “core”, “pso”, “skill”, “install
     const low = t.toLowerCase();
     const idx = low.indexOf(needle);
 
-    if (idx === -1) {
-      return t.slice(0, 180) + (t.length > 180 ? '…' : '');
-    }
+    if (idx === -1) return t.slice(0, 180) + (t.length > 180 ? '…' : '');
 
     const start = Math.max(0, idx - 60);
     const end   = Math.min(t.length, idx + needle.length + 90);
@@ -79,7 +80,7 @@ description: 'Tip: try words like “core”, “pso”, “skill”, “install
     const total = Object.values(grouped).reduce((a, arr) => a + arr.length, 0);
 
     if (!q.trim()) {
-      status.textContent = '';
+      status.textContent = 'Type to search…';
       return;
     }
 
@@ -120,64 +121,65 @@ description: 'Tip: try words like “core”, “pso”, “skill”, “install
     });
   }
 
-  let data = [];
-
-  async function load() {
-    const url = '{{ "/assets/js/data/search.json" | relative_url }}';
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`search.json not found: ${res.status}`);
-    data = await res.json();
-  }
-
-  function doSearch(q) {
-    q = (q || '').trim();
-    if (!q) { render({}, ''); return; }
-
-    const needle = q.toLowerCase();
-
-    const matches = data.filter(it => {
-      const t = (it.title || '').toLowerCase();
-      const c = (it.content || '').toLowerCase();
-      return t.includes(needle) || c.includes(needle);
-    });
-
-    const grouped = {};
-    matches.forEach(it => {
-      const k = it.collection || 'pages';
-      (grouped[k] ||= []).push(it);
-    });
-
-    // einfache Sortierung: Titel-Treffer nach vorn
-    Object.keys(grouped).forEach(k => {
-      grouped[k].sort((a, b) => {
-        const at = (a.title || '').toLowerCase().includes(needle) ? 0 : 1;
-        const bt = (b.title || '').toLowerCase().includes(needle) ? 0 : 1;
-        return at - bt;
-      });
-    });
-
-    render(grouped, q);
-  }
-
-  // query param ?q=...
-  const params = new URLSearchParams(location.search);
-  input.value = params.get('q') || '';
-
-  input.addEventListener('input', () => {
-    const q = input.value;
-    const p = new URLSearchParams(location.search);
-    q ? p.set('q', q) : p.delete('q');
-    history.replaceState(null, '', `${location.pathname}${p.toString() ? '?' + p.toString() : ''}`);
-    doSearch(q);
-  });
-
   (async () => {
-    status.textContent = input.value ? 'Searching…' : '';
-    await load();
-    doSearch(input.value);
-  })().catch(err => {
-    status.textContent = 'Search failed to load data.';
-    console.error(err);
-  });
-})();
+    try {
+      const url = '{{ "/assets/js/data/search.json" | relative_url }}';
+      const res = await fetch(url, { cache: 'no-store' });
+
+      if (!res.ok) {
+        status.textContent = `Search index not found: ${url} (HTTP ${res.status})`;
+        return;
+      }
+
+      const data = await res.json();
+      status.textContent = `Index loaded (${data.length} items). Type to search…`;
+
+      // query param ?q=...
+      const params = new URLSearchParams(location.search);
+      input.value = params.get('q') || '';
+
+      function doSearch(q) {
+        q = (q || '').trim();
+        if (!q) { render({}, ''); return; }
+
+        const needle = q.toLowerCase();
+
+        const matches = data.filter(it => {
+          const t = (it.title || '').toLowerCase();
+          const c = (it.content || '').toLowerCase();
+          return t.includes(needle) || c.includes(needle);
+        });
+
+        const grouped = {};
+        matches.forEach(it => {
+          const k = it.collection || 'pages';
+          (grouped[k] ||= []).push(it);
+        });
+
+        Object.keys(grouped).forEach(k => {
+          grouped[k].sort((a, b) => {
+            const at = (a.title || '').toLowerCase().includes(needle) ? 0 : 1;
+            const bt = (b.title || '').toLowerCase().includes(needle) ? 0 : 1;
+            return at - bt;
+          });
+        });
+
+        render(grouped, q);
+      }
+
+      input.addEventListener('input', () => {
+        const q = input.value;
+        const p = new URLSearchParams(location.search);
+        q ? p.set('q', q) : p.delete('q');
+        history.replaceState(null, '', `${location.pathname}${p.toString() ? '?' + p.toString() : ''}`);
+        doSearch(q);
+      });
+
+      doSearch(input.value);
+    } catch (e) {
+      status.textContent = 'Search crashed: ' + (e && e.message ? e.message : String(e));
+      console.error(e);
+    }
+  })();
+});
 </script>
