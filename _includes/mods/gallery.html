@@ -1,9 +1,10 @@
 {% comment %}
-  Mod Gallery
-  - Left: large preview
-  - Right: vertical thumbnails
-  - Images loaded from /assets/img/mods/<mod_id>/
-  - cover.* is excluded
+  Mod Gallery (robust)
+  - Loads images from /assets/img/mods/<mod_id>/
+  - Only real image extensions
+  - Excludes cover.*
+  - If 0 images: outputs NOTHING (no headings, no markup)
+  - If 1 image: only big preview (no thumbs)
 {% endcomment %}
 
 {% assign filename = page.path | split: "/" | last | replace: ".md", "" %}
@@ -11,30 +12,30 @@
 {% assign img_base = "/assets/img/mods/" | append: mod_id %}
 
 {% assign images = "" | split: "" %}
+
 {% for file in site.static_files %}
   {% if file.path contains img_base
-        and file.extname != ".svg"
         and file.path contains "/cover." == false %}
-    {% assign images = images | push: file.path %}
+    {% assign ext = file.extname | downcase %}
+    {% if ext == ".png" or ext == ".jpg" or ext == ".jpeg" or ext == ".webp" or ext == ".gif" %}
+      {% assign images = images | push: file.path %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 
 {% if images.size > 0 %}
 
-<h3 class="mod-gallery-title">
-  Gallery
-</h3>
+<h3 class="mod-gallery-title">Gallery</h3>
 
 <div class="mod-split-gallery" data-mod-gallery>
-
-  <!-- MAIN IMAGE -->
   <div class="msg-main">
-    <img src="{{ images[0] }}"
+    <img class="msg-main-img"
+         src="{{ images[0] }}"
          alt="{{ page.title }} preview">
   </div>
 
-  <!-- THUMBNAILS -->
-  <div class="msg-thumbs">
+  {% if images.size > 1 %}
+  <div class="msg-thumbs" aria-label="Gallery thumbnails">
     {% for img in images %}
       <button type="button"
               class="msg-thumb{% if forloop.first %} active{% endif %}"
@@ -44,13 +45,12 @@
       </button>
     {% endfor %}
   </div>
-
+  {% endif %}
 </div>
 
 {% endif %}
 
 <style>
-/* TITLE */
 .mod-gallery-title{
   margin:22px 0 10px;
   font-size:1.25rem;
@@ -59,7 +59,6 @@
   padding-bottom:4px;
 }
 
-/* LAYOUT */
 .mod-split-gallery{
   display:grid;
   grid-template-columns: 1fr 140px;
@@ -67,7 +66,6 @@
   margin:14px 0 28px;
 }
 
-/* MAIN IMAGE */
 .msg-main{
   background:#000;
   border-radius:14px;
@@ -75,14 +73,13 @@
   border:1px solid var(--border-color);
 }
 
-.msg-main img{
+.msg-main-img{
   width:100%;
   aspect-ratio:16/9;
   object-fit:cover;
   display:block;
 }
 
-/* THUMB COLUMN */
 .msg-thumbs{
   display:flex;
   flex-direction:column;
@@ -90,7 +87,6 @@
   overflow:auto;
 }
 
-/* THUMB */
 .msg-thumb{
   all:unset;
   cursor:pointer;
@@ -107,7 +103,7 @@
   display:block;
 }
 
-/* ACTIVE = ruhig, kein Glow */
+/* active = ruhig, kein glow */
 .msg-thumb.active{
   border-color: rgba(0,0,0,0.75);
 }
@@ -119,7 +115,6 @@
   filter:none;
 }
 
-/* MOBILE */
 @media (max-width: 900px){
   .mod-split-gallery{
     grid-template-columns:1fr;
@@ -138,8 +133,9 @@
   const gallery = document.querySelector('[data-mod-gallery]');
   if (!gallery) return;
 
-  const mainImg = gallery.querySelector('.msg-main img');
+  const mainImg = gallery.querySelector('.msg-main-img');
   const thumbs = gallery.querySelectorAll('.msg-thumb');
+  if (!mainImg || thumbs.length === 0) return;
 
   thumbs.forEach(btn => {
     btn.addEventListener('click', () => {
