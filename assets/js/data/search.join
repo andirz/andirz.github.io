@@ -4,57 +4,69 @@ swcache: true
 ---
 
 [
-  {%- assign first = true -%}
+{%- assign first = true -%}
 
-  {%- comment -%} POSTS {%- endcomment -%}
-  {%- for post in site.posts -%}
-    {%- unless first -%},{%- endunless -%}
-    {%- assign first = false -%}
-    {
-      "collection": "posts",
-      "title": {{ post.title | default: "" | jsonify }},
-      "url": {{ post.url | relative_url | jsonify }},
-      "content": {{ post.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
-    }
-  {%- endfor -%}
+{%- comment -%} POSTS {%- endcomment -%}
+{%- for post in site.posts -%}
+  {%- unless first -%},{%- endunless -%}
+  {%- assign first = false -%}
+  {
+    "collection": "posts",
+    "title": {{ post.title | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "date": {{ post.date | date_to_xmlschema | jsonify }},
+    "categories": {{ post.categories | join: ", " | jsonify }},
+    "tags": {{ post.tags | join: ", " | jsonify }},
+    {% capture content -%}{% include post-summary.html full_text=true %}{%- endcapture -%}
+    "content": {{ content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
+  }
+{%- endfor -%}
 
-  {%- comment -%} PAGES {%- endcomment -%}
-  {%- for page in site.pages -%}
-    {%- assign u = page.url | default: "" -%}
-    {%- assign t = page.title | default: "" -%}
-    {%- if t != "" and u != "" -%}
-      {%- unless u contains "/assets/" or u contains "/uploads/" or u == "/404.html" or u contains "sitemap" or u contains "feed" or u contains "robots" -%}
+{%- comment -%} PAGES (ohne Tabs/Assets/etc.) {%- endcomment -%}
+{%- for page in site.pages -%}
+  {%- if page.title and page.url and page.url != "/" and page.url contains "/" -%}
+    {%- assign p = page.path | default: "" -%}
+    {%- unless p contains "_tabs/" or p contains "assets/" or p contains "_includes/" or p contains "_layouts/" or p contains "_sass/" -%}
+      {%- unless first -%},{%- endunless -%}
+      {%- assign first = false -%}
+      {
+        "collection": "pages",
+        "title": {{ page.title | jsonify }},
+        "url": {{ page.url | relative_url | jsonify }},
+        "date": {{ page.date | default: site.time | date_to_xmlschema | jsonify }},
+        "categories": {{ page.categories | default: "" | join: ", " | jsonify }},
+        "tags": {{ page.tags | default: "" | join: ", " | jsonify }},
+        "content": {{ page.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
+      }
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%}
+  COLLECTIONS: trage hier deine Kollektionen ein, die du getrennt ausgeben willst.
+  Passe die Liste an, falls deine Namen anders sind.
+{%- endcomment -%}
+
+{%- assign wanted = "mods,wiki,tools,games" | split: "," -%}
+{%- for cname in wanted -%}
+  {%- assign coll = site.collections | where: "label", cname | first -%}
+  {%- if coll and coll.docs -%}
+    {%- for doc in coll.docs -%}
+      {%- if doc.title and doc.url -%}
         {%- unless first -%},{%- endunless -%}
         {%- assign first = false -%}
         {
-          "collection": "pages",
-          "title": {{ page.title | default: "" | jsonify }},
-          "url": {{ page.url | relative_url | jsonify }},
-          "content": {{ page.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
+          "collection": {{ cname | jsonify }},
+          "title": {{ doc.title | jsonify }},
+          "url": {{ doc.url | relative_url | jsonify }},
+          "date": {{ doc.date | default: site.time | date_to_xmlschema | jsonify }},
+          "categories": {{ doc.categories | default: "" | join: ", " | jsonify }},
+          "tags": {{ doc.tags | default: "" | join: ", " | jsonify }},
+          "content": {{ doc.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
         }
-      {%- endunless -%}
-    {%- endif -%}
-  {%- endfor -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
 
-  {%- comment -%} COLLECTIONS (anpassen, falls Labels anders heißen) {%- endcomment -%}
-  {%- assign COLLECTION_KEYS = "mods,wiki,tools,games" | split: "," -%}
-  {%- for key in COLLECTION_KEYS -%}
-    {%- assign coll = site.collections | where: "label", key | first -%}
-    {%- if coll and coll.docs -%}
-      {%- for doc in coll.docs -%}
-        {%- assign dt = doc.title | default: "" -%}
-        {%- assign du = doc.url | default: "" -%}
-        {%- if dt != "" and du != "" -%}
-          {%- unless first -%},{%- endunless -%}
-          {%- assign first = false -%}
-          {
-            "collection": {{ key | jsonify }},
-            "title": {{ doc.title | default: "" | jsonify }},
-            "url": {{ doc.url | relative_url | jsonify }},
-            "content": {{ doc.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
-          }
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-  {%- endfor -%}
 ]

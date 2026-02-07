@@ -2,47 +2,49 @@
 layout: page
 title: Search
 permalink: /search/
-description: 'Tip: try words like “core”, “pso”, “skill”, “install”…'
-icon: fas fa-search
-order: 900
 ---
 
 <div class="search-page">
   <div class="search-box">
-    <input id="q" class="form-control" type="search" placeholder="Search…" autocomplete="off" />
+    <input id="my-search-q" class="form-control" type="search" placeholder="Search…" autocomplete="off" />
     <div class="search-hint text-muted" style="margin-top:8px; font-size:0.9rem;">
       Tip: try words like “core”, “pso”, “skill”, “install”…
     </div>
   </div>
 
-  <div id="status" class="text-muted" style="margin-top:14px;"></div>
-  <div id="groups" style="margin-top:18px;"></div>
+  <!-- Chirpy will unten im Theme nochmal SimpleJekyllSearch initialisieren und erwartet #search-input.
+       Damit das nicht crasht (und deinen Code mitreißt), geben wir ihm ein unsichtbares Dummy-Input. -->
+  <input id="search-input" type="search" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" aria-hidden="true" tabindex="-1" />
+
+  <div id="my-search-status" class="text-muted" style="margin-top:14px;"></div>
+  <div id="my-search-groups" style="margin-top:18px;"></div>
 </div>
 
 <style>
   .search-page { max-width: 860px; }
-  #groups section { margin-top: 22px; }
-  #groups h2 { font-size: 1.25rem; margin: 0 0 10px 0; }
-  #groups .search-results article {
+  #my-search-groups section { margin-top: 22px; }
+  #my-search-groups h2 { font-size: 1.25rem; margin: 0 0 10px 0; }
+  #my-search-groups .search-results article {
     margin: 14px 0;
     padding: 12px 14px;
     border: 1px solid var(--border-color);
     border-radius: 12px;
     background: var(--bg-primary);
   }
-  #groups .search-results h3 { margin: 0; font-size: 1.05rem; }
-  #groups .search-results p { margin: 6px 0 0; opacity: .9; line-height: 1.35; }
-  #groups .count { font-size: .95rem; opacity: .7; }
+  #my-search-groups .search-results h3 { margin: 0; font-size: 1.05rem; }
+  #my-search-groups .search-results p { margin: 6px 0 0; opacity: .9; line-height: 1.35; }
+  #my-search-groups .count { font-size: .95rem; opacity: .7; }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const input  = document.getElementById('q');
-  const status = document.getElementById('status');
-  const groups = document.getElementById('groups');
+(() => {
+  const input  = document.getElementById('my-search-q');
+  const status = document.getElementById('my-search-status');
+  const groups = document.getElementById('my-search-groups');
 
-  // Sofort sichtbares Lebenszeichen:
-  status.textContent = 'Search script loaded. Loading index…';
+  if (!input || !status || !groups) return;
+
+  status.textContent = 'Loading search index…';
 
   const ORDER = [
     ['mods',  'Mods'],
@@ -54,11 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   const TITLES = Object.fromEntries(ORDER);
 
-  function esc(s) {
-    return (s || '').replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[c]));
-  }
+  const esc = (s) => (s || '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
 
   function snippet(text, q) {
     const t = (text || '').replace(/\s+/g, ' ').trim();
@@ -123,6 +123,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  let data = [];
+
+  function doSearch(q) {
+    q = (q || '').trim();
+    if (!q) { render({}, ''); return; }
+
+    const needle = q.toLowerCase();
+
+    const matches = data.filter(it => {
+      const t = (it.title || '').toLowerCase();
+      const c = (it.content || '').toLowerCase();
+      return t.includes(needle) || c.includes(needle);
+    });
+
+    const grouped = {};
+    matches.forEach(it => {
+      const k = it.collection || 'pages';
+      (grouped[k] ||= []).push(it);
+    });
+
+    // einfache Sortierung: Titel-Treffer zuerst
+    Object.keys(grouped).forEach(k => {
+      grouped[k].sort((a, b) => {
+        const at = (a.title || '').toLowerCase().includes(needle) ? 0 : 1;
+        const bt = (b.title || '').toLowerCase().includes(needle) ? 0 : 1;
+        return at - bt;
+      });
+    });
+
+    render(grouped, q);
+  }
+
   (async () => {
     try {
       const url = '{{ "/assets/js/data/search.json" | relative_url }}';
@@ -133,41 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const data = await res.json();
+      data = await res.json();
       status.textContent = `Index loaded (${data.length} items). Type to search…`;
 
-      // query param ?q=...
       const params = new URLSearchParams(location.search);
       input.value = params.get('q') || '';
-
-      function doSearch(q) {
-        q = (q || '').trim();
-        if (!q) { render({}, ''); return; }
-
-        const needle = q.toLowerCase();
-
-        const matches = data.filter(it => {
-          const t = (it.title || '').toLowerCase();
-          const c = (it.content || '').toLowerCase();
-          return t.includes(needle) || c.includes(needle);
-        });
-
-        const grouped = {};
-        matches.forEach(it => {
-          const k = it.collection || 'pages';
-          (grouped[k] ||= []).push(it);
-        });
-
-        Object.keys(grouped).forEach(k => {
-          grouped[k].sort((a, b) => {
-            const at = (a.title || '').toLowerCase().includes(needle) ? 0 : 1;
-            const bt = (b.title || '').toLowerCase().includes(needle) ? 0 : 1;
-            return at - bt;
-          });
-        });
-
-        render(grouped, q);
-      }
 
       input.addEventListener('input', () => {
         const q = input.value;
@@ -183,5 +185,5 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(e);
     }
   })();
-});
+})();
 </script>
