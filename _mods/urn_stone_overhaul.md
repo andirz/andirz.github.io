@@ -3,7 +3,7 @@ mod_id: urn_stone_overhaul
 title: "Urn/Stone Overhaul"
 icon: "fas fa-monument"
 requirements: ["lot51_core"]
-categories: [Death, Tweaks, Gameplay, Overrides]
+categories: [Death, Object Tweaks, Emotion Tweaks, Overrides]
 strings: false
 ---
 

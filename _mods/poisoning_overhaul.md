@@ -4,7 +4,7 @@ title: "Poisoning Overhaul"
 icon: "fas fa-biohazard"
 packs: ["GP06"]
 requirements: ["lot51_core"]
-categories: [Death, Gameplay, Medical, Realism]
+categories: [Death, Medical, Realism, Object Tweaks]
 strings: false
 ---
 

@@ -4,7 +4,7 @@ title: "Auto Service Career"
 parent: "Mods"
 icon: "fas fa-car-side"
 requirements: ["lot51_core"]
-categories: [Careers, Gameplay, Skills, Adopted Mods]
+categories: [Careers, Skills, Adopted Mods]
 tagline: "Climb the ladder from the workshop floor to department head in this fully modernized automotive career."
 ---
 
