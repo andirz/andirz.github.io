@@ -11,10 +11,10 @@ The **Smart Sim Randomizer** brings life to your world by automatically and inte
 
 ### Customizable Configuration System
 Version 3.0.0 introduces a groundbreaking framework that gives you absolute control through a new in-game interface:
-* **In-Game Menu:** No more manual file editing. Change all settings directly through the in-game menu.
-* **Granular Targeting:** Choose exactly **who** is affected, including Active Households, unplayed NPCs, or all Sims.
-* **Safety First:** All settings are **turned off by default** to protect your Sims from accidental changes.
-* **Persistent Settings:** Your configuration is saved in your **"Save" folder**, so your custom rules remain intact even after mod updates.
+* **In-Game Menu:** Forget about manual file editing or restarting the game to test settings. You can now access a dedicated menu to change all configuration options directly in real-time.
+* **Granular Targeting:** You decide the scope of the mod's influence. Choose exactly who is affected by the automation—whether it is the **Active Household only**, **Unplayed NPCs** to keep your townies fresh, or **All Sims** for a fully dynamic world.
+* **Safety First:** To ensure your carefully crafted Sims aren't changed without your consent, all settings are **turned off by default**. The mod remains dormant until you explicitly enable the specific categories you want to randomize.
+* **Persistent Settings:** Your configuration is automatically saved as an `.ini` file within your **"Save" folder**. This means your custom rules, limits, and preferences remain intact even after mod updates, game patches, or a complete reinstallation of the mod files.
 
 ### The Smart Logic
 Unlike basic randomizers that just roll a dice, this framework uses a probability-based system that respects a Sim's existing identity, appearance, and history. The mod analyzes a Sim's traits to derive character-driven choices: for example, a *Snob* is unlikely to enjoy cheap furniture, while a *Creative* Sim is more likely to enjoy painting. This ensures logical consistency—if a Sim hates cooking, they will likely hate baking too—and the more skills a Sim possesses, the more accurately their randomized preferences will match their unique identity.
