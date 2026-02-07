@@ -1,80 +1,71 @@
 {% comment %}
-  Dumb Mod Gallery (NO JS)
-  Looks only for:
-    /assets/img/mods/<mod_id>/img01.(png|jpg)
-    /assets/img/mods/<mod_id>/img02.(png|jpg)
-    /assets/img/mods/<mod_id>/img03.(png|jpg)
-    /assets/img/mods/<mod_id>/img04.(png|jpg)
-  If none exist => outputs NOTHING
+  Dumb Gallery (NO JS)
+  - Looks ONLY for img01.png .. img04.png in:
+    /assets/img/mods/<mod_id>/
+  - If img01.png does not exist => outputs NOTHING (no heading, no markup)
 {% endcomment %}
 
 {% assign g_filename = page.path | split: "/" | last | replace: ".md", "" %}
 {% assign g_mod_id = page.mod_id | default: g_filename %}
 {% assign g_dir = "/assets/img/mods/" | append: g_mod_id | append: "/" %}
 
-{% assign g_paths = "" | split: "" %}
+{% assign p1 = g_dir | append: "img01.png" %}
+{% assign p2 = g_dir | append: "img02.png" %}
+{% assign p3 = g_dir | append: "img03.png" %}
+{% assign p4 = g_dir | append: "img04.png" %}
 
-{% for i in (1..4) %}
-  {% if i < 10 %}
-    {% assign num = "0" | append: i %}
-  {% else %}
-    {% assign num = i %}
-  {% endif %}
+{% assign e1 = false %}
+{% assign e2 = false %}
+{% assign e3 = false %}
+{% assign e4 = false %}
 
-  {% assign p_png = g_dir | append: "img" | append: num | append: ".png" %}
-  {% assign p_jpg = g_dir | append: "img" | append: num | append: ".jpg" %}
-
-  {% assign found = "" %}
-
-  {% for f in site.static_files %}
-    {% if f.path == p_png %}
-      {% assign found = p_png %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-
-  {% if found == "" %}
-    {% for f in site.static_files %}
-      {% if f.path == p_jpg %}
-        {% assign found = p_jpg %}
-        {% break %}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-
-  {% if found != "" %}
-    {% assign g_paths = g_paths | push: found %}
-  {% endif %}
+{% for f in site.static_files %}
+  {% if f.path == p1 %}{% assign e1 = true %}{% break %}{% endif %}
+{% endfor %}
+{% for f in site.static_files %}
+  {% if f.path == p2 %}{% assign e2 = true %}{% break %}{% endif %}
+{% endfor %}
+{% for f in site.static_files %}
+  {% if f.path == p3 %}{% assign e3 = true %}{% break %}{% endif %}
+{% endfor %}
+{% for f in site.static_files %}
+  {% if f.path == p4 %}{% assign e4 = true %}{% break %}{% endif %}
 {% endfor %}
 
-{% if g_paths.size > 0 %}
+{% if e1 %}
 
 <h3 class="mod-gallery-title">Gallery</h3>
 
 <div class="mod-split-gallery nojs">
-
   <!-- MAIN IMAGE -->
   <div class="msg-main">
-    <img class="msg-main-img"
-         src="{{ g_paths[0] }}"
-         alt="{{ page.title }} – gallery image 1">
+    <img class="msg-main-img" src="{{ p1 }}" alt="{{ page.title }} – gallery image 1">
   </div>
 
   <!-- THUMBS -->
-  {% if g_paths.size > 1 %}
   <div class="msg-thumbs" aria-label="Gallery thumbnails">
-    {% for p in g_paths %}
-      <a class="msg-thumb{% if forloop.first %} active{% endif %}"
-         href="{{ p }}"
-         target="_blank"
-         rel="noopener noreferrer"
-         aria-label="Open gallery image {{ forloop.index }}">
-        <img src="{{ p }}" alt="{{ page.title }} – gallery thumbnail {{ forloop.index }}">
-      </a>
-    {% endfor %}
-  </div>
-  {% endif %}
+    <a class="msg-thumb active" href="{{ p1 }}" target="_blank" rel="noopener noreferrer" aria-label="Open gallery image 1">
+      <img src="{{ p1 }}" alt="{{ page.title }} – gallery thumbnail 1">
+    </a>
 
+    {% if e2 %}
+      <a class="msg-thumb" href="{{ p2 }}" target="_blank" rel="noopener noreferrer" aria-label="Open gallery image 2">
+        <img src="{{ p2 }}" alt="{{ page.title }} – gallery thumbnail 2">
+      </a>
+    {% endif %}
+
+    {% if e3 %}
+      <a class="msg-thumb" href="{{ p3 }}" target="_blank" rel="noopener noreferrer" aria-label="Open gallery image 3">
+        <img src="{{ p3 }}" alt="{{ page.title }} – gallery thumbnail 3">
+      </a>
+    {% endif %}
+
+    {% if e4 %}
+      <a class="msg-thumb" href="{{ p4 }}" target="_blank" rel="noopener noreferrer" aria-label="Open gallery image 4">
+        <img src="{{ p4 }}" alt="{{ page.title }} – gallery thumbnail 4">
+      </a>
+    {% endif %}
+  </div>
 </div>
 
 {% endif %}
