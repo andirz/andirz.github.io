@@ -1,13 +1,11 @@
 {%- comment -%}
 related-mods.html
-Card-style related mods (max 6) with:
-- icon + title + description
-- bottom meta row: type (icon + short label) + version "v. x.y.z" + pack icons (/assets/img/packs/ep01.png etc.)
-Matching strategy:
-- pass 1: match within first 3 categories of current mod
-- if < 6 results: pass 2 includes 4th category
-- if < 6 results: pass 3 includes 5th category
-No duplicates.
+Goal: show up to 6 related mods by shared categories.
+Strategy:
+- pass 1: match within first 3 categories
+- pass 2: if needed, expand to 4 categories
+- pass 3: if needed, expand to 5 categories
+No duplicates. Uses /assets/img/packs/ (NOT blue).
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
@@ -23,10 +21,7 @@ No duplicates.
   {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
-{%- assign cat3 = current_categories | slice: 0, 3 -%}
-{%- assign cat4 = current_categories | slice: 0, 4 -%}
-{%- assign cat5 = current_categories | slice: 0, 5 -%}
-
+{%- assign passes = "3,4,5" | split: "," -%}
 {%- assign chosen_ids = "" | split: "|" -%}
 
 <section class="rm-related">
@@ -37,275 +32,117 @@ No duplicates.
 
   <div class="rm-grid">
 
-    {%- comment -%} PASS 1: first 3 categories {%- endcomment -%}
-    {%- for mod_page in site.mods -%}
-      {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id and chosen_ids contains mod_page.mod_id == false -%}
+    {%- for pass in passes -%}
+      {%- if count < max_items -%}
+        {%- assign n = pass | plus: 0 -%}
+        {%- assign target_cats = current_categories | slice: 0, n -%}
 
-        {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
-        {%- assign rel_categories = mod_page.categories | default: mod_data.categories -%}
-        {%- if rel_categories == nil -%}{%- assign rel_categories = "" | split: "|" -%}{%- endif -%}
+        {%- for mod_page in site.mods -%}
+          {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id -%}
+            {%- unless chosen_ids contains mod_page.mod_id -%}
 
-        {%- assign match = false -%}
-        {%- for c in rel_categories -%}
-          {%- if cat3 contains c -%}
-            {%- assign match = true -%}
+              {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
+
+              {%- assign rel_categories = mod_page.categories | default: mod_data.categories -%}
+              {%- if rel_categories == nil -%}
+                {%- assign rel_categories = "" | split: "|" -%}
+              {%- endif -%}
+
+              {%- assign match = false -%}
+              {%- for c in rel_categories -%}
+                {%- if target_cats contains c -%}
+                  {%- assign match = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if match -%}
+                {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
+                {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
+
+                {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
+                {%- if display_desc == nil or display_desc == "" -%}
+                  {%- assign display_desc = mod_page.excerpt -%}
+                {%- endif -%}
+
+                {%- assign display_version = mod_page.version | default: mod_data.version -%}
+
+                {%- assign packs = mod_page.packs | default: mod_data.packs -%}
+                {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}
+                  {%- assign packs = packs | split: "," -%}
+                {%- endif -%}
+
+                {%- assign files_list = mod_page.files -%}
+                {%- assign type_icon = "fas fa-box" -%}
+                {%- assign type_label = "Package" -%}
+                {%- assign type_title = "Package Mod" -%}
+                {%- if files_list contains "ts4script" -%}
+                  {%- assign type_icon = "fas fa-code" -%}
+                  {%- assign type_label = "Script" -%}
+                  {%- assign type_title = "Script Mod" -%}
+                {%- elsif files_list contains "bat" -%}
+                  {%- assign type_icon = "fas fa-terminal" -%}
+                  {%- assign type_label = "Batch Tool" -%}
+                  {%- assign type_title = "Batch Tool" -%}
+                {%- endif -%}
+
+                <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
+                  <span class="rm-icon" aria-hidden="true">
+                    <i class="{{ display_icon }}"></i>
+                  </span>
+
+                  <span class="rm-main">
+                    <span class="rm-name">{{ display_title }}</span>
+
+                    {%- if display_desc and display_desc != "" -%}
+                      <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
+                    {%- endif -%}
+
+                    <span class="rm-meta">
+                      <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
+                        <i class="{{ type_icon }}" aria-hidden="true"></i>
+                        <span class="rm-type-text">{{ type_label }}</span>
+                      </span>
+
+                      {%- if display_version and display_version != "" -%}
+                        <span class="rm-ver">v. {{ display_version }}</span>
+                      {%- endif -%}
+
+                      {%- if packs and packs.size > 0 -%}
+                        <span class="rm-packs" aria-label="Required packs">
+                          {%- for pack_code_raw in packs -%}
+                            {%- assign pack_code = pack_code_raw | strip -%}
+                            {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
+                              {%- assign pack_data = site.data.packs[pack_code] -%}
+                              {%- assign pack_name = pack_code -%}
+                              {%- if pack_data -%}
+                                {%- assign pack_name = pack_data.en | default: pack_code -%}
+                              {%- endif -%}
+
+                              {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
+                              <img
+                                class="rm-pack"
+                                src="{{ site.baseurl }}{{ icon_path }}"
+                                alt="{{ pack_name }} ({{ pack_code }})"
+                                title="{{ pack_name }} ({{ pack_code }})"
+                              >
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </span>
+                      {%- endif -%}
+                    </span>
+                  </span>
+                </a>
+
+                {%- assign chosen_ids = chosen_ids | push: mod_page.mod_id -%}
+                {%- assign count = count | plus: 1 -%}
+              {%- endif -%}
+
+            {%- endunless -%}
           {%- endif -%}
         {%- endfor -%}
 
-        {%- if match -%}
-          {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
-          {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
-
-          {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
-          {%- if display_desc == nil or display_desc == "" -%}{%- assign display_desc = mod_page.excerpt -%}{%- endif -%}
-
-          {%- assign display_version = mod_page.version | default: mod_data.version -%}
-
-          {%- assign packs = mod_page.packs | default: mod_data.packs -%}
-          {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}
-            {%- assign packs = packs | split: "," -%}
-          {%- endif -%}
-
-          {%- assign files_list = mod_page.files -%}
-          {%- assign type_icon = "fas fa-box" -%}
-          {%- assign type_label = "Package" -%}
-          {%- assign type_title = "Package Mod" -%}
-          {%- if files_list contains "ts4script" -%}
-            {%- assign type_icon = "fas fa-code" -%}
-            {%- assign type_label = "Script" -%}
-            {%- assign type_title = "Script Mod" -%}
-          {%- elsif files_list contains "bat" -%}
-            {%- assign type_icon = "fas fa-terminal" -%}
-            {%- assign type_label = "Batch Tool" -%}
-            {%- assign type_title = "Batch Tool" -%}
-          {%- endif -%}
-
-          <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
-            <span class="rm-icon" aria-hidden="true"><i class="{{ display_icon }}"></i></span>
-
-            <span class="rm-main">
-              <span class="rm-name">{{ display_title }}</span>
-
-              {%- if display_desc and display_desc != "" -%}
-                <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
-              {%- endif -%}
-
-              <span class="rm-meta">
-                <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
-                  <i class="{{ type_icon }}" aria-hidden="true"></i>
-                  <span class="rm-type-text">{{ type_label }}</span>
-                </span>
-
-                {%- if display_version and display_version != "" -%}
-                  <span class="rm-ver">v. {{ display_version }}</span>
-                {%- endif -%}
-
-                {%- if packs and packs.size > 0 -%}
-                  <span class="rm-packs" aria-label="Required packs">
-                    {%- for pack_code_raw in packs -%}
-                      {%- assign pack_code = pack_code_raw | strip -%}
-                      {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
-                        {%- assign pack_data = site.data.packs[pack_code] -%}
-                        {%- assign pack_name = pack_code -%}
-                        {%- if pack_data -%}{%- assign pack_name = pack_data.en | default: pack_code -%}{%- endif -%}
-                        {%- assign blue_icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
-                        <img class="rm-pack" src="{{ site.baseurl }}{{ blue_icon_path }}" alt="{{ pack_name }} ({{ pack_code }})" title="{{ pack_name }} ({{ pack_code }})">
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </span>
-                {%- endif -%}
-              </span>
-            </span>
-          </a>
-
-          {%- assign chosen_ids = chosen_ids | push: mod_page.mod_id -%}
-          {%- assign count = count | plus: 1 -%}
-        {%- endif -%}
-
       {%- endif -%}
     {%- endfor -%}
-
-
-    {%- comment -%} PASS 2: expand to 4 categories (only if needed) {%- endcomment -%}
-    {%- if count < max_items -%}
-      {%- for mod_page in site.mods -%}
-        {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id and chosen_ids contains mod_page.mod_id == false -%}
-
-          {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
-          {%- assign rel_categories = mod_page.categories | default: mod_data.categories -%}
-          {%- if rel_categories == nil -%}{%- assign rel_categories = "" | split: "|" -%}{%- endif -%}
-
-          {%- assign match = false -%}
-          {%- for c in rel_categories -%}
-            {%- if cat4 contains c -%}
-              {%- assign match = true -%}
-            {%- endif -%}
-          {%- endfor -%}
-
-          {%- if match -%}
-            {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
-            {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
-
-            {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
-            {%- if display_desc == nil or display_desc == "" -%}{%- assign display_desc = mod_page.excerpt -%}{%- endif -%}
-
-            {%- assign display_version = mod_page.version | default: mod_data.version -%}
-
-            {%- assign packs = mod_page.packs | default: mod_data.packs -%}
-            {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}
-              {%- assign packs = packs | split: "," -%}
-            {%- endif -%}
-
-            {%- assign files_list = mod_page.files -%}
-            {%- assign type_icon = "fas fa-box" -%}
-            {%- assign type_label = "Package" -%}
-            {%- assign type_title = "Package Mod" -%}
-            {%- if files_list contains "ts4script" -%}
-              {%- assign type_icon = "fas fa-code" -%}
-              {%- assign type_label = "Script" -%}
-              {%- assign type_title = "Script Mod" -%}
-            {%- elsif files_list contains "bat" -%}
-              {%- assign type_icon = "fas fa-terminal" -%}
-              {%- assign type_label = "Batch Tool" -%}
-              {%- assign type_title = "Batch Tool" -%}
-            {%- endif -%}
-
-            <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
-              <span class="rm-icon" aria-hidden="true"><i class="{{ display_icon }}"></i></span>
-
-              <span class="rm-main">
-                <span class="rm-name">{{ display_title }}</span>
-
-                {%- if display_desc and display_desc != "" -%}
-                  <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
-                {%- endif -%}
-
-                <span class="rm-meta">
-                  <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
-                    <i class="{{ type_icon }}" aria-hidden="true"></i>
-                    <span class="rm-type-text">{{ type_label }}</span>
-                  </span>
-
-                  {%- if display_version and display_version != "" -%}
-                    <span class="rm-ver">v. {{ display_version }}</span>
-                  {%- endif -%}
-
-                  {%- if packs and packs.size > 0 -%}
-                    <span class="rm-packs" aria-label="Required packs">
-                      {%- for pack_code_raw in packs -%}
-                        {%- assign pack_code = pack_code_raw | strip -%}
-                        {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
-                          {%- assign pack_data = site.data.packs[pack_code] -%}
-                          {%- assign pack_name = pack_code -%}
-                          {%- if pack_data -%}{%- assign pack_name = pack_data.en | default: pack_code -%}{%- endif -%}
-                          {%- assign blue_icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
-                          <img class="rm-pack" src="{{ site.baseurl }}{{ blue_icon_path }}" alt="{{ pack_name }} ({{ pack_code }})" title="{{ pack_name }} ({{ pack_code }})">
-                        {%- endif -%}
-                      {%- endfor -%}
-                    </span>
-                  {%- endif -%}
-                </span>
-              </span>
-            </a>
-
-            {%- assign chosen_ids = chosen_ids | push: mod_page.mod_id -%}
-            {%- assign count = count | plus: 1 -%}
-          {%- endif -%}
-
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-
-
-    {%- comment -%} PASS 3: expand to 5 categories (only if needed) {%- endcomment -%}
-    {%- if count < max_items -%}
-      {%- for mod_page in site.mods -%}
-        {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id and chosen_ids contains mod_page.mod_id == false -%}
-
-          {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
-          {%- assign rel_categories = mod_page.categories | default: mod_data.categories -%}
-          {%- if rel_categories == nil -%}{%- assign rel_categories = "" | split: "|" -%}{%- endif -%}
-
-          {%- assign match = false -%}
-          {%- for c in rel_categories -%}
-            {%- if cat5 contains c -%}
-              {%- assign match = true -%}
-            {%- endif -%}
-          {%- endfor -%}
-
-          {%- if match -%}
-            {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
-            {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
-
-            {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
-            {%- if display_desc == nil or display_desc == "" -%}{%- assign display_desc = mod_page.excerpt -%}{%- endif -%}
-
-            {%- assign display_version = mod_page.version | default: mod_data.version -%}
-
-            {%- assign packs = mod_page.packs | default: mod_data.packs -%}
-            {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}
-              {%- assign packs = packs | split: "," -%}
-            {%- endif -%}
-
-            {%- assign files_list = mod_page.files -%}
-            {%- assign type_icon = "fas fa-box" -%}
-            {%- assign type_label = "Package" -%}
-            {%- assign type_title = "Package Mod" -%}
-            {%- if files_list contains "ts4script" -%}
-              {%- assign type_icon = "fas fa-code" -%}
-              {%- assign type_label = "Script" -%}
-              {%- assign type_title = "Script Mod" -%}
-            {%- elsif files_list contains "bat" -%}
-              {%- assign type_icon = "fas fa-terminal" -%}
-              {%- assign type_label = "Batch Tool" -%}
-              {%- assign type_title = "Batch Tool" -%}
-            {%- endif -%}
-
-            <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
-              <span class="rm-icon" aria-hidden="true"><i class="{{ display_icon }}"></i></span>
-
-              <span class="rm-main">
-                <span class="rm-name">{{ display_title }}</span>
-
-                {%- if display_desc and display_desc != "" -%}
-                  <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
-                {%- endif -%}
-
-                <span class="rm-meta">
-                  <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
-                    <i class="{{ type_icon }}" aria-hidden="true"></i>
-                    <span class="rm-type-text">{{ type_label }}</span>
-                  </span>
-
-                  {%- if display_version and display_version != "" -%}
-                    <span class="rm-ver">v. {{ display_version }}</span>
-                  {%- endif -%}
-
-                  {%- if packs and packs.size > 0 -%}
-                    <span class="rm-packs" aria-label="Required packs">
-                      {%- for pack_code_raw in packs -%}
-                        {%- assign pack_code = pack_code_raw | strip -%}
-                        {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
-                          {%- assign pack_data = site.data.packs[pack_code] -%}
-                          {%- assign pack_name = pack_code -%}
-                          {%- if pack_data -%}{%- assign pack_name = pack_data.en | default: pack_code -%}{%- endif -%}
-                          {%- assign blue_icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
-                          <img class="rm-pack" src="{{ site.baseurl }}{{ blue_icon_path }}" alt="{{ pack_name }} ({{ pack_code }})" title="{{ pack_name }} ({{ pack_code }})">
-                        {%- endif -%}
-                      {%- endfor -%}
-                    </span>
-                  {%- endif -%}
-                </span>
-              </span>
-            </a>
-
-            {%- assign chosen_ids = chosen_ids | push: mod_page.mod_id -%}
-            {%- assign count = count | plus: 1 -%}
-          {%- endif -%}
-
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
 
   </div>
 </section>
@@ -332,7 +169,6 @@ No duplicates.
   gap: 16px 18px;
 }
 
-/* equal-height cards + meta pinned to bottom */
 .rm-card{
   display:flex;
   gap:14px;
@@ -344,7 +180,7 @@ No duplicates.
   box-shadow: 0 10px 26px rgba(15,23,42,.06);
   text-decoration:none;
   color:inherit;
-  min-height: 170px;
+  min-height:170px;
 }
 
 .rm-card:hover{
@@ -389,7 +225,6 @@ No duplicates.
   line-height:1.35;
 }
 
-/* push meta to bottom */
 .rm-meta{
   margin-top:auto;
   display:flex;
@@ -424,7 +259,6 @@ No duplicates.
   white-space:nowrap;
 }
 
-/* packs icons: plain icons, no badge */
 .rm-packs{
   display:inline-flex;
   gap:6px;
