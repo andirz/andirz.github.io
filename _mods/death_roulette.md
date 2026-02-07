@@ -1,7 +1,6 @@
 ---
 mod_id: death_roulette
 title: "Death Roulette Challenge"
-parent: "Mods"
 icon: "fas fa-skull-crossbones"
 requirements: ["smart_core"]
 categories: [Death, Challenges, Cheats, Patreon Exclusive]
