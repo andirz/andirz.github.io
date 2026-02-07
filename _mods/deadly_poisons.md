@@ -4,7 +4,7 @@ title: "Deadly Poisons"
 icon: "fas fa-flask"
 packs: ["GP06", "EP01"]
 requirements: ["xml_injector"]
-categories: [Death, Crime, Medical, Food & Drinks, Storytelling, Patreon Exclusive]
+categories: [Death, Crime, Medical, Food & Drinks, Patreon Exclusive]
 tagline: "Master the art of the underground with a dangerous new system of toxic substances and medical countermeasures."
 ---
 
