@@ -1,12 +1,12 @@
 {% comment %}
-  Mod Gallery (Split) - single include, safe
-  - Left: big image (NOT clickable)
+  Simple Mod Gallery (NO JS, PNG/JPG only)
+  - Left: big image
   - Right: up to 4 thumbnails
-  - Click thumb => replaces big image (no opening in browser)
+  - Thumbs open image file directly
   - Images from /assets/img/mods/<mod_id>/
+  - Only .png and .jpg/.jpeg
   - Excludes cover.*
   - If 0 images: outputs NOTHING
-  - JS is idempotent (won't double-bind even if included multiple times)
 {% endcomment %}
 
 {% assign g_filename = page.path | split: "/" | last | replace: ".md", "" %}
@@ -17,7 +17,7 @@
 {% for g_file in site.static_files %}
   {% if g_file.path contains g_base and g_file.path contains "/cover." == false %}
     {% assign g_ext = g_file.extname | downcase %}
-    {% if g_ext == ".png" or g_ext == ".jpg" or g_ext == ".jpeg" or g_ext == ".webp" or g_ext == ".gif" %}
+    {% if g_ext == ".png" or g_ext == ".jpg" or g_ext == ".jpeg" %}
       {% assign g_imgs = g_imgs | push: g_file.path %}
     {% endif %}
   {% endif %}
@@ -27,26 +27,34 @@
 
 <h3 class="mod-gallery-title">Gallery</h3>
 
-<div class="mod-split-gallery" data-mod-gallery>
+<div class="mod-split-gallery nojs">
+
+  <!-- MAIN IMAGE -->
   <div class="msg-main">
     <img class="msg-main-img"
          src="{{ g_imgs[0] }}"
-         alt="{{ page.title }} preview">
+         alt="{{ page.title }} – gallery image 1">
   </div>
 
+  <!-- THUMBNAILS (max 4) -->
   {% if g_imgs.size > 1 %}
   <div class="msg-thumbs" aria-label="Gallery thumbnails">
     {% for g_img in g_imgs limit:4 %}
-      <button type="button"
-              class="msg-thumb{% if forloop.first %} active{% endif %}"
-              data-img="{{ g_img }}"
-              aria-label="Show image {{ forloop.index }}">
-        <img src="{{ g_img }}" alt="">
-      </button>
+      <a class="msg-thumb{% if forloop.first %} active{% endif %}"
+         href="{{ g_img }}"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Open gallery image {{ forloop.index }}">
+        <img src="{{ g_img }}"
+             alt="{{ page.title }} – gallery thumbnail {{ forloop.index }}">
+      </a>
     {% endfor %}
   </div>
   {% endif %}
+
 </div>
+
+{% endif %}
 
 <style>
 .mod-gallery-title{
@@ -66,7 +74,6 @@
 }
 
 .msg-main{
-  width:100%;
   background:#000;
   border-radius:14px;
   overflow:hidden;
@@ -75,7 +82,6 @@
 
 .msg-main-img{
   width:100%;
-  height:100%;
   aspect-ratio:16/9;
   object-fit:cover;
   display:block;
@@ -88,12 +94,12 @@
 }
 
 .msg-thumb{
-  all:unset;
-  cursor:pointer;
+  display:block;
   border-radius:10px;
   overflow:hidden;
   border:2px solid transparent;
   background:#000;
+  text-decoration:none;
 }
 
 .msg-thumb img{
@@ -128,34 +134,3 @@
   }
 }
 </style>
-
-<script>
-(() => {
-  const galleries = document.querySelectorAll('[data-mod-gallery]');
-  if (!galleries.length) return;
-
-  galleries.forEach(gallery => {
-    // prevent double-binding if this script appears multiple times
-    if (gallery.dataset.galleryBound === '1') return;
-    gallery.dataset.galleryBound = '1';
-
-    const mainImg = gallery.querySelector('.msg-main-img');
-    const thumbs = Array.from(gallery.querySelectorAll('.msg-thumb'));
-    if (!mainImg || thumbs.length === 0) return;
-
-    thumbs.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const src = btn.getAttribute('data-img');
-        if (!src) return;
-
-        mainImg.src = src;
-
-        thumbs.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-  });
-})();
-</script>
-
-{% endif %}
