@@ -3,7 +3,7 @@ mod_id: the_bill_master
 title: "The Bill Master"
 icon: "fas fa-money-bill-wave"
 requirements: ["lot51_core"]
-categories: [Bills, Making Money, Crime, Activities, Skills, Adopted Mods]
+categories: [Money, Crime, Activities, Skills, Adopted Mods]
 ---
 
 ## About This Mod
