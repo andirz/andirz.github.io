@@ -7,34 +7,43 @@ categories: [Sim Personalization, Townie Fixes, Preferences, Traits, Cheats]
 ---
 
 ## About This Mod
-The **Smart Sim Randomizer** brings life to your world by automatically and intelligently assigning preferences and traits to both active Sims and NPCs. Unlike basic randomizers, this mod uses "intelligent filling" to ensure that assigned traits make sense based on a Sim's existing personality.
+The **Smart Sim Randomizer** brings life to your world by automatically and intelligently assigning preferences and traits to both active Sims and NPCs. Powered by the independent **Smart Core Script** framework, this mod uses “intelligent filling” to ensure that assigned traits make sense based on a Sim’s existing personality.
 
-### Smart Logic
-The randomization isn't just a dice roll; it's a probability-based system:
-* **Trait Synergy:** A *Snob* Sim is unlikely to enjoy cheap furniture.
-* **Skill Matching:** A *Creative* Sim is more likely to enjoy painting.
-* **Consistency:** If a Sim hates cooking, they will likely hate baking too.
-* **Occult Awareness:** Vampires prefer the dark, while Mermaids love the rain.
+### Customizable Configuration System
+Version 3.0.0 introduces a groundbreaking framework that gives you absolute control through a new in-game interface:
+* **In-Game Menu:** No more manual file editing. Change all settings directly through the in-game menu.
+* **Granular Targeting:** Choose exactly **who** is affected, including Active Households, unplayed NPCs, or all Sims.
+* **Safety First:** All settings are **turned off by default** to protect your Sims from accidental changes.
+* **Persistent Settings:** Your configuration is saved in your **"Save" folder**, so your custom rules remain intact even after mod updates.
 
-## Key Features
+### The Smart Logic
+Unlike basic randomizers that just roll a dice, this framework uses a probability-based system that respects a Sim's existing identity, appearance, and history. The mod analyzes a Sim's traits to derive character-driven choices: for example, a *Snob* is unlikely to enjoy cheap furniture, while a *Creative* Sim is more likely to enjoy painting. This ensures logical consistency—if a Sim hates cooking, they will likely hate baking too—and the more skills a Sim possesses, the more accurately their randomized preferences will match their unique identity.
 
-### Automatic Likes & Dislikes
-Upon appearing in the game, Sims receive a balanced set of preferences covering:
-* Characteristics & Conversation Topics
-* Activities, Colors & Music Genres
-* Fashion & Décor
-* **Bonus:** Supports custom preferences like *Pizza* (Kuttoe) and *Animals* (ChippedSim).
+The system also "sees" your Sim's physical appearance for deeper world-building: the clothes a Sim wears when they first appear directly influence their favorite colors and fashion styles. This creates a seamless "Color Sync," where a Sim who likes red is automatically assigned a red umbrella. This logic extends to "Attraction Mapping," linking romantic attraction to personal taste—Sims are naturally drawn to the hair colors, outfits, and styles they already prefer for themselves.
 
-### Hidden Preferences & Values
-Automated generation also affects:
-* **Movie Genres & Weather:** Based on traits (e.g., Romantics love Romance movies).
-* **Life Choices:** Umbrella usage, eating with chopsticks vs. forks, political positions.
-* **Character Values:** Automatically assigns values from *EP Parenthood* to YA, Adults, and Elders (if they don't have them yet).
+Furthermore, the mod is fully aware of a Sim’s occult status and personal history. Vampires instinctively prefer dark colors and have an aversion to the sun, while Mermaids have a higher probability of loving the rain and water activities. There is even a built-in "Trauma-Check" for Ghosts, allowing for specific randomization blocks based on their cause of death.
 
-### Manual Control & University Degrees
-Shift-click any Sim to access the **Cheat Menu**:
-* **Toggle Automation:** Disable randomization for specific Sims using the "No Auto Randomness" trait.
-* **Instant Assignment:** Re-roll all preferences or character values with one click.
+## Key Automated Modules
+
+### Preferences
+* **Likes & Dislikes:** Activities, Colors, Music Genres, Décor, Fashion, Characteristics and Communication Topics.
+* **Turn-Ons & Turn-Offs:**: Hair Color, Outfit Color, Fashion Styles, Characteristics, Romance Styles, and Way of Life.
+* **Hidden Preferences:** Weather, Movie Genres, Political Positions, Umbrella Choices, Utensil Preference, and even opinions on Mayonnaise.
+* **Infant & Toddler Preferences:** Baby Feeding Preferences, Infant Food Prefferences, Carriers Preferences.
+* **Other Values**: Parenthood Character Values, Fears and Infant Quirks.
+
+### Custom Mod Integrations
+* Kuttoe’s **Pizza** preferences.
+* SpinningPlumbobs’ Occult Types** 
+* Chingyu’s **Lunar Preferences**.
+* Chingyu’s **Strengths & Weaknesses**.
+* Chingyu’s **Age Groups**.
+* **Wicked Attributes**.
+
+## Manual Control
+Access the Smart Sim Randomizer menu on any Sim via **Shift + Click**:
+* **Toggle Automation:** Use the "No Auto Randomness" trait to exclude specific Sims from being randomized.
+* **Smart Re-Roll:** Re-randomize preferences and other values with one click.
 * **University Degrees:** Generate "Fake" (no skills) or "Real" (with skills) degrees intelligently.
 
 ## Language & Translations
