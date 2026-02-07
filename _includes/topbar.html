@@ -1,4 +1,4 @@
-<!-- Custom Top Bar (simplified, no search) -->
+<!-- Custom Top Bar (no search, simple titles, URL-based "collection") -->
 
 <header id="topbar-wrapper" class="flex-shrink-0" aria-label="Top Bar">
   <div id="topbar" class="d-flex align-items-center justify-content-between px-lg-3 h-100">
@@ -9,35 +9,33 @@
       {%- assign is_home = (url_parts.size == 0) -%}
 
       {%- comment -%}
-      Determine "collection"/section key from URL first segment (e.g. /mods/xxx/ -> "mods").
-      Fallback to path first segment if URL doesn't help.
+      Collection/section key = first URL segment:
+      /mods/foo/ -> "mods"
+      /wiki/skills/ -> "wiki"
       {%- endcomment -%}
-
-      {%- assign section_key = '' -%}
+      {%- assign collection_key = '' -%}
       {%- if url_parts.size > 0 -%}
-        {%- assign section_key = url_parts[0] -%}
+        {%- assign collection_key = url_parts[0] -%}
       {%- endif -%}
 
-      {%- if section_key == '' and page.path -%}
+      {%- comment -%}
+      Fallback: derive from filesystem path (e.g. _mods/xxx.md -> "mods")
+      {%- endcomment -%}
+      {%- if collection_key == '' and page.path -%}
         {%- assign path_parts = page.path | split: '/' -%}
         {%- if path_parts.size > 1 -%}
-          {%- assign section_key = path_parts[0] -%}
-          {%- if section_key and section_key.size > 0 and section_key[0] == '_' -%}
-            {%- assign section_key = section_key | remove_first: '_' -%}
-          {%- endif -%}
+          {%- assign collection_key = path_parts[0] | remove_first: '_' -%}
         {%- endif -%}
       {%- endif -%}
 
       {%- comment -%}
-      We treat "index pages" like /mods/ as not having a "page" crumb after the section.
+      If URL is exactly /collection/ then it's the collection index (no final "Page" crumb).
       {%- endcomment -%}
-      {%- assign is_section_index = false -%}
-      {%- if url_parts.size == 1 -%}
-        {%- assign is_section_index = true -%}
-      {%- endif -%}
+      {%- assign is_collection_index = (url_parts.size == 1) -%}
 
       {%- if is_home -%}
         <span>{{ site.data.locales[include.lang].tabs.home | default: "Home" | capitalize }}</span>
+
       {%- else -%}
         <!-- Home -->
         <span>
@@ -46,21 +44,21 @@
           </a>
         </span>
 
-        <!-- Section (optional) -->
-        {%- if section_key != '' -%}
+        <!-- Collection (always /collection/) -->
+        {%- if collection_key != '' -%}
           <span>
             <i class="fas fa-angle-right fa-fw" aria-hidden="true"></i>
-            <a href="{{ '/' | append: section_key | append: '/' | relative_url }}">
-              {{- site.data.locales[include.lang].tabs[section_key]
-                | default: site.data.locales[include.lang].sections[section_key]
-                | default: section_key
+            <a href="{{ '/' | append: collection_key | append: '/' | relative_url }}">
+              {{- site.data.locales[include.lang].tabs[collection_key]
+                | default: site.data.locales[include.lang].sections[collection_key]
+                | default: collection_key
                 | capitalize -}}
             </a>
           </span>
         {%- endif -%}
 
         <!-- Page -->
-        {%- if is_section_index == false -%}
+        {%- if is_collection_index == false -%}
           <span>
             <i class="fas fa-angle-right fa-fw" aria-hidden="true"></i>
             <span>{{ page.title }}</span>
@@ -84,7 +82,7 @@
       {%- endif -%}
     </div>
 
-    <!-- Right spacer (keeps layout balanced without search button) -->
+    <!-- Right spacer (keeps alignment without search) -->
     <span style="width: 2.75rem;" aria-hidden="true"></span>
 
   </div>
