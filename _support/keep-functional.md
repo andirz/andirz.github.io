@@ -42,10 +42,13 @@ Sometimes, old data stored in the game's cache can cause issues even after you'v
 * The contents of the `cache` folder (but keep the folder itself)
 * The contents of the `onlinethumbnails` folder
 
-## 5. Pay Attention to Dependencies
+## Pay Attention to Dependencies
 Many mods require other files to work, such as:
-* **XML Injector:** Used by many "tuning" mods to add new interactions.
-* **Smart Core Script:** Required for many of my own mods (Andirz).
-* **Specific DLCs:** Some mods only work if you own a certain Expansion or Gameplay Pack.
+* **{% include dependency_link.html id="smart_core" %}:** Required engine for many Andirz mods.
+* **{% include dependency_link.html id="xml_injector" %}:** Adds interactions via tuning mod injection.
+* **{% include dependency_link.html id="lot51_core" %}:** Essential library for advanced script functions.
+* **{% include dependency_link.html id="zerbu_preferences" %}:** Required for handling custom preference categories.
+* **Specific DLCs:** Some features require specific game packs.
+
 
 **Always read the requirements section** on the mod download page before installing!
