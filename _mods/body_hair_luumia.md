@@ -25,12 +25,7 @@ There are two versions available. **Please install only one!**
 * **Uniform Style:** To ensure randomly generated Townies look consistent, straight hair textures were used rather than mixing different hair types.
 * **Child Safety:** The "hairless" chest hair replacement has been adjusted to ensure no accidental texture bleed-through (such as pubic hair) occurs on children.
 
-## Requirements
-
-* **Base Game** – No additional packs required.
-* **No Scripts Required** – This is a pure package override.
-
-## Compatibility & Conflicts
+## Compatibility
 This mod replaces internal game resources and will conflict with any other mod that overwrites EA body hair textures, such as:
 * *No Female Body Hair* by YourFalseHope
 * *Disable all body hairs for female sims* by Zordard
@@ -38,9 +33,3 @@ This mod replaces internal game resources and will conflict with any other mod t
 ## Credits
 Original textures by **Luumia**. These textures were adjusted and modified in accordance with Luumia's Terms of Use. 
 * [Luumia Body Hair v5+](https://luumiasims.com/)
-
----
-
-## Developer's Note
-> "Luumia's textures are a staple in the community. By creating this override, I wanted to bring that level of detail to the official EA body hair system so that even randomly generated Sims can benefit from better visuals."
-> — *Andirz*
