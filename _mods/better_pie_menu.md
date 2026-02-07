@@ -15,10 +15,8 @@ The primary goal of this mod is to speed up your gameplay. By using intuitive an
 
 The restructuring is handled via a script, so you must **allow script mods** in your game settings for the mod to function. The download archive contains several modules, giving you the flexibility to delete any specific module if you prefer not to have certain objects reorganized.
 
-### Compatibility
+## Compatibility
 Technically, this mod **overwrites** the *Pie Menu Category Tuning* for specific categories. It is important to note that not a single interaction tuning was overwritten, ensuring high stability. 
-
-### Compatibility Guide
 
 #### ✅ No Issues
 The following mod has been thoroughly tested and is fully compatible:
