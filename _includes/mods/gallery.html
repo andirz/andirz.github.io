@@ -1,102 +1,31 @@
 {% comment %}
-  Simple Big Gallery (NO JS, no thumbs)
-  - ONLY img01.png..img04.png in /assets/img/mods/<mod_id>/
-  - Show gallery ONLY if img01.png exists
-  - Displays all found images BIG
-  - No glow effects
+  Ultra-simple gallery (markdown-like)
+  - ONLY img01.png..img04.png
+  - If img01.png missing => output NOTHING
 {% endcomment %}
 
-{% assign g_filename = page.path | split: "/" | last | replace: ".md", "" %}
-{% assign g_mod_id = page.mod_id | default: g_filename %}
-{% assign g_dir = "/assets/img/mods/" | append: g_mod_id | append: "/" %}
+{% assign filename = page.path | split: "/" | last | replace: ".md", "" %}
+{% assign mod_id = page.mod_id | default: filename %}
+{% assign dir = "/assets/img/mods/" | append: mod_id | append: "/" %}
 
-{% assign p1 = g_dir | append: "img01.png" %}
-{% assign p2 = g_dir | append: "img02.png" %}
-{% assign p3 = g_dir | append: "img03.png" %}
-{% assign p4 = g_dir | append: "img04.png" %}
+{% assign img01 = dir | append: "img01.png" %}
+{% assign img02 = dir | append: "img02.png" %}
+{% assign img03 = dir | append: "img03.png" %}
+{% assign img04 = dir | append: "img04.png" %}
 
 {% assign e1 = false %}
 {% assign e2 = false %}
 {% assign e3 = false %}
 {% assign e4 = false %}
 
-{% for f in site.static_files %}{% if f.path == p1 %}{% assign e1 = true %}{% break %}{% endif %}{% endfor %}
-{% for f in site.static_files %}{% if f.path == p2 %}{% assign e2 = true %}{% break %}{% endif %}{% endfor %}
-{% for f in site.static_files %}{% if f.path == p3 %}{% assign e3 = true %}{% break %}{% endif %}{% endfor %}
-{% for f in site.static_files %}{% if f.path == p4 %}{% assign e4 = true %}{% break %}{% endif %}{% endfor %}
+{% for f in site.static_files %}{% if f.path == img01 %}{% assign e1 = true %}{% break %}{% endif %}{% endfor %}
+{% for f in site.static_files %}{% if f.path == img02 %}{% assign e2 = true %}{% break %}{% endif %}{% endfor %}
+{% for f in site.static_files %}{% if f.path == img03 %}{% assign e3 = true %}{% break %}{% endif %}{% endfor %}
+{% for f in site.static_files %}{% if f.path == img04 %}{% assign e4 = true %}{% break %}{% endif %}{% endfor %}
 
 {% if e1 %}
-
-<h3 class="mod-gallery-title">Gallery</h3>
-
-<div class="mod-big-gallery">
-
-  <figure class="mod-gallery-item">
-    <img src="{{ p1 }}" alt="{{ page.title }} – gallery image 1">
-  </figure>
-
-  {% if e2 %}
-  <figure class="mod-gallery-item">
-    <img src="{{ p2 }}" alt="{{ page.title }} – gallery image 2">
-  </figure>
-  {% endif %}
-
-  {% if e3 %}
-  <figure class="mod-gallery-item">
-    <img src="{{ p3 }}" alt="{{ page.title }} – gallery image 3">
-  </figure>
-  {% endif %}
-
-  {% if e4 %}
-  <figure class="mod-gallery-item">
-    <img src="{{ p4 }}" alt="{{ page.title }} – gallery image 4">
-  </figure>
-  {% endif %}
-
-</div>
-
+<img src="{{ img01 }}" alt="{{ page.title }} – image 1">
+{% if e2 %}<img src="{{ img02 }}" alt="{{ page.title }} – image 2">{% endif %}
+{% if e3 %}<img src="{{ img03 }}" alt="{{ page.title }} – image 3">{% endif %}
+{% if e4 %}<img src="{{ img04 }}" alt="{{ page.title }} – image 4">{% endif %}
 {% endif %}
-
-<style>
-.mod-gallery-title{
-  margin:22px 0 10px;
-  font-size:1.25rem;
-  font-weight:700;
-  border-bottom:1px solid var(--border-color);
-  padding-bottom:4px;
-}
-
-/* Big, clean, Sims-ish */
-.mod-big-gallery{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:16px;
-  margin:14px 0 28px;
-}
-
-.mod-gallery-item{
-  margin:0;
-  background:#000;
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid var(--border-color);
-}
-
-.mod-gallery-item img{
-  width:100%;
-  display:block;
-  aspect-ratio:16/9;
-  object-fit:cover;
-}
-
-/* Optional: if you want 2 columns on wide screens (still big) */
-@media (min-width: 1100px){
-  .mod-big-gallery{
-    grid-template-columns: 1fr 1fr;
-  }
-  /* first image spans full width for a nice hero feel */
-  .mod-big-gallery .mod-gallery-item:first-child{
-    grid-column: 1 / -1;
-  }
-}
-</style>
