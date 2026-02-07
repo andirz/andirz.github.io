@@ -1,88 +1,40 @@
-<!-- Custom Top Bar (no search, simple titles, URL-based "collection") -->
-
 <header id="topbar-wrapper" class="flex-shrink-0" aria-label="Top Bar">
   <div id="topbar" class="d-flex align-items-center justify-content-between px-lg-3 h-100">
 
-    <!-- Breadcrumb -->
     <nav id="breadcrumb" aria-label="Breadcrumb">
-      {%- assign url_parts = page.url | split: '/' | reject: '' -%}
-      {%- assign is_home = (url_parts.size == 0) -%}
+      {%- assign clean_url = page.url | remove_first:'/' | remove_last:'/' -%}
+      {%- assign parts = clean_url | split:'/' -%}
 
-      {%- comment -%}
-      Collection/section key = first URL segment:
-      /mods/foo/ -> "mods"
-      /wiki/skills/ -> "wiki"
-      {%- endcomment -%}
-      {%- assign collection_key = '' -%}
-      {%- if url_parts.size > 0 -%}
-        {%- assign collection_key = url_parts[0] -%}
-      {%- endif -%}
+      <!-- Home -->
+      <span>
+        <a href="{{ '/' | relative_url }}">Home</a>
+      </span>
 
-      {%- comment -%}
-      Fallback: derive from filesystem path (e.g. _mods/xxx.md -> "mods")
-      {%- endcomment -%}
-      {%- if collection_key == '' and page.path -%}
-        {%- assign path_parts = page.path | split: '/' -%}
-        {%- if path_parts.size > 1 -%}
-          {%- assign collection_key = path_parts[0] | remove_first: '_' -%}
-        {%- endif -%}
-      {%- endif -%}
-
-      {%- comment -%}
-      If URL is exactly /collection/ then it's the collection index (no final "Page" crumb).
-      {%- endcomment -%}
-      {%- assign is_collection_index = (url_parts.size == 1) -%}
-
-      {%- if is_home -%}
-        <span>{{ site.data.locales[include.lang].tabs.home | default: "Home" | capitalize }}</span>
-
-      {%- else -%}
-        <!-- Home -->
+      <!-- Collection (first folder) -->
+      {%- if parts.size > 1 -%}
+        {%- assign collection = parts[0] -%}
         <span>
-          <a href="{{ '/' | relative_url }}">
-            {{- site.data.locales[include.lang].tabs.home | default: "Home" | capitalize -}}
+          <a href="{{ '/' | append: collection | append: '/' | relative_url }}">
+            {{ collection | capitalize }}
           </a>
         </span>
+      {%- endif -%}
 
-        <!-- Collection (always /collection/) -->
-        {%- if collection_key != '' -%}
-          <span>
-            <i class="fas fa-angle-right fa-fw" aria-hidden="true"></i>
-            <a href="{{ '/' | append: collection_key | append: '/' | relative_url }}">
-              {{- site.data.locales[include.lang].tabs[collection_key]
-                | default: site.data.locales[include.lang].sections[collection_key]
-                | default: collection_key
-                | capitalize -}}
-            </a>
-          </span>
-        {%- endif -%}
-
-        <!-- Page -->
-        {%- if is_collection_index == false -%}
-          <span>
-            <i class="fas fa-angle-right fa-fw" aria-hidden="true"></i>
-            <span>{{ page.title }}</span>
-          </span>
-        {%- endif -%}
+      <!-- Page title -->
+      {%- if parts.size > 0 -%}
+        <span>{{ page.title }}</span>
       {%- endif -%}
     </nav>
-    <!-- end #breadcrumb -->
 
-    <!-- Sidebar button -->
     <button type="button" id="sidebar-trigger" class="btn btn-link" aria-label="Sidebar">
       <i class="fas fa-bars fa-fw"></i>
     </button>
 
-    <!-- Title: always page.title (home shows Home) -->
     <div id="topbar-title">
-      {%- if is_home -%}
-        {{- site.data.locales[include.lang].tabs.home | default: "Home" | capitalize -}}
-      {%- else -%}
-        {{- page.title -}}
-      {%- endif -%}
+      {{ page.title }}
     </div>
 
-    <!-- Right spacer (keeps alignment without search) -->
+    <!-- Platzhalter statt Suche -->
     <span style="width: 2.75rem;" aria-hidden="true"></span>
 
   </div>
