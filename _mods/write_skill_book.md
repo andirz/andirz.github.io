@@ -5,7 +5,7 @@ icon: "fas fa-pen-nib"
 parent: "Mods"
 icon: "fas fa-book"
 requirements: ["smart_core"]
-categories: [Tweaks, Skills, Writing]
+categories: [Writing, Skills, Object Tweaks]
 ---
 
 ## About This Mod
