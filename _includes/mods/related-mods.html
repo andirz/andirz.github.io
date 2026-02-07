@@ -1,29 +1,75 @@
 {%- comment -%}
 related-mods.html
-Robust multi-pass related mods:
-- pass 1: first 3 categories (if available)
-- pass 2: first 4 categories (if available)
-- pass 3: first 5 categories (if available)
-No duplicates, no break if categories are fewer.
-Fallback: if nothing matched, show first mods (up to 6) excluding current.
-Pack icons: /assets/img/packs/ (NOT blue)
+Robust related mods:
+1) Collect up to 6 mod_ids via category passes (3 -> 4 -> 5 categories, only if available)
+2) Render ONLY the collected ids (prevents empty ghost grid cells)
+Fallback: if nothing matched, show first mods (up to 6) excluding current
+Pack icons: /assets/img/packs/{{code}}.png  (NOT blue)
+Meta row: Type (icon + label) + "v. x.y.z" + pack icons (no badge)
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
-{%- assign count = 0 -%}
 {%- assign current_id = page.mod_id -%}
 
 {%- assign current_categories = page.categories -%}
 {%- if current_categories == nil -%}
   {%- assign current_data = site.data.mods | where: "id", current_id | first -%}
-  {%- assign current_categories = current_data.categories -%}
+  {%- if current_data -%}
+    {%- assign current_categories = current_data.categories -%}
+  {%- endif -%}
 {%- endif -%}
 {%- if current_categories == nil -%}
   {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
 {%- assign cat_count = current_categories.size | default: 0 -%}
-{%- assign chosen_ids = "" | split: "|" -%}
+{%- assign pass_sizes = "" | split: "|" -%}
+{%- if cat_count >= 3 -%}{%- assign pass_sizes = pass_sizes | push: 3 -%}{%- endif -%}
+{%- if cat_count >= 4 -%}{%- assign pass_sizes = pass_sizes | push: 4 -%}{%- endif -%}
+{%- if cat_count >= 5 -%}{%- assign pass_sizes = pass_sizes | push: 5 -%}{%- endif -%}
+
+{%- assign found_ids = "" | split: "|" -%}
+
+{%- comment -%} 1) COLLECT IDS (no HTML here) {%- endcomment -%}
+{%- for n in pass_sizes -%}
+  {%- if found_ids.size < max_items -%}
+    {%- assign target_cats = current_categories | slice: 0, n -%}
+
+    {%- for p in site.mods -%}
+      {%- if found_ids.size < max_items and p.mod_id and p.mod_id != current_id -%}
+        {%- unless found_ids contains p.mod_id -%}
+
+          {%- assign pdata = site.data.mods | where: "id", p.mod_id | first -%}
+          {%- assign pcats = p.categories | default: pdata.categories -%}
+          {%- if pcats == nil -%}{%- assign pcats = "" | split: "|" -%}{%- endif -%}
+
+          {%- assign matched = false -%}
+          {%- for c in pcats -%}
+            {%- if target_cats contains c -%}
+              {%- assign matched = true -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if matched -%}
+            {%- assign found_ids = found_ids | push: p.mod_id -%}
+          {%- endif -%}
+
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Fallback if nothing matched at all {%- endcomment -%}
+{%- if found_ids.size == 0 -%}
+  {%- for p in site.mods -%}
+    {%- if found_ids.size < max_items and p.mod_id and p.mod_id != current_id -%}
+      {%- assign found_ids = found_ids | push: p.mod_id -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 
 <section class="rm-related">
   <div class="rm-head">
@@ -32,192 +78,230 @@ Pack icons: /assets/img/packs/ (NOT blue)
   </div>
 
   <div class="rm-grid">
+    {%- comment -%} 2) RENDER ONLY THE FOUND IDS {%- endcomment -%}
+    {%- for id in found_ids -%}
+      {%- assign mod_page = site.mods | where: "mod_id", id | first -%}
+      {%- assign mod_data = site.data.mods | where: "id", id | first -%}
 
-    {%- comment -%} PASSES only if the category count supports them {%- endcomment -%}
-    {%- assign pass_sizes = "" | split: "|" -%}
-    {%- if cat_count >= 3 -%}{%- assign pass_sizes = pass_sizes | push: 3 -%}{%- endif -%}
-    {%- if cat_count >= 4 -%}{%- assign pass_sizes = pass_sizes | push: 4 -%}{%- endif -%}
-    {%- if cat_count >= 5 -%}{%- assign pass_sizes = pass_sizes | push: 5 -%}{%- endif -%}
+      {%- assign display_title = mod_page.title | default: mod_data.name | default: id -%}
+      {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
 
-    {%- for n in pass_sizes -%}
-      {%- if count < max_items -%}
-        {%- assign target_cats = current_categories | slice: 0, n -%}
+      {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
+      {%- if display_desc == nil or display_desc == "" -%}
+        {%- assign display_desc = mod_page.excerpt -%}
+      {%- endif -%}
 
-        {%- for mod_page in site.mods -%}
-          {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id -%}
-            {%- unless chosen_ids contains mod_page.mod_id -%}
+      {%- assign display_version = mod_page.version | default: mod_data.version -%}
 
-              {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
-              {%- assign rel_categories = mod_page.categories | default: mod_data.categories -%}
-              {%- if rel_categories == nil -%}{%- assign rel_categories = "" | split: "|" -%}{%- endif -%}
+      {%- assign packs = mod_page.packs | default: mod_data.packs -%}
+      {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}
+        {%- assign packs = packs | split: "," -%}
+      {%- endif -%}
 
-              {%- assign match = false -%}
-              {%- for c in rel_categories -%}
-                {%- if target_cats contains c -%}{%- assign match = true -%}{%- endif -%}
-              {%- endfor -%}
+      {%- assign files_list = mod_page.files -%}
+      {%- if files_list == nil -%}{%- assign files_list = "" | split: "|" -%}{%- endif -%}
 
-              {%- if match -%}
-                {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
-                {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
+      {%- assign type_icon = "fas fa-box" -%}
+      {%- assign type_label = "Package" -%}
+      {%- assign type_title = "Package Mod" -%}
+      {%- if files_list contains "ts4script" -%}
+        {%- assign type_icon = "fas fa-code" -%}
+        {%- assign type_label = "Script" -%}
+        {%- assign type_title = "Script Mod" -%}
+      {%- elsif files_list contains "bat" -%}
+        {%- assign type_icon = "fas fa-terminal" -%}
+        {%- assign type_label = "Batch Tool" -%}
+        {%- assign type_title = "Batch Tool" -%}
+      {%- endif -%}
 
-                {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
-                {%- if display_desc == nil or display_desc == "" -%}{%- assign display_desc = mod_page.excerpt -%}{%- endif -%}
+      <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
+        <span class="rm-icon" aria-hidden="true">
+          <i class="{{ display_icon }}"></i>
+        </span>
 
-                {%- assign display_version = mod_page.version | default: mod_data.version -%}
+        <span class="rm-main">
+          <span class="rm-name">{{ display_title }}</span>
 
-                {%- assign packs = mod_page.packs | default: mod_data.packs -%}
-                {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}
-                  {%- assign packs = packs | split: "," -%}
-                {%- endif -%}
+          {%- if display_desc and display_desc != "" -%}
+            <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
+          {%- endif -%}
 
-                {%- assign files_list = mod_page.files -%}
-                {%- assign type_icon = "fas fa-box" -%}
-                {%- assign type_label = "Package" -%}
-                {%- assign type_title = "Package Mod" -%}
-                {%- if files_list contains "ts4script" -%}
-                  {%- assign type_icon = "fas fa-code" -%}
-                  {%- assign type_label = "Script" -%}
-                  {%- assign type_title = "Script Mod" -%}
-                {%- elsif files_list contains "bat" -%}
-                  {%- assign type_icon = "fas fa-terminal" -%}
-                  {%- assign type_label = "Batch Tool" -%}
-                  {%- assign type_title = "Batch Tool" -%}
-                {%- endif -%}
+          <span class="rm-meta">
+            <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
+              <i class="{{ type_icon }}" aria-hidden="true"></i>
+              <span class="rm-type-text">{{ type_label }}</span>
+            </span>
 
-                <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
-                  <span class="rm-icon" aria-hidden="true"><i class="{{ display_icon }}"></i></span>
+            {%- if display_version and display_version != "" -%}
+              <span class="rm-ver">v. {{ display_version }}</span>
+            {%- endif -%}
 
-                  <span class="rm-main">
-                    <span class="rm-name">{{ display_title }}</span>
-
-                    {%- if display_desc and display_desc != "" -%}
-                      <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
+            {%- if packs and packs.size > 0 -%}
+              <span class="rm-packs" aria-label="Required packs">
+                {%- for pack_code_raw in packs -%}
+                  {%- assign pack_code = pack_code_raw | strip -%}
+                  {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
+                    {%- assign pack_data = site.data.packs[pack_code] -%}
+                    {%- assign pack_name = pack_code -%}
+                    {%- if pack_data -%}
+                      {%- assign pack_name = pack_data.en | default: pack_code -%}
                     {%- endif -%}
 
-                    <span class="rm-meta">
-                      <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
-                        <i class="{{ type_icon }}" aria-hidden="true"></i>
-                        <span class="rm-type-text">{{ type_label }}</span>
-                      </span>
-
-                      {%- if display_version and display_version != "" -%}
-                        <span class="rm-ver">v. {{ display_version }}</span>
-                      {%- endif -%}
-
-                      {%- if packs and packs.size > 0 -%}
-                        <span class="rm-packs" aria-label="Required packs">
-                          {%- for pack_code_raw in packs -%}
-                            {%- assign pack_code = pack_code_raw | strip -%}
-                            {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
-                              {%- assign pack_data = site.data.packs[pack_code] -%}
-                              {%- assign pack_name = pack_code -%}
-                              {%- if pack_data -%}{%- assign pack_name = pack_data.en | default: pack_code -%}{%- endif -%}
-                              {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
-                              <img class="rm-pack" src="{{ site.baseurl }}{{ icon_path }}" alt="{{ pack_name }} ({{ pack_code }})" title="{{ pack_name }} ({{ pack_code }})">
-                            {%- endif -%}
-                          {%- endfor -%}
-                        </span>
-                      {%- endif -%}
-                    </span>
-                  </span>
-                </a>
-
-                {%- assign chosen_ids = chosen_ids | push: mod_page.mod_id -%}
-                {%- assign count = count | plus: 1 -%}
-              {%- endif -%}
-
-            {%- endunless -%}
-          {%- endif -%}
-        {%- endfor -%}
-
-      {%- endif -%}
-    {%- endfor -%}
-
-    {%- comment -%} FALLBACK if no results at all {%- endcomment -%}
-    {%- if count == 0 -%}
-      {%- for mod_page in site.mods -%}
-        {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id -%}
-          {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
-
-          {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
-          {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
-          {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
-          {%- if display_desc == nil or display_desc == "" -%}{%- assign display_desc = mod_page.excerpt -%}{%- endif -%}
-          {%- assign display_version = mod_page.version | default: mod_data.version -%}
-          {%- assign packs = mod_page.packs | default: mod_data.packs -%}
-          {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}{%- assign packs = packs | split: "," -%}{%- endif -%}
-
-          {%- assign files_list = mod_page.files -%}
-          {%- assign type_icon = "fas fa-box" -%}
-          {%- assign type_label = "Package" -%}
-          {%- assign type_title = "Package Mod" -%}
-          {%- if files_list contains "ts4script" -%}
-            {%- assign type_icon = "fas fa-code" -%}
-            {%- assign type_label = "Script" -%}
-            {%- assign type_title = "Script Mod" -%}
-          {%- elsif files_list contains "bat" -%}
-            {%- assign type_icon = "fas fa-terminal" -%}
-            {%- assign type_label = "Batch Tool" -%}
-            {%- assign type_title = "Batch Tool" -%}
-          {%- endif -%}
-
-          <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
-            <span class="rm-icon" aria-hidden="true"><i class="{{ display_icon }}"></i></span>
-            <span class="rm-main">
-              <span class="rm-name">{{ display_title }}</span>
-              {%- if display_desc and display_desc != "" -%}
-                <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
-              {%- endif -%}
-              <span class="rm-meta">
-                <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
-                  <i class="{{ type_icon }}" aria-hidden="true"></i>
-                  <span class="rm-type-text">{{ type_label }}</span>
-                </span>
-                {%- if display_version and display_version != "" -%}
-                  <span class="rm-ver">v. {{ display_version }}</span>
-                {%- endif -%}
-                {%- if packs and packs.size > 0 -%}
-                  <span class="rm-packs" aria-label="Required packs">
-                    {%- for pack_code_raw in packs -%}
-                      {%- assign pack_code = pack_code_raw | strip -%}
-                      {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
-                        {%- assign pack_data = site.data.packs[pack_code] -%}
-                        {%- assign pack_name = pack_data.en | default: pack_code -%}
-                        {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
-                        <img class="rm-pack" src="{{ site.baseurl }}{{ icon_path }}" alt="{{ pack_name }} ({{ pack_code }})" title="{{ pack_name }} ({{ pack_code }})">
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </span>
-                {%- endif -%}
+                    {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
+                    <img
+                      class="rm-pack"
+                      src="{{ site.baseurl }}{{ icon_path }}"
+                      alt="{{ pack_name }} ({{ pack_code }})"
+                      title="{{ pack_name }} ({{ pack_code }})"
+                    >
+                  {%- endif -%}
+                {%- endfor -%}
               </span>
-            </span>
-          </a>
+            {%- endif -%}
+          </span>
+        </span>
+      </a>
 
-          {%- assign count = count | plus: 1 -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-
+    {%- endfor -%}
   </div>
 </section>
 
 <style>
 .rm-head{ margin: 0 0 14px 0; }
-.rm-h{ margin:0 0 4px 0; font-size:1.6rem; font-weight:800; letter-spacing:-.3px; color:#0f172a; }
-.rm-sub{ margin:0; color:#64748b; font-size:1rem; line-height:1.35; }
-.rm-grid{ display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 18px; }
-.rm-card{ display:flex; gap:14px; align-items:flex-start; padding:16px 18px; border-radius:18px; background:#fff; border:1px solid #eef2f7; box-shadow: 0 10px 26px rgba(15,23,42,.06); text-decoration:none; color:inherit; min-height:170px; }
-.rm-card:hover{ border-color: rgba(0,0,0,.18); box-shadow: 0 0 0 3px rgba(0,0,0,.05), 0 14px 34px rgba(15,23,42,.08); }
-.rm-icon{ width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:#f8fafc; border:1px solid #e2e8f0; color:#1e40af; flex:0 0 auto; margin-top:2px; font-size:1.05rem; }
-.rm-main{ display:flex; flex-direction:column; gap:6px; min-width:0; width:100%; height:100%; }
-.rm-name{ font-weight:800; color:#1e3a8a; font-size:1.15rem; line-height:1.15; }
-.rm-desc{ color:#334155; font-size:.95rem; line-height:1.35; }
-.rm-meta{ margin-top:auto; display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding-top:10px; }
-.rm-type{ display:inline-flex; align-items:center; gap:6px; color:#64748b; font-weight:700; font-size:.85rem; white-space:nowrap; }
-.rm-type i{ color:#cbd5e1; font-size:.95rem; line-height:1; }
-.rm-ver{ font-weight:600; color:#64748b; font-size:.9rem; white-space:nowrap; }
-.rm-packs{ display:inline-flex; gap:6px; align-items:center; margin-left:auto; }
-.rm-pack{ width:26px; height:26px; object-fit:contain; border:0; background:transparent; border-radius:0; padding:0; }
-@media (max-width: 900px){ .rm-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px){ .rm-grid{ grid-template-columns: 1fr; } .rm-packs{ margin-left:0; } }
+.rm-h{
+  margin:0 0 4px 0;
+  font-size:1.6rem;
+  font-weight:800;
+  letter-spacing:-.3px;
+  color:#0f172a;
+}
+.rm-sub{
+  margin:0;
+  color:#64748b;
+  font-size:1rem;
+  line-height:1.35;
+}
+
+.rm-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 18px;
+}
+
+/* equal-height cards + meta pinned to bottom */
+.rm-card{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding:16px 18px;
+  border-radius:18px;
+  background:#fff;
+  border:1px solid #eef2f7;
+  box-shadow: 0 10px 26px rgba(15,23,42,.06);
+  text-decoration:none;
+  color:inherit;
+  min-height:170px;
+}
+
+.rm-card:hover{
+  border-color: rgba(0,0,0,.18);
+  box-shadow: 0 0 0 3px rgba(0,0,0,.05), 0 14px 34px rgba(15,23,42,.08);
+}
+
+.rm-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  color:#1e40af;
+  flex:0 0 auto;
+  margin-top:2px;
+  font-size:1.05rem;
+}
+
+.rm-main{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:0;
+  width:100%;
+  height:100%;
+}
+
+.rm-name{
+  font-weight:800;
+  color:#1e3a8a;
+  font-size:1.15rem;
+  line-height:1.15;
+}
+
+.rm-desc{
+  color:#334155;
+  font-size:.95rem;
+  line-height:1.35;
+}
+
+/* push meta to bottom */
+.rm-meta{
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  padding-top:10px;
+}
+
+.rm-type{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#64748b;
+  font-weight:700;
+  font-size:.85rem;
+  white-space:nowrap;
+}
+.rm-type i{
+  color:#cbd5e1;
+  font-size:.95rem;
+  line-height:1;
+}
+.rm-type-text{
+  font-weight:700;
+}
+
+.rm-ver{
+  font-weight:600;
+  color:#64748b;
+  font-size:.9rem;
+  white-space:nowrap;
+}
+
+/* packs icons: plain icons, no badge */
+.rm-packs{
+  display:inline-flex;
+  gap:6px;
+  align-items:center;
+  margin-left:auto;
+}
+.rm-pack{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+  border:0;
+  background:transparent;
+  border-radius:0;
+  padding:0;
+}
+
+@media (max-width: 900px){
+  .rm-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px){
+  .rm-grid{ grid-template-columns: 1fr; }
+  .rm-packs{ margin-left:0; }
+}
 </style>
