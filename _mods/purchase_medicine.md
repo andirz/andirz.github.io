@@ -12,9 +12,7 @@ The Pharmacy is a one-stop shop for your Sims' health needs. It integrates seaml
 ## Included Content
 This mod includes all items from the **Sims 4 Base Game** and all released packs. Furthermore, it features extensive integration for popular community mods:
 
-This mod includes all items from:
-
-- **AEP** by Ksuihuh
+- **AEP** by Ksuihuh 🔞
 - **Allergic to Fur and More Traits** by ilkaSimming
 - **Automatic Sunburns** by Flerb
 - **[Child Birth](https://www.pandasama.com/child-birth-mod/)** by Pandasama
@@ -24,13 +22,13 @@ This mod includes all items from:
 - **Divergent Sims** by a.deep.indigo
 - **Healthcare Redux** by a.deep.indigo
 - **Hormone Replacement Therapy** by Zero
-- **[Males Interactions](https://wicked.cc/mods/khlas/kmi-khlas-males-interactions-wcc/)** by Khlas <i class="fa-solid fa-triangle-exclamation" title="18+ content"></i>
+- **[Males Interactions](https://wicked.cc/mods/khlas/kmi-khlas-males-interactions-wcc/)** by Khlas 🔞
 - **Mental Health** by Zero
 - **Mental Health Medications** by Simularity
 - **[Private Practice](https://simrealist.itch.io/private-practice-public)** by SimRealist
 - **Relationship & Pregnancy Overhaul** by Lumpinou
 - **Senior Living** by Wicked Pixxel
-- **[Wicked Whims](https://wickedwhimsmod.com/index)** by TurboDriver <i class="fa-solid fa-triangle-exclamation" title="18+ content"></i>
+- **[Wicked Whims](https://wickedwhimsmod.com/index)** by TurboDriver 🔞
 - **[Wonderful Whims](https://wonderfulwhims.com/)** by TurboDriver
 
 Items are only displayed if you actually have the corresponding packs or mods installed. If you don't use a specific mod, those items remain hidden to keep your shop clean.
