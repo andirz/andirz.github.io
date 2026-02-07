@@ -26,7 +26,6 @@
 {% endfor %}
 
 {% assign has_reqs = final_reqs and final_reqs.size > 0 %}
-{% assign has_packs = page.packs and page.packs.size > 0 %}
 
 <div class="sticky-sidebar-wrapper">
 
@@ -68,15 +67,13 @@
     </div>
   </div>
 
-  <!-- REQUIREMENTS -->
-  {% if has_reqs or has_packs %}
+  <!-- REQUIREMENTS (nur Mods/Scripts, keine Packs) -->
+  {% if has_reqs %}
   <div class="sidebar-box">
 
     <div class="sidebar-box-header">Requirements</div>
 
     <div class="sidebar-box-content">
-
-      {% if has_reqs %}
       <ul class="requirements-list">
         {% for req_id in final_reqs %}
           {% assign dep = site.data.dependencies[req_id] %}
@@ -88,27 +85,8 @@
           </li>
         {% endfor %}
       </ul>
-      {% endif %}
-
-      {% if has_packs %}
-      <div class="packs-block{% unless has_reqs %} no-divider{% endunless %}">
-        <strong>
-          {% if page.require_any_pack %}
-            Any of these packs:
-          {% else %}
-            Required packs:
-          {% endif %}
-        </strong>
-
-        <div class="packs-list">
-          {% for pack in page.packs %}
-            <span>{{ pack }}</span>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
-
     </div>
+
   </div>
   {% endif %}
 
@@ -150,7 +128,10 @@
 :root{ --soft-black:#1f2937; }
 
 /* LAYOUT */
-.sticky-sidebar-wrapper{ position:sticky; top:20px; }
+.sticky-sidebar-wrapper{
+  position:sticky;
+  top:20px;
+}
 
 /* BOX */
 .sidebar-box{
@@ -172,12 +153,14 @@
   letter-spacing:1px;
 }
 
-.sidebar-box-content{ padding:12px 14px; }
+.sidebar-box-content{
+  padding:12px 14px;
+}
 
-/* COVER */
+/* COVER (10:9 – niedriger als Quadrat, höher als 4:3) */
 .sidebar-cover{
   position:relative;
-  aspect-ratio:4/3;
+  aspect-ratio: 10 / 9;
   overflow:hidden;
   border-bottom:1px solid var(--soft-black);
 }
@@ -190,7 +173,9 @@
   height:100%;
 }
 
-.sidebar-cover > a > img{ object-fit:cover; }
+.sidebar-cover > a > img{
+  object-fit:cover;
+}
 
 .cover-fallback{
   position:absolute;
@@ -202,7 +187,9 @@
   color:var(--soft-black);
 }
 
-.cover-fallback i{ font-size:56px; }
+.cover-fallback i{
+  font-size:56px;
+}
 
 /* CONTENT */
 .sidebar-content{
@@ -233,10 +220,17 @@
   padding-left:8px;
 }
 
-.files i{ font-size:0.8rem; }
+.files i{
+  font-size:0.8rem;
+}
 
 /* REQUIREMENTS */
-.requirements-list{ list-style:none; padding:0; margin:0; }
+.requirements-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
 .requirements-list li{
   display:flex;
   align-items:center;
@@ -244,28 +238,16 @@
   font-size:0.85rem;
   margin-bottom:8px;
 }
-.requirements-list a{ font-weight:700; text-decoration:none; }
 
-.packs-block{
-  border-top:1px solid #e5e7eb;
-  margin-top:8px;
-  padding-top:6px;
-  font-size:0.7rem;
-}
-.packs-block.no-divider{ border-top:none; margin-top:0; padding-top:0; }
-
-.packs-list{
-  margin-top:6px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-.packs-list span{
-  background:#eff6ff;
-  border:1px solid #dbeafe;
-  border-radius:4px;
-  padding:2px 6px;
+.requirements-list a{
   font-weight:700;
+  text-decoration:none;
+  color:var(--link-color, #2563eb);
+}
+
+.requirements-list a:hover{
+  text-decoration:underline;
+  color:var(--link-color-hover, #1d4ed8);
 }
 
 /* DOWNLOAD */
@@ -277,36 +259,27 @@
 }
 
 .download-btn{
-  position: relative;
-  padding: 10px 14px;
-  border-radius: 9px;
-  font-weight: 800;
-  font-size: 0.85rem;
-  color: #fff !important;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  border: 1px solid transparent;
+  position:relative;
+  padding:10px 14px;
+  border-radius:9px;
+  font-weight:800;
+  font-size:0.85rem;
+  color:#fff !important;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid transparent;
 }
 
-/* Icon links */
 .download-btn i{
-  position: absolute;
-  left: 14px;
-  font-size: 1rem;
+  position:absolute;
+  left:14px;
+  font-size:1rem;
 }
 
-/* Text zentriert */
-.download-btn{
-  justify-content: center;
-}
-.download-btn span{
-  display: inline-block;
-}
-
-/* Hover-Rand */
 .download-btn:hover{
-  border-color: rgba(255,255,255,0.55);
+  border-color:rgba(255,255,255,0.55);
 }
 
 .cf-btn{ background:#f16436; }
@@ -328,39 +301,31 @@
   justify-content:center;
   border-radius:999px;
   text-decoration:none;
-  transform:translateZ(0);
   transition:transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
 }
 
 .support-icons .icon-btn i{
   font-size:1.25rem;
-  line-height:1;
 }
 
 .support-icons .icon-btn.patreon{
-  background:#111111;
-  color:#ffffff;
+  background:#111;
+  color:#fff;
 }
 
 .support-icons .icon-btn.paypal{
   background:#1f6feb;
-  color:#ffffff;
+  color:#fff;
 }
 
-/* Ko-fi: weißer Kreis, schwarzer Rand, Tasse rot */
 .support-icons .icon-btn.kofi{
-  background:#ffffff;
+  background:#fff;
   color:#ff5a5f;
-  border:1.5px solid #111111;
-}
-.support-icons .icon-btn.kofi i{
-  color:#ff5a5f;
+  border:1.5px solid #111;
 }
 
-/* Hover: größer */
 .support-icons .icon-btn:hover{
   transform:scale(1.18);
-  filter:brightness(1.05);
   box-shadow:0 6px 14px rgba(0,0,0,0.14);
 }
 </style>
