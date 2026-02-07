@@ -147,7 +147,7 @@ sitemap: false
       <span class="crypt">zaaR saerdnA</span>
     </p>
 
-    <h2>Privacy & Cookies</h2>
+    <h2>Detailed information</h2>
     <div class="legal-box">
       Detailed information is provided in separate documents:
       <ul>
@@ -195,7 +195,7 @@ sitemap: false
       <span class="crypt">zaaR saerdnA</span>
     </p>
 
-    <h2>Datenschutz & Cookies</h2>
+    <h2>Weitere Informationen</h2>
     <div class="legal-box">
       Weitere Informationen finden Sie hier:
       <ul>
