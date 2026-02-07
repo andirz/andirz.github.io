@@ -3,7 +3,7 @@ mod_id: injection_tools
 title: Injection Tools
 icon: "fas fa-tools"
 files: ["ts4script"]
-categories: [Scripts, Injectors, Adopted Mods]
+categories: [Scripts, Core, Injectors, Adopted Mods]
 tagline: "A critical script library update that restores functionality to numerous community mods after game version 1.110."
 ---
 
