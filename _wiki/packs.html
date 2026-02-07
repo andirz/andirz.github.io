@@ -57,18 +57,25 @@ It is a helpful resource for modders and players to identify packs across differ
         {% assign info = pack[1] %}
         {% assign sp_num = code | remove: "SP" | plus: 0 %}
 
-        {% if tkey == "EP" and code contains "EP" %}
-        {% elsif tkey == "GP" and code contains "GP" %}
-        {% elsif tkey == "SP_MAIN"
-           and code contains "SP"
-           and (sp_num <= 18 or sp_num == 46 or sp_num == 49)
-        %}
-        {% elsif tkey == "SP_KITS"
-           and code contains "SP"
-           and sp_num > 18
-           and sp_num != 46
-           and sp_num != 49
-        %}
+        {% comment %} 
+          Verschachtelte Logik zur Fehlervermeidung (Expected dotdot Fix) 
+        {% endcomment %}
+        {% if tkey == "EP" %}
+          {% unless code contains "EP" %}{% continue %}{% endunless %}
+        {% elsif tkey == "GP" %}
+          {% unless code contains "GP" %}{% continue %}{% endunless %}
+        {% elsif tkey == "SP_MAIN" %}
+          {% if code contains "SP" %}
+            {% if sp_num <= 18 or sp_num == 46 or sp_num == 49 %}
+              {% comment %} Korrektes Stuff Pack {% endcomment %}
+            {% else %}{% continue %}{% endif %}
+          {% else %}{% continue %}{% endif %}
+        {% elsif tkey == "SP_KITS" %}
+          {% if code contains "SP" %}
+            {% if sp_num > 18 and sp_num != 46 and sp_num != 49 %}
+              {% comment %} Korrektes Kit {% endcomment %}
+            {% else %}{% continue %}{% endif %}
+          {% else %}{% continue %}{% endif %}
         {% else %}
           {% continue %}
         {% endif %}
@@ -173,7 +180,7 @@ h2 {
   align-items: center;
   justify-content: center;
   background: var(--bg-secondary);
-  border-radius: 8px;
+  border-radius: 8px; /* Kann für Crispy-Look auf 12px oder höher gesetzt werden */
   border: 1px solid var(--border-color);
 }
 
@@ -190,13 +197,11 @@ h2 {
 
 <script>
 (function () {
-
   function sortTable(table, col) {
     const tbody = table.querySelector('tbody');
     if (!tbody) return;
 
     const rows = Array.from(tbody.rows);
-
     const lastCol = table.dataset.sortCol;
     const lastDir = table.dataset.sortDir || 'asc';
     const dir = (String(lastCol) === String(col) && lastDir === 'asc') ? 'desc' : 'asc';
@@ -244,6 +249,5 @@ h2 {
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
-
 })();
 </script>
