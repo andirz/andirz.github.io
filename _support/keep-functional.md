@@ -44,10 +44,9 @@ Sometimes, old data stored in the game's cache can cause issues even after you'v
 
 ## Pay Attention to Dependencies
 Many mods require other files to work, such as:
-* **{% include dependency_link.html id="smart_core" %}:** Required engine for many Andirz mods.
-* **{% include dependency_link.html id="xml_injector" %}:** Adds interactions via tuning mod injection.
-* **{% include dependency_link.html id="lot51_core" %}:** Essential library for advanced script functions.
-* **{% include dependency_link.html id="zerbu_preferences" %}:** Required for handling custom preference categories.
+* **Smart Core Script:** Required engine for many Andirz mods.
+* **XML Injector:** Adds interactions via tuning mod injection.
+* **Lot51 Core Library:** Essential library for advanced script functions.
 * **Specific DLCs:** Some features require specific game packs.
 
 
