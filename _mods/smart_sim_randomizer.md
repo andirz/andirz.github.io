@@ -3,7 +3,7 @@ mod_id: smart_sim_randomizer
 title: "Smart Sim Randomizer"
 icon: "fas fa-dice"
 requirements: ["smart_core"]
-categories: [Sim Personalization, Townie Fixes, Preferences, Traits, Cheats]
+categories: [Sim Personalization, Townie Fixes, Traits, Cheats, Integration]
 ---
 
 ## About This Mod
@@ -23,16 +23,16 @@ The system also "sees" your Sim's physical appearance for deeper world-building:
 
 Furthermore, the mod is fully aware of a Sim’s occult status and personal history. Vampires instinctively prefer dark colors and have an aversion to the sun, while Mermaids have a higher probability of loving the rain and water activities. There is even a built-in "Trauma-Check" for Ghosts, allowing for specific randomization blocks based on their cause of death.
 
-## Key Automated Modules
-
-### Preferences
+## Supported Properties
+When enabled in the configuration, the mod intelligently manages a vast array of Sim properties across multiple gameplay systems. This includes:
 * **Likes & Dislikes:** Activities, Colors, Music Genres, Décor, Fashion, Characteristics and Communication Topics.
 * **Turn-Ons & Turn-Offs:**: Hair Color, Outfit Color, Fashion Styles, Characteristics, Romance Styles, and Way of Life.
 * **Hidden Preferences:** Weather, Movie Genres, Political Positions, Umbrella Choices, Utensil Preference, and even opinions on Mayonnaise.
 * **Infant & Toddler Preferences:** Baby Feeding Preferences, Infant Food Prefferences, Carriers Preferences.
 * **Other Values**: Parenthood Character Values, Fears and Infant Quirks.
 
-### Custom Mod Integrations
+## Mod Integrations
+The Smart Sim Randomizer features built-in compatibility for popular community mods, allowing their custom categories to be part of the intelligent filling process:
 * ChippedSim’s **Animal Preferences**.
 * Kuttoe’s **Pizza preferences**.
 * SpinningPlumbobs’ Occult Types**.

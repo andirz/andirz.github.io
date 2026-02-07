@@ -4,8 +4,7 @@ title: "Visible Weather Preferences"
 icon: "fas fa-cloud-sun"
 packs: ["EP05"]
 requirements: ["zerbu_preferences"]
-categories: [UI Tweaks, Traits, Preferences, Overrides]
-overrides: true
+categories: [UI Tweaks, Traits, Overrides]
 ---
 
 ## About This Mod
