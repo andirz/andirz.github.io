@@ -9,9 +9,13 @@
 {% assign current_version = page.version | default: mod.version %}
 {% assign final_reqs = page.requirements | default: mod.requirements %}
 
-{% assign patreon_link = mod.patreon | default: site.data.globals.links.patreon %}
-{% assign kofi_link = site.data.globals.links.kofi %}
-{% assign paypal_link = site.data.globals.links.paypal %}
+{% assign patreon_link_raw = mod.patreon | default: site.data.globals.links.patreon %}
+{% assign kofi_link_raw = site.data.globals.links.kofi %}
+{% assign paypal_link_raw = site.data.globals.links.paypal %}
+
+{% assign patreon_link = patreon_link_raw | strip %}
+{% assign kofi_link = kofi_link_raw | strip %}
+{% assign paypal_link = paypal_link_raw | strip %}
 
 {% assign cf_slug = current_id | replace: '_', '-' %}
 {% assign cf_url = "https://www.curseforge.com/sims4/mods/" | append: cf_slug | append: "/files/" %}
@@ -77,11 +81,19 @@
       <ul class="requirements-list">
         {% for req_id in final_reqs %}
           {% assign dep = site.data.dependencies[req_id] %}
+          {% assign dep_url = dep.url | strip %}
           <li>
             <i class="{{ dep.icon | default: 'fas fa-puzzle-piece' }}"></i>
-            <a href="{{ dep.url | default:'#' }}" target="_blank" rel="noopener noreferrer">
-              {{ dep.name | default: req_id }}
-            </a>
+
+            {% if dep_url and dep_url != "" %}
+              <a href="{{ dep_url }}" target="_blank" rel="noopener noreferrer">
+                {{ dep.name | default: req_id }}
+              </a>
+            {% else %}
+              <span style="font-weight:700;">
+                {{ dep.name | default: req_id }}
+              </span>
+            {% endif %}
           </li>
         {% endfor %}
       </ul>
@@ -101,25 +113,35 @@
         </a>
       {% endunless %}
 
-      <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" class="download-btn patreon-btn">
-        <i class="fab fa-patreon"></i>
-        <span>Download on Patreon</span>
-      </a>
+      {% if patreon_link and patreon_link != "" %}
+        <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" class="download-btn patreon-btn">
+          <i class="fab fa-patreon"></i>
+          <span>Download on Patreon</span>
+        </a>
+      {% endif %}
 
     </div>
   </div>
 
   <!-- SUPPORT -->
   <div class="support-icons">
-    <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" title="Patreon" class="icon-btn patreon">
-      <i class="fab fa-patreon"></i>
-    </a>
-    <a href="{{ kofi_link }}" target="_blank" rel="noopener noreferrer" title="Ko-fi" class="icon-btn kofi">
-      <i class="fas fa-coffee"></i>
-    </a>
-    <a href="{{ paypal_link }}" target="_blank" rel="noopener noreferrer" title="PayPal" class="icon-btn paypal">
-      <i class="fab fa-paypal"></i>
-    </a>
+    {% if patreon_link and patreon_link != "" %}
+      <a href="{{ patreon_link }}" target="_blank" rel="noopener noreferrer" title="Patreon" class="icon-btn patreon">
+        <i class="fab fa-patreon"></i>
+      </a>
+    {% endif %}
+
+    {% if kofi_link and kofi_link != "" %}
+      <a href="{{ kofi_link }}" target="_blank" rel="noopener noreferrer" title="Ko-fi" class="icon-btn kofi">
+        <i class="fas fa-coffee"></i>
+      </a>
+    {% endif %}
+
+    {% if paypal_link and paypal_link != "" %}
+      <a href="{{ paypal_link }}" target="_blank" rel="noopener noreferrer" title="PayPal" class="icon-btn paypal">
+        <i class="fab fa-paypal"></i>
+      </a>
+    {% endif %}
   </div>
 
 </div>
