@@ -9,22 +9,14 @@ tagline: "Leave survival to fate with a high-stakes mechanic designed for dystop
 
 ## About This Mod
 
-**Death Roulette Challenge** is a scenario-focused gameplay mod that introduces a fast, random survival-or-death mechanic for Sims.
-
-It is designed for challenge-based storytelling such as war, plague, disaster, or dystopian scenarios. Fate alone decides who survives.
-
-With a single interaction, selected Sims will either **die instantly** or **survive the challenge** and receive a positive **Survival buff**.
+**Death Roulette Challenge** is a scenario-focused gameplay mod that introduces a fast, random survival-or-death mechanic for Sims. It is designed for challenge-based storytelling such as war, plague, disaster, or dystopian scenarios. Fate alone decides who survives. With a single interaction, selected Sims will either **die instantly** or **survive the challenge** and receive a positive **Survival buff**.
 
 ## Core Features
 
-- Select survival probability:
-  - **0%**
-  - **25%**
-  - **50%**
-  - **75%**
-- Up to **8 Sims** can participate in a single roulette
-- Survivors receive a **happy Survival buff**
-- One-click execution for fast scenario setup
+- Select survival probability: **0%**, **25%**, **50%** or **75%**.
+- Up to **8 Sims** can participate in a single Roulette.
+- Survivors receive a **happy Survival buff**.
+- One-click execution for fast scenario Setup.
 
 > It is not recommended to select too many Sims at once — even the Grim Reaper has limits.
 
@@ -54,7 +46,7 @@ Special cases:
 Deaths are handled using **Base Game–compatible methods**:
 
 - Default death: **Starvation**
-- During rain: **Lightning**
+- During rain: **Lightning** (EP05 Seasons)
 - Vampires, Spellcasters, and Robots die according to their species
 - Children die by **fire** (the only valid EA child death type)
 
@@ -63,20 +55,14 @@ Deaths are handled using **Base Game–compatible methods**:
 Because of the nature of this mod, the interaction is only available via the **Cheat Menu**  
 (hold **CTRL** to access it).
 
-## Translations
+## Language & Translations
 
-- **English, German, Spanish, Russian** – by me  
-- **Brazilian Portuguese** – Nymphieta  
-- **French** – Mollory  
-- **Italian** – vale93_games  
+- **English**, **German**, **Spanish**, and **Russian** – by me  
+- **Brazilian Portuguese** – by Nymphieta  
+- **French** – by Mollory  
+- **Italian** – by vale93_games  
 
 I am open to cooperation with additional translators.
-
-## Compatibility
-
-- No EA resources are overridden  
-- Fully standalone functionality  
-- No compatibility issues are expected
 
 ## Content Warning & Distribution Notice
 
