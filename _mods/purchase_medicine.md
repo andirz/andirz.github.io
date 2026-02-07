@@ -3,7 +3,7 @@ mod_id: "purchase_medicine"
 title: Purchase Medicine
 icon: "fas fa-pills"
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Phone App, Medical]
+categories: [Purchasing System, Medical]
 ---
 
 ## About This Mod
