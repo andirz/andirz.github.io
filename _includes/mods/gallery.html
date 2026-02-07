@@ -1,6 +1,9 @@
 {% comment %}
-  Split Gallery for Mods
-  Uses images from /assets/img/mods/<mod_id>/
+  Mod Gallery
+  - Left: large preview
+  - Right: vertical thumbnails
+  - Images loaded from /assets/img/mods/<mod_id>/
+  - cover.* is excluded
 {% endcomment %}
 
 {% assign filename = page.path | split: "/" | last | replace: ".md", "" %}
@@ -9,17 +12,28 @@
 
 {% assign images = "" | split: "" %}
 {% for file in site.static_files %}
-  {% if file.path contains img_base and file.extname != ".svg" %}
+  {% if file.path contains img_base
+        and file.extname != ".svg"
+        and file.path contains "/cover." == false %}
     {% assign images = images | push: file.path %}
   {% endif %}
 {% endfor %}
 
 {% if images.size > 0 %}
+
+<h3 class="mod-gallery-title">
+  Gallery
+</h3>
+
 <div class="mod-split-gallery" data-mod-gallery>
+
+  <!-- MAIN IMAGE -->
   <div class="msg-main">
-    <img src="{{ images[0] }}" alt="{{ page.title }} preview">
+    <img src="{{ images[0] }}"
+         alt="{{ page.title }} preview">
   </div>
 
+  <!-- THUMBNAILS -->
   <div class="msg-thumbs">
     {% for img in images %}
       <button type="button"
@@ -30,17 +44,30 @@
       </button>
     {% endfor %}
   </div>
+
 </div>
+
 {% endif %}
 
 <style>
+/* TITLE */
+.mod-gallery-title{
+  margin:22px 0 10px;
+  font-size:1.25rem;
+  font-weight:700;
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:4px;
+}
+
+/* LAYOUT */
 .mod-split-gallery{
   display:grid;
   grid-template-columns: 1fr 140px;
   gap:16px;
-  margin:18px 0 26px;
+  margin:14px 0 28px;
 }
 
+/* MAIN IMAGE */
 .msg-main{
   background:#000;
   border-radius:14px;
@@ -55,6 +82,7 @@
   display:block;
 }
 
+/* THUMB COLUMN */
 .msg-thumbs{
   display:flex;
   flex-direction:column;
@@ -62,6 +90,7 @@
   overflow:auto;
 }
 
+/* THUMB */
 .msg-thumb{
   all:unset;
   cursor:pointer;
@@ -78,10 +107,19 @@
   display:block;
 }
 
+/* ACTIVE = ruhig, kein Glow */
 .msg-thumb.active{
-  border-color:var(--accent-color);
+  border-color: rgba(0,0,0,0.75);
 }
 
+/* NO GLOW EVER */
+.msg-thumb:hover,
+.msg-thumb:focus-visible{
+  box-shadow:none;
+  filter:none;
+}
+
+/* MOBILE */
 @media (max-width: 900px){
   .mod-split-gallery{
     grid-template-columns:1fr;
