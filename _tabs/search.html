@@ -36,9 +36,7 @@ permalink: /search/
 <style>
   .search-page { max-width: 860px; }
 
-  #my-search-groups section {
-    margin-top: 22px;
-  }
+  #my-search-groups section { margin-top: 22px; }
 
   #my-search-groups h2 {
     font-size: 1.25rem;
@@ -73,6 +71,7 @@ permalink: /search/
 <script>
 /* =========================================================
    SEARCH INDEX (direkt hier, keine externe Datei)
+   - markdownify -> strip_html => "normaler Text"
    ========================================================= */
 window.MY_SEARCH_INDEX = [
   {% assign first = true %}
@@ -84,7 +83,7 @@ window.MY_SEARCH_INDEX = [
       collection: "posts",
       title: {{ post.title | jsonify }},
       url: {{ post.url | relative_url | jsonify }},
-      content: {{ post.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
+      content: {{ post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
     }
   {% endfor %}
 
@@ -97,7 +96,7 @@ window.MY_SEARCH_INDEX = [
           collection: "pages",
           title: {{ p.title | jsonify }},
           url: {{ p.url | relative_url | jsonify }},
-          content: {{ p.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
+          content: {{ p.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
         }
       {% endunless %}
     {% endif %}
@@ -115,7 +114,7 @@ window.MY_SEARCH_INDEX = [
             collection: {{ cname | jsonify }},
             title: {{ doc.title | jsonify }},
             url: {{ doc.url | relative_url | jsonify }},
-            content: {{ doc.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
+            content: {{ doc.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
           }
         {% endif %}
       {% endfor %}
@@ -126,7 +125,7 @@ window.MY_SEARCH_INDEX = [
 
 <script>
 /* =========================================================
-   SEARCH LOGIC (kein Theme, kein Plugin)
+   SEARCH LOGIC
    ========================================================= */
 (() => {
   const input  = document.getElementById('my-search-q');
@@ -137,9 +136,9 @@ window.MY_SEARCH_INDEX = [
     mods:  { label: 'Mods',         icon: 'fas fa-layer-group' },
     wiki:  { label: 'Sims 4 Wiki',   icon: 'fas fa-book' },
     tools: { label: 'Modding Tools', icon: 'fas fa-toolbox' },
-    games: { label: 'Game Center',   icon: 'fas fa-puzzle-piece' },
-    posts: { label: 'Blog',          icon: 'fas fa-pen-nib' },
-    pages: { label: 'Pages',         icon: 'fas fa-file-lines' }
+    games: { label: 'Game Center',  icon: 'fas fa-puzzle-piece' },
+    posts: { label: 'Blog',         icon: 'fas fa-pen-nib' },
+    pages: { label: 'Pages',        icon: 'fas fa-file-lines' }
   };
 
   const ORDER = ['mods','wiki','tools','games','posts','pages'];
@@ -149,12 +148,34 @@ window.MY_SEARCH_INDEX = [
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])
   );
 
+  function cleanPreviewText(s) {
+    return (s || '')
+      .replace(/\u00A0/g, ' ')
+      .replace(/\s+/g, ' ')
+      // falls doch noch Markdown-Zeug durchrutscht:
+      .replace(/(^|\s)#{1,6}\s+/g, ' ')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/\[(.*?)\]\((.*?)\)/g, '$1')
+      .trim();
+  }
+
   function snippet(text, q) {
-    const t = (text || '').replace(/\s+/g,' ').trim();
+    const t = cleanPreviewText(text);
+    if (!t) return '';
     if (!q) return t.slice(0,180) + (t.length>180?'…':'');
-    const i = t.toLowerCase().indexOf(q.toLowerCase());
+
+    const needle = q.toLowerCase();
+    const low = t.toLowerCase();
+    const i = low.indexOf(needle);
+
     if (i === -1) return t.slice(0,180) + (t.length>180?'…':'');
-    return (i>60?'…':'') + t.slice(Math.max(0,i-60), i+120) + '…';
+
+    const start = Math.max(0, i - 60);
+    const end   = Math.min(t.length, i + needle.length + 100);
+
+    return (start>0?'…':'') + t.slice(start, end) + (end<t.length?'…':'');
   }
 
   function render(grouped, q) {
@@ -176,7 +197,8 @@ window.MY_SEARCH_INDEX = [
       const items = grouped[key];
       if (!items || !items.length) return;
 
-      const meta = COLLECTION_META[key];
+      const meta = COLLECTION_META[key] || { label: key, icon: 'fas fa-file-lines' };
+
       const sec = document.createElement('section');
       sec.innerHTML = `
         <h2>
@@ -208,13 +230,28 @@ window.MY_SEARCH_INDEX = [
   function search(q) {
     q = q.trim();
     if (!q) return render({}, '');
-    const res = {};
+
+    const qlow = q.toLowerCase();
+    const grouped = {};
+
     data.forEach(it => {
-      if ((it.title+it.content).toLowerCase().includes(q.toLowerCase())) {
-        (res[it.collection] ||= []).push(it);
+      const hay = ((it.title || '') + ' ' + (it.content || '')).toLowerCase();
+      if (hay.includes(qlow)) {
+        const key = it.collection || 'pages';
+        (grouped[key] ||= []).push(it);
       }
     });
-    render(res, q);
+
+    // Titel-Treffer nach vorn
+    Object.keys(grouped).forEach(k => {
+      grouped[k].sort((a,b) => {
+        const at = (a.title||'').toLowerCase().includes(qlow) ? 0 : 1;
+        const bt = (b.title||'').toLowerCase().includes(qlow) ? 0 : 1;
+        return at - bt;
+      });
+    });
+
+    render(grouped, q);
   }
 
   input.addEventListener('input', e => search(e.target.value));
