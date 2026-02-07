@@ -59,15 +59,4 @@ Because of the nature of this mod, the interaction is only available via the **C
 - **English**, **German**, **Spanish**, and **Russian** – by me  
 - **Brazilian Portuguese** – by Nymphieta  
 - **French** – by Mollory  
-- **Italian** – by vale93_games  
-
-I am open to cooperation with additional translators.
-
-## Content Warning & Distribution Notice
-
-This mod contains **violent gameplay content**, including the killing of Sims.
-
-It violates Electronic Arts’ content policy and was therefore **rejected by CurseForge**.  
-As a result, this mod is distributed **exclusively** via **Patreon** and **Nexus Mods**, where such content is permitted.
-
-Distribution via CurseForge is **not possible**.
+- **Italian** – by vale93_games
