@@ -70,6 +70,8 @@ layout: default
           Language &amp; Translations
         </h2>
 
+        {% include mods/gallery.html %}
+
         {% assign files = page.files | default: empty %}
         {% assign files_size = files | size %}
 
