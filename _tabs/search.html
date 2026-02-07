@@ -1,42 +1,53 @@
 ---
 layout: page
 title: Search
-permalink: /search/
+description: 'Tip: try words like “core”, “pso”, “skill”, “install”…'
 ---
 
 <div class="search-page">
   <div class="search-box">
-    <input id="q" class="form-control" type="search" placeholder="Search..." autocomplete="off">
-    <div class="search-hint text-muted mt-2" style="font-size: 0.9rem;">
+    <input id="q" class="form-control" type="search" placeholder="Search…" autocomplete="off" />
+    <div class="search-hint text-muted" style="margin-top:8px; font-size:0.9rem;">
       Tip: try words like “core”, “pso”, “skill”, “install”…
     </div>
   </div>
 
-  <div id="search-status" class="mt-4 text-muted"></div>
-  <div id="search-groups" class="mt-3"></div>
+  <div id="status" class="text-muted" style="margin-top:14px;"></div>
+  <div id="groups" style="margin-top:18px;"></div>
 </div>
+
+<style>
+  .search-page { max-width: 860px; }
+  #groups section { margin-top: 22px; }
+  #groups h2 { font-size: 1.25rem; margin: 0 0 10px 0; }
+  #groups .search-results article {
+    margin: 14px 0;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-primary);
+  }
+  #groups .search-results h3 { margin: 0; font-size: 1.05rem; }
+  #groups .search-results p { margin: 6px 0 0; opacity: .9; line-height: 1.35; }
+  #groups .count { font-size: .95rem; opacity: .7; }
+</style>
 
 <script>
 (() => {
-  const input = document.getElementById('q');
-  const statusEl = document.getElementById('search-status');
-  const groupsEl = document.getElementById('search-groups');
+  const input  = document.getElementById('q');
+  const status = document.getElementById('status');
+  const groups = document.getElementById('groups');
 
-  // Reihenfolge + Überschriften (anpassen wie du willst)
-  const GROUP_ORDER = [
-    ['mods', 'Mods'],
-    ['wiki', 'Sims 4 Wiki'],
+  // Reihenfolge + Anzeige-Labels (pass gern an)
+  const ORDER = [
+    ['mods',  'Mods'],
+    ['wiki',  'Sims 4 Wiki'],
     ['tools', 'Modding Tools'],
     ['games', 'Game Center'],
+    ['posts', 'Blog'],
     ['pages', 'Pages']
   ];
-
-  const GROUP_TITLES = Object.fromEntries(GROUP_ORDER);
-
-  // URL ?q=...
-  const params = new URLSearchParams(location.search);
-  const initialQ = params.get('q') || '';
-  input.value = initialQ;
+  const TITLES = Object.fromEntries(ORDER);
 
   function esc(s) {
     return (s || '').replace(/[&<>"']/g, c => ({
@@ -48,129 +59,125 @@ permalink: /search/
     const t = (text || '').replace(/\s+/g, ' ').trim();
     if (!t) return '';
     if (!q) return t.slice(0, 180) + (t.length > 180 ? '…' : '');
-    const qq = q.toLowerCase();
-    const idx = t.toLowerCase().indexOf(qq);
-    if (idx === -1) return t.slice(0, 180) + (t.length > 180 ? '…' : '');
+
+    const needle = q.toLowerCase();
+    const low = t.toLowerCase();
+    const idx = low.indexOf(needle);
+
+    if (idx === -1) {
+      return t.slice(0, 180) + (t.length > 180 ? '…' : '');
+    }
+
     const start = Math.max(0, idx - 60);
-    const end = Math.min(t.length, idx + qq.length + 90);
-    const pre = (start > 0 ? '…' : '');
-    const post = (end < t.length ? '…' : '');
-    return pre + t.slice(start, end) + post;
+    const end   = Math.min(t.length, idx + needle.length + 90);
+    return (start > 0 ? '…' : '') + t.slice(start, end) + (end < t.length ? '…' : '');
   }
 
-  function render(groups, q) {
-    groupsEl.innerHTML = '';
-    const total = Object.values(groups).reduce((a, arr) => a + arr.length, 0);
+  function render(grouped, q) {
+    groups.innerHTML = '';
+
+    const total = Object.values(grouped).reduce((a, arr) => a + arr.length, 0);
 
     if (!q.trim()) {
-      statusEl.textContent = '';
+      status.textContent = '';
       return;
     }
 
-    if (total === 0) {
-      statusEl.textContent = 'Oops! No results found.';
+    if (!total) {
+      status.textContent = 'Oops! No results found.';
       return;
     }
 
-    statusEl.textContent = `${total} result${total === 1 ? '' : 's'} found.`;
+    status.textContent = `${total} result${total === 1 ? '' : 's'} found.`;
 
-    // Nur Gruppen rendern, die Treffer haben – in definierter Reihenfolge,
-    // danach ggf. “unbekannte” Collections.
-    const knownKeys = new Set(GROUP_ORDER.map(([k]) => k));
-    const orderedKeys = GROUP_ORDER.map(([k]) => k).filter(k => groups[k]?.length);
-
-    const unknownKeys = Object.keys(groups)
-      .filter(k => !knownKeys.has(k) && groups[k]?.length)
-      .sort();
+    const known = new Set(ORDER.map(([k]) => k));
+    const orderedKeys = ORDER.map(([k]) => k).filter(k => (grouped[k] || []).length);
+    const unknownKeys = Object.keys(grouped).filter(k => !known.has(k) && (grouped[k] || []).length).sort();
 
     [...orderedKeys, ...unknownKeys].forEach(key => {
-      const items = groups[key];
-      const title = GROUP_TITLES[key] || (key.charAt(0).toUpperCase() + key.slice(1));
+      const items = grouped[key] || [];
+      if (!items.length) return;
+
+      const title = TITLES[key] || (key.charAt(0).toUpperCase() + key.slice(1));
 
       const section = document.createElement('section');
-      section.className = 'search-group mt-4';
+      section.innerHTML = `<h2>${esc(title)} <span class="count text-muted">(${items.length})</span></h2>`;
 
-      section.innerHTML = `
-        <h2 class="mt-0" style="font-size: 1.25rem;">${esc(title)} <span class="text-muted" style="font-size:0.95rem;">(${items.length})</span></h2>
-        <div class="search-items"></div>
-      `;
-
-      const list = section.querySelector('.search-items');
+      const list = document.createElement('div');
+      list.className = 'search-results';
+      section.appendChild(list);
 
       items.forEach(it => {
         const card = document.createElement('article');
-        card.className = 'search-item mt-3';
-        const sn = snippet(it.content, q);
-
         card.innerHTML = `
-          <h3 style="margin:0; font-size: 1.05rem;">
-            <a href="${esc(it.url)}">${esc(it.title)}</a>
-          </h3>
-          ${sn ? `<p class="text-muted" style="margin:6px 0 0; font-size:0.95rem; line-height:1.35;">${esc(sn)}</p>` : ''}
+          <h3><a href="${esc(it.url)}">${esc(it.title)}</a></h3>
+          <p class="text-muted">${esc(snippet(it.content, q))}</p>
         `;
         list.appendChild(card);
       });
 
-      groupsEl.appendChild(section);
+      groups.appendChild(section);
     });
   }
 
-  let data = null;
+  let data = [];
 
-  async function loadData() {
+  async function load() {
     const url = '{{ "/assets/js/data/search.json" | relative_url }}';
     const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`search.json not found: ${res.status}`);
     data = await res.json();
   }
 
-  function search(q) {
+  function doSearch(q) {
     q = (q || '').trim();
     if (!q) { render({}, ''); return; }
 
     const needle = q.toLowerCase();
 
-    // einfache Volltextsuche: title + content
-    const matches = (data || []).filter(it => {
+    const matches = data.filter(it => {
       const t = (it.title || '').toLowerCase();
       const c = (it.content || '').toLowerCase();
       return t.includes(needle) || c.includes(needle);
     });
 
-    // Gruppieren nach collection
-    const groups = {};
+    const grouped = {};
     matches.forEach(it => {
-      const key = it.collection || 'pages';
-      (groups[key] ||= []).push(it);
+      const k = it.collection || 'pages';
+      (grouped[k] ||= []).push(it);
     });
 
-    // Optional: innerhalb jeder Gruppe nach “title-hit zuerst”
-    Object.keys(groups).forEach(k => {
-      groups[k].sort((a,b) => {
+    // einfache Sortierung: Titel-Treffer nach vorn
+    Object.keys(grouped).forEach(k => {
+      grouped[k].sort((a, b) => {
         const at = (a.title || '').toLowerCase().includes(needle) ? 0 : 1;
         const bt = (b.title || '').toLowerCase().includes(needle) ? 0 : 1;
         return at - bt;
       });
     });
 
-    render(groups, q);
+    render(grouped, q);
   }
 
-  let timer = null;
+  // query param ?q=...
+  const params = new URLSearchParams(location.search);
+  input.value = params.get('q') || '';
+
   input.addEventListener('input', () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      const q = input.value;
-      const p = new URLSearchParams(location.search);
-      if (q) p.set('q', q); else p.delete('q');
-      history.replaceState(null, '', `${location.pathname}${p.toString() ? '?' + p.toString() : ''}`);
-      search(q);
-    }, 120);
+    const q = input.value;
+    const p = new URLSearchParams(location.search);
+    q ? p.set('q', q) : p.delete('q');
+    history.replaceState(null, '', `${location.pathname}${p.toString() ? '?' + p.toString() : ''}`);
+    doSearch(q);
   });
 
   (async () => {
-    statusEl.textContent = initialQ ? 'Searching…' : '';
-    await loadData();
-    search(initialQ);
-  })();
+    status.textContent = input.value ? 'Searching…' : '';
+    await load();
+    doSearch(input.value);
+  })().catch(err => {
+    status.textContent = 'Search failed to load data.';
+    console.error(err);
+  });
 })();
 </script>
