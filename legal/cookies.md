@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Cookie Policy
-permalink: /cookies/
 nav_exclude: true
 noindex: true
 sitemap: false

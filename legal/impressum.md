@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Legal Notice / Impressum
-permalink: /impressum/
 nav_exclude: true
 noindex: true
 sitemap: false

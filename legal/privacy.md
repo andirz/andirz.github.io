@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Privacy Policy
-permalink: /privacy/
 nav_exclude: true
 noindex: true
 sitemap: false
@@ -15,7 +14,7 @@ The protection of your personal data is important to me. This website is operate
 ---
 
 ## 1. Data Controller
-Information about the responsible party (name and contact details) can be found in the [Legal Notice (Impressum)](/impressum/). If you contact me via the email address provided there, the data you send will be processed solely to handle your inquiry.
+Information about the responsible party (name and contact details) can be found in the [Legal Notice (Impressum)](/legal/impressum/). If you contact me via the email address provided there, the data you send will be processed solely to handle your inquiry.
 
 ---
 
