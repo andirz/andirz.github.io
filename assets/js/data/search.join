@@ -4,15 +4,39 @@ swcache: true
 ---
 
 [
-  {% for post in site.posts %}
-  {
-    "title": {{ post.title | jsonify }},
-    "url": {{ post.url | relative_url | jsonify }},
-    "categories": {{ post.categories | join: ', ' | jsonify }},
-    "tags": {{ post.tags | join: ', ' | jsonify }},
-    "date": {{ post.date | jsonify }},
-    {% capture content -%}{% include post-summary.html full_text=true %}{%- endcapture -%}
-    "content": {{ content | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
-  {% endfor %}
+{% assign first = true %}
+
+{% comment %} Pages -> collection = "pages" {% endcomment %}
+{% for p in site.pages %}
+  {% if p.title and p.url and p.search != false %}
+    {% unless p.url contains '/assets/' %}
+      {% unless first %},{% endunless %}
+      {% assign first = false %}
+      {
+        "collection": "pages",
+        "title": {{ p.title | jsonify }},
+        "url": {{ p.url | relative_url | jsonify }},
+        "content": {{ p.content | strip_html | strip_newlines | jsonify }}
+      }
+    {% endunless %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} Collections -> collection = label (mods, wiki, ...) {% endcomment %}
+{% for c in site.collections %}
+  {% unless c.label == 'posts' %}
+    {% for d in c.docs %}
+      {% if d.title and d.url and d.search != false %}
+        {% unless first %},{% endunless %}
+        {% assign first = false %}
+        {
+          "collection": {{ c.label | jsonify }},
+          "title": {{ d.title | jsonify }},
+          "url": {{ d.url | relative_url | jsonify }},
+          "content": {{ d.content | strip_html | strip_newlines | jsonify }}
+        }
+      {% endif %}
+    {% endfor %}
+  {% endunless %}
+{% endfor %}
 ]

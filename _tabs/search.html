@@ -1,0 +1,176 @@
+---
+layout: page
+title: Search
+permalink: /search/
+---
+
+<div class="search-page">
+  <div class="search-box">
+    <input id="q" class="form-control" type="search" placeholder="Search..." autocomplete="off">
+    <div class="search-hint text-muted mt-2" style="font-size: 0.9rem;">
+      Tip: try words like “core”, “pso”, “skill”, “install”…
+    </div>
+  </div>
+
+  <div id="search-status" class="mt-4 text-muted"></div>
+  <div id="search-groups" class="mt-3"></div>
+</div>
+
+<script>
+(() => {
+  const input = document.getElementById('q');
+  const statusEl = document.getElementById('search-status');
+  const groupsEl = document.getElementById('search-groups');
+
+  // Reihenfolge + Überschriften (anpassen wie du willst)
+  const GROUP_ORDER = [
+    ['mods', 'Mods'],
+    ['wiki', 'Sims 4 Wiki'],
+    ['tools', 'Modding Tools'],
+    ['games', 'Game Center'],
+    ['pages', 'Pages']
+  ];
+
+  const GROUP_TITLES = Object.fromEntries(GROUP_ORDER);
+
+  // URL ?q=...
+  const params = new URLSearchParams(location.search);
+  const initialQ = params.get('q') || '';
+  input.value = initialQ;
+
+  function esc(s) {
+    return (s || '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function snippet(text, q) {
+    const t = (text || '').replace(/\s+/g, ' ').trim();
+    if (!t) return '';
+    if (!q) return t.slice(0, 180) + (t.length > 180 ? '…' : '');
+    const qq = q.toLowerCase();
+    const idx = t.toLowerCase().indexOf(qq);
+    if (idx === -1) return t.slice(0, 180) + (t.length > 180 ? '…' : '');
+    const start = Math.max(0, idx - 60);
+    const end = Math.min(t.length, idx + qq.length + 90);
+    const pre = (start > 0 ? '…' : '');
+    const post = (end < t.length ? '…' : '');
+    return pre + t.slice(start, end) + post;
+  }
+
+  function render(groups, q) {
+    groupsEl.innerHTML = '';
+    const total = Object.values(groups).reduce((a, arr) => a + arr.length, 0);
+
+    if (!q.trim()) {
+      statusEl.textContent = '';
+      return;
+    }
+
+    if (total === 0) {
+      statusEl.textContent = 'Oops! No results found.';
+      return;
+    }
+
+    statusEl.textContent = `${total} result${total === 1 ? '' : 's'} found.`;
+
+    // Nur Gruppen rendern, die Treffer haben – in definierter Reihenfolge,
+    // danach ggf. “unbekannte” Collections.
+    const knownKeys = new Set(GROUP_ORDER.map(([k]) => k));
+    const orderedKeys = GROUP_ORDER.map(([k]) => k).filter(k => groups[k]?.length);
+
+    const unknownKeys = Object.keys(groups)
+      .filter(k => !knownKeys.has(k) && groups[k]?.length)
+      .sort();
+
+    [...orderedKeys, ...unknownKeys].forEach(key => {
+      const items = groups[key];
+      const title = GROUP_TITLES[key] || (key.charAt(0).toUpperCase() + key.slice(1));
+
+      const section = document.createElement('section');
+      section.className = 'search-group mt-4';
+
+      section.innerHTML = `
+        <h2 class="mt-0" style="font-size: 1.25rem;">${esc(title)} <span class="text-muted" style="font-size:0.95rem;">(${items.length})</span></h2>
+        <div class="search-items"></div>
+      `;
+
+      const list = section.querySelector('.search-items');
+
+      items.forEach(it => {
+        const card = document.createElement('article');
+        card.className = 'search-item mt-3';
+        const sn = snippet(it.content, q);
+
+        card.innerHTML = `
+          <h3 style="margin:0; font-size: 1.05rem;">
+            <a href="${esc(it.url)}">${esc(it.title)}</a>
+          </h3>
+          ${sn ? `<p class="text-muted" style="margin:6px 0 0; font-size:0.95rem; line-height:1.35;">${esc(sn)}</p>` : ''}
+        `;
+        list.appendChild(card);
+      });
+
+      groupsEl.appendChild(section);
+    });
+  }
+
+  let data = null;
+
+  async function loadData() {
+    const url = '{{ "/assets/js/data/search.json" | relative_url }}';
+    const res = await fetch(url, { cache: 'no-store' });
+    data = await res.json();
+  }
+
+  function search(q) {
+    q = (q || '').trim();
+    if (!q) { render({}, ''); return; }
+
+    const needle = q.toLowerCase();
+
+    // einfache Volltextsuche: title + content
+    const matches = (data || []).filter(it => {
+      const t = (it.title || '').toLowerCase();
+      const c = (it.content || '').toLowerCase();
+      return t.includes(needle) || c.includes(needle);
+    });
+
+    // Gruppieren nach collection
+    const groups = {};
+    matches.forEach(it => {
+      const key = it.collection || 'pages';
+      (groups[key] ||= []).push(it);
+    });
+
+    // Optional: innerhalb jeder Gruppe nach “title-hit zuerst”
+    Object.keys(groups).forEach(k => {
+      groups[k].sort((a,b) => {
+        const at = (a.title || '').toLowerCase().includes(needle) ? 0 : 1;
+        const bt = (b.title || '').toLowerCase().includes(needle) ? 0 : 1;
+        return at - bt;
+      });
+    });
+
+    render(groups, q);
+  }
+
+  let timer = null;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const q = input.value;
+      const p = new URLSearchParams(location.search);
+      if (q) p.set('q', q); else p.delete('q');
+      history.replaceState(null, '', `${location.pathname}${p.toString() ? '?' + p.toString() : ''}`);
+      search(q);
+    }, 120);
+  });
+
+  (async () => {
+    statusEl.textContent = initialQ ? 'Searching…' : '';
+    await loadData();
+    search(initialQ);
+  })();
+})();
+</script>
