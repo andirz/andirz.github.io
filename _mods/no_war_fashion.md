@@ -2,7 +2,7 @@
 mod_id: no_war_fashion
 title: "#NoWar Fashion Collection"
 icon: "fas fa-peace"
-categories: [CAS, Fashion]
+categories: [CAS, Clothes]
 strings: false
 ---
 
