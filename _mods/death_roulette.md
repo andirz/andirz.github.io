@@ -30,8 +30,7 @@ The following Sims can participate:
 - Pregnant Sims  
 - Sims with Immortal traits  
 
-### Exceptions
-
+Exceptions
 - Ghosts  
 - Skeletons  
 - Grim Reaper  
