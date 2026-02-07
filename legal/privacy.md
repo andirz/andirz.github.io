@@ -7,7 +7,6 @@ noindex: true
 sitemap: false
 ---
 
-# Privacy Policy
 **Last Updated: February 7, 2026**
 
 The protection of your personal data is important to me. This website is operated in compliance with the General Data Protection Regulation (GDPR).

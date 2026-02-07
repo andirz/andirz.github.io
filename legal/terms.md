@@ -7,7 +7,6 @@ noindex: true
 sitemap: false
 ---
 
-# Terms of Service
 **Last Updated: February 7, 2026**
 
 By using this website and downloading content provided by **Andirz**, you agree to the following terms. These rules are also displayed as a "General Policy" on every individual mod page.

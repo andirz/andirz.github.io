@@ -7,8 +7,6 @@ noindex: true
 sitemap: false
 ---
 
-## Cookie Policy
-
 **Effective Date:** 05-Feb-2026  
 **Last Updated:** 05-Feb-2026
 
