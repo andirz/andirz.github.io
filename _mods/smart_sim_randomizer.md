@@ -33,12 +33,13 @@ Furthermore, the mod is fully aware of a Sim’s occult status and personal hist
 * **Other Values**: Parenthood Character Values, Fears and Infant Quirks.
 
 ### Custom Mod Integrations
-* Kuttoe’s **Pizza** preferences.
-* SpinningPlumbobs’ Occult Types** 
+* ChippedSim’s **Animal Preferences**.
+* Kuttoe’s **Pizza preferences**.
+* SpinningPlumbobs’ Occult Types**.
 * Chingyu’s **Lunar Preferences**.
 * Chingyu’s **Strengths & Weaknesses**.
 * Chingyu’s **Age Groups**.
-* **Wicked Attributes**.
+* **Wicked Attributes** from Wicked Whims.
 
 ## Manual Control
 Access the Smart Sim Randomizer menu on any Sim via **Shift + Click**:
