@@ -4,7 +4,7 @@ title: "Selvadoradian Herbalism"
 icon: "fas fa-leaf"
 packs: ["GP01", "GP06"]
 requirements: ["smart_core"]
-categories: [Recipes, Crafting, Medical, Occult, Skills, Activities]
+categories: [Crafting, Medical, Occult, Skills, Activities]
 ---
 
 ## About This Mod
