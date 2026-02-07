@@ -3,7 +3,7 @@ mod_id: pharmacy_kiosk
 title: "Pharmacy Kiosk Object"
 icon: "fas fa-staff-snake"
 packs: ["EP08"]
-categories: [Build/Buy, Decor, Medical, Kiosk]
+categories: [Build/Buy, Medical, Kiosk]
 ---
 
 ## About This Mod
