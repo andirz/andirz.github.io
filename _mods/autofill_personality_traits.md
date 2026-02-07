@@ -1,7 +1,6 @@
 ---
 mod_id: autofill_personality_traits
 title: "Auto-Fill Personality Traits"
-parent: "Mods"
 icon: "fas fa-user-tag"
 files: ["ts4script"]
 categories: [Scripts, Sim Personalization, Townie Fixes, Traits]
@@ -19,10 +18,10 @@ This utility identifies any Sim with missing personality traits and populates th
 * **Global Refresh:** Automatically processes both your **active households** and all **NPCs** across your entire save file.
 * **Adaptive Filling:** The mod fills traits up to the **maximum allowed limit** for each specific Sim. Whether it’s the default EA limits or a limit expanded by other mods, this tool detects the available slots and fills them accordingly.
 * **Full Integration:** It pulls from all traits currently available in your game, including **Base Game**, **DLC**, and any **Custom Traits** you still have installed.
-* **Conflict-Free Logic:** Built-in checks ensure that conflicting traits (e.g., *Slob* vs. *Neat*) are never assigned to the same Sim simultaneously.
+* **Conflict-Free Logic:** Built-in checks ensure that conflicting traits are never assigned to the same Sim simultaneously.
 
 ### How It Works
 
-1.  **Smart Detection:** If a Sim already has their maximum number of personality traits, the mod **does nothing**. Your carefully designed Sims stay exactly as they are.
-2.  **Randomized Variety:** For Sims with empty slots, traits are assigned randomly, bringing immediate diversity and fresh behavior back to your neighborhoods.
-3.  **Mod Compatibility:** Because it targets the "allowed maximum," it works perfectly alongside mods that increase the number of trait slots available for different age groups.
+* If a Sim already has their maximum number of personality traits, the mod **does nothing**. Your carefully designed Sims stay exactly as they are.
+* For Sims with empty slots, traits are assigned randomly, bringing immediate diversity and fresh behavior back to your neighborhoods.
+* Because it targets the "allowed maximum," it works perfectly alongside mods that increase the number of trait slots available for different age groups.
