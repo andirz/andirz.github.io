@@ -1,11 +1,12 @@
 {%- comment -%}
 related-mods.html
-Goal: show up to 6 related mods by shared categories.
-Strategy:
-- pass 1: match within first 3 categories
-- pass 2: if needed, expand to 4 categories
-- pass 3: if needed, expand to 5 categories
-No duplicates. Uses /assets/img/packs/ (NOT blue).
+Robust multi-pass related mods:
+- pass 1: first 3 categories (if available)
+- pass 2: first 4 categories (if available)
+- pass 3: first 5 categories (if available)
+No duplicates, no break if categories are fewer.
+Fallback: if nothing matched, show first mods (up to 6) excluding current.
+Pack icons: /assets/img/packs/ (NOT blue)
 {%- endcomment -%}
 
 {%- assign max_items = 6 -%}
@@ -21,7 +22,7 @@ No duplicates. Uses /assets/img/packs/ (NOT blue).
   {%- assign current_categories = "" | split: "|" -%}
 {%- endif -%}
 
-{%- assign passes = "3,4,5" | split: "," -%}
+{%- assign cat_count = current_categories.size | default: 0 -%}
 {%- assign chosen_ids = "" | split: "|" -%}
 
 <section class="rm-related">
@@ -32,9 +33,14 @@ No duplicates. Uses /assets/img/packs/ (NOT blue).
 
   <div class="rm-grid">
 
-    {%- for pass in passes -%}
+    {%- comment -%} PASSES only if the category count supports them {%- endcomment -%}
+    {%- assign pass_sizes = "" | split: "|" -%}
+    {%- if cat_count >= 3 -%}{%- assign pass_sizes = pass_sizes | push: 3 -%}{%- endif -%}
+    {%- if cat_count >= 4 -%}{%- assign pass_sizes = pass_sizes | push: 4 -%}{%- endif -%}
+    {%- if cat_count >= 5 -%}{%- assign pass_sizes = pass_sizes | push: 5 -%}{%- endif -%}
+
+    {%- for n in pass_sizes -%}
       {%- if count < max_items -%}
-        {%- assign n = pass | plus: 0 -%}
         {%- assign target_cats = current_categories | slice: 0, n -%}
 
         {%- for mod_page in site.mods -%}
@@ -42,17 +48,12 @@ No duplicates. Uses /assets/img/packs/ (NOT blue).
             {%- unless chosen_ids contains mod_page.mod_id -%}
 
               {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
-
               {%- assign rel_categories = mod_page.categories | default: mod_data.categories -%}
-              {%- if rel_categories == nil -%}
-                {%- assign rel_categories = "" | split: "|" -%}
-              {%- endif -%}
+              {%- if rel_categories == nil -%}{%- assign rel_categories = "" | split: "|" -%}{%- endif -%}
 
               {%- assign match = false -%}
               {%- for c in rel_categories -%}
-                {%- if target_cats contains c -%}
-                  {%- assign match = true -%}
-                {%- endif -%}
+                {%- if target_cats contains c -%}{%- assign match = true -%}{%- endif -%}
               {%- endfor -%}
 
               {%- if match -%}
@@ -60,9 +61,7 @@ No duplicates. Uses /assets/img/packs/ (NOT blue).
                 {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
 
                 {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
-                {%- if display_desc == nil or display_desc == "" -%}
-                  {%- assign display_desc = mod_page.excerpt -%}
-                {%- endif -%}
+                {%- if display_desc == nil or display_desc == "" -%}{%- assign display_desc = mod_page.excerpt -%}{%- endif -%}
 
                 {%- assign display_version = mod_page.version | default: mod_data.version -%}
 
@@ -86,9 +85,7 @@ No duplicates. Uses /assets/img/packs/ (NOT blue).
                 {%- endif -%}
 
                 <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
-                  <span class="rm-icon" aria-hidden="true">
-                    <i class="{{ display_icon }}"></i>
-                  </span>
+                  <span class="rm-icon" aria-hidden="true"><i class="{{ display_icon }}"></i></span>
 
                   <span class="rm-main">
                     <span class="rm-name">{{ display_title }}</span>
@@ -114,17 +111,9 @@ No duplicates. Uses /assets/img/packs/ (NOT blue).
                             {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
                               {%- assign pack_data = site.data.packs[pack_code] -%}
                               {%- assign pack_name = pack_code -%}
-                              {%- if pack_data -%}
-                                {%- assign pack_name = pack_data.en | default: pack_code -%}
-                              {%- endif -%}
-
+                              {%- if pack_data -%}{%- assign pack_name = pack_data.en | default: pack_code -%}{%- endif -%}
                               {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
-                              <img
-                                class="rm-pack"
-                                src="{{ site.baseurl }}{{ icon_path }}"
-                                alt="{{ pack_name }} ({{ pack_code }})"
-                                title="{{ pack_name }} ({{ pack_code }})"
-                              >
+                              <img class="rm-pack" src="{{ site.baseurl }}{{ icon_path }}" alt="{{ pack_name }} ({{ pack_code }})" title="{{ pack_name }} ({{ pack_code }})">
                             {%- endif -%}
                           {%- endfor -%}
                         </span>
@@ -144,142 +133,91 @@ No duplicates. Uses /assets/img/packs/ (NOT blue).
       {%- endif -%}
     {%- endfor -%}
 
+    {%- comment -%} FALLBACK if no results at all {%- endcomment -%}
+    {%- if count == 0 -%}
+      {%- for mod_page in site.mods -%}
+        {%- if count < max_items and mod_page.mod_id and mod_page.mod_id != current_id -%}
+          {%- assign mod_data = site.data.mods | where: "id", mod_page.mod_id | first -%}
+
+          {%- assign display_title = mod_page.title | default: mod_data.name | default: mod_page.mod_id -%}
+          {%- assign display_icon  = mod_page.icon  | default: mod_data.icon | default: "fas fa-puzzle-piece" -%}
+          {%- assign display_desc = mod_page.tagline | default: mod_data.tagline -%}
+          {%- if display_desc == nil or display_desc == "" -%}{%- assign display_desc = mod_page.excerpt -%}{%- endif -%}
+          {%- assign display_version = mod_page.version | default: mod_data.version -%}
+          {%- assign packs = mod_page.packs | default: mod_data.packs -%}
+          {%- if packs and packs.size > 0 and packs.first == nil and packs contains "," -%}{%- assign packs = packs | split: "," -%}{%- endif -%}
+
+          {%- assign files_list = mod_page.files -%}
+          {%- assign type_icon = "fas fa-box" -%}
+          {%- assign type_label = "Package" -%}
+          {%- assign type_title = "Package Mod" -%}
+          {%- if files_list contains "ts4script" -%}
+            {%- assign type_icon = "fas fa-code" -%}
+            {%- assign type_label = "Script" -%}
+            {%- assign type_title = "Script Mod" -%}
+          {%- elsif files_list contains "bat" -%}
+            {%- assign type_icon = "fas fa-terminal" -%}
+            {%- assign type_label = "Batch Tool" -%}
+            {%- assign type_title = "Batch Tool" -%}
+          {%- endif -%}
+
+          <a class="rm-card" href="{{ mod_page.url | relative_url }}" title="{{ display_title }}">
+            <span class="rm-icon" aria-hidden="true"><i class="{{ display_icon }}"></i></span>
+            <span class="rm-main">
+              <span class="rm-name">{{ display_title }}</span>
+              {%- if display_desc and display_desc != "" -%}
+                <span class="rm-desc">{{ display_desc | strip_html | strip | truncate: 150 }}</span>
+              {%- endif -%}
+              <span class="rm-meta">
+                <span class="rm-type" title="{{ type_title }}" aria-label="{{ type_title }}">
+                  <i class="{{ type_icon }}" aria-hidden="true"></i>
+                  <span class="rm-type-text">{{ type_label }}</span>
+                </span>
+                {%- if display_version and display_version != "" -%}
+                  <span class="rm-ver">v. {{ display_version }}</span>
+                {%- endif -%}
+                {%- if packs and packs.size > 0 -%}
+                  <span class="rm-packs" aria-label="Required packs">
+                    {%- for pack_code_raw in packs -%}
+                      {%- assign pack_code = pack_code_raw | strip -%}
+                      {%- if pack_code and pack_code != "" and pack_code != "BG" -%}
+                        {%- assign pack_data = site.data.packs[pack_code] -%}
+                        {%- assign pack_name = pack_data.en | default: pack_code -%}
+                        {%- assign icon_path = "/assets/img/packs/" | append: pack_code | downcase | append: ".png" -%}
+                        <img class="rm-pack" src="{{ site.baseurl }}{{ icon_path }}" alt="{{ pack_name }} ({{ pack_code }})" title="{{ pack_name }} ({{ pack_code }})">
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </span>
+                {%- endif -%}
+              </span>
+            </span>
+          </a>
+
+          {%- assign count = count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
   </div>
 </section>
 
 <style>
 .rm-head{ margin: 0 0 14px 0; }
-.rm-h{
-  margin:0 0 4px 0;
-  font-size:1.6rem;
-  font-weight:800;
-  letter-spacing:-.3px;
-  color:#0f172a;
-}
-.rm-sub{
-  margin:0;
-  color:#64748b;
-  font-size:1rem;
-  line-height:1.35;
-}
-
-.rm-grid{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px 18px;
-}
-
-.rm-card{
-  display:flex;
-  gap:14px;
-  align-items:flex-start;
-  padding:16px 18px;
-  border-radius:18px;
-  background:#fff;
-  border:1px solid #eef2f7;
-  box-shadow: 0 10px 26px rgba(15,23,42,.06);
-  text-decoration:none;
-  color:inherit;
-  min-height:170px;
-}
-
-.rm-card:hover{
-  border-color: rgba(0,0,0,.18);
-  box-shadow: 0 0 0 3px rgba(0,0,0,.05), 0 14px 34px rgba(15,23,42,.08);
-}
-
-.rm-icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-  color:#1e40af;
-  flex:0 0 auto;
-  margin-top:2px;
-  font-size:1.05rem;
-}
-
-.rm-main{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  min-width:0;
-  width:100%;
-  height:100%;
-}
-
-.rm-name{
-  font-weight:800;
-  color:#1e3a8a;
-  font-size:1.15rem;
-  line-height:1.15;
-}
-
-.rm-desc{
-  color:#334155;
-  font-size:.95rem;
-  line-height:1.35;
-}
-
-.rm-meta{
-  margin-top:auto;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  padding-top:10px;
-}
-
-.rm-type{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  color:#64748b;
-  font-weight:700;
-  font-size:.85rem;
-  white-space:nowrap;
-}
-.rm-type i{
-  color:#cbd5e1;
-  font-size:.95rem;
-  line-height:1;
-}
-.rm-type-text{
-  font-weight:700;
-}
-
-.rm-ver{
-  font-weight:600;
-  color:#64748b;
-  font-size:.9rem;
-  white-space:nowrap;
-}
-
-.rm-packs{
-  display:inline-flex;
-  gap:6px;
-  align-items:center;
-  margin-left:auto;
-}
-.rm-pack{
-  width:26px;
-  height:26px;
-  object-fit:contain;
-  border:0;
-  background:transparent;
-  border-radius:0;
-  padding:0;
-}
-
-@media (max-width: 900px){
-  .rm-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 560px){
-  .rm-grid{ grid-template-columns: 1fr; }
-  .rm-packs{ margin-left:0; }
-}
+.rm-h{ margin:0 0 4px 0; font-size:1.6rem; font-weight:800; letter-spacing:-.3px; color:#0f172a; }
+.rm-sub{ margin:0; color:#64748b; font-size:1rem; line-height:1.35; }
+.rm-grid{ display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 18px; }
+.rm-card{ display:flex; gap:14px; align-items:flex-start; padding:16px 18px; border-radius:18px; background:#fff; border:1px solid #eef2f7; box-shadow: 0 10px 26px rgba(15,23,42,.06); text-decoration:none; color:inherit; min-height:170px; }
+.rm-card:hover{ border-color: rgba(0,0,0,.18); box-shadow: 0 0 0 3px rgba(0,0,0,.05), 0 14px 34px rgba(15,23,42,.08); }
+.rm-icon{ width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:#f8fafc; border:1px solid #e2e8f0; color:#1e40af; flex:0 0 auto; margin-top:2px; font-size:1.05rem; }
+.rm-main{ display:flex; flex-direction:column; gap:6px; min-width:0; width:100%; height:100%; }
+.rm-name{ font-weight:800; color:#1e3a8a; font-size:1.15rem; line-height:1.15; }
+.rm-desc{ color:#334155; font-size:.95rem; line-height:1.35; }
+.rm-meta{ margin-top:auto; display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding-top:10px; }
+.rm-type{ display:inline-flex; align-items:center; gap:6px; color:#64748b; font-weight:700; font-size:.85rem; white-space:nowrap; }
+.rm-type i{ color:#cbd5e1; font-size:.95rem; line-height:1; }
+.rm-ver{ font-weight:600; color:#64748b; font-size:.9rem; white-space:nowrap; }
+.rm-packs{ display:inline-flex; gap:6px; align-items:center; margin-left:auto; }
+.rm-pack{ width:26px; height:26px; object-fit:contain; border:0; background:transparent; border-radius:0; padding:0; }
+@media (max-width: 900px){ .rm-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px){ .rm-grid{ grid-template-columns: 1fr; } .rm-packs{ margin-left:0; } }
 </style>
