@@ -3,7 +3,7 @@ mod_id: custom_university_electives
 title: "Custom University Electives"
 icon: "fas fa-graduation-cap"
 packs: ["EP08"]
-categories: [University, Education, Integration, Overrides]
+categories: [University, Education, Integration, Skills, Overrides]
 tagline: "Bridge the gap between academics and passion with over 35 new elective courses for your students."
 ---
 
