@@ -14,16 +14,14 @@ The kiosk is a modified version of the university pack kiosks and comes in two s
 * **Modern Version:** Perfect for a contemporary city or hospital setting.
 * **Antique Version:** Great for historic neighborhoods or charming old towns.
 
-You can easily find the kiosks in Build Mode by searching for the keywords **“kiosk”** or **“pharmacy”**.
+> **Note:** You can easily find the kiosks in Build Mode by searching for the keywords **“kiosk”** or **“pharmacy”**.
 
 ## Important Functional Note
 By default, this kiosk is a **purely decorative object**. To turn it into a functioning vendor with shopping interactions and custom animations, you will need to install the **Purchase Medicine** mod. That mod adds the "Purchase Medicine" interaction directly to this object.
 
 ## Language & Translations
-
-The object names and descriptions are available in the following languages:
-* **English, German, Spanish, Russian** by me
-* **Brazilian Portuguese** by Nymphieta
-* **Chinese** and **Simplified Chinese** by Wanzi & Orchard Team
-* **French** by Mollory
-* **Italian** by vale93_games
+* **English**, **German**, **Spanish**, and **Russian** – by me
+* **Brazilian Portuguese** – by Nymphieta
+* **Chinese** and **Simplified Chinese** – by Wanzi & Orchard Team
+* **French** – by Mollory
+* **Italian** – by vale93_games
