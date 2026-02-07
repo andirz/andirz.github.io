@@ -1,0 +1,91 @@
+<!-- Custom Top Bar (simplified, no search) -->
+
+<header id="topbar-wrapper" class="flex-shrink-0" aria-label="Top Bar">
+  <div id="topbar" class="d-flex align-items-center justify-content-between px-lg-3 h-100">
+
+    <!-- Breadcrumb -->
+    <nav id="breadcrumb" aria-label="Breadcrumb">
+      {%- assign url_parts = page.url | split: '/' | reject: '' -%}
+      {%- assign is_home = (url_parts.size == 0) -%}
+
+      {%- comment -%}
+      Determine "collection"/section key from URL first segment (e.g. /mods/xxx/ -> "mods").
+      Fallback to path first segment if URL doesn't help.
+      {%- endcomment -%}
+
+      {%- assign section_key = '' -%}
+      {%- if url_parts.size > 0 -%}
+        {%- assign section_key = url_parts[0] -%}
+      {%- endif -%}
+
+      {%- if section_key == '' and page.path -%}
+        {%- assign path_parts = page.path | split: '/' -%}
+        {%- if path_parts.size > 1 -%}
+          {%- assign section_key = path_parts[0] -%}
+          {%- if section_key and section_key.size > 0 and section_key[0] == '_' -%}
+            {%- assign section_key = section_key | remove_first: '_' -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- comment -%}
+      We treat "index pages" like /mods/ as not having a "page" crumb after the section.
+      {%- endcomment -%}
+      {%- assign is_section_index = false -%}
+      {%- if url_parts.size == 1 -%}
+        {%- assign is_section_index = true -%}
+      {%- endif -%}
+
+      {%- if is_home -%}
+        <span>{{ site.data.locales[include.lang].tabs.home | default: "Home" | capitalize }}</span>
+      {%- else -%}
+        <!-- Home -->
+        <span>
+          <a href="{{ '/' | relative_url }}">
+            {{- site.data.locales[include.lang].tabs.home | default: "Home" | capitalize -}}
+          </a>
+        </span>
+
+        <!-- Section (optional) -->
+        {%- if section_key != '' -%}
+          <span>
+            <i class="fas fa-angle-right fa-fw" aria-hidden="true"></i>
+            <a href="{{ '/' | append: section_key | append: '/' | relative_url }}">
+              {{- site.data.locales[include.lang].tabs[section_key]
+                | default: site.data.locales[include.lang].sections[section_key]
+                | default: section_key
+                | capitalize -}}
+            </a>
+          </span>
+        {%- endif -%}
+
+        <!-- Page -->
+        {%- if is_section_index == false -%}
+          <span>
+            <i class="fas fa-angle-right fa-fw" aria-hidden="true"></i>
+            <span>{{ page.title }}</span>
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    </nav>
+    <!-- end #breadcrumb -->
+
+    <!-- Sidebar button -->
+    <button type="button" id="sidebar-trigger" class="btn btn-link" aria-label="Sidebar">
+      <i class="fas fa-bars fa-fw"></i>
+    </button>
+
+    <!-- Title: always page.title (home shows Home) -->
+    <div id="topbar-title">
+      {%- if is_home -%}
+        {{- site.data.locales[include.lang].tabs.home | default: "Home" | capitalize -}}
+      {%- else -%}
+        {{- page.title -}}
+      {%- endif -%}
+    </div>
+
+    <!-- Right spacer (keeps layout balanced without search button) -->
+    <span style="width: 2.75rem;" aria-hidden="true"></span>
+
+  </div>
+</header>
