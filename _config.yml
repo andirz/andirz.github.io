@@ -7,6 +7,9 @@ remote_theme: "mmistakes/minimal-mistakes"
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
 
 minimal_mistakes_skin: "default"
 
