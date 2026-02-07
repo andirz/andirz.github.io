@@ -1,10 +1,9 @@
 {% comment %}
-  Dumb Gallery (NO JS, with :target)
-  - Looks ONLY for img01.png .. img04.png in:
-    /assets/img/mods/<mod_id>/
-  - If img01.png does not exist => outputs NOTHING
-  - Click thumbs switches big image via CSS :target (no JS)
-  - No glow effects
+  Dumb Gallery (NO JS, :target swap)
+  - ONLY img01.png .. img04.png
+  - show ONLY if img01.png exists
+  - thumbs switch big image in-place (no new tab)
+  - kill ALL glow / focus effects
 {% endcomment %}
 
 {% assign g_filename = page.path | split: "/" | last | replace: ".md", "" %}
@@ -30,38 +29,45 @@
 
 <h3 class="mod-gallery-title">Gallery</h3>
 
-<div class="mod-split-gallery nojs-target" data-gallery="{{ g_mod_id }}">
+<div class="mod-split-gallery nojs-target" id="gal-{{ g_mod_id }}">
 
-  <!-- MAIN (stack of panels, swapped by :target) -->
+  {%- comment -%}
+    Targets: we target THESE, then CSS shows the matching panel.
+    They must be BEFORE the panels so we can use :target ~ .msg-main
+  {%- endcomment -%}
+  <span id="g-{{ g_mod_id }}-1" class="msg-target"></span>
+  {% if e2 %}<span id="g-{{ g_mod_id }}-2" class="msg-target"></span>{% endif %}
+  {% if e3 %}<span id="g-{{ g_mod_id }}-3" class="msg-target"></span>{% endif %}
+  {% if e4 %}<span id="g-{{ g_mod_id }}-4" class="msg-target"></span>{% endif %}
+
+  <!-- MAIN IMAGE AREA (not clickable) -->
   <div class="msg-main">
-    <div class="msg-panels">
-      <div id="g-{{ g_mod_id }}-1" class="msg-panel">
-        <img class="msg-main-img" src="{{ p1 }}" alt="{{ page.title }} – gallery image 1">
-      </div>
-
-      {% if e2 %}
-      <div id="g-{{ g_mod_id }}-2" class="msg-panel">
-        <img class="msg-main-img" src="{{ p2 }}" alt="{{ page.title }} – gallery image 2">
-      </div>
-      {% endif %}
-
-      {% if e3 %}
-      <div id="g-{{ g_mod_id }}-3" class="msg-panel">
-        <img class="msg-main-img" src="{{ p3 }}" alt="{{ page.title }} – gallery image 3">
-      </div>
-      {% endif %}
-
-      {% if e4 %}
-      <div id="g-{{ g_mod_id }}-4" class="msg-panel">
-        <img class="msg-main-img" src="{{ p4 }}" alt="{{ page.title }} – gallery image 4">
-      </div>
-      {% endif %}
+    <div class="msg-panel panel-1">
+      <img class="msg-main-img" src="{{ p1 }}" alt="{{ page.title }} – gallery image 1">
     </div>
+
+    {% if e2 %}
+    <div class="msg-panel panel-2">
+      <img class="msg-main-img" src="{{ p2 }}" alt="{{ page.title }} – gallery image 2">
+    </div>
+    {% endif %}
+
+    {% if e3 %}
+    <div class="msg-panel panel-3">
+      <img class="msg-main-img" src="{{ p3 }}" alt="{{ page.title }} – gallery image 3">
+    </div>
+    {% endif %}
+
+    {% if e4 %}
+    <div class="msg-panel panel-4">
+      <img class="msg-main-img" src="{{ p4 }}" alt="{{ page.title }} – gallery image 4">
+    </div>
+    {% endif %}
   </div>
 
-  <!-- THUMBS -->
+  <!-- THUMBS (click switches target -> main swaps) -->
   <div class="msg-thumbs" aria-label="Gallery thumbnails">
-    <a class="msg-thumb active" href="#g-{{ g_mod_id }}-1" aria-label="Show gallery image 1">
+    <a class="msg-thumb" href="#g-{{ g_mod_id }}-1" aria-label="Show gallery image 1">
       <img src="{{ p1 }}" alt="{{ page.title }} – gallery thumbnail 1">
     </a>
 
@@ -86,9 +92,8 @@
 
 </div>
 
-{% endif %}
-
 <style>
+/* title */
 .mod-gallery-title{
   margin:22px 0 10px;
   font-size:1.25rem;
@@ -97,12 +102,24 @@
   padding-bottom:4px;
 }
 
+/* layout */
 .mod-split-gallery{
   width:100%;
   display:grid;
   grid-template-columns: 1fr 150px;
   gap:16px;
   margin:14px 0 28px;
+  position:relative;
+}
+
+/* hide target anchors */
+.msg-target{
+  position:absolute;
+  width:0;
+  height:0;
+  overflow:hidden;
+  top:0;
+  left:0;
 }
 
 /* main */
@@ -111,28 +128,36 @@
   border-radius:14px;
   overflow:hidden;
   border:1px solid var(--border-color);
-}
-
-/* panels stack */
-.msg-panels{
   position:relative;
-  width:100%;
   aspect-ratio:16/9;
 }
 
+/* panels (only one visible) */
 .msg-panel{
   position:absolute;
   inset:0;
   display:none;
 }
+.msg-panel.panel-1{ display:block; } /* default */
 
-.msg-panel:first-child{
-  display:block; /* default = img01 */
-}
+/* When a target is selected: show matching, hide default */
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-1:target ~ .msg-main .msg-panel{ display:none; }
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-1:target ~ .msg-main .panel-1{ display:block; }
 
-.msg-panel:target{
-  display:block; /* show targeted image */
-}
+{% if e2 %}
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-2:target ~ .msg-main .msg-panel{ display:none; }
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-2:target ~ .msg-main .panel-2{ display:block; }
+{% endif %}
+
+{% if e3 %}
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-3:target ~ .msg-main .msg-panel{ display:none; }
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-3:target ~ .msg-main .panel-3{ display:block; }
+{% endif %}
+
+{% if e4 %}
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-4:target ~ .msg-main .msg-panel{ display:none; }
+#gal-{{ g_mod_id }} #g-{{ g_mod_id }}-4:target ~ .msg-main .panel-4{ display:block; }
+{% endif %}
 
 .msg-main-img{
   width:100%;
@@ -152,24 +177,28 @@
   display:block;
   border-radius:10px;
   overflow:hidden;
-  border:2px solid rgba(0,0,0,0.15);
+  border:2px solid rgba(0,0,0,0.25);
   background:#000;
-  text-decoration:none;
+  text-decoration:none !important;
+
+  /* KILL GLOW HARD */
+  box-shadow:none !important;
+  filter:none !important;
+  outline:none !important;
 }
 
-/* NO GLOW */
 .msg-thumb:hover,
-.msg-thumb:focus-visible{
-  box-shadow:none;
-  filter:none;
-  outline:none;
+.msg-thumb:focus,
+.msg-thumb:focus-visible,
+.msg-thumb:active{
+  box-shadow:none !important;
+  filter:none !important;
+  outline:none !important;
+  text-decoration:none !important;
+  border-color: rgba(0,0,0,0.75) !important;
 }
 
-/* subtle active feeling without glow */
-.nojs-target :target ~ .msg-thumbs a{
-  /* noop (we can't auto-highlight without JS), keep simple */
-}
-
+/* thumbs images */
 .msg-thumb img{
   width:100%;
   aspect-ratio:16/9;
@@ -177,6 +206,7 @@
   display:block;
 }
 
+/* mobile */
 @media (max-width: 900px){
   .mod-split-gallery{
     grid-template-columns:1fr;
@@ -192,3 +222,5 @@
   }
 }
 </style>
+
+{% endif %}
