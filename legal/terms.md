@@ -9,27 +9,29 @@ sitemap: false
 
 **Last Updated: February 7, 2026**
 
-By using this website and downloading content provided by **Andirz**, you agree to the following terms. These rules are also displayed as a "General Policy" on every individual mod page.
+By using this website and downloading content provided by **Andirz**, you agree to the following terms. 
 
 ---
 
 ## 1. Distribution & Re-uploads
-As noted in our general policy, **do not re-upload** my mods to other websites, file hosts, or mirrors. 
-* Always link directly to this official website for downloads.
-* Re-uploads are prohibited because they hinder my ability to provide support, track issues, and maintain the content properly.
-* Downloads from third-party sites may contain malware or outdated files; please use official links for your safety.
+As noted in our general policy, **do not re-upload** my mods to other websites, file hosts, or mirrors.
+* Please always link directly to this official website if you wish to share my work.
+* Re-uploads are prohibited because they make it impossible for me to provide support, track bugs, and keep the content updated.
+* To ensure your game stays safe and functional, only use official download links to avoid outdated files or malware.
 
 ## 2. Translations & Collaboration
-* I welcome assistance with translations or improvements to existing ones.
-* To ensure proper coordination and quality control, please join my **Discord server** if you wish to collaborate.
+* I truly appreciate any help with translations or improvements to existing ones.
+* If you want to share a translation, you are allowed to distribute **pure STBL files (string tables)** only.
+* You may **not** include or redistribute my original package or script files within your translation upload.
+* To coordinate quality control and stay in touch, please join my **Discord server** if you wish to collaborate.
 
 ## 3. Support & Warranty
-* Creating and maintaining mods requires significant time and energy.
-* All content is provided "as is." Support is only guaranteed for files downloaded directly from this site or official mirrors like CurseForge.
+* Creating and maintaining mods requires a lot of time and energy, so all content is provided "as is."
+* Support can only be guaranteed for files that were downloaded directly from my **Patreon** or **CurseForge** page.
 
 ## 4. Compliance with EA Policy
 * All custom content is published in accordance with the [EA Custom Content Policy](https://help.ea.com/en/help/the-sims/the-sims-4/the-sims-4-mods-policy).
-* My work is provided for free and complies with EA's Positive Play rules.
+* My work is provided for free and strictly complies with EA's Positive Play rules.
 
 ---
 
