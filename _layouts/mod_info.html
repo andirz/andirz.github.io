@@ -135,6 +135,10 @@ layout: default
             {% include installation/package.html %}
           {% endif %}
         </div>
+
+        {% if page.categories contains "Patreon Exclusive" %}
+          {% include mods/patreon_exclusive.html %}
+        {% endif %}
       </section>
 
       <div class="ad-container-multiplex" style="margin-top: 24px; margin-bottom: 12px;">
