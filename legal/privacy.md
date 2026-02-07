@@ -50,7 +50,7 @@ This website links to platforms like **Patreon, CurseForge, and Discord**. Once 
 ---
 
 ## 7. Your Rights
-You have the right to access, rectify, or delete your data. To exercise these rights, please contact me via the **email address listed in the [Impressum](/impressum/)**.
+You have the right to access, rectify, or delete your data. To exercise these rights, please contact me via the **email address listed in the [Impressum](/legal/impressum/)**.
 
 ---
 
