@@ -1,12 +1,12 @@
 {% comment %}
-  Mod Gallery (Split) - single include
+  Mod Gallery (Split) - single include, safe
   - Left: big image (NOT clickable)
   - Right: up to 4 thumbnails
-  - Click thumb => replaces big image
+  - Click thumb => replaces big image (no opening in browser)
   - Images from /assets/img/mods/<mod_id>/
   - Excludes cover.*
   - If 0 images: outputs NOTHING
-  - CSS/JS are printed only once per page
+  - JS is idempotent (won't double-bind even if included multiple times)
 {% endcomment %}
 
 {% assign g_filename = page.path | split: "/" | last | replace: ".md", "" %}
@@ -25,140 +25,137 @@
 
 {% if g_imgs.size > 0 %}
 
-  <h3 class="mod-gallery-title">Gallery</h3>
+<h3 class="mod-gallery-title">Gallery</h3>
 
-  <div class="mod-split-gallery" data-mod-gallery>
-    <div class="msg-main">
-      <img class="msg-main-img"
-           src="{{ g_imgs[0] }}"
-           alt="{{ page.title }} preview">
-    </div>
-
-    {% if g_imgs.size > 1 %}
-    <div class="msg-thumbs" aria-label="Gallery thumbnails">
-      {% for g_img in g_imgs limit:4 %}
-        <button type="button"
-                class="msg-thumb{% if forloop.first %} active{% endif %}"
-                data-img="{{ g_img }}"
-                aria-label="Show image {{ forloop.index }}">
-          <img src="{{ g_img }}" alt="">
-        </button>
-      {% endfor %}
-    </div>
-    {% endif %}
+<div class="mod-split-gallery" data-mod-gallery>
+  <div class="msg-main">
+    <img class="msg-main-img"
+         src="{{ g_imgs[0] }}"
+         alt="{{ page.title }} preview">
   </div>
 
-{% endif %}
+  {% if g_imgs.size > 1 %}
+  <div class="msg-thumbs" aria-label="Gallery thumbnails">
+    {% for g_img in g_imgs limit:4 %}
+      <button type="button"
+              class="msg-thumb{% if forloop.first %} active{% endif %}"
+              data-img="{{ g_img }}"
+              aria-label="Show image {{ forloop.index }}">
+        <img src="{{ g_img }}" alt="">
+      </button>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
 
-{% comment %}
-  Print CSS/JS only once per page (even if include is used multiple times)
-{% endcomment %}
-{% unless page.__mod_gallery_assets_included %}
-  {% assign page.__mod_gallery_assets_included = true %}
+<style>
+.mod-gallery-title{
+  margin:22px 0 10px;
+  font-size:1.25rem;
+  font-weight:700;
+  border-bottom:1px solid var(--border-color);
+  padding-bottom:4px;
+}
 
-  <style>
-  .mod-gallery-title{
-    margin:22px 0 10px;
-    font-size:1.25rem;
-    font-weight:700;
-    border-bottom:1px solid var(--border-color);
-    padding-bottom:4px;
-  }
+.mod-split-gallery{
+  width:100%;
+  display:grid;
+  grid-template-columns: 1fr 150px;
+  gap:16px;
+  margin:14px 0 28px;
+}
 
+.msg-main{
+  width:100%;
+  background:#000;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid var(--border-color);
+}
+
+.msg-main-img{
+  width:100%;
+  height:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  display:block;
+}
+
+.msg-thumbs{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.msg-thumb{
+  all:unset;
+  cursor:pointer;
+  border-radius:10px;
+  overflow:hidden;
+  border:2px solid transparent;
+  background:#000;
+}
+
+.msg-thumb img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  display:block;
+}
+
+.msg-thumb.active{
+  border-color: rgba(0,0,0,0.75);
+}
+
+.msg-thumb:hover,
+.msg-thumb:focus-visible{
+  box-shadow:none;
+  filter:none;
+}
+
+@media (max-width: 900px){
   .mod-split-gallery{
-    width:100%;
-    display:grid;
-    grid-template-columns: 1fr 150px;
-    gap:16px;
-    margin:14px 0 28px;
+    grid-template-columns:1fr;
   }
-
-  .msg-main{
-    width:100%;
-    background:#000;
-    border-radius:14px;
-    overflow:hidden;
-    border:1px solid var(--border-color);
-  }
-
-  .msg-main-img{
-    width:100%;
-    height:100%;
-    aspect-ratio:16/9;
-    object-fit:cover;
-    display:block;
-  }
-
   .msg-thumbs{
-    display:flex;
-    flex-direction:column;
+    flex-direction:row;
     gap:10px;
+    overflow:auto;
+    padding-bottom:6px;
   }
-
   .msg-thumb{
-    all:unset;
-    cursor:pointer;
-    border-radius:10px;
-    overflow:hidden;
-    border:2px solid transparent;
-    background:#000;
+    min-width:120px;
   }
+}
+</style>
 
-  .msg-thumb img{
-    width:100%;
-    aspect-ratio:16/9;
-    object-fit:cover;
-    display:block;
-  }
+<script>
+(() => {
+  const galleries = document.querySelectorAll('[data-mod-gallery]');
+  if (!galleries.length) return;
 
-  .msg-thumb.active{
-    border-color: rgba(0,0,0,0.75);
-  }
+  galleries.forEach(gallery => {
+    // prevent double-binding if this script appears multiple times
+    if (gallery.dataset.galleryBound === '1') return;
+    gallery.dataset.galleryBound = '1';
 
-  .msg-thumb:hover,
-  .msg-thumb:focus-visible{
-    box-shadow:none;
-    filter:none;
-  }
+    const mainImg = gallery.querySelector('.msg-main-img');
+    const thumbs = Array.from(gallery.querySelectorAll('.msg-thumb'));
+    if (!mainImg || thumbs.length === 0) return;
 
-  @media (max-width: 900px){
-    .mod-split-gallery{
-      grid-template-columns:1fr;
-    }
-    .msg-thumbs{
-      flex-direction:row;
-      gap:10px;
-      overflow:auto;
-      padding-bottom:6px;
-    }
-    .msg-thumb{
-      min-width:120px;
-    }
-  }
-  </style>
+    thumbs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const src = btn.getAttribute('data-img');
+        if (!src) return;
 
-  <script>
-  (() => {
-    const galleries = document.querySelectorAll('[data-mod-gallery]');
-    if (!galleries.length) return;
+        mainImg.src = src;
 
-    galleries.forEach(gallery => {
-      const mainImg = gallery.querySelector('.msg-main-img');
-      const thumbs = Array.from(gallery.querySelectorAll('.msg-thumb'));
-      if (!mainImg || thumbs.length === 0) return;
-
-      thumbs.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const src = btn.getAttribute('data-img');
-          if (!src) return;
-
-          mainImg.src = src;
-
-          thumbs.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-        });
+        thumbs.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
       });
     });
-  })();
-  </script>
-{% endunless %}
+  });
+})();
+</script>
+
+{% endif %}
