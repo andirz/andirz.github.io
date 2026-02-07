@@ -16,6 +16,8 @@ The **Deadly Poisons** mod introduces a dangerous new system of toxic substances
 * **Antidotes:** Phytomenadione can be used to treat rat poison, while other toxins may require magical or natural recovery.
 * **Drink Spiking:** If a Sim has a poison bottle in their inventory, they can add it to any bar drink to poison another Sim.
 
+![Deadly Poisons](/assets/mods/deadly_poisons/posions.png)
+
 ## Introduction of the Poisons
 
 All poisons and antidotes can be ordered via the computer in the "Purchase Poisons & Antidotes" menu. 
@@ -29,6 +31,8 @@ All poisons and antidotes can be ordered via the computer in the "Purchase Poiso
 * **SimSim Market Integration:** In future updates, these items will be included in the *Purchasing Overhaul Mod / SimSim Market*.
 * **Symptoms:** Poisoned Sims suffer from severe symptoms before fate (or an antidote) decides their outcome.
 * **Pregnant Sims:** In an optional add-on, the pregnant trait is overwritten to allow pregnant Sims to be susceptible to the poisons.
+
+![Deadly Poisons](/assets/mods/deadly_poisons/peoples.png)
 
 ## Language & Translations
 * **English** – by me
