@@ -11,6 +11,11 @@ sitemap: false
 
 By using this website and downloading content provided by **Andirz**, you agree to the following terms. 
 
+{% include collection-toc.html
+   collection="legal"
+   title="Legal Informations"
+%}
+
 ---
 
 ## 1. Distribution & Re-uploads

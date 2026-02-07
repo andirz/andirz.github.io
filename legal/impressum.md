@@ -7,11 +7,6 @@ noindex: true
 sitemap: false
 ---
 
-{% include collection-toc.html
-   collection="legal"
-   title="All Support Tutorials"
-%}
-
 <style>
   .protection-wrapper { user-select:none; -webkit-user-select:none; cursor:default; }
   .crypt { unicode-bidi:bidi-override; direction:rtl; display:inline-block; }
