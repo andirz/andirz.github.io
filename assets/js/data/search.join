@@ -6,7 +6,7 @@ swcache: true
 [
   {%- assign first = true -%}
 
-  {%- comment -%} POSTS (Blog) {%- endcomment -%}
+  {%- comment -%} POSTS {%- endcomment -%}
   {%- for post in site.posts -%}
     {%- unless first -%},{%- endunless -%}
     {%- assign first = false -%}
@@ -14,23 +14,14 @@ swcache: true
       "collection": "posts",
       "title": {{ post.title | default: "" | jsonify }},
       "url": {{ post.url | relative_url | jsonify }},
-      "date": {{ post.date | date_to_xmlschema | jsonify }},
-      "categories": {{ post.categories | join: ", " | jsonify }},
-      "tags": {{ post.tags | join: ", " | jsonify }},
       "content": {{ post.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
     }
   {%- endfor -%}
 
-  {%- comment -%} PAGES (normale Seiten) {%- endcomment -%}
+  {%- comment -%} PAGES {%- endcomment -%}
   {%- for page in site.pages -%}
     {%- assign u = page.url | default: "" -%}
     {%- assign t = page.title | default: "" -%}
-    {%- assign l = page.layout | default: "" -%}
-
-    {%- comment -%}
-      Ausschlüsse: Assets, Feed/Sitemap/Robots, 404, etc.
-      Und: wir nehmen nur "echte" Content-Seiten mit Title.
-    {%- endcomment -%}
     {%- if t != "" and u != "" -%}
       {%- unless u contains "/assets/" or u contains "/uploads/" or u == "/404.html" or u contains "sitemap" or u contains "feed" or u contains "robots" -%}
         {%- unless first -%},{%- endunless -%}
@@ -39,21 +30,13 @@ swcache: true
           "collection": "pages",
           "title": {{ page.title | default: "" | jsonify }},
           "url": {{ page.url | relative_url | jsonify }},
-          "date": {{ page.date | default: site.time | date_to_xmlschema | jsonify }},
-          "categories": {{ page.categories | join: ", " | jsonify }},
-          "tags": {{ page.tags | join: ", " | jsonify }},
           "content": {{ page.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
         }
       {%- endunless -%}
     {%- endif -%}
   {%- endfor -%}
 
-  {%- comment -%}
-    COLLECTIONS
-    Hier liste ich gängige Chirpy-ähnliche Collections explizit auf.
-    Wenn du andere Collection-Keys hast: einfach ergänzen.
-  {%- endcomment -%}
-
+  {%- comment -%} COLLECTIONS (anpassen, falls Labels anders heißen) {%- endcomment -%}
   {%- assign COLLECTION_KEYS = "mods,wiki,tools,games" | split: "," -%}
   {%- for key in COLLECTION_KEYS -%}
     {%- assign coll = site.collections | where: "label", key | first -%}
@@ -68,9 +51,6 @@ swcache: true
             "collection": {{ key | jsonify }},
             "title": {{ doc.title | default: "" | jsonify }},
             "url": {{ doc.url | relative_url | jsonify }},
-            "date": {{ doc.date | default: site.time | date_to_xmlschema | jsonify }},
-            "categories": {{ doc.categories | join: ", " | jsonify }},
-            "tags": {{ doc.tags | join: ", " | jsonify }},
             "content": {{ doc.content | strip_html | strip_newlines | replace: "  ", " " | jsonify }}
           }
         {%- endif -%}
