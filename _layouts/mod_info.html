@@ -73,24 +73,22 @@ layout: default
         {% assign files = page.files | default: empty %}
         {% assign files_size = files | size %}
 
-        {% assign has_bat = files contains "bat" %}
-        {% assign has_script = files contains "ts4script" %}
-
         {% comment %}
           HÖCHSTE PRIORITÄT:
           Keine Strings = keine Übersetzungen
         {% endcomment %}
-        {% if page.strings == false or mod.strings == false %}
+
+        {% if page.strings == false %}
           <div class="translation-template-content mod-text">
             {% include translation/no_strings.md %}
           </div>
 
-        {% elsif has_bat and files_size == 1 %}
+        {% elsif files contains "bat" %}
           <div class="translation-template-content mod-text">
             {% include translation/bat_script.md %}
           </div>
 
-        {% elsif has_script and files_size == 1 %}
+        {% elsif files contains "ts4script" and files_size == 1 %}
           <div class="translation-template-content mod-text">
             {% include translation/python_script.md %}
           </div>
