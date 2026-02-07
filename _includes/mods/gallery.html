@@ -1,29 +1,53 @@
 {% comment %}
-  Simple Mod Gallery (NO JS, PNG/JPG only)
-  - Left: big image
-  - Right: up to 4 thumbnails
-  - Thumbs open image file directly
-  - Images from /assets/img/mods/<mod_id>/
-  - Only .png and .jpg/.jpeg
-  - Excludes cover.*
-  - If 0 images: outputs NOTHING
+  Dumb Mod Gallery (NO JS)
+  Looks only for:
+    /assets/img/mods/<mod_id>/img01.(png|jpg)
+    /assets/img/mods/<mod_id>/img02.(png|jpg)
+    /assets/img/mods/<mod_id>/img03.(png|jpg)
+    /assets/img/mods/<mod_id>/img04.(png|jpg)
+  If none exist => outputs NOTHING
 {% endcomment %}
 
 {% assign g_filename = page.path | split: "/" | last | replace: ".md", "" %}
 {% assign g_mod_id = page.mod_id | default: g_filename %}
-{% assign g_base = "/assets/img/mods/" | append: g_mod_id %}
+{% assign g_dir = "/assets/img/mods/" | append: g_mod_id | append: "/" %}
 
-{% assign g_imgs = "" | split: "" %}
-{% for g_file in site.static_files %}
-  {% if g_file.path contains g_base and g_file.path contains "/cover." == false %}
-    {% assign g_ext = g_file.extname | downcase %}
-    {% if g_ext == ".png" or g_ext == ".jpg" or g_ext == ".jpeg" %}
-      {% assign g_imgs = g_imgs | push: g_file.path %}
+{% assign g_paths = "" | split: "" %}
+
+{% for i in (1..4) %}
+  {% if i < 10 %}
+    {% assign num = "0" | append: i %}
+  {% else %}
+    {% assign num = i %}
+  {% endif %}
+
+  {% assign p_png = g_dir | append: "img" | append: num | append: ".png" %}
+  {% assign p_jpg = g_dir | append: "img" | append: num | append: ".jpg" %}
+
+  {% assign found = "" %}
+
+  {% for f in site.static_files %}
+    {% if f.path == p_png %}
+      {% assign found = p_png %}
+      {% break %}
     {% endif %}
+  {% endfor %}
+
+  {% if found == "" %}
+    {% for f in site.static_files %}
+      {% if f.path == p_jpg %}
+        {% assign found = p_jpg %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if found != "" %}
+    {% assign g_paths = g_paths | push: found %}
   {% endif %}
 {% endfor %}
 
-{% if g_imgs.size > 0 %}
+{% if g_paths.size > 0 %}
 
 <h3 class="mod-gallery-title">Gallery</h3>
 
@@ -32,21 +56,20 @@
   <!-- MAIN IMAGE -->
   <div class="msg-main">
     <img class="msg-main-img"
-         src="{{ g_imgs[0] }}"
+         src="{{ g_paths[0] }}"
          alt="{{ page.title }} – gallery image 1">
   </div>
 
-  <!-- THUMBNAILS (max 4) -->
-  {% if g_imgs.size > 1 %}
+  <!-- THUMBS -->
+  {% if g_paths.size > 1 %}
   <div class="msg-thumbs" aria-label="Gallery thumbnails">
-    {% for g_img in g_imgs limit:4 %}
+    {% for p in g_paths %}
       <a class="msg-thumb{% if forloop.first %} active{% endif %}"
-         href="{{ g_img }}"
+         href="{{ p }}"
          target="_blank"
          rel="noopener noreferrer"
          aria-label="Open gallery image {{ forloop.index }}">
-        <img src="{{ g_img }}"
-             alt="{{ page.title }} – gallery thumbnail {{ forloop.index }}">
+        <img src="{{ p }}" alt="{{ page.title }} – gallery thumbnail {{ forloop.index }}">
       </a>
     {% endfor %}
   </div>
