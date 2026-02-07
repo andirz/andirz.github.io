@@ -5,10 +5,9 @@
   </div>
 
   <p class="mod-policy-lead">
-    Creating and maintaining mods takes time and energy.
-    If you enjoy my work, feel free to support it on
-    <a href="{{ site.data.globals.links.patreon }}" target="_blank" rel="noopener"><strong>Patreon</strong></a>,
-    <a href="{{ site.data.globals.links.kofi }}" target="_blank" rel="noopener"><strong>Ko-fi</strong></a> or
+    If you enjoy my work, feel free to support it on 
+    <a href="{{ site.data.globals.links.patreon }}" target="_blank" rel="noopener"><strong>Patreon</strong></a>, 
+    <a href="{{ site.data.globals.links.kofi }}" target="_blank" rel="noopener"><strong>Ko-fi</strong></a> or 
     <a href="{{ site.data.globals.links.paypal }}" target="_blank" rel="noopener"><strong>PayPal</strong></a>.
   </p>
 
@@ -16,26 +15,23 @@
 
     <div class="mod-policy-item">
       <div class="mod-policy-item-title">
-        <i class="fas fa-language"></i>
-        <span>Translations & Collaboration</span>
+        <i class="fas fa-ban"></i>
+        <span>Re-uploads</span>
       </div>
       <p class="mod-policy-text">
-        I welcome help with translations or improvements of existing ones.
-        If you want to collaborate, please join my
-        <a href="{{ site.data.globals.links.discord }}" target="_blank" rel="noopener"><strong>Discord server</strong></a>.
-        Direct collaboration allows proper coordination and quality control.
+        <strong>Do not re-upload</strong> my mods. Always link to this page. 
+        Read the full <a href="{{ '/legal/tos/' | relative_url }}"><strong>Terms of Service</strong></a> for more details.
       </p>
     </div>
 
     <div class="mod-policy-item">
       <div class="mod-policy-item-title">
-        <i class="fas fa-ban"></i>
-        <span>Distribution & Re-uploads</span>
+        <i class="fas fa-comments"></i>
+        <span>Support</span>
       </div>
       <p class="mod-policy-text">
-        <strong>Do not re-upload</strong> my mods to other websites, file hosts, or mirrors.
-        Always link directly to this official page.
-        Re-uploads remove my ability to provide support, track issues, and maintain the mod properly.
+        For help, bug reports, or coordination, please join my 
+        <a href="{{ site.data.globals.links.discord }}" target="_blank" rel="noopener"><strong>Discord server</strong></a>.
       </p>
     </div>
 
@@ -44,8 +40,7 @@
   <div class="mod-policy-warning">
     <i class="fas fa-exclamation-triangle"></i>
     <span>
-      Downloads from third-party sites may contain outdated files, malware, or modified content.
-      For safety and correct functionality, use official download links only.
+      Use official links only. Third-party sites may host outdated files or malware.
     </span>
   </div>
 </div>
@@ -57,6 +52,17 @@
   background: rgba(0,0,0,0.02);
   border: 1px solid var(--border-color);
   border-radius: 14px;
+}
+
+.mod-policy-box a {
+  color: #5865F2;
+  text-decoration: none;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+.mod-policy-box a:hover {
+  color: #404eed;
+  text-decoration: underline !important;
 }
 
 .mod-policy-header {
@@ -107,11 +113,6 @@
   font-size: 0.85rem;
   line-height: 1.42;
   opacity: 0.9;
-}
-
-.mod-policy-text a {
-  color: #5865F2;
-  text-decoration: none;
 }
 
 .mod-policy-warning {
