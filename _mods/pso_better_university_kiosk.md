@@ -4,7 +4,7 @@ title: "Better University Kiosk"
 icon: "fas fa-university"
 packs: ["EP08"]
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Kiosk, University, Gameplay]
+categories: [Purchasing System, Kiosk, University, Education]
 strings: false
 ---
 

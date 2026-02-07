@@ -4,7 +4,7 @@ title: "Better Ranger Station"
 icon: "fas fa-tree"
 packs: ["GP01"]
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Kiosk, Gameplay]
+categories: [Purchasing System, Kiosk]
 strings: false
 ---
 

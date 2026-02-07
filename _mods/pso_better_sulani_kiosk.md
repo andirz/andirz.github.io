@@ -4,7 +4,7 @@ title: "Better Sulani Kiosk"
 icon: "fas fa-umbrella-beach"
 packs: ["EP07"]
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Kiosk, Gameplay]
+categories: [Purchasing System, Kiosk]
 ---
 
 ## About This Mod

@@ -4,7 +4,7 @@ title: "Better Curio Shop"
 icon: "fas fa-eye"
 packs: ["GP07"]
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Kiosk, Gameplay]
+categories: [Purchasing System, Kiosk]
 strings: false
 ---
 

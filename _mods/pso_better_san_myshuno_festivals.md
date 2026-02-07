@@ -4,7 +4,7 @@ title: "Better San Myshuno Festivals"
 icon: "fas fa-city"
 packs: ["EP03"]
 requirements: ["smart_core", "pso_common"]
-categories: [Purchasing System, Kiosk, Festival, Gameplay, Food & Drinks]
+categories: [Purchasing System, Kiosk, Festival, Food & Drinks]
 strings: false
 ---
 
