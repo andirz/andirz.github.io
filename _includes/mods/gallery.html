@@ -1,154 +1,164 @@
 {% comment %}
-  Mod Gallery (Split) - scoped variable names (no collisions)
+  Mod Gallery (Split) - single include
   - Left: big image (NOT clickable)
   - Right: up to 4 thumbnails
-  - Click thumb => replaces big image (no opening in browser)
+  - Click thumb => replaces big image
   - Images from /assets/img/mods/<mod_id>/
   - Excludes cover.*
   - If 0 images: outputs NOTHING
+  - CSS/JS are printed only once per page
 {% endcomment %}
 
-{% assign gallery_filename = page.path | split: "/" | last | replace: ".md", "" %}
-{% assign gallery_mod_id = page.mod_id | default: gallery_filename %}
-{% assign gallery_img_base = "/assets/img/mods/" | append: gallery_mod_id %}
+{% assign g_filename = page.path | split: "/" | last | replace: ".md", "" %}
+{% assign g_mod_id = page.mod_id | default: g_filename %}
+{% assign g_base = "/assets/img/mods/" | append: g_mod_id %}
 
-{% assign gallery_images = "" | split: "" %}
-{% for gallery_file in site.static_files %}
-  {% if gallery_file.path contains gallery_img_base and gallery_file.path contains "/cover." == false %}
-    {% assign gallery_ext = gallery_file.extname | downcase %}
-    {% if gallery_ext == ".png" or gallery_ext == ".jpg" or gallery_ext == ".jpeg" or gallery_ext == ".webp" or gallery_ext == ".gif" %}
-      {% assign gallery_images = gallery_images | push: gallery_file.path %}
+{% assign g_imgs = "" | split: "" %}
+{% for g_file in site.static_files %}
+  {% if g_file.path contains g_base and g_file.path contains "/cover." == false %}
+    {% assign g_ext = g_file.extname | downcase %}
+    {% if g_ext == ".png" or g_ext == ".jpg" or g_ext == ".jpeg" or g_ext == ".webp" or g_ext == ".gif" %}
+      {% assign g_imgs = g_imgs | push: g_file.path %}
     {% endif %}
   {% endif %}
 {% endfor %}
 
-{% if gallery_images.size > 0 %}
+{% if g_imgs.size > 0 %}
 
-<h3 class="mod-gallery-title">Gallery</h3>
+  <h3 class="mod-gallery-title">Gallery</h3>
 
-<div class="mod-split-gallery" data-mod-gallery>
-  <div class="msg-main">
-    <img class="msg-main-img"
-         src="{{ gallery_images[0] }}"
-         alt="{{ page.title }} preview">
+  <div class="mod-split-gallery" data-mod-gallery>
+    <div class="msg-main">
+      <img class="msg-main-img"
+           src="{{ g_imgs[0] }}"
+           alt="{{ page.title }} preview">
+    </div>
+
+    {% if g_imgs.size > 1 %}
+    <div class="msg-thumbs" aria-label="Gallery thumbnails">
+      {% for g_img in g_imgs limit:4 %}
+        <button type="button"
+                class="msg-thumb{% if forloop.first %} active{% endif %}"
+                data-img="{{ g_img }}"
+                aria-label="Show image {{ forloop.index }}">
+          <img src="{{ g_img }}" alt="">
+        </button>
+      {% endfor %}
+    </div>
+    {% endif %}
   </div>
-
-  {% if gallery_images.size > 1 %}
-  <div class="msg-thumbs" aria-label="Gallery thumbnails">
-    {% for gallery_img in gallery_images limit:4 %}
-      <button type="button"
-              class="msg-thumb{% if forloop.first %} active{% endif %}"
-              data-img="{{ gallery_img }}"
-              aria-label="Show image {{ forloop.index }}">
-        <img src="{{ gallery_img }}" alt="">
-      </button>
-    {% endfor %}
-  </div>
-  {% endif %}
-</div>
 
 {% endif %}
 
-<style>
-.mod-gallery-title{
-  margin:22px 0 10px;
-  font-size:1.25rem;
-  font-weight:700;
-  border-bottom:1px solid var(--border-color);
-  padding-bottom:4px;
-}
+{% comment %}
+  Print CSS/JS only once per page (even if include is used multiple times)
+{% endcomment %}
+{% unless page.__mod_gallery_assets_included %}
+  {% assign page.__mod_gallery_assets_included = true %}
 
-.mod-split-gallery{
-  width:100%;
-  display:grid;
-  grid-template-columns: 1fr 150px;
-  gap:16px;
-  margin:14px 0 28px;
-}
+  <style>
+  .mod-gallery-title{
+    margin:22px 0 10px;
+    font-size:1.25rem;
+    font-weight:700;
+    border-bottom:1px solid var(--border-color);
+    padding-bottom:4px;
+  }
 
-.msg-main{
-  width:100%;
-  background:#000;
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid var(--border-color);
-}
-
-.msg-main-img{
-  width:100%;
-  height:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  display:block;
-}
-
-.msg-thumbs{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.msg-thumb{
-  all:unset;
-  cursor:pointer;
-  border-radius:10px;
-  overflow:hidden;
-  border:2px solid transparent;
-  background:#000;
-}
-
-.msg-thumb img{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  display:block;
-}
-
-.msg-thumb.active{
-  border-color: rgba(0,0,0,0.75);
-}
-
-.msg-thumb:hover,
-.msg-thumb:focus-visible{
-  box-shadow:none;
-  filter:none;
-}
-
-@media (max-width: 900px){
   .mod-split-gallery{
-    grid-template-columns:1fr;
+    width:100%;
+    display:grid;
+    grid-template-columns: 1fr 150px;
+    gap:16px;
+    margin:14px 0 28px;
   }
+
+  .msg-main{
+    width:100%;
+    background:#000;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--border-color);
+  }
+
+  .msg-main-img{
+    width:100%;
+    height:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    display:block;
+  }
+
   .msg-thumbs{
-    flex-direction:row;
+    display:flex;
+    flex-direction:column;
     gap:10px;
-    overflow:auto;
-    padding-bottom:6px;
   }
+
   .msg-thumb{
-    min-width:120px;
+    all:unset;
+    cursor:pointer;
+    border-radius:10px;
+    overflow:hidden;
+    border:2px solid transparent;
+    background:#000;
   }
-}
-</style>
 
-<script>
-(() => {
-  const gallery = document.querySelector('[data-mod-gallery]');
-  if (!gallery) return;
+  .msg-thumb img{
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    display:block;
+  }
 
-  const mainImg = gallery.querySelector('.msg-main-img');
-  const thumbs = Array.from(gallery.querySelectorAll('.msg-thumb'));
-  if (!mainImg || thumbs.length === 0) return;
+  .msg-thumb.active{
+    border-color: rgba(0,0,0,0.75);
+  }
 
-  thumbs.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const src = btn.getAttribute('data-img');
-      if (!src) return;
+  .msg-thumb:hover,
+  .msg-thumb:focus-visible{
+    box-shadow:none;
+    filter:none;
+  }
 
-      mainImg.src = src;
+  @media (max-width: 900px){
+    .mod-split-gallery{
+      grid-template-columns:1fr;
+    }
+    .msg-thumbs{
+      flex-direction:row;
+      gap:10px;
+      overflow:auto;
+      padding-bottom:6px;
+    }
+    .msg-thumb{
+      min-width:120px;
+    }
+  }
+  </style>
 
-      thumbs.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  <script>
+  (() => {
+    const galleries = document.querySelectorAll('[data-mod-gallery]');
+    if (!galleries.length) return;
+
+    galleries.forEach(gallery => {
+      const mainImg = gallery.querySelector('.msg-main-img');
+      const thumbs = Array.from(gallery.querySelectorAll('.msg-thumb'));
+      if (!mainImg || thumbs.length === 0) return;
+
+      thumbs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const src = btn.getAttribute('data-img');
+          if (!src) return;
+
+          mainImg.src = src;
+
+          thumbs.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
     });
-  });
-})();
-</script>
+  })();
+  </script>
+{% endunless %}
