@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Terms of Service
+permalink: "/terms/"
 nav_exclude: true
 noindex: true
 sitemap: false
@@ -34,4 +35,4 @@ As noted in our general policy, **do not re-upload** my mods to other websites, 
 ---
 
 ## Contact
-If you have any questions regarding these terms, please contact me via the email address listed in the [Legal Notice (Impressum)](/legal/impressum/).
+If you have any questions regarding these terms, please contact me via the email address listed in the [Legal Notice (Impressum)](/impressum/).

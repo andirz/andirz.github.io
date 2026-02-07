@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Legal Notice / Impressum
+permalink: "/impressum/"
 nav_exclude: true
 noindex: true
 sitemap: false
@@ -145,9 +146,9 @@ sitemap: false
     <div class="legal-box">
       Detailed information is provided in separate documents:
       <ul>
-        <li><strong><a href="/legal/tos/">Terms of Service</a></strong></li>
-        <li><strong><a href="/legal/privacy/">Privacy Policy</a></strong></li>
-        <li><strong><a href="/legal/cookies/">Cookie Policy</a></strong></li>
+        <li><strong><a href="/terms/">Terms of Service</a></strong></li>
+        <li><strong><a href="/privacy/">Privacy Policy</a></strong></li>
+        <li><strong><a href="/cookies/">Cookie Policy</a></strong></li>
       </ul>
     </div>
 
@@ -193,9 +194,9 @@ sitemap: false
     <div class="legal-box">
       Weitere Informationen finden Sie hier:
       <ul>
-        <li><strong><a href="/legal/tos/">Nutzungsbedingungen</a></strong></li>
-        <li><strong><a href="/legal/privacy/">Datenschutzerklärung</a></strong></li>
-        <li><strong><a href="/legal/cookies/">Cookie-Richtlinie</a></strong></li>
+        <li><strong><a href="/terms/">Nutzungsbedingungen</a></strong></li>
+        <li><strong><a href="/privacy/">Datenschutzerklärung</a></strong></li>
+        <li><strong><a href="/cookies/">Cookie-Richtlinie</a></strong></li>
       </ul>
     </div>
 
