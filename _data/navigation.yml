@@ -1,9 +1,0 @@
-main:
-  - title: "Home"
-    url: /
-  - title: "Mods"
-    url: /mods/
-  - title: "Mod Support"
-    url: /support/
-  - title: "Impressum"
-    url: /impressum/
