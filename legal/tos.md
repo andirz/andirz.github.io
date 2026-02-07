@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Terms of Service
-permalink: /legal/
 nav_exclude: true
 noindex: true
 sitemap: false
